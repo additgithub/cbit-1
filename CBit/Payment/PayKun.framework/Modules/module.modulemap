@@ -1,0 +1,6 @@
+framework module PayKun {
+  umbrella header "PayKun.h"
+
+  export *
+  module * { export * }
+}
