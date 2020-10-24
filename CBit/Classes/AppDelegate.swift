@@ -36,13 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
                 
                 // Replace 'YOUR_APP_ID' with your OneSignal App ID.
                 OneSignal.initWithLaunchOptions(launchOptions,
-                                      appId:"7414ca8f-bea2-4dde-b68d-951745422b9e",
+                                      appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
                                                 handleNotificationAction: nil,
                                                 settings: onesignalInitSettings)
                 
                 OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
            
-                    let userId = OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
+                let userId = OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
         
                  UserDefaults.standard.set(userId,forKey:"OnesignalID")
                  

@@ -28,6 +28,7 @@
 		1F18383D2293DF580043D61C /* ImageCropVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F18383C2293DF580043D61C /* ImageCropVC.swift */; };
 		1F21C4D222896AA100F5A789 /* LinkBankAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */; };
 		1F21C4D422896AD800F5A789 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D322896AD800F5A789 /* ProfileVC.swift */; };
+		1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */; };
 		1F29B486250A767B00989E3A /* notify.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F29B485250A767B00989E3A /* notify.wav */; };
 		1F3081B6224748450067B037 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3081B5224748450067B037 /* SplashVC.swift */; };
 		1F33F4BF22687A6100883616 /* TransferToWalletVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */; };
@@ -212,6 +213,7 @@
 		1F18383C2293DF580043D61C /* ImageCropVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropVC.swift; sourceTree = "<group>"; };
 		1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankAccountVC.swift; sourceTree = "<group>"; };
 		1F21C4D322896AD800F5A789 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = new_alarm_clock.mp3; sourceTree = "<group>"; };
 		1F29B485250A767B00989E3A /* notify.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notify.wav; sourceTree = "<group>"; };
 		1F3081B5224748450067B037 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferToWalletVC.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 		1F4F2DA2227ACC3C009C4F9D /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */,
 				1F29B485250A767B00989E3A /* notify.wav */,
 				1F4F2DA3227ACC5B009C4F9D /* Tick Tock.mp3 */,
 			);
@@ -874,6 +877,7 @@
 				1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */,
 				B0C152D422C745CB00B6B801 /* Montserrat-SemiBold.otf in Resources */,
 				1F7A268B2261A521000FEAD5 /* Assets.xcassets in Resources */,
+				1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */,
 				1F5DB44C222FECB000EF5FD5 /* ViewShorting.xib in Resources */,
 				1F4F2DA4227ACC5B009C4F9D /* Tick Tock.mp3 in Resources */,
 				B0C152D122C745CB00B6B801 /* Montserrat-Bold.otf in Resources */,
