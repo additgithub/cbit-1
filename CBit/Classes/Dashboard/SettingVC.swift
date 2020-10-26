@@ -22,7 +22,7 @@ class SettingVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        labelVarsion.text = "Version: 3.32"
+        labelVarsion.text = "Version: \(Define.APP_VERSION)"
         
     }
     

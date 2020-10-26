@@ -65,6 +65,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     @IBOutlet var lbllockedat: UILabel!
     
     @IBOutlet weak var constrainCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet var lblnumberanswerselected: UILabel!
     
     var dictContest = [String: Any]()
     var isFromNotification = Bool()
@@ -446,7 +447,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             btnnine.backgroundColor = UIColor.white
             
         }
-         
+        lblnumberanswerselected.text! = strDisplayValuelockall ?? ""
     }
     
     @IBAction func btn_lockall(_ sender: Any) {
@@ -781,7 +782,21 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                   btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                                   btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                     
-                    btnlockall.alpha = 1.0
+                            btnlockallnumber.isEnabled = true
+                            btnlockallnumber.alpha = 1.0
+                           
+                              btnonee.isEnabled = true
+                              btntwo.isEnabled = true
+                              btnthree.isEnabled = true
+                              btnfour.isEnabled = true
+                              btnfive.isEnabled = true
+                              btnsix.isEnabled = true
+                              btnseven.isEnabled = true
+                              btneeight.isEnabled = true
+                              btnnine.isEnabled = true
+                              btnzero.isEnabled = true
+                    
+                                            btnlockall.alpha = 1.0
                                            btnlockall.isEnabled = true
                                            btnlockall.isHidden = false
                                            btnlock.isHidden = true
@@ -1014,81 +1029,303 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
 //            self.labelTimer.text = "\(self.second)"
 //            second = second - 1
 //            setTimer()
-            btnlockall.isEnabled = true
-                                  btnlockall.alpha = 1.0
-                                  buttonAnsMinus.isEnabled = true
-                                  buttonAnsPlus.isEnabled = true
-                                  buttonAnsZero.isEnabled = true
             
-            
-                     let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
-                      if LockAllData.count > 0 {
-                          let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+            if self.gametype == "rdb" {
+                btnlockall.isEnabled = true
+                                                btnlockall.alpha = 1.0
+                                                buttonAnsMinus.isEnabled = true
+                                                buttonAnsPlus.isEnabled = true
+                                                buttonAnsZero.isEnabled = true
                           
-                          if isLockAll {
-                              let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
-                               lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
-                                 btnlockall.isHidden = true
-                                  btnlock.isHidden = false
-                                buttonAnsMinus.isEnabled = false
-                              buttonAnsPlus.isEnabled = false
-                              buttonAnsZero.isEnabled = false
-                              lbllockedat.isHidden = false
-                              if displayValue == "Red win" {
-                                  labelanswerselected.text! = displayValue
-                                      // buttonAnsMinus.backgroundColor = UIColor.red
-                                       buttonAnsMinus.backgroundColor = UIColor.white
+                          
+                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+                                    if LockAllData.count > 0 {
+                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
                                         
-                                       labelAnsMinus.textColor = UIColor.black
-                                       labelAnsPlus.textColor = UIColor.white
-                                       
-                                       buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
-                                       buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                              }
-                              else if displayValue == "Draw" {
-                                  
-                                  labelanswerselected.text! = displayValue
-                                       
-                                       buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
-                                       buttonAnsMinus.backgroundColor = UIColor.red
-                                       buttonAnsZero.backgroundColor = UIColor.white
-                                       
-                                       labelAnsPlus.textColor = UIColor.white
-                                       labelAnsMinus.textColor = UIColor.white
-                                  
-                              }
-                              else if displayValue == "Blue win" {
-                                  labelanswerselected.text! = displayValue
-                                         buttonAnsPlus.backgroundColor = UIColor.white
-                                         labelAnsPlus.textColor = UIColor.black
-                                         labelAnsMinus.textColor = UIColor.white
-                                         buttonAnsMinus.backgroundColor = UIColor.red
-                                         buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                              }
-                          }
+                                        if isLockAll {
+                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+                                             lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
+                                               btnlockall.isHidden = true
+                                                btnlock.isHidden = false
+                                              buttonAnsMinus.isEnabled = false
+                                            buttonAnsPlus.isEnabled = false
+                                            buttonAnsZero.isEnabled = false
+                                            lbllockedat.isHidden = false
+                                            if displayValue == "Red win" {
+                                                labelanswerselected.text! = displayValue
+                                                    // buttonAnsMinus.backgroundColor = UIColor.red
+                                                     buttonAnsMinus.backgroundColor = UIColor.white
+                                                      
+                                                     labelAnsMinus.textColor = UIColor.black
+                                                     labelAnsPlus.textColor = UIColor.white
+                                                     
+                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+                                                     buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                                            }
+                                            else if displayValue == "Draw" {
+                                                
+                                                labelanswerselected.text! = displayValue
+                                                     
+                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+                                                     buttonAnsMinus.backgroundColor = UIColor.red
+                                                     buttonAnsZero.backgroundColor = UIColor.white
+                                                     
+                                                     labelAnsPlus.textColor = UIColor.white
+                                                     labelAnsMinus.textColor = UIColor.white
+                                                
+                                            }
+                                            else if displayValue == "Blue win" {
+                                                labelanswerselected.text! = displayValue
+                                                       buttonAnsPlus.backgroundColor = UIColor.white
+                                                       labelAnsPlus.textColor = UIColor.black
+                                                       labelAnsMinus.textColor = UIColor.white
+                                                       buttonAnsMinus.backgroundColor = UIColor.red
+                                                       buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                                            }
+                                        }
+                                        else
+                                        {
+                                          btnlockall.alpha = 1.0
+                                          btnlockall.isEnabled = true
+                                          btnlockall.isHidden = false
+                                          btnlock.isHidden = true
+                                          lbllockedat.isHidden = true
+                                          buttonAnsMinus.isEnabled = true
+                                          buttonAnsPlus.isEnabled = true
+                                          buttonAnsZero.isEnabled = true
+                                        }
+                                    }
                           else
-                          {
-                            btnlockall.alpha = 1.0
-                            btnlockall.isEnabled = true
-                            btnlockall.isHidden = false
-                            btnlock.isHidden = true
-                            lbllockedat.isHidden = true
-                            buttonAnsMinus.isEnabled = true
-                            buttonAnsPlus.isEnabled = true
-                            buttonAnsZero.isEnabled = true
+                                    {
+                                      btnlockall.alpha = 1.0
+                                      btnlockall.isEnabled = true
+                                      btnlockall.isHidden = false
+                                      btnlock.isHidden = true
+                                      lbllockedat.isHidden = true
+                                      buttonAnsMinus.isEnabled = true
+                                      buttonAnsPlus.isEnabled = true
+                                      buttonAnsZero.isEnabled = true
                           }
-                      }
-            else
-                      {
-                        btnlockall.alpha = 1.0
-                        btnlockall.isEnabled = true
-                        btnlockall.isHidden = false
-                        btnlock.isHidden = true
-                        lbllockedat.isHidden = true
-                        buttonAnsMinus.isEnabled = true
-                        buttonAnsPlus.isEnabled = true
-                        buttonAnsZero.isEnabled = true
             }
+//            else
+//            { // 1 TO 9 NUMBER GAME
+//                                        btnlockallnumber.isEnabled = true
+//                                         btnlockallnumber.alpha = 1.0
+//
+//                                           btnonee.isEnabled = true
+//                                           btntwo.isEnabled = true
+//                                           btnthree.isEnabled = true
+//                                           btnfour.isEnabled = true
+//                                           btnfive.isEnabled = true
+//                                           btnsix.isEnabled = true
+//                                           btnseven.isEnabled = true
+//                                           btneeight.isEnabled = true
+//                                           btnnine.isEnabled = true
+//                                           btnzero.isEnabled = true
+//
+//
+//                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+//                                    if LockAllData.count > 0 {
+//                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+//
+//                                        if isLockAll {
+//                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+//                                            lblnumberanswerselected.text! = displayValue
+//
+//                                            if displayValue  == "0"
+//                                                 {
+//                                                     strDisplayValuelockall = "0"
+//                                                      btnzero.backgroundColor = UIColor.white
+//                                                      btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btnthree.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+//                                                      btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                      btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//
+//                                                 }
+//
+//                                                 else if  displayValue  == "1"
+//                                                 {
+//
+//                                                     strDisplayValuelockall = "1"
+//
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = UIColor.white
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//
+//                                                 }
+//
+//                                                 else if  displayValue  == "2"
+//                                                 {
+//                                                     strDisplayValuelockall = "2"
+//
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = UIColor.white
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                 }
+//
+//                                                 else if  displayValue  == "3"
+//                                                 {
+//                                                     strDisplayValuelockall = "3"
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = UIColor.white
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//
+//                                                 }
+//                                                 else if  displayValue  == "4"
+//                                                 {
+//                                                     strDisplayValuelockall = "4"
+//
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = UIColor.white
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//
+//                                                 }
+//
+//                                                 else if  displayValue  == "5"
+//                                                 {
+//                                                     strDisplayValuelockall = "5"
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = UIColor.white
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//
+//                                                 }
+//
+//                                                 else if  displayValue  == "6"
+//                                                 {
+//                                                     strDisplayValuelockall = "6"
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = UIColor.white
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                 }
+//
+//                                                 else if  displayValue  == "7"
+//                                                 {
+//                                                     strDisplayValuelockall = "7"
+//
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = UIColor.white
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                 }
+//                                                 else if  displayValue  == "8"
+//                                                 {
+//                                                     strDisplayValuelockall = "8"
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = UIColor.white
+//                                                     btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                 }
+//                                                 else if  displayValue  == "9"
+//                                                 {
+//
+//                                                     strDisplayValuelockall = "9"
+//                                                     btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                                     btnnine.backgroundColor = UIColor.white
+//
+//                                                 }                                        }
+//                                        else
+//                                        {
+//                                            btnlockallnumber.isEnabled = true
+//                                            btnlockallnumber.alpha = 1.0
+//
+//                                            btnonee.isEnabled = true
+//                                            btntwo.isEnabled = true
+//                                            btnthree.isEnabled = true
+//                                            btnfour.isEnabled = true
+//                                            btnfive.isEnabled = true
+//                                            btnsix.isEnabled = true
+//                                            btnseven.isEnabled = true
+//                                            btneeight.isEnabled = true
+//                                            btnnine.isEnabled = true
+//                                            btnzero.isEnabled = true
+//                                        }
+//                                    }
+//                          else
+//                                    {
+//                                        btnlockallnumber.isEnabled = true
+//                                        btnlockallnumber.alpha = 1.0
+//
+//                                        btnonee.isEnabled = true
+//                                        btntwo.isEnabled = true
+//                                        btnthree.isEnabled = true
+//                                        btnfour.isEnabled = true
+//                                        btnfive.isEnabled = true
+//                                        btnsix.isEnabled = true
+//                                        btnseven.isEnabled = true
+//                                        btneeight.isEnabled = true
+//                                        btnnine.isEnabled = true
+//                                        btnzero.isEnabled = true
+//                          }
+//            }
+                              
 
             
             
@@ -1110,6 +1347,20 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             buttonAnsMinus.isEnabled = false
             buttonAnsPlus.isEnabled = false
             buttonAnsZero.isEnabled = false
+            
+                                        btnlockallnumber.isEnabled = false
+                                        btnlockallnumber.alpha = 0.5
+                                     
+                                        btnonee.isEnabled = false
+                                        btntwo.isEnabled = false
+                                        btnthree.isEnabled = false
+                                        btnfour.isEnabled = false
+                                        btnfive.isEnabled = false
+                                        btnsix.isEnabled = false
+                                        btnseven.isEnabled = false
+                                        btneeight.isEnabled = false
+                                        btnnine.isEnabled = false
+                                        btnzero.isEnabled = false
 
             
             let date = dictGameData["startDate"] as! String
@@ -1616,9 +1867,6 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
             let isLock = arrSelectedTicket[indexPath.row]["isLock"] as? Bool ?? false
             if isLock {
           
-                                                      btnlockallnumber.isEnabled = false
-                                                      btnlockallnumber.alpha = 0.5
-                
 
                 let flexiCell = tableView.dequeueReusableCell(withIdentifier: "GameAnsRangeLockTVC") as! GameAnsRangeLockTVC
                 
@@ -1774,8 +2022,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                 
                 if isLock {
      
-                                       btnlockallnumber.isEnabled = false
-                                       btnlockallnumber.alpha = 0.5
+                                    
                     
 
                     let fixCell = tableView.dequeueReusableCell(withIdentifier: "GameAnswerOneTVC") as! GameAnswerOneTVC
@@ -1990,8 +2237,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                         fixCell.buttonLockNow.isEnabled = true
                         fixCell.buttonLockNow.alpha = 1
                     
-                        btnlockallnumber.isEnabled = true
-                        btnlockallnumber.alpha = 1
+                      
                         fixCell.buttonLockNow.addTarget(self,
                                                         action: #selector(buttonLockNow(_:)),
                                                         for: .touchUpInside)
@@ -2003,8 +2249,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                         fixCell.buttonLockNow.alpha = 0.5
                 
                         
-                        btnlockallnumber.isEnabled = false
-                        btnlockallnumber.alpha = 0.5
+                      
                         
 
                         
@@ -2020,8 +2265,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                 if isLock {
                     //
            
-                    btnlockallnumber.isEnabled = false
-                    btnlockallnumber.alpha = 0.5
+                  
                     
 
                     //
@@ -2095,28 +2339,9 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                                                         for: .touchUpInside)
                         fixCell.buttonLockNow.tag = indexPath.row
                         
-                        
-                     //   btnlockall.isEnabled = true
-                     //   btnlockall.alpha = 1
-                        btnlockallnumber.isEnabled = true
-                        btnlockallnumber.alpha = 1
-                        btnonee.isEnabled = true
-                        btntwo.isEnabled = true
-                        btnthree.isEnabled = true
-                        btnfour.isEnabled = true
-                        btnfive.isEnabled = true
-                        btnsix.isEnabled = true
-                        btnseven.isEnabled = true
-                        btneeight.isEnabled = true
-                        btnnine.isEnabled = true
-                        btnzero.isEnabled = true
-                        
                     } else {
                         fixCell.buttonLockNow.isEnabled = false
                         fixCell.buttonLockNow.alpha = 0.5
-                                      
-                        btnlockallnumber.isEnabled = false
-                        btnlockallnumber.alpha = 0.5
                         
                     }
                     return fixCell
@@ -2249,27 +2474,8 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let indexPath = IndexPath(row: index, section: 0)
                    self.tableAnswer.reloadRows(at: [indexPath], with: .none)
                    
-                    
-                    
-                  //  self.btnlockall.isEnabled = false
-                  //  self.btnlockall.alpha = 0.5
-                  //  self.btnlock.isHidden = false
-                    self.imglock09.isHidden = false
-                    self.btnlockallnumber.isEnabled = false
-                    self.btnlockallnumber.alpha = 0.5
-//                    self.buttonAnsMinus.isEnabled = false
-//                    self.buttonAnsPlus.isEnabled = false
-//                    self.buttonAnsZero.isEnabled = false
-                    self.btnonee.isEnabled = false
-                    self.btntwo.isEnabled = false
-                    self.btnthree.isEnabled = false
-                    self.btnfour.isEnabled = false
-                    self.btnfive.isEnabled = false
-                    self.btnsix.isEnabled = false
-                    self.btnseven.isEnabled = false
-                    self.btneeight.isEnabled = false
-                    self.btnnine.isEnabled = false
-                    self.btnzero.isEnabled = false
+                
+                  
                     
                     
                 }

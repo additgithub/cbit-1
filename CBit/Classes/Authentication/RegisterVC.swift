@@ -310,7 +310,7 @@ extension RegisterVC {
                     
 //                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
-                    let appVersion = "3.32"
+                    let appVersion = Define.APP_VERSION
 
                     
                     

@@ -48,7 +48,7 @@ class SideMenuVC: UIViewController {
         SideMenu(title: "History", subMenus: nil, isExpand: false),
         SideMenu(title: "Invite Friends", subMenus: nil, isExpand: false),
         SideMenu(title: "Settings", subMenus: nil, isExpand: false),
-        
+  //      SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "TERMS & CONDITION", subMenus: nil, isExpand: false),
         //SideMenu(title: "LEGALITY", subMenus: nil, isExpand: false),
         

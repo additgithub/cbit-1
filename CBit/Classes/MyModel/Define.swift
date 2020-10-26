@@ -35,13 +35,13 @@ class Define {
     
 //    //Live
     
-   static let APP_URL = "http://207.154.223.43:3500/api/"
-   static let SOCKET_URL = "http://207.154.223.43:3500"
+//   static let APP_URL = "http://207.154.223.43:3500/api/"
+//   static let SOCKET_URL = "http://207.154.223.43:3500"
     
     //  Test
     
-//    static let APP_URL = "http://207.154.223.43:3600/api/"
-//    static let SOCKET_URL = "http://207.154.223.43:3600"
+    static let APP_URL = "http://207.154.223.43:3600/api/"
+    static let SOCKET_URL = "http://207.154.223.43:3600"
     
    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
@@ -50,7 +50,7 @@ class Define {
 //    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
     //static let PRIVACYPOLICY_URL = "https://admin.cbitoriginal.com/page/privacy"
-    
+    static let APP_VERSION = "3.31"
     
     static let PRIVACYPOLICY_URL = "http://cbitoriginal.com/privacy-policy-app.html"
     static let LIGALITY_URL = "https://admin.cbitoriginal.com/page/legality"

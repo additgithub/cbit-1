@@ -103,7 +103,7 @@ class SocketIOManager: NSObject {
            // NotificationCenter.default.post(name: .startGame, object: nil, userInfo: dictData)
             
          //   let appVersion =
-             let current = "3.32"
+            let current = Define.APP_VERSION
            // let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
             let appStore = dictData!["Version"] as! String
             let versionCompare = current.compare(appStore, options: .numeric)
