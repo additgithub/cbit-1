@@ -55,14 +55,14 @@ class SideMenuVC: UIViewController {
         
     SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
     
-    SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
+   
        SideMenu(title: "About Us", subMenus: [
             "About Us",
             "T & C",
             "Privacy Policy",
             "Legality"
         ], isExpand: false),
-           
+       SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
         //SideMenu(title: "Change Password", subMenus: nil, isExpand: false),
         
         
@@ -413,7 +413,8 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
-        } else if index == 3 {
+        }
+        else if index == 4 {
             let notificationVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
             notificationVC.modalPresentationStyle = .fullScreen
             self.present(notificationVC, animated: true){
@@ -429,7 +430,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 8 {
+        else if index == 10 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC

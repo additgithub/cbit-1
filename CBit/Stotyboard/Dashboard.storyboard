@@ -13151,10 +13151,10 @@
                                         <rect key="frame" x="0.0" y="50" width="414" height="768"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_no_data_found" translatesAutoresizingMaskIntoConstraints="NO" id="W82-la-4Z2">
-                                                <rect key="frame" x="66" y="361" width="282" height="85"/>
+                                                <rect key="frame" x="66" y="361" width="282" height="170"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data Available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7J-dq-Z7k">
-                                                <rect key="frame" x="20" y="456" width="374" height="17"/>
+                                                <rect key="frame" x="20" y="541" width="374" height="17"/>
                                                 <fontDescription key="fontDescription" name="Ubuntu-Medium" family="Ubuntu" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -13309,7 +13309,7 @@
                                                             <rect key="frame" x="284" y="113" width="100" height="70"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hit" translatesAutoresizingMaskIntoConstraints="NO" id="8GM-bX-Rha">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="50.000000000000057"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10-10-2020" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTg-4q-XuM">
