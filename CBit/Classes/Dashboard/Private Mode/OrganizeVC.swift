@@ -12,10 +12,11 @@ class OrganizeVC: UIViewController {
     
     func setPageMenu() {
         let myPackageVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPackageVC") as! MyPackageVC
-        let organizeHistoryVC = self.storyboard?.instantiateViewController(withIdentifier: "OrganizeHistoryVC") as! OrganizeHistoryVC
+//        let organizeHistoryVC = self.storyboard?.instantiateViewController(withIdentifier: "OrganizeHistoryVC") as! OrganizeHistoryVC
+         let PackegaListVC = self.storyboard?.instantiateViewController(withIdentifier: "PackegaListVC") as! PackegaListVC
         
         let pagingViewController = FixedPagingViewController(viewControllers: [
-            organizeHistoryVC,
+            PackegaListVC,
             myPackageVC]
         )
         

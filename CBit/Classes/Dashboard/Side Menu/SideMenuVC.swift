@@ -23,16 +23,16 @@ class SideMenuVC: UIViewController {
     @IBOutlet weak var constratinSideMenuTrailing: NSLayoutConstraint!
     @IBOutlet weak var constraintTableHeight: NSLayoutConstraint!
     
-    let arrMenuList = ["DASHBOARD",
-                       "J Magic ",
-                       "WALLET",
-                       "NOTIFICATION",
-                       "HISTORY",
-                       "TERMS & CONDITION",
-                       "ABOUT US",
-                       "CHANGE PASSWORD",
-                       "SETTINGS",
-                       "LEGALITY"]
+//    let arrMenuList = ["DASHBOARD",
+//                       "J Magic ",
+//                       "WALLET",
+//                       "NOTIFICATION",
+//                       "HISTORY",
+//                       "TERMS & CONDITION",
+//                       "ABOUT US",
+//                       "CHANGE PASSWORD",
+//                       "SETTINGS",
+//                       "LEGALITY"]
     
     var arrSideMenu: [SideMenu] = [
         SideMenu(title: "Dashboard", subMenus: nil, isExpand: false),
@@ -43,6 +43,7 @@ class SideMenuVC: UIViewController {
             "Automation",
             "T & C"
             ], isExpand: false),
+         SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
         SideMenu(title: "Notification", subMenus: nil, isExpand: false),
         SideMenu(title: "History", subMenus: nil, isExpand: false),
@@ -53,6 +54,7 @@ class SideMenuVC: UIViewController {
         //SideMenu(title: "LEGALITY", subMenus: nil, isExpand: false),
         
     SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
+    
     SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
        SideMenu(title: "About Us", subMenus: [
             "About Us",
@@ -60,7 +62,7 @@ class SideMenuVC: UIViewController {
             "Privacy Policy",
             "Legality"
         ], isExpand: false),
-        
+           
         //SideMenu(title: "Change Password", subMenus: nil, isExpand: false),
         
         
@@ -216,27 +218,33 @@ class SideMenuVC: UIViewController {
              sideMenuController?.cache(viewControllerGenerator: {
                  self.storyboard?.instantiateViewController(withIdentifier: "RedeemJTicketNC")
              }, with: "1")
-             sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
-             }, with: "2")
+        sideMenuController?.cache(viewControllerGenerator: {
+                self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+            }, with: "2")
+        sideMenuController?.cache(viewControllerGenerator: {
+                        self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
+                    }, with: "3")
              sideMenuController?.cache(viewControllerGenerator: {
                  self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
-             }, with: "3")
+             }, with: "4")
              sideMenuController?.cache(viewControllerGenerator: {
                  self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
-             }, with: "4")
+             }, with: "5")
+        sideMenuController?.cache(viewControllerGenerator: {
+                          self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
+                      }, with: "6")
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
+        }, with: "7")
        sideMenuController?.cache(viewControllerGenerator: {
                  self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-               }, with: "7")
+               }, with: "8")
+      
                sideMenuController?.cache(viewControllerGenerator: {
                    self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
                }, with: "9")
-               sideMenuController?.cache(viewControllerGenerator: {
-                   self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
-               }, with: "5")
-               sideMenuController?.cache(viewControllerGenerator: {
-                   self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
-               }, with: "6")
+              
+               
         
 //               sideMenuController?.cache(viewControllerGenerator: {
 //                   self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
@@ -245,10 +253,10 @@ class SideMenuVC: UIViewController {
                    self.storyboard?.instantiateViewController(withIdentifier: "CreateContestVC") as! CreateContestVC
                }, with: "Zero")
         
-                sideMenuController?.cache(viewControllerGenerator: {
-                       self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
-            
-                   }, with: "One")
+//                sideMenuController?.cache(viewControllerGenerator: {
+//                       self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+//
+//                   }, with: "One")
         
                   sideMenuController?.cache(viewControllerGenerator: {
                       self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
@@ -430,7 +438,17 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
             
         }
-        else if index == arrSideMenu.count - 1 {
+            
+//            else if index == 10 {
+//
+//                        let PackegaListVC = self.storyboard?.instantiateViewController(withIdentifier: "PackegaListVC") as! PackegaListVC
+//                       PackegaListVC.modalPresentationStyle = .fullScreen
+//                       self.present(PackegaListVC, animated: true, completion: nil)
+//
+//
+//
+//                   }
+    //    else if index == arrSideMenu.count - 1 {
             // 12/16 deep
             
             
@@ -461,7 +479,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            present(Referral, animated: true) {
 //                self.sideMenuController?.hideMenu()
          //   }
-        }
+    //    }
           else {
             selectedIndex = index
             sideMenuController?.setContentViewController(with: "\(index)")

@@ -120,7 +120,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             userCell.btnapply.isUserInteractionEnabled = false
              userCell.vwhit.isHidden = false
             userCell.lbldt.text = userCell.lbldate.text!
-             userCell.lbldt.transform = CGAffineTransform(rotationAngle: 125 )
+            
         }
       
         let imageURL = URL(string: arrMyJTicket[indexPath.row]["image"] as? String ?? "")
@@ -205,7 +205,7 @@ class MyJticketlisting: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+         vwhit.transform = CGAffineTransform(rotationAngle: 125 )
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
