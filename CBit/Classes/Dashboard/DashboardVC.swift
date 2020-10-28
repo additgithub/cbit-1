@@ -175,15 +175,36 @@ class DashboardVC: UIViewController {
     
     func setAdsRotation() {
         //print("Start")
-        if currentIndex == (arrAdvertise.count - 1) {
-            currentIndex = 0
-            let indexPath = IndexPath(item: currentIndex, section: 0)
-            self.collectionAdvertise.scrollToItem(at: indexPath, at: [.centeredHorizontally], animated: false)
-        } else {
-            currentIndex = currentIndex + 1
-            let indexPath = IndexPath(item: currentIndex, section: 0)
-            self.collectionAdvertise.scrollToItem(at: indexPath, at: [.centeredHorizontally], animated: true)
-        }
+       
+             if currentIndex == (arrAdvertise.count - 1) {
+                       currentIndex = 0
+                       let indexPath = IndexPath(item: currentIndex, section: 0)
+                       self.collectionAdvertise.scrollToItem(at: indexPath, at: [.centeredHorizontally], animated: false)
+                   } else {
+                       currentIndex = currentIndex + 1
+                       let indexPath = IndexPath(item: currentIndex, section: 0)
+                       self.collectionAdvertise.scrollToItem(at: indexPath, at: [.centeredHorizontally], animated: true)
+                   }
+        
+        
+       if let coll  = collectionSpecialcontest {
+                   for cell in coll.visibleCells {
+                       let indexPath: IndexPath? = coll.indexPath(for: cell)
+                       if ((indexPath?.row)! < arrSpecialContest.count - 1){
+                           let indexPath1: IndexPath?
+                           indexPath1 = IndexPath.init(row: (indexPath?.row)! + 1, section: (indexPath?.section)!)
+
+                           coll.scrollToItem(at: indexPath1!, at: .right, animated: true)
+                       }
+                       else{
+                           let indexPath1: IndexPath?
+                           indexPath1 = IndexPath.init(row: 0, section: (indexPath?.section)!)
+                           coll.scrollToItem(at: indexPath1!, at: .left, animated: true)
+                       }
+
+                   }
+               }
+       
     }
     
     //MARK: - Button Method
