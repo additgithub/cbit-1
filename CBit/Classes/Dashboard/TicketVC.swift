@@ -352,6 +352,11 @@ class TicketVC: UIViewController {
         ticketInfo.frame = view.bounds
         view.addSubview(ticketInfo)
     }
+    @IBAction func joinprivategroup_click(_ sender: UIButton) {
+        let NextVC = self.storyboard?.instantiateViewController(withIdentifier: "PrivateGroupViewController") as! PrivateGroupViewController
+        self.navigationController?.pushViewController(NextVC, animated: true)
+        
+    }
     
     func SetRandomNumber() {
         self.view.layoutIfNeeded()

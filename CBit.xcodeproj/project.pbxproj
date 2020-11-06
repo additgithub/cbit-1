@@ -29,6 +29,7 @@
 		1F21C4D222896AA100F5A789 /* LinkBankAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */; };
 		1F21C4D422896AD800F5A789 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D322896AD800F5A789 /* ProfileVC.swift */; };
 		1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */; };
+		1F258423255563E100324564 /* PrivateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F258422255563E100324564 /* PrivateGroupViewController.swift */; };
 		1F29B486250A767B00989E3A /* notify.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F29B485250A767B00989E3A /* notify.wav */; };
 		1F3081B6224748450067B037 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3081B5224748450067B037 /* SplashVC.swift */; };
 		1F33F4BF22687A6100883616 /* TransferToWalletVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */; };
@@ -214,6 +215,7 @@
 		1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankAccountVC.swift; sourceTree = "<group>"; };
 		1F21C4D322896AD800F5A789 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = new_alarm_clock.mp3; sourceTree = "<group>"; };
+		1F258422255563E100324564 /* PrivateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateGroupViewController.swift; sourceTree = "<group>"; };
 		1F29B485250A767B00989E3A /* notify.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notify.wav; sourceTree = "<group>"; };
 		1F3081B5224748450067B037 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferToWalletVC.swift; sourceTree = "<group>"; };
@@ -708,6 +710,7 @@
 				1F547ABC23A76D4900E148C0 /* ReferralViewController.swift */,
 				1F547ABE23A7920F00E148C0 /* ReferrallistingViewController.swift */,
 				1F48932724EC0D8B009D98E9 /* AutomationViewController.swift */,
+				1F258422255563E100324564 /* PrivateGroupViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1085,6 +1088,7 @@
 				1F547ABD23A76D4900E148C0 /* ReferralViewController.swift in Sources */,
 				1F822024222D4F17008FDF65 /* JoinByCodeVC.swift in Sources */,
 				1F63528722293E6C0054BD12 /* ImageViewComman.swift in Sources */,
+				1F258423255563E100324564 /* PrivateGroupViewController.swift in Sources */,
 				1F0A5C2A223B6D6D004F335C /* TicketVC.swift in Sources */,
 				1F63528922296A150054BD12 /* Loading.swift in Sources */,
 				B06C74D922CB97CB00F6BE94 /* PrivacyPolicyVC.swift in Sources */,
