@@ -49,6 +49,7 @@
 		1F5078A322521EAD0027E455 /* GamePlayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078A222521EAD0027E455 /* GamePlayInfo.swift */; };
 		1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5078A422521ECB0027E455 /* GamePlayInfo.xib */; };
 		1F5078A7225234F10027E455 /* HowToPlayGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5078A6225234F10027E455 /* HowToPlayGame.swift */; };
+		1F508F7F255D074400D88FBB /* CreatePrivateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */; };
 		1F547ABD23A76D4900E148C0 /* ReferralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F547ABC23A76D4900E148C0 /* ReferralViewController.swift */; };
 		1F547ABF23A7920F00E148C0 /* ReferrallistingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F547ABE23A7920F00E148C0 /* ReferrallistingViewController.swift */; };
 		1F5A43DE228C28B400020473 /* BankTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5A43DD228C28B400020473 /* BankTVC.swift */; };
@@ -237,6 +238,7 @@
 		1F5078A222521EAD0027E455 /* GamePlayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayInfo.swift; sourceTree = "<group>"; };
 		1F5078A422521ECB0027E455 /* GamePlayInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePlayInfo.xib; sourceTree = "<group>"; };
 		1F5078A6225234F10027E455 /* HowToPlayGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayGame.swift; sourceTree = "<group>"; };
+		1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePrivateGroupViewController.swift; sourceTree = "<group>"; };
 		1F547ABC23A76D4900E148C0 /* ReferralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralViewController.swift; sourceTree = "<group>"; };
 		1F547ABE23A7920F00E148C0 /* ReferrallistingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferrallistingViewController.swift; sourceTree = "<group>"; };
 		1F5A43DD228C28B400020473 /* BankTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTVC.swift; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				1F547ABE23A7920F00E148C0 /* ReferrallistingViewController.swift */,
 				1F48932724EC0D8B009D98E9 /* AutomationViewController.swift */,
 				1F258422255563E100324564 /* PrivateGroupViewController.swift */,
+				1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1008,6 +1011,7 @@
 				1F5078A322521EAD0027E455 /* GamePlayInfo.swift in Sources */,
 				1FBE45DD222F8C0200741438 /* InviteFriendTVC.swift in Sources */,
 				1FBE45E2222F9F3200741438 /* CreateContestVC.swift in Sources */,
+				1F508F7F255D074400D88FBB /* CreatePrivateGroupViewController.swift in Sources */,
 				B0D6ED1222C63D170019C6E6 /* PrivateModeVC.swift in Sources */,
 				1F822017222D2FB6008FDF65 /* MyPackageVC.swift in Sources */,
 				1F18383D2293DF580043D61C /* ImageCropVC.swift in Sources */,

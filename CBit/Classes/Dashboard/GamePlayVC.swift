@@ -185,6 +185,8 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                                object: nil)
         let path = Bundle.main.path(forResource: "Tick Tock.mp3", ofType: nil)!
         soundURL = URL(fileURLWithPath: path)
+        
+        
         isShowLoading = true
         getContestDetail(isfromtimer: true, isStart: 0)
         
@@ -796,7 +798,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                               btnnine.isEnabled = true
                               btnzero.isEnabled = true
                     
-                                            btnlockall.alpha = 1.0
+                                        btnlockall.alpha = 1.0
                                            btnlockall.isEnabled = true
                                            btnlockall.isHidden = false
                                            btnlock.isHidden = true
@@ -804,6 +806,8 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                            buttonAnsMinus.isEnabled = true
                                            buttonAnsPlus.isEnabled = true
                                            buttonAnsZero.isEnabled = true
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                  //  self.setData(isfromtime: true)
                 }
                 
             
@@ -1392,6 +1396,107 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
 //        }
         self.collectionGame.reloadData()
         tableAnswer.reloadData()
+    }
+    
+    func setlockalldata(dictdata:[String:Any])  {
+         let gameStatus = dictdata["gameStatus"] as? String ?? "notStart"
+                second = (dictdata["duration"] as? Int)!
+                print("secondsspre",second)
+                
+           
+                
+                //  labelTimer.text = ""
+                if (gameStatus == "start") {
+                   
+                    
+        //            isGameStart = true
+        //
+        //            print("secondss",second)
+        //           // print(dictGameData["duration"] as? Int)
+        //            second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond - 4)
+        //           // second = 30
+        //            self.labelTimer.text = "\(self.second)"
+        //            second = second - 1
+        //            setTimer()
+                    
+                    if self.gametype == "rdb" {
+                        btnlockall.isEnabled = true
+                                                        btnlockall.alpha = 1.0
+                                                        buttonAnsMinus.isEnabled = true
+                                                        buttonAnsPlus.isEnabled = true
+                                                        buttonAnsZero.isEnabled = true
+                                  
+                                  
+                                           let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+                                            if LockAllData.count > 0 {
+                                                let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+                                                
+                                                if isLockAll {
+                                                    let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+                                                     lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
+                                                       btnlockall.isHidden = true
+                                                        btnlock.isHidden = false
+                                                      buttonAnsMinus.isEnabled = false
+                                                    buttonAnsPlus.isEnabled = false
+                                                    buttonAnsZero.isEnabled = false
+                                                    lbllockedat.isHidden = false
+                                                    if displayValue == "Red win" {
+                                                        labelanswerselected.text! = displayValue
+                                                            // buttonAnsMinus.backgroundColor = UIColor.red
+                                                             buttonAnsMinus.backgroundColor = UIColor.white
+                                                              
+                                                             labelAnsMinus.textColor = UIColor.black
+                                                             labelAnsPlus.textColor = UIColor.white
+                                                             
+                                                             buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+                                                             buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                                                    }
+                                                    else if displayValue == "Draw" {
+                                                        
+                                                        labelanswerselected.text! = displayValue
+                                                             
+                                                             buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+                                                             buttonAnsMinus.backgroundColor = UIColor.red
+                                                             buttonAnsZero.backgroundColor = UIColor.white
+                                                             
+                                                             labelAnsPlus.textColor = UIColor.white
+                                                             labelAnsMinus.textColor = UIColor.white
+                                                        
+                                                    }
+                                                    else if displayValue == "Blue win" {
+                                                        labelanswerselected.text! = displayValue
+                                                               buttonAnsPlus.backgroundColor = UIColor.white
+                                                               labelAnsPlus.textColor = UIColor.black
+                                                               labelAnsMinus.textColor = UIColor.white
+                                                               buttonAnsMinus.backgroundColor = UIColor.red
+                                                               buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                  btnlockall.alpha = 1.0
+                                                  btnlockall.isEnabled = true
+                                                  btnlockall.isHidden = false
+                                                  btnlock.isHidden = true
+                                                  lbllockedat.isHidden = true
+                                                  buttonAnsMinus.isEnabled = true
+                                                  buttonAnsPlus.isEnabled = true
+                                                  buttonAnsZero.isEnabled = true
+                                                }
+                                            }
+                                  else
+                                            {
+                                              btnlockall.alpha = 1.0
+                                              btnlockall.isEnabled = true
+                                              btnlockall.isHidden = false
+                                              btnlock.isHidden = true
+                                              lbllockedat.isHidden = true
+                                              buttonAnsMinus.isEnabled = true
+                                              buttonAnsPlus.isEnabled = true
+                                              buttonAnsZero.isEnabled = true
+                                  }
+                    }
+    }
     }
     
     func SetRandomNumber() {
@@ -2116,7 +2221,6 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let strSelected = arrSelectedTicket[indexPath.row]["displayValue"] as? String ?? ""
                                                          if strSelected != "" {
                                                            fixCell.labelAnsLoacked.text = strSelected
-                                                           labelanswerselected.text = strSelected
                                                          }
                     
                   
@@ -2218,7 +2322,6 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let strSelected = arrSelectedTicket[indexPath.row]["displayValue"] as? String ?? ""
                                       if strSelected != "" {
                                         fixCell.labelAnsSelected.text = strSelected
-                                        labelanswerselected.text = strSelected
                                       }
                     
                     if isGameStart && second <= 30 {
@@ -2302,7 +2405,6 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let strSelected = arrSelectedTicket[indexPath.row]["displayValue"] as? String ?? ""
                     if strSelected != "" {
                       fixCell.labelAnsSelected.text = strSelected
-                      labelanswerselected.text = strSelected
                     }
                     
                     

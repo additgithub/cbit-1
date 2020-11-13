@@ -44,6 +44,8 @@ class PrivateGroupViewController: UIViewController {
     @IBAction func searchgroup_click(_ sender: UIButton) {
     }
     @IBAction func creategroup_click(_ sender: UIButton) {
+        let NextVC = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupViewController") as! CreatePrivateGroupViewController
+        self.navigationController?.pushViewController(NextVC, animated: true)
     }
     
 }

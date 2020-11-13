@@ -42,19 +42,42 @@ extension MyPackageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyPackageListCell") as! MyPackageListCell
         
-        cell.labelPercentage.text = "\(arrPackageList[indexPath.row]["commission"]!)% Commission on Winning Amount"
-        cell.labelPackagePrice.text = "₹\(arrPackageList[indexPath.row]["amount"] as? Double ?? 0.0)"
-        let strPurchaseData = MyModel().convertStringDateToString(strDate: arrPackageList[indexPath.row]["purchaseDate"] as! String,
-                                                                  getFormate: "yyyy-MM-dd HH:mm:ss",
-                                                                  returnFormat: "dd-MM-yyyy hh:mm a")
-        let expireDate = MyModel().converStringToDate(strDate: arrPackageList[indexPath.row]["expirationDate"] as! String,
-                                                      getFormate: "yyyy-MM-dd HH:mm:ss")
-        cell.expireDate = nil
-        cell.expireDate = expireDate
+//        cell.labelPercentage.text = "\(arrPackageList[indexPath.row]["commission"]!)% Commission on Winning Amount"
+//        cell.labelPackagePrice.text = "₹\(arrPackageList[indexPath.row]["amount"] as? Double ?? 0.0)"
+//        let strPurchaseData = MyModel().convertStringDateToString(strDate: arrPackageList[indexPath.row]["purchaseDate"] as! String,
+//                                                                  getFormate: "yyyy-MM-dd HH:mm:ss",
+//                                                                  returnFormat: "dd-MM-yyyy hh:mm a")
+//        let expireDate = MyModel().converStringToDate(strDate: arrPackageList[indexPath.row]["expirationDate"] as! String,
+//                                                      getFormate: "yyyy-MM-dd HH:mm:ss")
+//        cell.expireDate = nil
+//        cell.expireDate = expireDate
+//
+//        cell.labelPurachaseData.text = strPurchaseData
         
-        cell.labelPurachaseData.text = strPurchaseData
+                let expireDate = MyModel().converStringToDate(strDate: arrPackageList[indexPath.row]["expirationDate"] as! String,
+                                                              getFormate: "yyyy-MM-dd HH:mm:ss")
+                cell.expireDate = nil
+                cell.expireDate = expireDate
+        
+        //        cell.labelPurachaseData.text = strPurchaseData
+        
+               let strPurchaseData = MyModel().convertStringDateToString(strDate: arrPackageList[indexPath.row]["expirationDate"] as! String,
+                                                                          getFormate: "yyyy-MM-dd HH:mm:ss",
+                                                                          returnFormat: "dd-MM-yyyy hh:mm a")
+       
+        cell.labelexpity.text = strPurchaseData
+         cell.labelPurachaseData.text = "₹\(arrPackageList[indexPath.row]["TicketPrice"] as? Double ?? 0.0) @ ₹\(arrPackageList[indexPath.row]["amount"] as? Double ?? 0.0),\(arrPackageList[indexPath.row]["validity"] as? Int ?? 0)days"
+        
+        cell.swtch.tag = indexPath.row
+        cell.swtch.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
         
         return cell
+    }
+    
+    @objc func switchChanged(_ sender : UISwitch!){
+
+          print("table row switch Changed \(sender.tag)")
+          print("The switch is \(sender.isOn ? "ON" : "OFF")")
     }
 }
 
@@ -158,10 +181,11 @@ extension MyPackageVC {
 //MARK: - Cell Class
 class MyPackageListCell: UITableViewCell {
     
-    @IBOutlet weak var labelPercentage: UILabel!
-    @IBOutlet weak var labelPackagePrice: UILabel!
+   // @IBOutlet weak var labelPercentage: UILabel!
+    @IBOutlet weak var labelexpity: UILabel!
     @IBOutlet weak var labelExpireTimer: UILabel!
     @IBOutlet weak var labelPurachaseData: UILabel!
+    @IBOutlet var swtch: UISwitch!
     
     var expireTimer: Timer?
     var expireSecond = Int()
@@ -191,7 +215,7 @@ class MyPackageListCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        MyModel().roundCorners(corners: [.topRight, .bottomRight], radius: 3, view: labelPercentage)
+       // MyModel().roundCorners(corners: [.topRight, .bottomRight], radius: 3, view: labelPercentage)
     }
     
     @objc func handleTimer() {

@@ -1059,6 +1059,7 @@ extension TicketVC {
                content.title = strTitle
                content.body = "Your game start soon, Hurry!!!!"
                content.categoryIdentifier = "alarm"
+          //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]
                content.sound = UNNotificationSound.default
 

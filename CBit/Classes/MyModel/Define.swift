@@ -148,6 +148,18 @@ class Define {
     static let getUserJTicket = "getUserJTicket"
     static let getWaitingroom = "getWaitingList"
     static let ApplyJtciket = "ApplyJtciket"
+    
+    
+    static let CONTEST_DAYS = "contestDays"
+    static let CONTEST_TIME = "contestTime"
+    
+    
+    static let ADD_PRIVATE_GROUP = "addPrivateGroup"
+    static let ALL_REQUEST_PRIVATE_GROUP = "allRequestsPrivateGroup"
+    static let REQUEST_JOIN_GROUP = "requestToJoinPrivateGroup"
+    static let ALL_PRIVATE_GROUP = "allPrivateGroup"
+    static let ALL_USER_PRIVATE_GROUP = "allUsersPrivateGroup"
+    
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
      static let PLACEHOLDER_PROFILE_SIDE_IMAGE = #imageLiteral(resourceName: "sidemenuicon")

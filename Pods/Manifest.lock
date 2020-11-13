@@ -76,6 +76,7 @@ PODS:
     - GoogleUtilities/Logger
   - IGRPhotoTweaks (1.0.7)
   - IQKeyboardManagerSwift (6.2.0)
+  - M13Checkbox (3.4.0)
   - MarqueeLabel (3.2.0):
     - MarqueeLabel/ObjC (= 3.2.0)
   - MarqueeLabel/ObjC (3.2.0)
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - IGRPhotoTweaks (~> 1.0.0)
   - IQKeyboardManagerSwift
+  - M13Checkbox
   - MarqueeLabel
   - OneSignal (< 3.0, >= 2.10.2)
   - Parchment
@@ -141,6 +143,7 @@ SPEC REPOS:
     - GoogleUtilities
     - IGRPhotoTweaks
     - IQKeyboardManagerSwift
+    - M13Checkbox
     - MarqueeLabel
     - nanopb
     - OneSignal
@@ -173,6 +176,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   IGRPhotoTweaks: 8fe6b62c6599238d860b19b46a85a454e202f502
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   OneSignal: fa98eaa90372bb367b6a4a1c1622ffb9832c7600
@@ -186,6 +190,6 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
 
-PODFILE CHECKSUM: 7267c4ab24ee841461e41b3aca1b76ed132c7e26
+PODFILE CHECKSUM: 97cc091f88cadc78be0cc690668ac3712e09fe89
 
 COCOAPODS: 1.8.4
