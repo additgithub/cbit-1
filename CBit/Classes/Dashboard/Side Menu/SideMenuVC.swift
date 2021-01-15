@@ -19,6 +19,10 @@ class SideMenuVC: UIViewController {
     @IBOutlet weak var tableMenu: UITableView!
     @IBOutlet weak var labelUserName: UILabel!
     
+    @IBOutlet weak var lblapd: UILabel!
+    @IBOutlet weak var lblefm: UILabel!
+    @IBOutlet weak var lblem: UILabel!
+    @IBOutlet weak var lblbap: UILabel!
     
     @IBOutlet weak var constratinSideMenuTrailing: NSLayoutConstraint!
     @IBOutlet weak var constraintTableHeight: NSLayoutConstraint!
@@ -35,15 +39,15 @@ class SideMenuVC: UIViewController {
 //                       "LEGALITY"]
     
     var arrSideMenu: [SideMenu] = [
-        SideMenu(title: "Dashboard", subMenus: nil, isExpand: false),
+        SideMenu(title: "Home", subMenus: nil, isExpand: false),
         SideMenu(title: "J Magic ", subMenus: [
             "Redeem J Tickets",
             "My J Tickets",
             "Waiting Room",
-            "Automation",
+            "Auto Pilot Mode",
             "T & C"
             ], isExpand: false),
-         SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
+        SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
         SideMenu(title: "Notification", subMenus: nil, isExpand: false),
         SideMenu(title: "History", subMenus: nil, isExpand: false),
@@ -86,6 +90,7 @@ class SideMenuVC: UIViewController {
                                                selector: #selector(handleNotification),
                                                name: .userUnauthorized,
                                                object: nil)
+        setData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -589,6 +594,47 @@ extension SideMenuVC {
                     Define.USERDEFAULT.set(dictData["profile_image"]!, forKey: "ProfileImage")
                 } else if status == 401 {
                     MyModel().removeUserData()
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as? String ?? Define.ERROR_SERVER,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func setData() {
+        Loading().showLoading(viewController: self)
+        let strURL = Define.APP_URL + Define.API_ALLJTICKETDATAS
+        print("URL: \(strURL)")
+        let imageData = imageProfile.image!.jpegData(compressionQuality: 0.8)
+        
+        SwiftAPI().postImageUplodSecure(stringURL: strURL,
+                                  parameters: nil,
+                                  header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                  auther: Define.USERDEFAULT.value(forKey: "UserID") as? String,
+                                  imageName: "profile_image",
+                                  imageData: imageData)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+                Alert().showAlert(title: "Error",
+                                  message: Define.ERROR_SERVER,
+                                  viewController: self)
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let dictData = result!["content"] as! [String: Any]
+                    self.lblapd.text = "₹\(dictData["ADP"]!)"
+                    self.lblefm.text = "₹\(dictData["TotalEntry"]!)"
+                    self.lblem.text = "₹\(dictData["TotalEarning"]!)"
+                    self.lblbap.text = "CC - \(dictData["BAP"]!)"
+                } else if status == 401 {
+                   
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     Alert().showAlert(title: "Error",

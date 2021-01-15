@@ -492,3 +492,18 @@ extension String {
         return data.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
     }
 }
+
+
+extension Array where Element:Equatable {
+    func removeDuplicates() -> [Element] {
+        var result = [Element]()
+
+        for value in self {
+            if result.contains(value) == false {
+                result.append(value)
+            }
+        }
+
+        return result
+    }
+}

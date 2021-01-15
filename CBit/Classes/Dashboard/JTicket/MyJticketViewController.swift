@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import DropDown
 
 class MyJticketViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
   
     @IBOutlet weak var lblapd: UILabel!
+    @IBOutlet weak var lbltap: UILabel!
+    @IBOutlet weak var lblbap: UILabel!
     
     
     private var isFirstTime = Bool()
@@ -19,15 +22,21 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     private var arrMyJTicket = [[String: Any]]()
     
     var MainarrMyJTicket = [[String: Any]]()
-    
+    var isasc = true
      private var id = 0
     private var jticketid = 0
     
     @IBOutlet weak var tbllistingMyjticket: UITableView!
     
+    @IBOutlet weak var segment: UISegmentedControl!
     
     @IBOutlet weak var lblApdrefresh: UILabel!
     
+    @IBOutlet weak var filtervw: UIView!
+    @IBOutlet weak var imgdt: UIImageView!
+    @IBOutlet weak var btnsortbydate: UIButton!
+    @IBOutlet weak var btnbydate: UIButton!
+    @IBOutlet weak var btnbyjticket: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,25 +155,196 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         
     }
     
-    @IBAction func segmentchanged(_ sender: UISegmentedControl) {
+//    func sortArrayDictDescending(dict: [Dictionary<String, String>], dateFormat: String) -> [Dictionary<String, String>] {
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = dateFormat
+//                    return dict.sorted{[dateFormatter] one, two in
+//                        return dateFormatter.date(from: one["date"]! )! > dateFormatter.date(from: two["date"]! )! }
+//                }
+    @IBAction func filter_click(_ sender: UIButton) {
+        filtervw.isHidden = false
+    }
+    @IBAction func btnsortbydate_click(_ sender: UIButton) {
         
-        if sender.selectedSegmentIndex == 0 {
-            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
-                  
-                  tbllistingMyjticket.reloadData()
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "MMM d, yyyy hh:mm a"
+//       // formatter.locale = NSLocale(localeIdentifier: "en_US") as Locale
+//
+//        let sorted: () = MainarrMyJTicket.sort {
+//            formatter.date(from: $0["fullfireDate"] as! String)?.compare(formatter.date(from: $1["fullfireDate"] as! String)!) != .orderedAscending
+//            }
+        
+        
+        
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        let tempArray: NSMutableArray = NSMutableArray()
+        for i in 0..<MainarrMyJTicket.count {
+            let dic: NSMutableDictionary = (MainarrMyJTicket[i] as NSDictionary).mutableCopy() as! NSMutableDictionary
+            let dateConverted: NSDate = dateFormatter.date(from: dic["ApplyDate"] as? String ?? "") as NSDate? ?? NSDate()
+            dic["ApplyDate"] = dateConverted
+            tempArray.add(dic)
+        }
+        
+        
+        if isasc {
+            imgdt.image = UIImage(named: "ic_recive")
+            isasc = false
             
-           
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "ApplyDate", ascending: false)
+            let descriptors: NSArray = [descriptor]
+            let sortedArray: NSArray = tempArray.sortedArray(using: descriptors as! [NSSortDescriptor]) as NSArray
+            NSLog("%@", sortedArray)
+            self.arrMyJTicket = sortedArray as! [[String : Any]]
+        }
+        else
+        {
+            imgdt.image = UIImage(named: "ic_send")
+            isasc = true
+            
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "ApplyDate", ascending: true)
+            let descriptors: NSArray = [descriptor]
+            let sortedArray: NSArray = tempArray.sortedArray(using: descriptors as! [NSSortDescriptor]) as NSArray
+            NSLog("%@", sortedArray)
+            self.arrMyJTicket = sortedArray as! [[String : Any]]
+        }
+        if segment.selectedSegmentIndex == 0 {
+            self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 0}
+                  tbllistingMyjticket.reloadData()
           }
-        else if sender.selectedSegmentIndex == 1 {
-            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 1}
-                   
+        else if segment.selectedSegmentIndex == 1 {
+            self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 1}
                    tbllistingMyjticket.reloadData()
                  }
-        else if sender.selectedSegmentIndex == 2 {
-            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 2}
-            
+        else if segment.selectedSegmentIndex == 2 {
+            self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 2}
             tbllistingMyjticket.reloadData()
         }
+        
+        if arrMyJTicket.count > 0 {
+                       tbllistingMyjticket.isHidden = false
+            tbllistingMyjticket.setContentOffset(.zero, animated: true)
+            tbllistingMyjticket.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+                   }
+                   else
+                   {
+                      tbllistingMyjticket.isHidden = true
+                   }
+    
+    }
+    @IBAction func btnbydate_click(_ sender: UIButton) {
+        let  dropDown1 = DropDown()
+                
+        dropDown1.dataSource = self.MainarrMyJTicket.compactMap{$0["FilterDate"] as? String}.removeDuplicates()
+              
+              dropDown1.anchorView =  sender
+              
+                dropDown1.selectionAction = {
+                  
+                  [unowned self] (index: Int, item: String) in
+                  print("Selected item: \(item) at index: \(index)")
+                 
+//                  self.cityid =  self.TimeList[index]["CityID"] as? Int ?? 0
+//                  print(self.cityid)
+                    btnbydate.setTitle( item, for: .normal)
+                    self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["FilterDate"] as! String) == item}
+                    if segment.selectedSegmentIndex == 0 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 0}
+                              tbllistingMyjticket.reloadData()
+                      }
+                    else if segment.selectedSegmentIndex == 1 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 1}
+                               tbllistingMyjticket.reloadData()
+                             }
+                    else if segment.selectedSegmentIndex == 2 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 2}
+                        tbllistingMyjticket.reloadData()
+                    }
+                    
+                    if arrMyJTicket.count > 0 {
+                                   tbllistingMyjticket.isHidden = false
+                        tbllistingMyjticket.setContentOffset(.zero, animated: true)
+                        tbllistingMyjticket.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+                               }
+                               else
+                               {
+                                  tbllistingMyjticket.isHidden = true
+                               }
+              }
+              dropDown1.show()
+    }
+    @IBAction func byjticket_click(_ sender: UIButton) {
+        
+        let  dropDown2 = DropDown()
+                
+        dropDown2.dataSource = self.MainarrMyJTicket.compactMap{$0["name"] as? String}.removeDuplicates()
+              
+              dropDown2.anchorView =  sender
+              
+                dropDown2.selectionAction = {
+                  
+                  [unowned self] (index: Int, item: String) in
+                  print("Selected item: \(item) at index: \(index)")
+                 
+//                  self.cityid =  self.TimeList[index]["CityID"] as? Int ?? 0
+//                  print(self.cityid)
+                    btnbyjticket.setTitle( item, for: .normal)
+                    self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["name"] as! String) == item}
+                    if segment.selectedSegmentIndex == 0 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 0}
+                              tbllistingMyjticket.reloadData()
+                      }
+                    else if segment.selectedSegmentIndex == 1 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 1}
+                               tbllistingMyjticket.reloadData()
+                             }
+                    else if segment.selectedSegmentIndex == 2 {
+                        self.arrMyJTicket = self.arrMyJTicket.filter{($0["status"] as! Int) == 2}
+                        tbllistingMyjticket.reloadData()
+                    }
+                    
+                    if arrMyJTicket.count > 0 {
+                                   tbllistingMyjticket.isHidden = false
+                        tbllistingMyjticket.setContentOffset(.zero, animated: true)
+                        tbllistingMyjticket.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+                               }
+                               else
+                               {
+                                  tbllistingMyjticket.isHidden = true
+                               }
+              }
+              dropDown2.show()
+    }
+    @IBAction func apply_click(_ sender: UIButton) {
+        filtervw.isHidden = true
+    }
+    @IBAction func clear_click(_ sender: UIButton) {
+        filtervw.isHidden = true
+       segmentchanged(segment)
+    }
+    @IBAction func close_click(_ sender: UIButton) {
+        filtervw.isHidden = true
+    }
+    
+    @IBAction func segmentchanged(_ sender: UISegmentedControl) {
+        imgdt.image = UIImage(named: "ic_send")
+        isasc = true
+        btnbydate.setTitle("By Date", for: .normal)
+        btnbyjticket.setTitle("By JTicket", for: .normal)
+        
+        if segment.selectedSegmentIndex == 0 {
+            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
+                  tbllistingMyjticket.reloadData()
+          }
+        else if segment.selectedSegmentIndex == 1 {
+            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 1}
+                   tbllistingMyjticket.reloadData()
+                 }
+        else if segment.selectedSegmentIndex == 2 {
+            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 2}
+            tbllistingMyjticket.reloadData()
+        }
+        
         if arrMyJTicket.count > 0 {
                        tbllistingMyjticket.isHidden = false
             tbllistingMyjticket.setContentOffset(.zero, animated: true)
@@ -175,7 +355,6 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
                       tbllistingMyjticket.isHidden = true
                    }
     }
-    
 }
 class MyJticketlisting: UITableViewCell {
     
@@ -266,11 +445,9 @@ extension MyJticketViewController {
                    // self.lblapd.text! = "₹" + "\(Double(APD)!.rounded(toPlaces:2))"
                  
                     self.lblApdrefresh.text = "Your APD Cycle refreshes on " + "\(apddict.value(forKey:"DayOfJoin") as? Int ?? 0)th" + " of every month"
-
-
-                  
-                
                     print(self.lblapd.text!)
+                    self.lblbap.text = "CC - \(apddict["BAP"]!)"
+                    self.lbltap.text = "CC - \(apddict["TAP"]!)"
                     self.tbllistingMyjticket.reloadData()
                     
                     

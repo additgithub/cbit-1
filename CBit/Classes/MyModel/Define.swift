@@ -118,6 +118,7 @@ class Define {
     
      static let API_AUTOPILOTUPDATE = "AutoPilotUpdate"
      static let API_REDEEMDAILYQOUTAUPDATE = "RedeemDailyQoutaUpdate"
+    static let API_ALLJTICKETDATAS = "getAllJticketDatas"
     
     //MARK: - Socket Event
     static let EVENT_LOGINT = "login"

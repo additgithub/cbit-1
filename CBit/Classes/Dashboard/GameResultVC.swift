@@ -146,7 +146,6 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
         let test = Double(strAmount) ?? 0.00
         resultCell.labelEntryFees.text = String(format: "₹ %.02f", test)
         
-        
         let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"]!)"
         resultCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
         let strWinnings = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
@@ -157,6 +156,28 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
         let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
         print("Data: \(dictSelectedData)")
         let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
+        
+        if strValue == "Red win"
+        {
+            resultCell.btnred.layer.borderColor = UIColor.black.cgColor
+            resultCell.btnred.layer.borderWidth = 2
+            resultCell.btndraw.layer.borderWidth = 0
+            resultCell.btnblue.layer.borderWidth = 0
+        }
+        else if strValue == "Blue win"
+        {
+            resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
+            resultCell.btnred.layer.borderWidth = 0
+            resultCell.btndraw.layer.borderWidth = 0
+            resultCell.btnblue.layer.borderWidth = 2
+        }
+        else
+        {
+            resultCell.btndraw.layer.borderColor = UIColor.black.cgColor
+            resultCell.btnred.layer.borderWidth = 0
+            resultCell.btndraw.layer.borderWidth = 2
+            resultCell.btnblue.layer.borderWidth = 0
+        }
         
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
@@ -329,6 +350,9 @@ class GameResultTVC: UITableViewCell {
     @IBOutlet weak var labelAmount: UILabel!
     @IBOutlet weak var buttonViewWinners: UIButton!
     @IBOutlet weak var labelViewWinners: UILabel!
+    @IBOutlet weak var btnred: ButtonWithRadius!
+    @IBOutlet weak var btndraw: ButtonWithRadius!
+    @IBOutlet weak var btnblue: ButtonWithRadius!
     
     override func awakeFromNib() {
         super.awakeFromNib()

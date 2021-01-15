@@ -61,7 +61,7 @@ class JticketlistingViewController: UIViewController,UITableViewDelegate,UITable
         let redemptionfrom = arrjtickets[indexPath.row]["redenption_from"] as? Double ?? 0.00
         let redemptionto = arrjtickets[indexPath.row]["redenption_to"] as? Double ?? 0.00
   
-        let boldtext1 = "Rs." + "\(redemptionfrom)" + "-" +  "\(redemptionto)"
+        let boldtext1 = "₹ " + "\(redemptionto)"
    
         
         userCell.lblCurrentRedemptionvalue.text = boldtext1
