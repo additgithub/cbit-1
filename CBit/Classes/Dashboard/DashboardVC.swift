@@ -137,7 +137,7 @@ class DashboardVC: UIViewController {
         if isSpecialContest {
                 
             pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:155)
+            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:255)
             
         }
         
@@ -146,7 +146,7 @@ class DashboardVC: UIViewController {
         {
            
         pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:0)
+        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:100)
             
         }
 //                   NSLayoutConstraint.activate([
@@ -221,6 +221,9 @@ class DashboardVC: UIViewController {
         playerViewController.player!.play()
     }
 }
+    @IBAction func classicgrid_click(_ sender: UIButton) {
+        
+    }
 }
 //MARK: - Notifcation Delegate Method
 extension DashboardVC: UNUserNotificationCenterDelegate {

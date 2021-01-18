@@ -147,7 +147,6 @@
 		B0D30A55231814A100A63315 /* FAQsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D30A54231814A100A63315 /* FAQsVC.swift */; };
 		B0D6ED1222C63D170019C6E6 /* PrivateModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D6ED1122C63D170019C6E6 /* PrivateModeVC.swift */; };
 		B0D7A08022E1C657002229B5 /* PayKun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D7A07F22E1C656002229B5 /* PayKun.framework */; };
-		B0D7A08122E1C69C002229B5 /* PayKun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D7A07F22E1C656002229B5 /* PayKun.framework */; };
 		B0D7A08222E1C69C002229B5 /* PayKun.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0D7A07F22E1C656002229B5 /* PayKun.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B14A1109E2C43006116AF340 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		E40AE33081BCB57CE563A1F6 /* Pods_CBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D652900B505E5F93EC1228 /* Pods_CBit.framework */; };
@@ -360,7 +359,6 @@
 				04751CA724223C0900F3AF37 /* DropDown.framework in Frameworks */,
 				B0D7A08022E1C657002229B5 /* PayKun.framework in Frameworks */,
 				E40AE33081BCB57CE563A1F6 /* Pods_CBit.framework in Frameworks */,
-				B0D7A08122E1C69C002229B5 /* PayKun.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,7 +808,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Bhavik Kothari";
 				TargetAttributes = {
 					04648F69246A6DF5008CBDC3 = {
@@ -1139,7 +1137,7 @@
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = V75Q56T22B;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1163,7 +1161,7 @@
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = V75Q56T22B;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1204,6 +1202,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1265,6 +1264,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1314,7 +1314,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = CBit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1327,6 +1327,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
@@ -1350,7 +1351,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = CBit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1362,6 +1363,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "CBit/Classes/Library/EncryptDecrypt/CBit-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
