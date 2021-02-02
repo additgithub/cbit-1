@@ -120,6 +120,8 @@ class Define {
      static let API_REDEEMDAILYQOUTAUPDATE = "RedeemDailyQoutaUpdate"
     static let API_ALLJTICKETDATAS = "getAllJticketDatas"
     
+    static let API_ANYTIMEGAMELIST = "getAnyTimeGameList"
+    
     //MARK: - Socket Event
     static let EVENT_LOGINT = "login"
     static let EVENT_CONTEST_DETAIL = "contestDetails"

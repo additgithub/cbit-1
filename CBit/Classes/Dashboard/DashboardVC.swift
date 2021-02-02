@@ -20,6 +20,7 @@ class DashboardVC: UIViewController {
     @IBOutlet weak var labelTitle: UILabel!
     
     @IBOutlet weak var constraintAdsHeight: NSLayoutConstraint!
+    @IBOutlet weak var pagingvw: UIView!
     private var arrSpecialContest = [[String: Any]]()
     var arrAdvertise = [[String: Any]]()
     
@@ -86,6 +87,11 @@ class DashboardVC: UIViewController {
            
        }
     
+    override func viewDidLayoutSubviews() {
+        self.pagingViewController.view.frame = self.pagingvw.frame
+        self.pagingViewController.view.layoutIfNeeded()
+        self.view.layoutSubviews()
+    }
     
     func setPageMenu() {
         
@@ -116,39 +122,43 @@ class DashboardVC: UIViewController {
         
        
         
-                   
-
-                  
+       // DispatchQueue.main.async {
+            self.pagingViewController.view.frame = self.pagingvw.frame
+            self.pagingViewController.view.layoutIfNeeded()
+//            self.pagingViewController.viewDidLayoutSubviews()
+//            self.pagingViewController.loadViewIfNeeded()
+     //   }
+  
             
-        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-       
-        NSLayoutConstraint.activate([
-           
-            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: (self.view.frame.width / 3) + 50),
-            pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            pagingViewController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            pagingViewController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            
-            
-            ])
-            
-        
-       
-        if isSpecialContest {
-                
-            pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:255)
-            
-        }
-        
-        
-        else
-        {
-           
-        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:100)
-            
-        }
+//        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//
+//            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: (self.view.frame.width / 3) + 50),
+//            pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+//            pagingViewController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//            pagingViewController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+//
+//
+//            ])
+//
+//
+//
+//        if isSpecialContest {
+//
+//            pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+//            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:255)
+//
+//        }
+//
+//
+//        else
+//        {
+//
+//        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+//        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:100)
+//
+//        }
 //                   NSLayoutConstraint.activate([
 //                       pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: (self.view.frame.width / 3) + 50),
 //                       pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -222,6 +232,8 @@ class DashboardVC: UIViewController {
     }
 }
     @IBAction func classicgrid_click(_ sender: UIButton) {
+        let CGTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "CGTicketVC") as! CGTicketVC
+        self.navigationController?.pushViewController(CGTicketVC, animated: true)
         
     }
 }
@@ -683,21 +695,27 @@ extension DashboardVC {
                    self.arrSpecialContest = dictData["contest"] as? [[String : Any]] ?? []
                     if self.arrSpecialContest.count <= 0 {
                       //  self.veSpecialNoContest.isHidden = false
-                        self.HeightSpecial.constant = 0
+                        
                         self.isSpecialContest = false
-                       self.setPageMenu()
-                       
+                     //  self.setPageMenu()
+                        DispatchQueue.main.async {
+                            self.collectionSpecialcontest.reloadData()
+                            self.HeightSpecial.constant = 0
+                        }
                      
                                       }
                     else {
                                           //self.veSpecialNoContest.isHidden = true
-                        self.HeightSpecial.constant = 173
+                        
                         self.isSpecialContest = true
-                       
+                        DispatchQueue.main.async {
+                            self.collectionSpecialcontest.reloadData()
+                            self.HeightSpecial.constant = 173
+                        }
                     
-                        self.setPageMenu()
+                  //      self.setPageMenu()
                                       }
-                    
+                   
 //                    let serverDate = dictData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
 //                    self.currentData = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
 //                    if self.arrContest.count <= 0 {
@@ -706,8 +724,17 @@ extension DashboardVC {
 //                        self.viewNoData.isHidden = true
 //                    }
 //                    self.tablePlay.reloadData()
+                    DispatchQueue.main.async {
+                        self.collectionSpecialcontest.reloadData()
+                    }
                     
-                    self.collectionSpecialcontest.reloadData()
+                    
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        
+                        self.viewDidLayoutSubviews()
+                    }
+                   
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {

@@ -130,6 +130,13 @@
 		1FFB3E4F225C596000DC1AFA /* JoinedPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E4E225C596000DC1AFA /* JoinedPlayerVC.swift */; };
 		1FFB3E51225C6A7600DC1AFA /* PrivateContestResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */; };
 		1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */; };
+		9F5C69A525C3F00E00C8F2EE /* CGGamePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */; };
+		9F6800EC25B804530052A76D /* ClassicGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6800EB25B804530052A76D /* ClassicGridViewController.swift */; };
+		9F87805925C425F20031755E /* CreatePrivateGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F87805825C425F20031755E /* CreatePrivateGroupVC.swift */; };
+		9FC75B9725C2CB2500A3B75D /* IDsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC75B9625C2CB2500A3B75D /* IDsVC.swift */; };
+		9FC75B9A25C2D02F00A3B75D /* HoroscopeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */; };
+		9FE5177925BECB1200E8B6DA /* CGTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */; };
+		9FE5177C25BEE37100E8B6DA /* HostGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */; };
 		B028C91922D715D2009A4AA5 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B028C91822D715D2009A4AA5 /* ReachabilityManager.swift */; };
 		B06C74D922CB97CB00F6BE94 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C74D822CB97CB00F6BE94 /* PrivacyPolicyVC.swift */; };
 		B06C74DB22CB9AE900F6BE94 /* TermsAndConditionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C74DA22CB9AE900F6BE94 /* TermsAndConditionVC.swift */; };
@@ -324,6 +331,13 @@
 		8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91D652900B505E5F93EC1228 /* Pods_CBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99F55E886ADE80DCF82F9068 /* Pods-CBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CBit/Pods-CBit.release.xcconfig"; sourceTree = "<group>"; };
+		9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGamePlayVC.swift; sourceTree = "<group>"; };
+		9F6800EB25B804530052A76D /* ClassicGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicGridViewController.swift; sourceTree = "<group>"; };
+		9F87805825C425F20031755E /* CreatePrivateGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePrivateGroupVC.swift; sourceTree = "<group>"; };
+		9FC75B9625C2CB2500A3B75D /* IDsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDsVC.swift; sourceTree = "<group>"; };
+		9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoroscopeVC.swift; sourceTree = "<group>"; };
+		9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGTicketVC.swift; sourceTree = "<group>"; };
+		9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostGameVC.swift; sourceTree = "<group>"; };
 		B028C91822D715D2009A4AA5 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		B06C74D822CB97CB00F6BE94 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
 		B06C74DA22CB9AE900F6BE94 /* TermsAndConditionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionVC.swift; sourceTree = "<group>"; };
@@ -712,6 +726,13 @@
 				1F48932724EC0D8B009D98E9 /* AutomationViewController.swift */,
 				1F258422255563E100324564 /* PrivateGroupViewController.swift */,
 				1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */,
+				9F6800EB25B804530052A76D /* ClassicGridViewController.swift */,
+				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
+				9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */,
+				9FC75B9625C2CB2500A3B75D /* IDsVC.swift */,
+				9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */,
+				9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */,
+				9F87805825C425F20031755E /* CreatePrivateGroupVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1017,6 +1038,7 @@
 				1F6E25D62281BA2000B4EACA /* KYCVerifycationVC.swift in Sources */,
 				1F4789E1227075FA006748DD /* SettingVC.swift in Sources */,
 				1F72A5B82382F78100A31B15 /* Bracketcv.swift in Sources */,
+				9FC75B9A25C2D02F00A3B75D /* HoroscopeVC.swift in Sources */,
 				1F82200B222CF099008FDF65 /* SideMenuVC.swift in Sources */,
 				1F5DB443222FC32B00EF5FD5 /* PassBookVC.swift in Sources */,
 				1F48932824EC0D8B009D98E9 /* AutomationViewController.swift in Sources */,
@@ -1025,6 +1047,7 @@
 				1F97209222578E2B001D2CDA /* PrivateContestJoinVC.swift in Sources */,
 				1FA9C099224751C200A60AF7 /* SocketIOManager.swift in Sources */,
 				1F82201F222D456F008FDF65 /* NotificationVC.swift in Sources */,
+				9F87805925C425F20031755E /* CreatePrivateGroupVC.swift in Sources */,
 				04468452243C8C2F00E80800 /* LockAll.swift in Sources */,
 				1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */,
 				1F6FC71C222E96DC007DBA72 /* PackageListCell.swift in Sources */,
@@ -1048,6 +1071,8 @@
 				1FC3A6B8222E425D00EA4BDE /* ResetPasswordVC.swift in Sources */,
 				B0C3E8D122CF6CA600F1756D /* ViewTicketInfo.swift in Sources */,
 				1F822013222D2EF6008FDF65 /* OrganizeVC.swift in Sources */,
+				9FC75B9725C2CB2500A3B75D /* IDsVC.swift in Sources */,
+				9F6800EC25B804530052A76D /* ClassicGridViewController.swift in Sources */,
 				1F82200F222D1E3E008FDF65 /* PlayVC.swift in Sources */,
 				1F5A43DE228C28B400020473 /* BankTVC.swift in Sources */,
 				1F0A5C36223BD77F004F335C /* PaymentStatusVC.swift in Sources */,
@@ -1086,10 +1111,12 @@
 				1FBD338E222914CE00B74578 /* AppDelegate.swift in Sources */,
 				1FCFF639223FAB4C001C627B /* TicketSloteTVC.swift in Sources */,
 				1F21C4D422896AD800F5A789 /* ProfileVC.swift in Sources */,
+				9F5C69A525C3F00E00C8F2EE /* CGGamePlayVC.swift in Sources */,
 				1FF6B0DB223CF4ED00CB8C84 /* SwiftAPI.swift in Sources */,
 				1F547ABD23A76D4900E148C0 /* ReferralViewController.swift in Sources */,
 				1F822024222D4F17008FDF65 /* JoinByCodeVC.swift in Sources */,
 				1F63528722293E6C0054BD12 /* ImageViewComman.swift in Sources */,
+				9FE5177925BECB1200E8B6DA /* CGTicketVC.swift in Sources */,
 				1F258423255563E100324564 /* PrivateGroupViewController.swift in Sources */,
 				1F0A5C2A223B6D6D004F335C /* TicketVC.swift in Sources */,
 				1F63528922296A150054BD12 /* Loading.swift in Sources */,
@@ -1098,6 +1125,7 @@
 				1F822015222D2F57008FDF65 /* PackegaListVC.swift in Sources */,
 				1FBD33AE2229194100B74578 /* LoginVC.swift in Sources */,
 				1FDE4DD223B6120100B4EB91 /* JticketwaitinglistJViewController.swift in Sources */,
+				9FE5177C25BEE37100E8B6DA /* HostGameVC.swift in Sources */,
 				1F6FC71E222E9C95007DBA72 /* MyPackageCell.swift in Sources */,
 				048C9683241BE0390080B046 /* T&CJTicketViewController.swift in Sources */,
 				1F0A5C30223BAA50004F335C /* MyTicketVC.swift in Sources */,

@@ -29,11 +29,13 @@ class PrivateGroupViewController: UIViewController {
     @IBOutlet var lblentryclosing: UILabel!
     
     @IBOutlet var tbllist: UITableView!
+    var GroupList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        GroupList = ["Happy family","Cousion","Friends Forever","Top 20","Land On moon","Old is Gold"]
     }
     
 
@@ -44,8 +46,8 @@ class PrivateGroupViewController: UIViewController {
     @IBAction func searchgroup_click(_ sender: UIButton) {
     }
     @IBAction func creategroup_click(_ sender: UIButton) {
-        let NextVC = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupViewController") as! CreatePrivateGroupViewController
-        self.navigationController?.pushViewController(NextVC, animated: true)
+        let CreatePrivateGroupVC = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupVC") as! CreatePrivateGroupVC
+        self.navigationController?.pushViewController(CreatePrivateGroupVC, animated: true)
     }
     
 }
@@ -55,7 +57,7 @@ class PrivateGroupViewController: UIViewController {
 extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return GroupList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,6 +69,8 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
         //Set Button
         cell.btnjoincontest.addTarget(self, action: #selector(buttonJoinContest(_:)), for: .touchUpInside)
         cell.btnjoincontest.tag = indexPath.row
+        
+        cell.lblgroupname.text = GroupList[indexPath.row]
         
         DispatchQueue.main.async {
             MyModel().roundCorners(corners: [.topRight,.topLeft,.bottomRight, .bottomLeft], radius: 10, view: cell.topvw)
