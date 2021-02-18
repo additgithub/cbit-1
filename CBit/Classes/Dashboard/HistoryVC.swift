@@ -68,9 +68,20 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
-        resultVC.dictContest = arrHistory[indexPath.row]
-        self.navigationController?.pushViewController(resultVC, animated: true)
+        let gametype  = arrHistory[indexPath.row]["game_type"] as! String
+        if gametype == "spinning-machine" {
+            let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
+            SMResultVC.dictContest = arrHistory[indexPath.row]
+            self.navigationController?.pushViewController(SMResultVC, animated: true)
+
+        }
+        else
+        {
+            let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+            resultVC.dictContest = arrHistory[indexPath.row]
+            self.navigationController?.pushViewController(resultVC, animated: true)
+        }
+        
     }
     
 }

@@ -25,6 +25,10 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     
     private var arrJticketwaitinglist = [[String: Any]]()
     
+    var Start = 0
+    var Limit = 30
+    var ismoredata = false
+    
     override func viewDidLoad()
         
     {
@@ -65,6 +69,16 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                                             getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
                                             returnFormat: "h:mm a dd-MM-yyyy")
         }
+        
+        if arrJticketwaitinglist.count > 1 {
+            let lastElement = arrJticketwaitinglist.count - 1
+            if indexPath.row == lastElement && ismoredata{
+                //call get api for next page
+                getJticketWaitingList()
+            }
+
+        }
+
    
         
         return userCell
@@ -115,7 +129,9 @@ extension JticketWaitingListViewController {
    
         let parameter: [String: Any] = [
         
-        "id":id
+        "id":id,
+            "start": Start,
+            "limit":Limit
         
     ]
     let strURL = Define.APP_URL + Define.getWaitingroom
@@ -141,7 +157,19 @@ extension JticketWaitingListViewController {
     if status == 200 {
         
         let content = result!["content"] as! [String: Any]
-        self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+      //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+        
+        let arr =  result?["contest"] as! [[String : Any]]
+          if arr.count > 0 {
+              self.arrJticketwaitinglist.append(contentsOf: arr)
+              self.ismoredata = true
+              self.Start = self.Start + 30
+              self.Limit =  30
+          }
+          else
+          {
+              self.ismoredata = false
+          }
         
         if self.arrJticketwaitinglist.count > 0 {
       

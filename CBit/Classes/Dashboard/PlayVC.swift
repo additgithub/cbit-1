@@ -1,5 +1,6 @@
 import UIKit
 import UserNotifications
+import SDWebImage
 
 class PlayVC: UIViewController {
     //MARK: - Properties
@@ -20,6 +21,12 @@ class PlayVC: UIViewController {
     private var isRefresh = Bool()
     private var isShowLoading = Bool()
     private var currentData = Date()
+    
+    var Start = 0
+    var Limit = 30
+    var ismoredata = false
+    
+   // var storeimage = [[String: Any]]()
     
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -129,25 +136,59 @@ extension PlayVC: UITableViewDelegate, UITableViewDataSource {
         DispatchQueue.main.async {
             MyModel().roundCorners(corners: [.topLeft, .bottomLeft], radius: 5, view: cell.buttonPlayNow)
         }
+        
+      
+            if arrContest.count > 1 {
+                let lastElement = arrContest.count - 1
+                if indexPath.row == lastElement && ismoredata{
+                    //call get api for next page
+                    getAllContest()
+                }
+
+            }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let game_type = arrContest[indexPath.row]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
+            SpinningMachineTicketVC.dictContest = arrContest[indexPath.row]
+          //  SpinningMachineTicketVC.storeimage = storeimage
+            self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+        }
+        else
+        {
+            let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+            ticketVC.dictContest = arrContest[indexPath.row]
+            self.navigationController?.pushViewController(ticketVC, animated: true)
+        }
        
-        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-        ticketVC.dictContest = arrContest[indexPath.row]
-        self.navigationController?.pushViewController(ticketVC, animated: true)
     }
     
     //MARK: - Tableview Button Mathod
     @objc func buttonPlayNow(_ sender: UIButton) {
         isVisible = false
         let index = sender.tag
-        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-        ticketVC.dictContest = arrContest[index]
-        ticketVC.isFromMyTickets = false
-        self.navigationController?.pushViewController(ticketVC, animated: true)
+//        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+//        ticketVC.dictContest = arrContest[index]
+//        ticketVC.isFromMyTickets = false
+//        self.navigationController?.pushViewController(ticketVC, animated: true)
+        let game_type = arrContest[index]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
+            SpinningMachineTicketVC.dictContest = arrContest[index]
+           // SpinningMachineTicketVC.storeimage = storeimage
+            self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+        }
+        else
+        {
+            let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+            ticketVC.dictContest = arrContest[index]
+            self.navigationController?.pushViewController(ticketVC, animated: true)
+        }
     }
 }
 //MARK: - API
@@ -159,9 +200,9 @@ extension PlayVC {
         }
         let strURL = Define.APP_URL + Define.API_GET_CONTEST
         print("URL: \(strURL)")
-        
+        let parameter: [String: Any] = ["start": Start,"limit":Limit]
         SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: nil,
+                                    parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
         { (result, error) in
@@ -196,9 +237,20 @@ extension PlayVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     
-                    self.arrContest.removeAll()
+                   // self.arrContest.removeAll()
                     let dictData = result!["content"] as! [String: Any]
-                    self.arrContest = dictData["contest"] as! [[String : Any]]
+                  let arr =  dictData["contest"] as! [[String : Any]]
+                    if arr.count > 0 {
+                        self.arrContest.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 30
+                        self.Limit =  30
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
+                  //  self.arrContest = dictData["contest"] as! [[String : Any]]
                     let serverDate = dictData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
                     self.currentData = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
                  
@@ -227,6 +279,14 @@ extension PlayVC {
             }
         }
     }
+    
+    
+    
+  
+    
+    
+ 
+    
 }
 //MARK: - Notifcation Delegate Method
 extension PlayVC: UNUserNotificationCenterDelegate {

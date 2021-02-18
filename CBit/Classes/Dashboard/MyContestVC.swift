@@ -164,11 +164,27 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
         let index = sender.tag
         
         //getContestDetail(dictContest: arrMyContest[index])
-        let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-        gamePlayVC.dictContest = arrMyContest[index]
-        gamePlayVC.isFromNotification = false
-        //gamePlayVC.dictGameData = dictGameData
-        self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//        gamePlayVC.dictContest = arrMyContest[index]
+//        gamePlayVC.isFromNotification = false
+//        //gamePlayVC.dictGameData = dictGameData
+//        self.navigationController?.pushViewController(gamePlayVC, animated: true)
+        
+        
+        let game_type = arrMyContest[index]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SpinningMachinePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
+            SpinningMachinePlayVC.dictContest = arrMyContest[index]
+         //   SpinningMachinePlayVC.storeimage = storeimage
+            self.navigationController?.pushViewController(SpinningMachinePlayVC, animated: true)
+        }
+        else
+        {
+                    let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+                    gamePlayVC.dictContest = arrMyContest[index]
+                    gamePlayVC.isFromNotification = false
+                    self.navigationController?.pushViewController(gamePlayVC, animated: true)
+        }
     }
     
     func getContestDetail(dictContest: [String: Any]) {

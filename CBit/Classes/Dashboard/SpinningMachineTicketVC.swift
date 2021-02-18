@@ -1,8 +1,8 @@
 //
-//  CGTicketVC.swift
+//  SpinningMachineTicketVC.swift
 //  CBit
 //
-//  Created by Emp-Mac-1 on 25/01/21.
+//  Created by Nirmal Bodar on 10/02/21.
 //  Copyright © 2021 Bhavik Kothari. All rights reserved.
 //
 
@@ -11,11 +11,16 @@ import UserNotifications
 import MarqueeLabel
 import EventKit
 
-class CGTicketVC: UIViewController {
+class slotspinningcell: UICollectionViewCell {
+    @IBOutlet weak var imgImage: UIImageView!
+}
+
+
+class SpinningMachineTicketVC: UIViewController {
     //MARK: - Properties
     
     @IBOutlet weak var btnselectall: UIButton!
-   // @IBOutlet weak var labelRemainingTime: UILabel!
+    @IBOutlet weak var labelRemainingTime: UILabel!
     @IBOutlet weak var collectionviewtickets: UICollectionView!
     private var arrRandomNumbers = [Int]()
     var arrBarcketColor = [BracketData]()
@@ -26,10 +31,10 @@ class CGTicketVC: UIViewController {
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var tableTickets: UITableView!
     @IBOutlet weak var labelSelectedCount: UILabel!
- //   @IBOutlet weak var labelPurchasedAmount: UILabel!
-  //  @IBOutlet weak var labelPBAmount: UILabel!
+    @IBOutlet weak var labelPurchasedAmount: UILabel!
+    @IBOutlet weak var labelPBAmount: UILabel!
     @IBOutlet weak var buttonPay: UIButton!
-  //  @IBOutlet weak var labelPay: UILabel!
+    @IBOutlet weak var labelPay: UILabel!
     
     @IBOutlet weak var labelMarquee: MarqueeLabel!
     //Constraint
@@ -37,16 +42,20 @@ class CGTicketVC: UIViewController {
     @IBOutlet weak var constraintSelectionViewHeight: NSLayoutConstraint!
     
     //View Amount
-//    @IBOutlet weak var viewAmountMain: UIView!
-//    @IBOutlet weak var viewAmount: UIView!
-//    @IBOutlet weak var labelUtilizedbalance: UILabel!
-//    @IBOutlet weak var labelwidrawableBalance: UILabel!
-//    @IBOutlet weak var labelTotalBalance: UILabel!
-//    @IBOutlet weak var buttonAmountOk: UIButton!
-//    @IBOutlet weak var buttonAmountCancel: UIButton!
+    @IBOutlet weak var viewAmountMain: UIView!
+    @IBOutlet weak var viewAmount: UIView!
+    @IBOutlet weak var labelUtilizedbalance: UILabel!
+    @IBOutlet weak var labelwidrawableBalance: UILabel!
+    @IBOutlet weak var labelTotalBalance: UILabel!
+    @IBOutlet weak var buttonAmountOk: UIButton!
+    @IBOutlet weak var buttonAmountCancel: UIButton!
+    
+    @IBOutlet weak var vwmain: UIView!
+    @IBOutlet weak var collection_original: UICollectionView!
+    @IBOutlet weak var fadevw: UIView!
     
     private var arrSelectedTikets = [[String: Any]]()
-    var AnyTimedictContest = [String: Any]()
+    
     var dictContest = [String: Any]()
     var isFromMyTickets = Bool()
     private var isDataLoaded = Bool()
@@ -63,14 +72,66 @@ class CGTicketVC: UIViewController {
     private var isJoinContest = Bool()
     
     var isFromLink = Bool()
+   // var storeimage = [[String:Any]]()
+    var itemarr  = [UIImage]()
+    var timerfade=Timer()
     
+    private  let reuseidentifier = "slotspinningcell"
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        SetRandomNumber()
-        setStartTimer()
+       // SetRandomNumber()
+       // setStartTimer()
+     //   self.collection_original.register(slotspinningcell.self, forCellWithReuseIdentifier: reuseidentifier)
+       
+
+        let width = (view.frame.width-20)/5
+        
+        let coln = [collection_original]
+        
+        for cln in coln {
+            cln?.layer.cornerRadius = 10
+            cln?.layer.borderColor = UIColor.black.cgColor
+            cln?.layer.borderWidth = 3
+            
+            let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
+            layout.itemSize = CGSize(width: width, height: width)
+    
+        }
+        
+        let gamelevel = dictContest["rows"] as? Int ?? 0
+      
+            if gamelevel == 3 {
+                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                 constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+            } else if gamelevel == 4 {
+                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                constraintCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
+               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+            } else if gamelevel == 5 {
+                 constraintCollectionViewHeight.constant = (view.frame.width) /* 5*5 */
+             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+            }
+
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
+           // Code you want to be delayed
+            for dict in Define.Globalimagearr {
+                self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+                    }
+                    for _ in 1..<5
+                    {
+                        self.itemarr.append(contentsOf: self.itemarr)
+                    }
+       //     self.collection_original.reloadData()
+        }
+               
+
+        
         tableTickets.rowHeight = UITableView.automaticDimension
         tableTickets.tableFooterView = UIView()
         UNUserNotificationCenter.current().delegate = self
@@ -78,8 +139,7 @@ class CGTicketVC: UIViewController {
             Alert().showTost(message: Define.ERROR_INTERNET,
                              viewController: self)
         } else {
-          //  getContestDetail()
-            getAnyTimeGameList()
+            getContestDetail()
         }
         
        // setReminder()
@@ -101,46 +161,58 @@ class CGTicketVC: UIViewController {
         
      
         
-//       var startDate: Date?
-//
-//        let sDate1 = dictContest["startDate"]  as! String
-//
-//
-//
-//        let dateFormater = DateFormatter()
-//        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//
-//        let sDate = dateFormater.date(from:sDate1)
-//
-//        print("Start Date :\(String(describing: sDate))")
-//                let calender = Calendar.current
-//                let unitFlags = Set<Calendar.Component>([ .second])
-//        let dateComponent = calender.dateComponents(unitFlags, from: Date(), to:sDate!)
-//                seconds = dateComponent.second!
-//                print("Seconds: \(seconds)")
-//                if timer == nil {
-//                    timer = Timer.scheduledTimer(timeInterval: 1,
-//                                                 target: self,
-//                                                 selector: #selector(handleTimer),
-//                                                 userInfo: nil,
-//                                                 repeats: true)
-//                }
+       var startDate: Date?
         
-      //  viewAmountMain.isHidden = true
+        let sDate1 = dictContest["startDate"]  as! String
+        
+        
+        
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let sDate = dateFormater.date(from:sDate1)
+        
+        print("Start Date :\(String(describing: sDate))")
+                let calender = Calendar.current
+                let unitFlags = Set<Calendar.Component>([ .second])
+        let dateComponent = calender.dateComponents(unitFlags, from: Date(), to:sDate!)
+                seconds = dateComponent.second!
+                print("Seconds: \(seconds)")
+                if timer == nil {
+                    timer = Timer.scheduledTimer(timeInterval: 1,
+                                                 target: self,
+                                                 selector: #selector(handleTimer),
+                                                 userInfo: nil,
+                                                 repeats: true)
+                }
+        
+        viewAmountMain.isHidden = true
+      //  self.view.sendSubviewToBack(vwmain)
+    }
+    
+    func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        if let dirPath = paths.first{
+            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
+            let image    = UIImage(contentsOfFile: imageURL.path)
+            return image ?? UIImage()
+        }
+        return UIImage.init(named: "default.png")!
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        labelContestName.text = dictContest["name"] as? String ?? "No Name"
-        labelContestName.text = "Classic Grids"
+        labelContestName.text = dictContest["name"] as? String ?? "No Name"
         
         let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
         let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
         
         let totalAmount = pbAmount + sbAmount
         
-       // labelPBAmount.text = MyModel().getCurrncy(value: totalAmount)
+        labelPBAmount.text = MyModel().getCurrncy(value: totalAmount)
         
         if isFromButtonClick {
             setSelectedData()
@@ -150,10 +222,37 @@ class CGTicketVC: UIViewController {
                                                selector: #selector(self.handelNotifcation(_:)),
                                                name: .onContestLiveUpdate,
                                                object: nil)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+      //  configAutoscrollTimer()
+        configFadeTimer()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        deconfigFadeTimer()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+    func configFadeTimer()
+    {
+        timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachineTicketVC.FedeinOut), userInfo: nil, repeats: true)
+        RunLoop.current.add(self.timerfade, forMode: .common)
+    }
+    func deconfigFadeTimer()
+    {
+        timerfade.invalidate()
+    }
+    @objc func FedeinOut()
+    {
+        fadevw.fadeIn()
+        fadevw.fadeOut()
+        
+        itemarr.shuffle()
+        collection_original.reloadData()
     }
     
     func setReminder() {
@@ -174,9 +273,9 @@ class CGTicketVC: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-//        buttonAmountCancel.layer.borderColor = UIColor.black.cgColor
-//        buttonAmountCancel.layer.borderWidth = 1
-//        buttonAmountCancel.layer.masksToBounds = true
+        buttonAmountCancel.layer.borderColor = UIColor.black.cgColor
+        buttonAmountCancel.layer.borderWidth = 1
+        buttonAmountCancel.layer.masksToBounds = true
     }
     
     @objc func handelNotifcation(_ notification: Notification) {
@@ -185,7 +284,7 @@ class CGTicketVC: UIViewController {
         if  notification.userInfo != nil {
             let dictData = notification.userInfo
             let arrData = dictData!["contest"] as! [[String: Any]]
-            let strContestId = "\(dictContestDetail["id"]!)"
+            let strContestId = "\(dictContest["id"]!)"
             
             for (_, item) in arrData.enumerated() {
                 let strSelectedContestId = "\(item["contestId"]!)"
@@ -219,9 +318,9 @@ class CGTicketVC: UIViewController {
     
     @objc func handleStartTimer() {
       
-                updateColors()
-              SetRandomNumber()
-        collectionviewtickets.reloadData()
+//                updateColors()
+//              SetRandomNumber()
+//        collectionviewtickets.reloadData()
 
     }
     private func setDetail() {
@@ -241,19 +340,12 @@ class CGTicketVC: UIViewController {
     }
     
     //MARK: - Button Method
-    @IBAction func hostgame_click(_ sender: UIButton) {
-        let HostGameVC = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
-        self.navigationController?.pushViewController(HostGameVC, animated: true)
-    }
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func buttonPay(_ sender: Any) {
-        
-   
-        
-       // if labelPay.text == "Pay" {
+        if labelPay.text == "Pay" {
             if !MyModel().isConnectedToInternet() {
                 Alert().showTost(message: Define.ERROR_INTERNET,
                                  viewController: self)
@@ -261,40 +353,33 @@ class CGTicketVC: UIViewController {
                 Alert().showTost(message: "Select Ticket",
                                  viewController: self)
             } else {
-               // viewAmountMain.isHidden = false
+                viewAmountMain.isHidden = false
+               // self.view.bringSubviewToFront(vwmain)
                 let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
                 //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
                 if totalSelectedAmount <= pbAmount {
-                    
-                    let CGGamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGamePlayVC") as! CGGamePlayVC
-                    CGGamePlayVC.dictContest = dictContestDetail
-                    CGGamePlayVC.isFromNotification = false
-                    CGGamePlayVC.arrSelectedTikets = arrSelectedTikets
-                    //gamePlayVC.dictGameData = dictGameData
-                    self.navigationController?.pushViewController(CGGamePlayVC, animated: true)
-                    
-//                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
-//                    labelwidrawableBalance.text = "₹ 0.0"
-//                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
+                    labelwidrawableBalance.text = "₹ 0.0"
+                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
                 } else {
-//                    let cutUtilized = totalSelectedAmount - pbAmount
-//                    labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
-//                    labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
-//                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                    let cutUtilized = totalSelectedAmount - pbAmount
+                    labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
+                    labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
+                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
                 }
             }
-//        } else {
-//            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
-//            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
-//
-//            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
-//
-//            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
-//            paymentVC.isFromTicket = true
-//            paymentVC.addAmount = cutUtilized
-//            paymentVC.isFromLink = isFromLink
-//            self.navigationController?.pushViewController(paymentVC, animated: true)
-//        }
+        } else {
+            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+            
+            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
+            
+            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+            paymentVC.isFromTicket = true
+            paymentVC.addAmount = cutUtilized
+            paymentVC.isFromLink = isFromLink
+            self.navigationController?.pushViewController(paymentVC, animated: true)
+        }
     }
     
     
@@ -353,7 +438,7 @@ class CGTicketVC: UIViewController {
         totalSelectedAmount = Double(totalAmount)
         
         labelSelectedCount.text = "\(totalSelected) Contest Selected"
-      //  labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
+        labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
         
         setSelectedData()
         isFromButtonClick = true
@@ -368,7 +453,8 @@ class CGTicketVC: UIViewController {
     }
     
     @IBAction func buttonAmountCancel(_ sender: UIButton) {
-       // viewAmountMain.isHidden = true
+        viewAmountMain.isHidden = true
+      //  self.view.sendSubviewToBack(vwmain)
     }
     @IBAction func buttonInfo(_ sender: Any) {
         
@@ -377,8 +463,8 @@ class CGTicketVC: UIViewController {
         view.addSubview(ticketInfo)
     }
     @IBAction func joinprivategroup_click(_ sender: UIButton) {
-        let ClassicGridViewController = self.storyboard?.instantiateViewController(withIdentifier: "ClassicGridViewController") as! ClassicGridViewController
-        self.navigationController?.pushViewController(ClassicGridViewController, animated: true)
+        let NextVC = self.storyboard?.instantiateViewController(withIdentifier: "PrivateGroupViewController") as! PrivateGroupViewController
+        self.navigationController?.pushViewController(NextVC, animated: true)
         
     }
     
@@ -397,7 +483,7 @@ class CGTicketVC: UIViewController {
             let rangeMinNumber = dictContestDetail["ansRangeMin"] as? Int ?? 0
             let rangeMaxNumber = dictContestDetail["ansRangeMax"] as? Int ?? 99
             
-        let gamelevel = dictContestDetail["level"] as? Int ?? 0
+        let gamelevel = dictContest["level"] as? Int ?? 0
       
             if gamelevel == 1 {
                 arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
@@ -411,12 +497,6 @@ class CGTicketVC: UIViewController {
                 arrRandomNumbers = MyModel().createRandomNumbers(number: 32, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
                 arrBarcketColor = MyDataType().getArrayBrackets(index: 32)
                 constraintCollectionViewHeight.constant = 200
-            }
-        else
-            {
-                arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
-                arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
-                constraintCollectionViewHeight.constant = 50
             }
             self.view.layoutIfNeeded()
     }
@@ -439,49 +519,42 @@ class CGTicketVC: UIViewController {
     
 }
 
-
-extension CGTicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SpinningMachineTicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       
-
-        return arrRandomNumbers.count
-    
+        //return arrRandomNumbers.count
+            return itemarr.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 4, height: 25)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: view.frame.width / 4, height: 25)
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        
-        let cell1 = collectionView.dequeueReusableCell(withReuseIdentifier: "Bracketcv", for: indexPath) as! Bracketcv
-        
-
-            cell1.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
-            
-           cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
-      
-        return cell1
-        
+        print(collectionView)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
+        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
+      //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
+        cell.imgImage.image = (itemarr[indexPath.row]).imageByMakingWhiteBackgroundTransparent()
+        return cell
     }
 }
 
 
 //MARK: - TableView Delegate Method
-extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
+extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrTicket.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let gameMode = dictContestDetail["type"] as? Int ?? 0
+        let gameMode = dictContest["type"] as? Int ?? 0
         if gameMode == 0 {
             let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketTVC") as! TicketTVC
             
@@ -555,251 +628,317 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
                                                  for: .touchUpInside)
             ticketCell.buttonSelectTicket.tag = indexPath.row
             return ticketCell
-        } else {
-            let arrSloats = arrTicket[indexPath.row]["slotes"] as! [[String: Any]]
-            if arrSloats.count == 3 {
-                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "ThreeSloatTVC") as! ThreeSloatTVC
+        }
+        else
+        {
+            let ticketCell = tableView.dequeueReusableCell(withIdentifier: "SpinningMachineCell") as! SpinningMachineCell
+            self.view.layoutIfNeeded()
+            let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
+            
+            if isAlreadyPurchase {
                 
-                let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
-                
-                
-                
-                
-                if isAlreadyPurchase {
-                    btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                    ticketCell.buttonSelectTicket.alpha = 0.6
-                    ticketCell.buttonSelectTicket.isEnabled = false
-                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                } else {
-                    let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
-                    view.layoutIfNeeded()
-                    ticketCell.buttonSelectTicket.alpha = 1
-                    ticketCell.buttonSelectTicket.isEnabled = true
-                    if isPurchased {
-                        //ticketCell.buttonSelection.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-                       
-                        btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                    } else {
-                        //ticketCell.buttonSelection.backgroundColor = UIColor.clear
-                        btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                    }
-                    view.layoutIfNeeded()
-                }
-                
-                let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
-                let test = Double(strAmonut) ?? 0.00
-                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
-                
-                
-                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
-                let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
-                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-                
-                let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
-                
-                if MyModel().isSetNA(totalTickets: totalTicket) {
-                    ticketCell.labelWinningAmount.text = "N/A"
-                    
-                    ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                    
-//                    let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
-//                    if jticketwinning != "0" {
-//                        ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
-//                    }
-//                    else
-//                    {
-//                        ticketCell.jticketwinning.text = "N/A"
-//                    }
-//
-//                    let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
-//                    if totalJTicketHolder != "0"
-//                    {
-//                        ticketCell.jticketholder.text = totalJTicketHolder
-//                    }
-//                    else
-//                    {
-//                        ticketCell.jticketholder.text = "N/A"
-//                    }
-//
-                  //  ticketCell.perjticket.text =   "\(arrTicket[indexPath.row]["perJTicket"] as? Int ?? 0)" + "/" + "1 J ticket holder"
-                    
-                } else {
-                    
-//                   let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
-//                   if jticketwinning != "0" {
-//                       ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
-//                   }
-//                   else
-//                   {
-//                       ticketCell.jticketwinning.text = "N/A"
-//                   }
-//
-//                   let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
-//                   if totalJTicketHolder != "0"
-//                   {
-//                       ticketCell.jticketholder.text = totalJTicketHolder
-//                   }
-//                   else
-//                   {
-//                       ticketCell.jticketholder.text = "N/A"
-//                   }
-                    
-                    let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
-                    ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
-                    
-                    let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
-                    ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                  
-                }
-                
-                ticketCell.labelAnsMinus.text = arrSloats[0]["displayValue"] as? String ?? "-"
-                ticketCell.labelAnsZero.text = arrSloats[1]["displayValue"] as? String ?? "0"
-                ticketCell.labelAnsPlus.text = arrSloats[2]["displayValue"] as? String ?? "+"
-                
-                let string1 = arrSloats[0]["displayValue"] as? String ?? "-"
-                let string2 = arrSloats[2]["displayValue"] as? String ?? "-"
-                
-                if string1.localizedCaseInsensitiveContains("red win")
-                {
-                    ticketCell.viewRange.backgroundColor = #colorLiteral(red: 0.9019607843, green: 0.8862745098, blue: 0.8862745098, alpha: 1)
-                   // ticketCell.labelAnsMinus.backgroundColor = UIColor.red
-                    ticketCell.labelAnsMinus.textColor = UIColor.white
-                    ticketCell.labelAnsMinus.layer.cornerRadius = 5
-                    ticketCell.btnAnsMinus.backgroundColor = UIColor.red
-                }
-                if string2.localizedCaseInsensitiveContains("blue win")
-                {
-                  //  ticketCell.labelAnsPlus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
-                    ticketCell.labelAnsPlus.textColor = UIColor.white
-                    ticketCell.labelAnsPlus.layer.cornerRadius = 5
-                    ticketCell.btnAnsplus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
-                }
-                
-                ticketCell.buttonSelectTicket.addTarget(self,
-                action: #selector(buttonSelection(_:)),for: .touchUpInside)
-                ticketCell.buttonSelectTicket.tag = indexPath.row
-                return ticketCell
+                ticketCell.buttonSelectTicket.alpha = 0.6
+                ticketCell.buttonSelectTicket.isEnabled = false
+                ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
             } else {
-                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketSloteTVC") as! TicketSloteTVC
-                self.view.layoutIfNeeded()
-                let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
-                
-                if isAlreadyPurchase {
-                    
-                    ticketCell.buttonSelectTicket.alpha = 0.6
-                    ticketCell.buttonSelectTicket.isEnabled = false
+                let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
+                view.layoutIfNeeded()
+                ticketCell.buttonSelectTicket.alpha = 1
+                ticketCell.buttonSelectTicket.isEnabled = true
+                if isPurchased {
+                     btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
                     ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
                 } else {
-                    let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
-                    view.layoutIfNeeded()
-                    ticketCell.buttonSelectTicket.alpha = 1
-                    ticketCell.buttonSelectTicket.isEnabled = true
-                    if isPurchased {
-                         btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                    } else {
-                         btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                    }
-                    view.layoutIfNeeded()
+                     btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
                 }
-                
-                let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
-                let test = Double(strAmonut) ?? 0.00
-                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
-                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
-                let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
-                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-                
-                
-                
-                
+                view.layoutIfNeeded()
+            }
+            
+            let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
+            let test = Double(strAmonut) ?? 0.00
+            ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+            //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+            let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
+            ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+            
+
+            
+     let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
+                                         
+                                                       
+                                                       if MyModel().isSetNA(totalTickets: totalTicket) {
+                                                           ticketCell.labelWinningAmount.text = "N/A"
+                                                           
+                                                           ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                                                           
+
+                                                           
+                                                       } else {
+                                                           
+                                                           let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
+                                                           ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+                                                           
+                                                           let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
+                                                           ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                                                         
+                                                       }
+            
+            ticketCell.arrData = nil
+            ticketCell.arrData = arrTicket[indexPath.row]["slotes"] as? [[String: Any]]
+            
+            ticketCell.buttonSelectTicket.addTarget(self,
+                                                 action: #selector(buttonSelection(_:)),
+                                                 for: .touchUpInside)
+            ticketCell.buttonSelectTicket.tag = indexPath.row
+            self.view.layoutIfNeeded()
+            return ticketCell
+        }
+        
+//        {
+//            let arrSloats = arrTicket[indexPath.row]["slotes"] as! [[String: Any]]
+//            if arrSloats.count == 3 {
+//                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "ThreeSloatTVC") as! ThreeSloatTVC
+//
+//                let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
+//
+//
+//
+//
+//                if isAlreadyPurchase {
+//                    btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                    ticketCell.buttonSelectTicket.alpha = 0.6
+//                    ticketCell.buttonSelectTicket.isEnabled = false
+//                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                } else {
+//                    let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
+//                    view.layoutIfNeeded()
+//                    ticketCell.buttonSelectTicket.alpha = 1
+//                    ticketCell.buttonSelectTicket.isEnabled = true
+//                    if isPurchased {
+//                        //ticketCell.buttonSelection.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+//
+//                        btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                    } else {
+//                        //ticketCell.buttonSelection.backgroundColor = UIColor.clear
+//                        btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+//                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+//                    }
+//                    view.layoutIfNeeded()
+//                }
+//
+//                let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
+//                let test = Double(strAmonut) ?? 0.00
+//                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+//
+//
+//                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+//                let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
+//                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//
 //                let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
 //
 //                if MyModel().isSetNA(totalTickets: totalTicket) {
 //                    ticketCell.labelWinningAmount.text = "N/A"
+//
 //                    ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+//
+////                    let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
+////                    if jticketwinning != "0" {
+////                        ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
+////                    }
+////                    else
+////                    {
+////                        ticketCell.jticketwinning.text = "N/A"
+////                    }
+////
+////                    let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
+////                    if totalJTicketHolder != "0"
+////                    {
+////                        ticketCell.jticketholder.text = totalJTicketHolder
+////                    }
+////                    else
+////                    {
+////                        ticketCell.jticketholder.text = "N/A"
+////                    }
+////
+//                  //  ticketCell.perjticket.text =   "\(arrTicket[indexPath.row]["perJTicket"] as? Int ?? 0)" + "/" + "1 J ticket holder"
+//
 //                } else {
+//
+////                   let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
+////                   if jticketwinning != "0" {
+////                       ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
+////                   }
+////                   else
+////                   {
+////                       ticketCell.jticketwinning.text = "N/A"
+////                   }
+////
+////                   let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
+////                   if totalJTicketHolder != "0"
+////                   {
+////                       ticketCell.jticketholder.text = totalJTicketHolder
+////                   }
+////                   else
+////                   {
+////                       ticketCell.jticketholder.text = "N/A"
+////                   }
+//
 //                    let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
 //                    ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+//
 //                    let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
 //                    ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+//
 //                }
-                
-         let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
-                                             
-                                                           
-                                                           if MyModel().isSetNA(totalTickets: totalTicket) {
-                                                               ticketCell.labelWinningAmount.text = "N/A"
-                                                               
-                                                               ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                                                               
-//                                                               let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
-//                                                               if jticketwinning != "0" {
-//                                                                   ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
-//                                                               }
-//                                                               else
-//                                                               {
-//                                                                   ticketCell.jticketwinning.text = "N/A"
-//                                                               }
 //
-//                                                               let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
-//                                                               if totalJTicketHolder != "0"
-//                                                               {
-//                                                                   ticketCell.jticketholder.text = totalJTicketHolder
-//                                                               }
-//                                                               else
-//                                                               {
-//                                                                   ticketCell.jticketholder.text = "N/A"
-//                                                               }
-                                                               
-                                                            //   ticketCell.perjticket.text =   "\(arrSelectedTikets[indexPath.row]["perJTicket"] as? Int ?? 0)" + "/" + "1 J ticket holder"
-                                                               
-                                                           } else {
-                                                               
-//                                                              let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
-//                                                              if jticketwinning != "0" {
-//                                                                  ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
-//                                                              }
-//                                                              else
-//                                                              {
-//                                                                  ticketCell.jticketwinning.text = "N/A"
-//                                                              }
+//                ticketCell.labelAnsMinus.text = arrSloats[0]["displayValue"] as? String ?? "-"
+//                ticketCell.labelAnsZero.text = arrSloats[1]["displayValue"] as? String ?? "0"
+//                ticketCell.labelAnsPlus.text = arrSloats[2]["displayValue"] as? String ?? "+"
 //
-//                                                              let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
-//                                                              if totalJTicketHolder != "0"
-//                                                              {
-//                                                                  ticketCell.jticketholder.text = totalJTicketHolder
-//                                                              }
-//                                                              else
-//                                                              {
-//                                                                  ticketCell.jticketholder.text = "N/A"
-//                                                              }
-                                                               
-                                                               let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
-                                                               ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
-                                                               
-                                                               let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
-                                                               ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                                                             
-                                                           }
-                
-                ticketCell.arrData = nil
-                ticketCell.arrData = arrTicket[indexPath.row]["slotes"] as? [[String: Any]]
-                
-                ticketCell.buttonSelectTicket.addTarget(self,
-                                                     action: #selector(buttonSelection(_:)),
-                                                     for: .touchUpInside)
-                ticketCell.buttonSelectTicket.tag = indexPath.row
-                self.view.layoutIfNeeded()
-                return ticketCell
-            }
-            
-        }
+//                let string1 = arrSloats[0]["displayValue"] as? String ?? "-"
+//                let string2 = arrSloats[2]["displayValue"] as? String ?? "-"
+//
+//                if string1.localizedCaseInsensitiveContains("red win")
+//                {
+//                    ticketCell.viewRange.backgroundColor = #colorLiteral(red: 0.9019607843, green: 0.8862745098, blue: 0.8862745098, alpha: 1)
+//                   // ticketCell.labelAnsMinus.backgroundColor = UIColor.red
+//                    ticketCell.labelAnsMinus.textColor = UIColor.white
+//                    ticketCell.labelAnsMinus.layer.cornerRadius = 5
+//                    ticketCell.btnAnsMinus.backgroundColor = UIColor.red
+//                }
+//                if string2.localizedCaseInsensitiveContains("blue win")
+//                {
+//                  //  ticketCell.labelAnsPlus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+//                    ticketCell.labelAnsPlus.textColor = UIColor.white
+//                    ticketCell.labelAnsPlus.layer.cornerRadius = 5
+//                    ticketCell.btnAnsplus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+//                }
+//
+//                ticketCell.buttonSelectTicket.addTarget(self,
+//                action: #selector(buttonSelection(_:)),for: .touchUpInside)
+//                ticketCell.buttonSelectTicket.tag = indexPath.row
+//                return ticketCell
+//            } else {
+//                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketSloteTVC") as! TicketSloteTVC
+//                self.view.layoutIfNeeded()
+//                let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
+//
+//                if isAlreadyPurchase {
+//
+//                    ticketCell.buttonSelectTicket.alpha = 0.6
+//                    ticketCell.buttonSelectTicket.isEnabled = false
+//                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                } else {
+//                    let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
+//                    view.layoutIfNeeded()
+//                    ticketCell.buttonSelectTicket.alpha = 1
+//                    ticketCell.buttonSelectTicket.isEnabled = true
+//                    if isPurchased {
+//                         btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+//                    } else {
+//                         btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+//                        ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+//                    }
+//                    view.layoutIfNeeded()
+//                }
+//
+//                let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
+//                let test = Double(strAmonut) ?? 0.00
+//                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+//                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+//                let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
+//                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//
+//
+//
+//
+////                let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
+////
+////                if MyModel().isSetNA(totalTickets: totalTicket) {
+////                    ticketCell.labelWinningAmount.text = "N/A"
+////                    ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+////                } else {
+////                    let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
+////                    ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+////                    let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
+////                    ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+////                }
+//
+//         let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
+//
+//
+//                                                           if MyModel().isSetNA(totalTickets: totalTicket) {
+//                                                               ticketCell.labelWinningAmount.text = "N/A"
+//
+//                                                               ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+//
+////                                                               let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
+////                                                               if jticketwinning != "0" {
+////                                                                   ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
+////                                                               }
+////                                                               else
+////                                                               {
+////                                                                   ticketCell.jticketwinning.text = "N/A"
+////                                                               }
+////
+////                                                               let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
+////                                                               if totalJTicketHolder != "0"
+////                                                               {
+////                                                                   ticketCell.jticketholder.text = totalJTicketHolder
+////                                                               }
+////                                                               else
+////                                                               {
+////                                                                   ticketCell.jticketholder.text = "N/A"
+////                                                               }
+//
+//                                                            //   ticketCell.perjticket.text =   "\(arrSelectedTikets[indexPath.row]["perJTicket"] as? Int ?? 0)" + "/" + "1 J ticket holder"
+//
+//                                                           } else {
+//
+////                                                              let jticketwinning = "\(arrTicket[indexPath.row]["jticketwinning"]!)"
+////                                                              if jticketwinning != "0" {
+////                                                                  ticketCell.jticketwinning.text = "\(MyModel().getCurrncy(value: Double(jticketwinning)!))"
+////                                                              }
+////                                                              else
+////                                                              {
+////                                                                  ticketCell.jticketwinning.text = "N/A"
+////                                                              }
+////
+////                                                              let totalJTicketHolder = "\(arrTicket[indexPath.row]["totalJTicketHolder"] as? Int ?? 0)"
+////                                                              if totalJTicketHolder != "0"
+////                                                              {
+////                                                                  ticketCell.jticketholder.text = totalJTicketHolder
+////                                                              }
+////                                                              else
+////                                                              {
+////                                                                  ticketCell.jticketholder.text = "N/A"
+////                                                              }
+//
+//                                                               let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
+//                                                               ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+//
+//                                                               let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
+//                                                               ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+//
+//                                                           }
+//
+//                ticketCell.arrData = nil
+//                ticketCell.arrData = arrTicket[indexPath.row]["slotes"] as? [[String: Any]]
+//
+//                ticketCell.buttonSelectTicket.addTarget(self,
+//                                                     action: #selector(buttonSelection(_:)),
+//                                                     for: .touchUpInside)
+//                ticketCell.buttonSelectTicket.tag = indexPath.row
+//                self.view.layoutIfNeeded()
+//                return ticketCell
+//            }
+//
+//        }
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let userVC = self.storyboard?.instantiateViewController(withIdentifier: "UserListVC") as! UserListVC
@@ -861,7 +1000,7 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
         totalSelectedAmount = Double(totalAmount)
         
         labelSelectedCount.text = "Selected \(totalSelected)"
-      //  labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
+        labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
         
         setSelectedData()
         isFromButtonClick = true
@@ -887,14 +1026,14 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
         
         let totalAmount = pbAmount + sbAmount
         
-//        if Double(totalSelectedAmount) > totalAmount {
-//            labelPBAmount.textColor = UIColor.red
-//            labelPay.text = "Add to wallet"
-//        } else {
-//            labelPBAmount.textColor = Define.MAINVIEWCOLOR2
-//            labelPBAmount.textColor = UIColor.green
-//            labelPay.text = "Pay"
-//        }
+        if Double(totalSelectedAmount) > totalAmount {
+            labelPBAmount.textColor = UIColor.red
+            labelPay.text = "Add to wallet"
+        } else {
+            labelPBAmount.textColor = Define.MAINVIEWCOLOR2
+            labelPBAmount.textColor = UIColor.green
+            labelPay.text = "Pay"
+        }
     }
     
    
@@ -902,10 +1041,10 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - API
-extension CGTicketVC {
+extension SpinningMachineTicketVC {
     func getContestDetail() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contest_id": AnyTimedictContest["contestID"] ?? "0"]
+        let parameter: [String: Any] = ["contest_id": dictContest["id"]!]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
@@ -943,66 +1082,18 @@ extension CGTicketVC {
             }
         }
     }
-    
-    func getAnyTimeGameList() {
-        Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["isSpinningMachine":"0"]
-        let strURL = Define.APP_URL + Define.API_ANYTIMEGAMELIST
-        print("Parameter: \(parameter)\nURL: \(strURL)")
-        
-        let jsonString = MyModel().getJSONString(object: parameter)
-        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
-        let strbase64 = encriptString.toBase64()
-        
-        SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: ["data":strbase64!],
-                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
-            if error != nil {
-                Loading().hideLoading(viewController: self)
-                print("Error: \(error!)")
-                self.isGetContest = true
-                self.isJoinContest = false
-                //self.retry()
-                self.getContestDetail()
-            } else {
-                Loading().hideLoading(viewController: self)
-                print("Result: \(result!)")
-                let status = result!["statusCode"] as? Int ?? 0
-                if status == 200 {
-                    let arr = result!["content"] as? [[String: Any]] ?? []
-                    if arr.count > 0 {
-                        self.AnyTimedictContest = arr[0]
-                    }
-                   
-                    print(self.dictContestDetail)
-                   
-                    self.getContestDetail()
-                } else if status == 401 {
-                    Define.APPDELEGATE.handleLogout()
-                } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as?  String ?? "No Message.",
-                                      viewController: self)
-                }
+    @objc func handleTimer() {
+        if  seconds > 0{
+            seconds -= 1
+            labelRemainingTime.text = "Game starts in \(timeString(time: TimeInterval(seconds)))"
+        } else {
+            if timer != nil {
+                timer!.invalidate()
+                timer = nil
             }
+            labelRemainingTime.text = "00:00:00"
         }
     }
-
-    
-//    @objc func handleTimer() {
-//        if  seconds > 0{
-//            seconds -= 1
-//            labelRemainingTime.text = "Game starts in \(timeString(time: TimeInterval(seconds)))"
-//        } else {
-//            if timer != nil {
-//                timer!.invalidate()
-//                timer = nil
-//            }
-//            labelRemainingTime.text = "00:00:00"
-//        }
-//    }
     
     func timeString(time: TimeInterval) -> String {
         let hours = Int(time) / 3600
@@ -1040,7 +1131,7 @@ extension CGTicketVC {
         
         let strSelectedID = arrSelected.joined(separator: ",")
         
-        let parameter:[String: Any] = ["contest_id": AnyTimedictContest["contestID"]!,
+        let parameter:[String: Any] = ["contest_id": dictContest["id"]!,
                                        "tickets": strSelectedID]
         let strURL = Define.APP_URL + Define.API_JOIN_CONTEST
         
@@ -1156,7 +1247,7 @@ extension CGTicketVC {
 }
 
 //MARK: - Notifcation Delegate Method
-extension CGTicketVC: UNUserNotificationCenterDelegate {
+extension SpinningMachineTicketVC: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
@@ -1188,7 +1279,7 @@ extension CGTicketVC: UNUserNotificationCenterDelegate {
 }
 
 //MARK: - Alert Contollert
-extension CGTicketVC {
+extension SpinningMachineTicketVC {
     func retry() {
         let alertController = UIAlertController(title: Define.ERROR_TITLE,
                                                 message: Define.ERROR_SERVER,

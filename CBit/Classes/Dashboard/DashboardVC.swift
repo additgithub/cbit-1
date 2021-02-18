@@ -4,6 +4,7 @@ import UserNotifications
 import AVFoundation
 import AVKit
 import SocketIO
+import SDWebImage
 
 class DashboardVC: UIViewController {
 
@@ -23,6 +24,7 @@ class DashboardVC: UIViewController {
     @IBOutlet weak var pagingvw: UIView!
     private var arrSpecialContest = [[String: Any]]()
     var arrAdvertise = [[String: Any]]()
+    var storeimage = [[String: Any]]()
     
     var currentIndex = 0
     
@@ -66,7 +68,7 @@ class DashboardVC: UIViewController {
         setPageMenu()
         getAdvertise()
         getAllSpecialContest()
-        
+        getSpinningMachine()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotitication(_:)),name:.getAllspecialContest,object: nil)
               
         if !MyModel().isLogedIn() {
@@ -235,6 +237,11 @@ class DashboardVC: UIViewController {
         let CGTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "CGTicketVC") as! CGTicketVC
         self.navigationController?.pushViewController(CGTicketVC, animated: true)
         
+    }
+    @IBAction func spinningmachine_click(_ sender: UIButton) {
+        let SpinningMachineVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineVC") as! SpinningMachineVC
+        SpinningMachineVC.storeimage = storeimage
+        self.navigationController?.pushViewController(SpinningMachineVC, animated: true)
     }
 }
 //MARK: - Notifcation Delegate Method
@@ -500,6 +507,141 @@ extension DashboardVC {
                 }
             }
         }
+    }
+    
+    func getSpinningMachine() {
+        let strURL = Define.APP_URL + Define.getSpinningMachine
+        print("URL: \(strURL)")
+        let parameter: [String: Any] = ["test": ""]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                print("Error: \(error!.localizedDescription)")
+                self.labelNoAds.isHidden = false
+            } else {
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                   let dict = result!["content"] as! [String: Any]
+                    self.storeimage = dict["contest"] as? [[String: Any]] ?? []
+                    Define.Globalimagearr = self.storeimage
+                    self.SavedImageToLocal()
+                    
+                } else {
+                   
+                }
+            }
+        }
+    }
+    
+    func SavedImageToLocal()  {
+        
+        for dict in storeimage {
+            
+            SDWebImageManager.shared().loadImage(
+                    with: URL(string: dict["image"] as! String),
+                    options: .highPriority,
+                    progress: nil) { (image, data, error, cacheType, isFinished, imageUrl) in
+                      print(isFinished)
+                if image != nil {
+                    self.saveImageToDocumentDirectory(image: image!, name: dict["name"] as! String)
+                     }
+                
+                  }
+            
+//            SDWebImageManager.shared().loadImage(
+//                with: URL(string: dict["image"] as! String),
+//                options: .continueInBackground, // or .highPriority
+//                progress: nil,
+//                completed: { [weak self] (image, data, error, cacheType, finished, url) in
+//                    guard let sself = self else { return }
+//
+//                    if let err = error {
+//                        // Do something with the error
+//                        return
+//                    }
+//
+//                    guard let img = image else {
+//                        // No image handle this error
+//                        return
+//                    }
+//                    self?.saveImageToDocumentDirectory(image: image!, name: dict["name"] as! String)
+//                    // Do something with image
+//                }
+//            )
+            
+           // downloadImage(from: URL(string: dict["image"] as! String)!, name: dict["name"] as! String)
+            
+         //   PlaygroundPage.current.needsIndefiniteExecution = true
+
+//            let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+//            if let url = URL(string: "https://i.stack.imgur.com/xnZXF.jpg") {
+//                URLSession.shared.downloadTask(with: url) { location, response, error in
+//                    guard let location = location else {
+//                        print("download error:", error ?? "")
+//                        return
+//                    }
+//                    saveImageToDocumentDirectory(image: UIImage(data: location))
+//
+//                    // move the downloaded file from the temporary location url to your app documents directory
+//                    do {
+//                        try FileManager.default.moveItem(at: location, to: documents.appendingPathComponent(response?.suggestedFilename ?? url.lastPathComponent))
+//                    } catch {
+//                        print(error)
+//                    }
+//                }.resume()
+//            }
+            
+            
+        }
+    }
+    
+    func downloadImage(from url: URL,name:String) {
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            DispatchQueue.main.async() { [weak self] in
+                self?.saveImageToDocumentDirectory(image: UIImage(data: data)!, name: name)
+            }
+        }
+    }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func saveImageToDocumentDirectory(image: UIImage,name:String ) {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileName = name // name of the image to be saved
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        if let data = image.jpegData(compressionQuality: 1.0),!FileManager.default.fileExists(atPath: fileURL.path){
+            do {
+                try data.write(to: fileURL)
+                print("file saved")
+            } catch {
+                print("error saving file:", error)
+            }
+        }
+    }
+
+
+    func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        if let dirPath = paths.first{
+            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
+            let image    = UIImage(contentsOfFile: imageURL.path)
+            return image!
+        }
+        return UIImage.init(named: "default.png")!
     }
 }
 

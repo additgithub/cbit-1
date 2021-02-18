@@ -74,6 +74,7 @@ class CGGamePlayVC: UIViewController  {
     @IBOutlet weak var constrainCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var lblnumberanswerselected: UILabel!
     
+     var arrSelectedTikets = [[String: Any]]()
     var dictContest = [String: Any]()
     var isFromNotification = Bool()
     
@@ -154,7 +155,7 @@ class CGGamePlayVC: UIViewController  {
             
             gamelevel = dictContest["level"] as? Int ?? 1
             let date = dictContest["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
+            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             let calender = Calendar.current
             let unitFlags = Set<Calendar.Component>([ .second])
             let dateComponent = calender.dateComponents(unitFlags, from: Date(), to: startDate)
@@ -194,8 +195,46 @@ class CGGamePlayVC: UIViewController  {
         soundURL = URL(fileURLWithPath: path)
         
         
-        isShowLoading = true
-        getContestDetail(isfromtimer: true, isStart: 0)
+     //   isShowLoading = true
+      //  getContestDetail(isfromtimer: true, isStart: 0)
+        arrSelectedTicket = arrSelectedTikets
+        
+     
+        
+             if startTimer == nil {
+                         //  startSecond = startSecond - 1
+                          // labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+                           setStartTimer()
+                if arrBarcketColor.count <= 0 {
+                    SetRandomNumber()
+                }
+                       }
+            else
+             {
+           //     labelTimer.text = ""
+            }
+        isGameStart = false
+        
+        btnlock.isHidden = true
+        btnlockall.isEnabled = false
+        btnlockall.alpha = 0.5
+        buttonAnsMinus.isEnabled = false
+        buttonAnsPlus.isEnabled = false
+        buttonAnsZero.isEnabled = false
+        
+        btnlockallnumber.isEnabled = false
+        btnlockallnumber.alpha = 0.5
+        
+        btnonee.isEnabled = false
+        btntwo.isEnabled = false
+        btnthree.isEnabled = false
+        btnfour.isEnabled = false
+        btnfive.isEnabled = false
+        btnsix.isEnabled = false
+        btnseven.isEnabled = false
+        btneeight.isEnabled = false
+        btnnine.isEnabled = false
+        btnzero.isEnabled = false
         
     }
     
@@ -690,7 +729,7 @@ class CGGamePlayVC: UIViewController  {
                                                          self.view0to9.isHidden = false
                                                      }
                                                      let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
-                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
+                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
                                                      print("➤ \(self.dictGameData)")
                                           
@@ -832,7 +871,7 @@ class CGGamePlayVC: UIViewController  {
                 isGameStart = false
                 
                 let date = dictGameData["startDate"] as! String
-                let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
+                let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 
                 let calender = Calendar.current
                 let unitFlags = Set<Calendar.Component>([ .second])
@@ -1375,7 +1414,7 @@ class CGGamePlayVC: UIViewController  {
 
             
             let date = dictGameData["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
+            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             
             let calender = Calendar.current
             let unitFlags = Set<Calendar.Component>([ .second])
@@ -1384,18 +1423,18 @@ class CGGamePlayVC: UIViewController  {
             //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
             print("Seconds: \(startSecond)")
             
-            if isfromtime {
-                 if startTimer == nil {
-                               startSecond = startSecond - 1
-                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-                               setStartTimer()
-                    
-                           }
-                else
-                 {
-               //     labelTimer.text = ""
-                }
-            }
+//            if isfromtime {
+//                 if startTimer == nil {
+//                               startSecond = startSecond - 1
+//                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+//                               setStartTimer()
+//
+//                           }
+//                else
+//                 {
+//               //     labelTimer.text = ""
+//                }
+//            }
            
         }
 //           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -1693,7 +1732,8 @@ class CGGamePlayVC: UIViewController  {
                     } else if miliSecondValue == 1 {
                         miliSecondValue = 0
                         print("STARTSECOND:",startSecond)
-                        
+                        updateColors()
+                        collectionGame.reloadData()
                         if startSecond == 1 {
             //              let getResponceTime = Date()
             //             let sendRequestTime = Date()
@@ -1711,80 +1751,80 @@ class CGGamePlayVC: UIViewController  {
                             }
                     //        }
                         
-                        if startSecond > 1 {
-                            startSecond = startSecond - 1
-                        //    labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-                            updateColors()
-                            collectionGame.reloadData()
-                            
-                            if startSecond ==  5 {
-                             //   print("ENDSECOND:",endGameSecond)
-                              //   DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                                 
-                               //                     }
-                                if !self.isStartEventCall {
-
-                                            print("If Start Event call.")
-                                           // self.isStartEventCall = true
-                                            //self.isShowLoading = false
-                                //    self.getContestDetail(isfromtimer: false, isStart: 1)
-
-                                }
-                            }
-                        }
-                        else {
-                            if startTimer != nil {
-                                startTimer!.invalidate()
-                                startTimer = nil
-                                 labelTimer.text = ""
-            //                    let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
-            //                          //  labelTimer.text = ""
-            //                           if gameStatus == "start" {
-            //                            updateColors()
-            //                            collectionGame.reloadData()
-            //                            self.setData(isfromtime: false)
-            //                    }
-            //                    else
-            //                    {
-            //                            let alert = UIAlertController(title: "Alert", message: "Your network connection maybe down or its not connected", preferredStyle: .alert)
-            //
-            //                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            //                                print("Back")
-            //                                NotificationCenter.default.removeObserver(self)
-            //                                self.navigationController?.popViewController(animated: true)
-            //                            }))
-            //
-            //                            self.present(alert, animated: true)
-            //                    }
-                               
-                            }
-                            
-
-                            
-                            
-                            
-                      
-                            // changed delay time to
-                            // TODO: 05/08/20 Change 2.5 to 0.1
-            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            //                    if !self.isStartEventCall {
-            //                        print("If Start Event call.")
-            //                        self.isStartEventCall = true
-            //                        self.isShowLoading = false
-            //                        self.getContestDetail()
-            //                    }
-            //                }
-                            
-                            
-                            
-            //                isGameStart = true
-            //
-            //                         // print(dictGameData["duration"] as? Int)
-            //                          second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond)
-            //                          self.labelTimer.text = "\(self.second)"
-            //                          second = second - 1
-            //                          setTimer()
-                        }
+//                        if startSecond > 1 {
+//                            startSecond = startSecond - 1
+//                        //    labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+//                            updateColors()
+//                            collectionGame.reloadData()
+//
+//                            if startSecond ==  5 {
+//                             //   print("ENDSECOND:",endGameSecond)
+//                              //   DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//
+//                               //                     }
+//                                if !self.isStartEventCall {
+//
+//                                            print("If Start Event call.")
+//                                           // self.isStartEventCall = true
+//                                            //self.isShowLoading = false
+//                                //    self.getContestDetail(isfromtimer: false, isStart: 1)
+//
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            if startTimer != nil {
+//                                startTimer!.invalidate()
+//                                startTimer = nil
+//                                 labelTimer.text = ""
+//            //                    let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
+//            //                          //  labelTimer.text = ""
+//            //                           if gameStatus == "start" {
+//            //                            updateColors()
+//            //                            collectionGame.reloadData()
+//            //                            self.setData(isfromtime: false)
+//            //                    }
+//            //                    else
+//            //                    {
+//            //                            let alert = UIAlertController(title: "Alert", message: "Your network connection maybe down or its not connected", preferredStyle: .alert)
+//            //
+//            //                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//            //                                print("Back")
+//            //                                NotificationCenter.default.removeObserver(self)
+//            //                                self.navigationController?.popViewController(animated: true)
+//            //                            }))
+//            //
+//            //                            self.present(alert, animated: true)
+//            //                    }
+//
+//                            }
+//
+//
+//
+//
+//
+//
+//                            // changed delay time to
+//                            // TODO: 05/08/20 Change 2.5 to 0.1
+//            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            //                    if !self.isStartEventCall {
+//            //                        print("If Start Event call.")
+//            //                        self.isStartEventCall = true
+//            //                        self.isShowLoading = false
+//            //                        self.getContestDetail()
+//            //                    }
+//            //                }
+//
+//
+//
+//            //                isGameStart = true
+//            //
+//            //                         // print(dictGameData["duration"] as? Int)
+//            //                          second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond)
+//            //                          self.labelTimer.text = "\(self.second)"
+//            //                          second = second - 1
+//            //                          setTimer()
+//                        }
                     }
         }
         else

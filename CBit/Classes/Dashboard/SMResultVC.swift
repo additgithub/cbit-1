@@ -1,10 +1,16 @@
-import UIKit
-import UserNotifications
+//
+//  SMResultVC.swift
+//  CBit
+//
+//  Created by Nirmal Bodar on 13/02/21.
+//  Copyright © 2021 Bhavik Kothari. All rights reserved.
+//
 
-class GameResultVC: UIViewController {
-    //MARK: - Properties
+import UIKit
+
+class SMResultVC: UIViewController {
     
-    
+    @IBOutlet weak var collection_original: UICollectionView!
     @IBOutlet weak var lblnowin: UILabel!
     @IBOutlet weak var ccwinning: UILabel!
     @IBOutlet weak var totalblue: UILabel!
@@ -16,6 +22,7 @@ class GameResultVC: UIViewController {
     @IBOutlet weak var labelWinningAmount: UILabel!
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var imganswer: UIImageView!
     var dictContest = [String: Any]()
     var gamelevel = Int()
     
@@ -25,9 +32,30 @@ class GameResultVC: UIViewController {
     
     var dictContestDetail = [String: Any]()
     
+    var originalarr  = [UIImage]()
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let width = (view.frame.width-20)/5
+        
+        let coln = [collection_original]
+        
+        for cln in coln {
+            cln?.layer.cornerRadius = 10
+            cln?.layer.borderColor = UIColor.black.cgColor
+            cln?.layer.borderWidth = 3
+            
+            let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
+            layout.itemSize = CGSize(width: width, height: width)
+            // collheight.constant = (view.frame.width-20) /* 5*5 */
+           // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
+           // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+        }
+        
+        
+        
         tableResult.rowHeight = UITableView.automaticDimension
         tableResult.tableFooterView = UIView()
         UNUserNotificationCenter.current().delegate = self
@@ -41,16 +69,16 @@ class GameResultVC: UIViewController {
     }
 
     func setDetail() {
-     let gametype = "\(dictContestDetail["game_type"]!)"
+   //  let gametype = "\(dictContestDetail["game_type"]!)"
+    //    labelAnswer.text = "Win = \(dictContestDetail["answer"]!)"
         
-        
-    if gametype == "0-9"
-    {
-         labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
-        }
-    else{
-        labelAnswer.isHidden = true
-        }
+//    if gametype == "0-9"
+//    {
+//         labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
+//        }
+//    else{
+//        labelAnswer.isHidden = true
+//        }
         
        
         
@@ -58,7 +86,7 @@ class GameResultVC: UIViewController {
         totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
         
         
-        arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
+       // arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
         arrTiclets = dictContestDetail["tickets"] as! [[String: Any]]
         let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
         let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
@@ -78,16 +106,16 @@ class GameResultVC: UIViewController {
         
         gamelevel = dictContestDetail["level"] as? Int ?? 1
         
-        if gamelevel == 1 {
-            constraintCollectionViewHeight.constant = 50
-        } else if gamelevel == 2 {
-            constraintCollectionViewHeight.constant = 100
-        } else if gamelevel == 3 {
-            constraintCollectionViewHeight.constant = 200
-        }
+//        if gamelevel == 1 {
+//            constraintCollectionViewHeight.constant = 50
+//        } else if gamelevel == 2 {
+//            constraintCollectionViewHeight.constant = 100
+//        } else if gamelevel == 3 {
+//            constraintCollectionViewHeight.constant = 200
+//        }
         
         tableResult.reloadData()
-        collectionGameView.reloadData()
+     //   collectionGameView.reloadData()
     }
     
     //MAKR: - Buttom Method
@@ -97,43 +125,34 @@ class GameResultVC: UIViewController {
 }
 
 //MAKR: - Collection View Delegate Mehtod
-extension GameResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrBrackets.count
+            return originalarr.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 4, height: 25)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: view.frame.width / 4, height: 25)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BracketCVC", for: indexPath) as! BracketCVC
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
         
-        cell.labelNumber.text = "\(arrBrackets[indexPath.row]["number"] as? Int ?? 0)"
+       
+            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            return cell
         
-        let strColor = arrBrackets[indexPath.row]["color"] as? String ?? "red"
-        
-        if strColor == "red" {
-            cell.viewColor.backgroundColor = UIColor.red
-        } else if strColor == "green" {
-            cell.viewColor.backgroundColor = UIColor.green
-        } else if strColor == "blue" {
-            cell.viewColor.backgroundColor = UIColor.blue
-        }
-        
-        return cell
     }
 }
 
 //MAKR: - TableView Delegate Method
-extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
+extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrSelectedTickets.count
     }
@@ -157,27 +176,58 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
         print("Data: \(dictSelectedData)")
         let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
         
-        if strValue == "Red win"
-        {
-            resultCell.btnred.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 2
-            resultCell.btndraw.layer.borderWidth = 0
-            resultCell.btnblue.layer.borderWidth = 0
-        }
-        else if strValue == "Blue win"
-        {
-            resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 0
-            resultCell.btndraw.layer.borderWidth = 0
-            resultCell.btnblue.layer.borderWidth = 2
-        }
-        else
-        {
-            resultCell.btndraw.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 0
-            resultCell.btndraw.layer.borderWidth = 2
-            resultCell.btnblue.layer.borderWidth = 0
-        }
+        let arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as! [[String: Any]]
+         if arrSloats.count == 3 {
+                let displayValue = "\(arrSloats[1]["displayValue"] as? String ?? "0")"
+                if displayValue == "Draw" {
+                    let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
+                   resultCell.btndraw.setTitle(strMainString, for: .normal)
+                   resultCell.img1.isHidden = true
+                }
+                else
+                {
+                   resultCell.img1.isHidden = false
+                    let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
+                    resultCell.img1.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
+                }
+            let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
+            let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
+            resultCell.img0.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
+            resultCell.img2.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
+            
+           
+            
+            
+            
+            if strValue == arrSloats[0]["displayValue"] as! String
+            {
+                resultCell.btnred.backgroundColor = UIColor.white
+                resultCell.btnred.layer.borderColor = UIColor.black.cgColor
+                resultCell.btnred.layer.borderWidth = 2
+                resultCell.btndraw.layer.borderWidth = 0
+                resultCell.btnblue.layer.borderWidth = 0
+            }
+            else if strValue == arrSloats[2]["displayValue"] as! String
+            {
+                resultCell.btnblue.backgroundColor = UIColor.white
+                resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
+                resultCell.btnred.layer.borderWidth = 0
+                resultCell.btndraw.layer.borderWidth = 0
+                resultCell.btnblue.layer.borderWidth = 2
+            }
+            else if strValue == arrSloats[1]["displayValue"] as! String
+            {
+                resultCell.btndraw.backgroundColor = UIColor.white
+                resultCell.btndraw.layer.borderColor = UIColor.black.cgColor
+                resultCell.btnred.layer.borderWidth = 0
+                resultCell.btndraw.layer.borderWidth = 2
+                resultCell.btnblue.layer.borderWidth = 0
+            }
+            
+         }
+
+        
+    
         
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
@@ -241,10 +291,14 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
         winnerVC.startDate = startDate
         winnerVC.dictContest = dictContest
         self.navigationController?.pushViewController(winnerVC, animated: true)
+       
     }
+    
+    
+
 }
 //MARK: - API
-extension GameResultVC {
+extension SMResultVC {
     func getContestDetail() {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!]
@@ -273,7 +327,48 @@ extension GameResultVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     self.dictContestDetail = result!["content"] as! [String: Any]
+                    
+                    let gamelevel = self.dictContestDetail["rows"] as? Int ?? 0
+                    let width = (self.view.frame.width-20)/5
+                        if gamelevel == 3 {
+                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                        } else if gamelevel == 4 {
+                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                        } else if gamelevel == 5 {
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                        }
                 
+                    self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
+                    let winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
+                    
+                    for box in self.arrBrackets {
+                        for option in winning_options {
+                            let number = box["number"]!
+                            let objectNo = option["objectNo"]!
+                            if number as? NSObject == objectNo as? NSObject {
+                                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
+                            }
+                            if Int(self.dictContestDetail["answer"] as! String) ==  option["id"] as? Int {
+                              //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
+                                let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
+                                if self.imageIsNullOrNot(imageName: img) {
+                                    self.imganswer.image = img
+                                }
+                                else
+                                {
+                                    self.labelAnswer.text = "Win = \(option["Item"] as! String)"
+                                }
+                               
+                            }
+                        }
+                    }
+                    self.collection_original.reloadData()
                     
                     print(self.dictContestDetail)
                     self.setDetail()
@@ -288,10 +383,35 @@ extension GameResultVC {
             }
         }
     }
+    
+    func imageIsNullOrNot(imageName : UIImage)-> Bool
+    {
+
+       let size = CGSize(width: 0, height: 0)
+       if (imageName.size.width == size.width)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+    func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        if let dirPath = paths.first{
+            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
+            let image    = UIImage(contentsOfFile: imageURL.path) ?? UIImage()
+            return image
+        }
+        return UIImage.init(named: "default.png")!
+    }
 }
 
 //MARK: - Notifcation Delegate Method
-extension GameResultVC: UNUserNotificationCenterDelegate {
+extension SMResultVC: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -317,7 +437,7 @@ extension GameResultVC: UNUserNotificationCenterDelegate {
 }
 
 //MARK: - Alert Contollert
-extension GameResultVC {
+extension SMResultVC {
     func retry() {
         let alertController = UIAlertController(title: Define.ERROR_TITLE,
                                                 message: Define.ERROR_SERVER,
@@ -335,36 +455,5 @@ extension GameResultVC {
         self.present(alertController,
                      animated: true,
                      completion: nil)
-    }
-}
-
-//MAKR: - TableView Cell Class
-class GameResultTVC: UITableViewCell {
-    
-    @IBOutlet weak var labelEntryFees: LableWithLightBG!
-    @IBOutlet weak var labelTotalTickets: LableWithLightBG!
-    @IBOutlet weak var labelTotalWinnings: LableWithLightBG!
-    @IBOutlet weak var labelMaxWinner: LableWithLightBG!
-    @IBOutlet weak var labelLoackedAt: UILabel!
-    @IBOutlet weak var labelAnswer: UILabel!
-    @IBOutlet weak var labelAmount: UILabel!
-    @IBOutlet weak var buttonViewWinners: UIButton!
-    @IBOutlet weak var labelViewWinners: UILabel!
-    @IBOutlet weak var btnred: ButtonWithRadius!
-    @IBOutlet weak var btndraw: ButtonWithRadius!
-    @IBOutlet weak var btnblue: ButtonWithRadius!
-    @IBOutlet weak var img0: UIImageView!
-    @IBOutlet weak var img1: UIImageView!
-    @IBOutlet weak var img2: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        buttonViewWinners.layer.cornerRadius = 5
-        buttonViewWinners.layer.masksToBounds = true
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
     }
 }

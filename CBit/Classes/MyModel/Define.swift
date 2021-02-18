@@ -5,6 +5,7 @@ class Define {
     static let APPDELEGATE = UIApplication.shared.delegate as! AppDelegate
     static let USERDEFAULT = UserDefaults.standard
     
+    static var Globalimagearr = [[String:Any]]()
     //MARK: - Color.
     //3B7188
     static let APPCOLOR = UIColor(red: 59/255.0,
@@ -152,6 +153,10 @@ class Define {
     static let getWaitingroom = "getWaitingList"
     static let ApplyJtciket = "ApplyJtciket"
     
+    static let getUserJTicketDate = "getUserJTicketDate"
+    static let getUserJTicketName = "getUserJTicketName"
+    
+    static let getSpinningMachine = "getSpinningMachine"
     
     static let CONTEST_DAYS = "contestDays"
     static let CONTEST_TIME = "contestTime"
