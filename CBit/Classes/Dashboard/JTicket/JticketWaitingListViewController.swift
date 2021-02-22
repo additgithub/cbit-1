@@ -18,11 +18,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     
     @IBOutlet weak var tblwaitinglist: UITableView!
     
-    
-    
-    
     var id = 0
-    
     private var arrJticketwaitinglist = [[String: Any]]()
     
     var Start = 0
@@ -30,7 +26,6 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     var ismoredata = false
     
     override func viewDidLoad()
-        
     {
          super.viewDidLoad()
 
@@ -121,78 +116,79 @@ class Jticketwaitinglisting: UITableViewCell {
     }
 }
 
-extension JticketWaitingListViewController {
+extension JticketWaitingListViewController
+{
     // Mark API For Getting ALLJticket
     func getJticketWaitingList() {
-  
-        Loading().showLoading(viewController: self)
-   
-        let parameter: [String: Any] = [
         
-        "id":id,
+        Loading().showLoading(viewController: self)
+        
+        let parameter: [String: Any] = [
+            
+            "id":id,
             "start": Start,
             "limit":Limit
-        
-    ]
-    let strURL = Define.APP_URL + Define.getWaitingroom
-    print("Parameter: \(parameter)\nURL: \(strURL)")
-    
-    let jsonString = MyModel().getJSONString(object: parameter)
-    let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
-    let strBase64 = encriptString.toBase64()
-    
-    SwiftAPI().postMethodSecure(stringURL: strURL,
-    parameters: ["data": strBase64!],
-    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-    { (result, error) in
-        if error != nil {
-    Loading().hideLoading(viewController: self)
-    print("Error: \(error!.localizedDescription)")
-    self.retry()
-    } else {
-    Loading().hideLoading(viewController: self)
-    print("Result: \(result!)")
-    let status = result!["statusCode"] as? Int ?? 0
-    if status == 200 {
-        
-        let content = result!["content"] as! [String: Any]
-      //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
-        
-        let arr =  result?["contest"] as! [[String : Any]]
-          if arr.count > 0 {
-              self.arrJticketwaitinglist.append(contentsOf: arr)
-              self.ismoredata = true
-              self.Start = self.Start + 30
-              self.Limit =  30
-          }
-          else
-          {
-              self.ismoredata = false
-          }
-        
-        if self.arrJticketwaitinglist.count > 0 {
-      
-       self.lblCurrentWaitingperiod.text = content["currentWaitingPeriod"] as? String ?? ""
             
-        let imageURL = URL(string: self.arrJticketwaitinglist[0]["image"] as? String ?? "")
-        let data = try? Data(contentsOf: imageURL!)
-        self.imgjticket.image = UIImage(data: data!)
+        ]
+        let strURL = Define.APP_URL + Define.getWaitingroom
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as! [String: Any]
+                    //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    
+                    let arr =  content["contest"] as? [[String : Any]] ?? [["":""]]
+                    if arr.count > 0 {
+                        self.arrJticketwaitinglist.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 30
+                        self.Limit =  30
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
+                    
+                    if self.arrJticketwaitinglist.count > 0 {
+                        
+                        self.lblCurrentWaitingperiod.text = content["currentWaitingPeriod"] as? String ?? ""
+                        
+                        let imageURL = URL(string: self.arrJticketwaitinglist[0]["image"] as? String ?? "")
+                        let data = try? Data(contentsOf: imageURL!)
+                        self.imgjticket.image = UIImage(data: data!)
+                    }
+                    
+                    print(self.arrJticketwaitinglist)
+                    self.tblwaitinglist.reloadData()
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
         }
-    
-        print(self.arrJticketwaitinglist)
-        self.tblwaitinglist.reloadData()
- 
-    } else if status == 401 {
-    Define.APPDELEGATE.handleLogout()
-    } else {
-    Alert().showAlert(title: "Alert",
-    message: result!["message"] as! String,
-    viewController: self)
     }
-    }
-    }
-}
     //Mark APi For Adding Jticket
     
 //
