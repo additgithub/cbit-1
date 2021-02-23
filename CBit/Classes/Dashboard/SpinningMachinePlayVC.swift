@@ -203,7 +203,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 
         }
         
-        randomarr = itemarr
+        
         
 
         
@@ -702,7 +702,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         {
             labelanswerselected.isHidden = true
             imgselected.isHidden = false
-            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
         }
         
         
@@ -734,7 +734,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         {
             labelanswerselected.isHidden = true
             imgselected.isHidden = false
-            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
         }
 
     }
@@ -761,7 +761,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         {
             labelanswerselected.isHidden = true
             imgselected.isHidden = false
-            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
         }
 
     }
@@ -863,20 +863,20 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     collection_slot.isHidden = true
                     deconfigAutoscrollTimer()
                     
-//                    self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-//                    let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
-//                    self.originalarr = [UIImage]()
-//                    for box in self.arrBrackets {
-//                        for option in winning_options {
-//                            let number = box["number"]!
-//                            let objectNo = option["objectNo"]!
-//                            if number as? NSObject == objectNo as? NSObject{
-//                                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-//                            }
-//                        }
-//                    }
-//
-//                    self.collection_original.reloadData()
+                    self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+                    let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
+                    self.originalarr = [UIImage]()
+                    for box in self.arrBrackets {
+                        for option in winning_options {
+                            let number = box["number"]!
+                            let objectNo = option["objectNo"]!
+                            if number as? NSObject == objectNo as? NSObject{
+                                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
+                            }
+                        }
+                    }
+
+                    self.collection_original.reloadData()
                     
                     
                     
@@ -1017,44 +1017,15 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                                         self.differenceSecond = dateComponent.second!
                         print("=> The Difference Of Second is: ", self.differenceSecond)
                         
-                        let gameStatus = self.dictGameData["gameStatus"] as? String ?? "notStart"
-                       // second = (dictGameData["duration"] as? Int)!
                    
-                        //  labelTimer.text = ""
-                        if !(gameStatus == "start") && Int(self.gameTime) ?? 0 > 40{
-                            self.configFadeTimer()
-                        }
-                        else
-                        {
-                            self.slotarr = self.randomarr
-                            self.deconfigFadeTimer()
-                            if self.timerautoscroll == nil {
-                                self.configAutoscrollTimer()
-                            }
-                           
-                            self.fadevw.isHidden = true
-                        }
-                        
-                        self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-                        let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
-                        self.originalarr = [UIImage]()
-                        for box in self.arrBrackets {
-                            for option in winning_options {
-                                let number = box["number"]!
-                                let objectNo = option["objectNo"]!
-                                if number as? NSObject == objectNo as? NSObject{
-                                    self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-                                }
-                            }
-                        }
-//                        if self.originalarr.count > 0 {
-//                            self.slotarr = self.originalarr
-//                        }
-                        self.collection_original.reloadData()
+                    
                         
                         if isfromtimer {
                         self.setData(isfromtime: isfromtimer)
                         }
+                        
+                       
+                        
                                    Loading().hideLoading(viewController: self)
                       
                         
@@ -1118,6 +1089,53 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         second = (dictGameData["duration"] as? Int)!
         print("secondsspre",second)
         
+        //
+      
+       // second = (dictGameData["duration"] as? Int)!
+        
+        let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+        for _ in 1..<200
+        {
+            for dict in arrSloats {
+                randomarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String))
+            }
+        }
+   
+        //  labelTimer.text = ""
+        if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
+            self.configFadeTimer()
+        }
+        else
+        {
+            self.slotarr = self.randomarr
+            self.deconfigFadeTimer()
+            if self.timerautoscroll == nil {
+                self.configAutoscrollTimer()
+            }
+           
+            self.fadevw.isHidden = true
+        }
+        
+        self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+        let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
+        self.originalarr = [UIImage]()
+        for box in self.arrBrackets {
+            for option in winning_options {
+                let number = box["number"]!
+                let objectNo = option["objectNo"]!
+                if number as? NSObject == objectNo as? NSObject{
+                    self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
+                }
+            }
+        }
+//                        if self.originalarr.count > 0 {
+//                            self.slotarr = self.originalarr
+//                        }
+        self.collection_original.reloadData()
+
+  //      self.slotarr = self.itemarr
+        
+        //
    
         
         //  labelTimer.text = ""

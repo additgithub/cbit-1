@@ -24,6 +24,8 @@ class SpinningMachineCell: UITableViewCell {
     @IBOutlet weak var labelMaxWinner: LableWithLightBG!
     @IBOutlet weak var buttonSelectTicket: UIButton!
     
+    @IBOutlet weak var lblpending: UILabel!
+    @IBOutlet weak var lbllockstyle: UILabel!
     
     var arrSloats = [[String: Any]]()
     

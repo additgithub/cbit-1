@@ -239,9 +239,13 @@ class DashboardVC: UIViewController {
         
     }
     @IBAction func spinningmachine_click(_ sender: UIButton) {
-        let SpinningMachineVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineVC") as! SpinningMachineVC
-        SpinningMachineVC.storeimage = storeimage
-        self.navigationController?.pushViewController(SpinningMachineVC, animated: true)
+        
+        let AGSMTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMTicketVC") as! AGSMTicketVC
+        self.navigationController?.pushViewController(AGSMTicketVC, animated: true)
+        
+//        let SpinningMachineVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineVC") as! SpinningMachineVC
+//        SpinningMachineVC.storeimage = storeimage
+//        self.navigationController?.pushViewController(SpinningMachineVC, animated: true)
     }
 }
 //MARK: - Notifcation Delegate Method

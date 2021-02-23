@@ -63,7 +63,17 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         let winnerCell = tableView.dequeueReusableCell(withIdentifier: "ViewWinnersTVC") as! ViewWinnersTVC
         
         winnerCell.labelUserName.text = arrWinners[indexPath.row]["name"] as? String ?? "No Name"
-          winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
+        
+        let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected")
+        if self.imageIsNullOrNot(imageName: img) {
+            winnerCell.imgselected.image = img
+        }
+        else
+        {
+            winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
+        }
+        
+          
         let winstatus  =  arrWinners[indexPath.row]["winStatus"] as? Int ?? 5
             print(winstatus)
         if winstatus == 0 {
@@ -79,6 +89,30 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         winnerCell.imageUser.sd_setImage(with: imageURL,
                                  placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         return winnerCell
+    }
+    func imageIsNullOrNot(imageName : UIImage)-> Bool
+    {
+
+       let size = CGSize(width: 0, height: 0)
+       if (imageName.size.width == size.width)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+    func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        if let dirPath = paths.first{
+            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
+            let image    = UIImage(contentsOfFile: imageURL.path) ?? UIImage()
+            return image
+        }
+        return UIImage.init(named: "default.png")!
     }
 }
 
@@ -186,6 +220,7 @@ class ViewWinnersTVC: UITableViewCell {
     @IBOutlet weak var labelTime: UILabel!
     
     @IBOutlet weak var lblslotselected: UILabel!
+    @IBOutlet weak var imgselected: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

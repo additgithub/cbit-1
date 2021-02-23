@@ -46,7 +46,7 @@ class CGTicketVC: UIViewController {
 //    @IBOutlet weak var buttonAmountCancel: UIButton!
     
     private var arrSelectedTikets = [[String: Any]]()
-    var AnyTimedictContest = [String: Any]()
+    var AnyTimedictContest = [[String: Any]]()
     var dictContest = [String: Any]()
     var isFromMyTickets = Bool()
     private var isDataLoaded = Bool()
@@ -562,8 +562,9 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
                 
+                ticketCell.lblpending.text = "\(AnyTimedictContest[indexPath.row]["players_played"]!) Played /\(AnyTimedictContest[indexPath.row]["pendingTickets"]!) Pending"
                 
-                
+                ticketCell.lbllockstyle.text = "Lock Style : Basic"
                 
                 if isAlreadyPurchase {
                     btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
@@ -905,7 +906,7 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
 extension CGTicketVC {
     func getContestDetail() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contest_id": AnyTimedictContest["contestID"] ?? "0"]
+        let parameter: [String: Any] = ["contest_id": AnyTimedictContest[0]["contestID"] ?? "0"]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
@@ -973,7 +974,7 @@ extension CGTicketVC {
                 if status == 200 {
                     let arr = result!["content"] as? [[String: Any]] ?? []
                     if arr.count > 0 {
-                        self.AnyTimedictContest = arr[0]
+                        self.AnyTimedictContest = arr
                     }
                    
                     print(self.dictContestDetail)
@@ -1040,7 +1041,7 @@ extension CGTicketVC {
         
         let strSelectedID = arrSelected.joined(separator: ",")
         
-        let parameter:[String: Any] = ["contest_id": AnyTimedictContest["contestID"]!,
+        let parameter:[String: Any] = ["contest_id": AnyTimedictContest[0]["contestID"]!,
                                        "tickets": strSelectedID]
         let strURL = Define.APP_URL + Define.API_JOIN_CONTEST
         

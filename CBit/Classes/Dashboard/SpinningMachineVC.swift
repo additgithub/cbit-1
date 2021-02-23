@@ -280,11 +280,11 @@ extension SpinningMachineVC:UICollectionViewDataSource,UICollectionViewDelegate 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
         
         if collectionView == collection_slot {
-            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_original {
-            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
             return cell
         } else {
             return cell

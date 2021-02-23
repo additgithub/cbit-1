@@ -73,6 +73,9 @@ class CGGamePlayVC: UIViewController  {
     
     @IBOutlet weak var constrainCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var lblnumberanswerselected: UILabel!
+    @IBOutlet weak var imgplaypause: UIImageView!
+    @IBOutlet weak var lblplaypause: UILabel!
+    @IBOutlet weak var btnplaypause: UIButton!
     
      var arrSelectedTikets = [[String: Any]]()
     var dictContest = [String: Any]()
@@ -97,7 +100,7 @@ class CGGamePlayVC: UIViewController  {
     var endGameSecond = 20
     
     var startTimer: Timer?
-    var startSecond = Int()
+    var StartSecond = 15
     var miliSecondValue = 0
     var differenceSecond = Int()
     
@@ -155,33 +158,13 @@ class CGGamePlayVC: UIViewController  {
             
             gamelevel = dictContest["level"] as? Int ?? 1
             let date = dictContest["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            let calender = Calendar.current
-            let unitFlags = Set<Calendar.Component>([ .second])
-            let dateComponent = calender.dateComponents(unitFlags, from: Date(), to: startDate)
-            
-            if dateComponent.second! < 0
-            {
-                
-                startSecond = 0
-                
-            } else {
-                
-                startSecond = dateComponent.second!
-                
-            }
-            
-            //setData()
+           
         }
         
-        //print(arrBarcketColor.count)
-        
-        //Add Notificaton
-        
-        NotificationCenter.default.addObserver(self,
-                                                      selector: #selector(handleNotificationEnterPage(_:)),
-                                                      name: .EnterGamePage,
-                                                      object: nil)
+//        NotificationCenter.default.addObserver(self,
+//                                                      selector: #selector(handleNotificationEnterPage(_:)),
+//                                                      name: .EnterGamePage,
+//                                                      object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotification(_:)),
@@ -196,22 +179,21 @@ class CGGamePlayVC: UIViewController  {
         
         
      //   isShowLoading = true
-      //  getContestDetail(isfromtimer: true, isStart: 0)
+        getContestDetail(isfromtimer: false, isStart: 0)
         arrSelectedTicket = arrSelectedTikets
         
      
         
              if startTimer == nil {
-                         //  startSecond = startSecond - 1
-                          // labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-                           setStartTimer()
+                setStartTimer()
+                
                 if arrBarcketColor.count <= 0 {
                     SetRandomNumber()
                 }
                        }
             else
              {
-           //     labelTimer.text = ""
+                
             }
         isGameStart = false
         
@@ -320,17 +302,43 @@ class CGGamePlayVC: UIViewController  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !isFromNotification {
-            labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+          //  labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
         }
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
      //   self.startlistner()
+        configStartTimer()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         SocketIOManager.sharedInstance.lastViewController = nil
         SwiftPingPong.shared.stopPingPong()
+        deconfigStartTimer()
+    }
+    
+    func configStartTimer()
+    {
+        startTimer=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CGGamePlayVC.HandleStartTimer), userInfo: nil, repeats: true)
+        RunLoop.current.add(self.startTimer!, forMode: .common)
+    }
+    
+    func deconfigStartTimer()
+    {
         startTimer?.invalidate()
+    }
+    
+    @objc func HandleStartTimer()
+    {
+        StartSecond = StartSecond-1
+
+        labelTimer.text = "Game starts in: \(StartSecond)"
+                if StartSecond == 0 {
+                   deconfigStartTimer()
+                    btnplaypause.isHidden = true
+                    imgplaypause.isHidden = true
+                    lblplaypause.isHidden = true
+                    joinContest()
+                }
     }
     
     
@@ -687,69 +695,55 @@ class CGGamePlayVC: UIViewController  {
     
      var socket: SocketIOClient!
     
-    func startlistner() {
-        //TODO: Game Start
-               socket.on("onContestLive") { (data, ack) in
-                   print("➤ On Contest Start")
-                   print("Data: \(data)")
-                   let strValue = data[0] as! String
-                   
-                   let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
-                   let dictData = MyModel().convertToDictionary(text: strJSON)
-                   
-                  
-                                          
-                                          print("Game Data: \(String(describing: dictData))")
-                                       //   var data = [Any]()
-                                        //  data.insert(result?["content"] ?? [], at: 0)
-                  //                        guard let strValue = data[0] as? String else {
-                  //                                       Alert().showAlert(title: "Alert",
-                  //                                                         message: Define.ERROR_SERVER,
-                  //                                                         viewController: self)
-                  //                                       return
-                  //                                   }
-                                                  
-
-                                                     
-                  //                                   let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
-                  //                                   let dictData = MyModel().convertToDictionary(text: strJSON)
-                  //                                   print(dictData)
-                  //                                   print(self.dictContest)
-                                                     self.dictGameData = dictData!["content"] as! [String: Any]
-                                                     print(self.dictGameData)
-
-                                                     self.gametype  = self.dictContest["game_type"] as! String
-                                                     if self.gametype == "rdb" {
-                                                         self.viewrdb.isHidden = false
-                                                      //   self.buttonAnsMinus.backgroundColor = UIColor.red
-
-                                                     }
-                                                     else
-                                                     {
-                                                         self.view0to9.isHidden = false
-                                                     }
-                                                     let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
-                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-
-                                                     print("➤ \(self.dictGameData)")
-                                          
-//                                          let getResponceTime = Date()
+//    func startlistner() {
+//        //TODO: Game Start
+//               socket.on("onContestLive") { (data, ack) in
+//                   print("➤ On Contest Start")
+//                   print("Data: \(data)")
+//                   let strValue = data[0] as! String
 //
-//                                                                          let calender = Calendar.current
-//                                                                          let unitFlags = Set<Calendar.Component>([ .second])
-//                                                                          let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
+//                   let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
+//                   let dictData = MyModel().convertToDictionary(text: strJSON)
 //
-//                                                                          self.differenceSecond = dateComponent.second!
-                                    //      print("=> The Difference Of Second is: ", self.differenceSecond)
-                                          
-                                         // if isfromtimer {
-                                          self.setnewData()
-                                        //  }
-                                          
-                                                     Loading().hideLoading(viewController: self)
-                                        
-               }
-    }
+//
+//
+//                                          print("Game Data: \(String(describing: dictData))")
+//
+//                                                     self.dictGameData = dictData!["content"] as! [String: Any]
+//                                                     print(self.dictGameData)
+//
+//                                                     self.gametype  = self.dictContest["game_type"] as! String
+//                                                     if self.gametype == "rdb" {
+//                                                         self.viewrdb.isHidden = false
+//                                                      //   self.buttonAnsMinus.backgroundColor = UIColor.red
+//
+//                                                     }
+//                                                     else
+//                                                     {
+//                                                         self.view0to9.isHidden = false
+//                                                     }
+//                                                     let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
+//                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+//
+//                                                     print("➤ \(self.dictGameData)")
+//
+////                                          let getResponceTime = Date()
+////
+////                                                                          let calender = Calendar.current
+////                                                                          let unitFlags = Set<Calendar.Component>([ .second])
+////                                                                          let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
+////
+////                                                                          self.differenceSecond = dateComponent.second!
+//                                    //      print("=> The Difference Of Second is: ", self.differenceSecond)
+//
+//                                         // if isfromtimer {
+//                                          self.setnewData()
+//                                        //  }
+//
+//                                                     Loading().hideLoading(viewController: self)
+//
+//               }
+//    }
     var gamestart = true
     func setnewData()  {
             
@@ -809,7 +803,7 @@ class CGGamePlayVC: UIViewController  {
                // print(dictGameData["duration"] as? Int)
 //                second = ((dictGameData["duration"] as? Int ?? 30))
 //                second = 30
-                self.labelTimer.text = "\(gameTime)"
+            //    self.labelTimer.text = "\(gameTime)"
                // second = second - 1
                // setTimer()
                 if gamestart {
@@ -852,8 +846,8 @@ class CGGamePlayVC: UIViewController  {
                                            buttonAnsMinus.isEnabled = true
                                            buttonAnsPlus.isEnabled = true
                                            buttonAnsZero.isEnabled = true
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
-                  //  self.setData(isfromtime: true)
+                  //  self.getContestDetail(isfromtimer: true, isStart: 0)
+                 
                 }
                 
             
@@ -862,7 +856,7 @@ class CGGamePlayVC: UIViewController  {
                 
                 NotificationCenter.default.removeObserver(self)
                 SocketIOManager.sharedInstance.lastViewController = nil
-                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
                 resultVC.dictContest = dictContest
                 self.navigationController?.pushViewController(resultVC, animated: true)
                 
@@ -870,31 +864,6 @@ class CGGamePlayVC: UIViewController  {
             } else {
                 isGameStart = false
                 
-                let date = dictGameData["startDate"] as! String
-                let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                
-                let calender = Calendar.current
-                let unitFlags = Set<Calendar.Component>([ .second])
-                let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
-                startSecond = dateComponent.second! - differenceSecond
-                //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-                print("Seconds: \(startSecond)")
-                labelTimer.text = "Game starts in 00:\(time)"
-              //  updateColors()
-                          // collectionGame.reloadData()
-//                if isfromtime {
-//                     if startTimer == nil {
-//                                   startSecond = startSecond - 1
-//                                   labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-//                                   setStartTimer()
-//
-//                               }
-//                    else
-//                     {
-//                   //     labelTimer.text = ""
-//                    }
-//                }
-               
             }
     //           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     //
@@ -902,6 +871,86 @@ class CGGamePlayVC: UIViewController  {
             self.collectionGame.reloadData()
 //            tableAnswer.reloadData()
         }
+    
+    private var isGetContest = Bool()
+    private var isJoinContest = Bool()
+    
+    func joinContest() {
+        Loading().showLoading(viewController: self)
+        var arrSelected = [String]()
+       
+        for item in arrSelectedTikets {
+            let isSelected = item["isPurchased"] as! Bool
+            if isSelected {
+                let strID = "\(item["contestPriceId"]!)"
+                arrSelected.append(strID)
+            }
+        }
+        
+        let strSelectedID = arrSelected.joined(separator: ",")
+        
+        let parameter:[String: Any] = ["contest_id": dictContest["id"]!,
+                                       "tickets": strSelectedID]
+        let strURL = Define.APP_URL + Define.API_JOIN_CONTEST
+        
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.isGetContest = false
+                self.isJoinContest = true
+                //self.retry()
+                self.joinContest()
+                
+                
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let dictData = result!["content"] as! [String: Any]
+                    
+                    Define.USERDEFAULT.set(dictData["pbAmount"] as? Double ?? 0.0, forKey: "PBAmount")
+                    Define.USERDEFAULT.set(dictData["sbAmount"] as? Double ?? 0.0, forKey: "SBAmount")
+                    Define.USERDEFAULT.set(dictData["tbAmount"] as? Double ?? 0.0, forKey: "TBAmount")
+                    
+                    NotificationCenter.default.post(name: .paymentUpdated, object: nil)
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
+//                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+//                    let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
+//                    paymentVC.isFromLink = self.isFromLink
+//                    self.navigationController?.pushViewController(paymentVC, animated: true)
+                    
+                    //UpComingContest
+                    NotificationCenter.default.post(name: .upComingContest, object: nil)
+                    
+                    //MyContest
+                    NotificationCenter.default.post(name: .myContest, object: nil)
+                     NotificationCenter.default.post(name: .getAllspecialContest, object: nil)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as? String ?? "No Message",
+                                      viewController: self)
+                }
+            }
+        }
+    }
+
     
     
     func getContestDetail(isfromtimer:Bool,isStart:Int) {
@@ -985,9 +1034,9 @@ class CGGamePlayVC: UIViewController  {
                         
                         let getResponceTime = Date()
 
-                                                        let calender = Calendar.current
-                                                        let unitFlags = Set<Calendar.Component>([ .second])
-                                                        let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
+                        let calender = Calendar.current
+                        let unitFlags = Set<Calendar.Component>([ .second])
+                        let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
 
                                                         self.differenceSecond = dateComponent.second!
                         print("=> The Difference Of Second is: ", self.differenceSecond)
@@ -1075,10 +1124,10 @@ class CGGamePlayVC: UIViewController  {
 //            print("secondss",second)
 //           // print(dictGameData["duration"] as? Int)
 //            second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond - 4)
-//           // second = 30
-//            self.labelTimer.text = "\(self.second)"
-//            second = second - 1
-//            setTimer()
+            second = 30
+            self.labelTimer.text = "\(self.second)"
+            second = second - 1
+            setTimer()
             
             if self.gametype == "rdb" {
                 btnlockall.isEnabled = true
@@ -1382,7 +1431,7 @@ class CGGamePlayVC: UIViewController  {
         } else if gameStatus == "gameEnd" {
             NotificationCenter.default.removeObserver(self)
             SocketIOManager.sharedInstance.lastViewController = nil
-            let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+            let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
             resultVC.dictContest = dictContest
             self.navigationController?.pushViewController(resultVC, animated: true)
             
@@ -1411,35 +1460,7 @@ class CGGamePlayVC: UIViewController  {
                                         btneeight.isEnabled = false
                                         btnnine.isEnabled = false
                                         btnzero.isEnabled = false
-
-            
-            let date = dictGameData["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            
-            let calender = Calendar.current
-            let unitFlags = Set<Calendar.Component>([ .second])
-            let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
-            startSecond = dateComponent.second! - differenceSecond
-            //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-            print("Seconds: \(startSecond)")
-            
-//            if isfromtime {
-//                 if startTimer == nil {
-//                               startSecond = startSecond - 1
-//                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-//                               setStartTimer()
-//
-//                           }
-//                else
-//                 {
-//               //     labelTimer.text = ""
-//                }
-//            }
-           
         }
-//           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//
-//        }
         self.collectionGame.reloadData()
         tableAnswer.reloadData()
     }
@@ -1451,20 +1472,9 @@ class CGGamePlayVC: UIViewController  {
                 
            
                 
-                //  labelTimer.text = ""
+              
                 if (gameStatus == "start") {
                    
-                    
-        //            isGameStart = true
-        //
-        //            print("secondss",second)
-        //           // print(dictGameData["duration"] as? Int)
-        //            second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond - 4)
-        //           // second = 30
-        //            self.labelTimer.text = "\(self.second)"
-        //            second = second - 1
-        //            setTimer()
-                    
                     if self.gametype == "rdb" {
                         btnlockall.isEnabled = true
                                                         btnlockall.alpha = 1.0
@@ -1593,65 +1603,40 @@ class CGGamePlayVC: UIViewController  {
     var gameTime = String()
     var time = String()
     
-    @objc func handleNotificationEnterPage(_ notification: Notification) {
-           print("Game Start.")
-           
-         //  isStartEventCall = true
-           if (notification.userInfo as Dictionary?) != nil {
-               print("--> User Info Data: \(notification.userInfo!)")
-            
-            let dictData = notification.userInfo!
-            gameTime = String(dictData["gameTime"] as! Int)
-             time = dictData["time"] as! String
-            self.dictGameData = dictData["contest"] as! [String: Any]
-                                                     print(self.dictGameData)
-            
-            
-
-                                                     self.gametype  = self.dictContest["game_type"] as! String
-                                                     if self.gametype == "rdb" {
-                                                         self.viewrdb.isHidden = false
-                                                       //  self.buttonAnsMinus.backgroundColor = UIColor.red
-
-                                                     }
-                                                     else
-                                                     {
-                                                         self.view0to9.isHidden = false
-                                                     }
-//                                                     let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
-//                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
+//    @objc func handleNotificationEnterPage(_ notification: Notification) {
+//           print("Game Start.")
 //
-//                                                     print("➤ \(self.dictGameData)")
-                                          
-//                                          let getResponceTime = Date()
+//           if (notification.userInfo as Dictionary?) != nil {
+//             //  print("--> User Info Data: \(notification.userInfo!)")
 //
-//                                                                          let calender = Calendar.current
-//                                                                          let unitFlags = Set<Calendar.Component>([ .second])
-//                                                                          let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
+//            let dictData = notification.userInfo!
+//            gameTime = String(dictData["gameTime"] as! Int)
+//             time = dictData["time"] as! String
+//            self.dictGameData = dictData["contest"] as! [String: Any]
 //
-//                                                                          self.differenceSecond = dateComponent.second!
-                                    //      print("=> The Difference Of Second is: ", self.differenceSecond)
-                                          
-                                         // if isfromtimer {
-            if dictContest["id"] as! Int == dictGameData["id"] as! Int {
-                 self.setnewData()
-            }
-            
-                                         
-                                        //  }
-                                          
-                                                     Loading().hideLoading(viewController: self)
-           } else {
-               
-               print("--> No Data")
-               isShowLoading = false
-
-            //   getContestDetail(isfromtimer: true)
-               
-
-
-           }
-       }
+//
+//            self.gametype  = self.dictContest["game_type"] as! String
+//            if self.gametype == "rdb" {
+//                self.viewrdb.isHidden = false
+//            }
+//            else
+//            {
+//                self.view0to9.isHidden = false
+//            }
+//
+//            if dictContest["id"] as! Int == dictGameData["id"] as! Int {
+//                print(self.dictGameData)
+//                 self.setnewData()
+//            }
+//
+//            Loading().hideLoading(viewController: self)
+//
+//           } else {
+//
+//               print("--> No Data")
+//               isShowLoading = false
+//           }
+//       }
     
     @objc func handleNotification(_ notification: Notification) {
         print("Game Start.")
@@ -1689,13 +1674,13 @@ class CGGamePlayVC: UIViewController  {
             let contestId = "\(notification.userInfo!["contestId"]!)"
             let selectedContestID = "\(dictContest["id"]!)"
             if contestId == selectedContestID {
-                setEndTimer()
+             //   setEndTimer()
                 
             }
         } else {
             
             print("--> No Data")
-            setEndTimer()
+          //  setEndTimer()
             
         }
         
@@ -1731,100 +1716,9 @@ class CGGamePlayVC: UIViewController  {
                         collectionGame.reloadData()
                     } else if miliSecondValue == 1 {
                         miliSecondValue = 0
-                        print("STARTSECOND:",startSecond)
+                      
                         updateColors()
                         collectionGame.reloadData()
-                        if startSecond == 1 {
-            //              let getResponceTime = Date()
-            //             let sendRequestTime = Date()
-            //              let calender = Calendar.current
-            //              let unitFlags = Set<Calendar.Component>([ .second])
-            //              let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
-            //
-            //              self.differenceSecond = dateComponent.second!
-            //
-            //              print("=> The Difference Of Second is: ", self.differenceSecond)
-                            
-            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7)
-            //                {
-                      //     self.setData(isfromtime: false)
-                            }
-                    //        }
-                        
-//                        if startSecond > 1 {
-//                            startSecond = startSecond - 1
-//                        //    labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-//                            updateColors()
-//                            collectionGame.reloadData()
-//
-//                            if startSecond ==  5 {
-//                             //   print("ENDSECOND:",endGameSecond)
-//                              //   DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//
-//                               //                     }
-//                                if !self.isStartEventCall {
-//
-//                                            print("If Start Event call.")
-//                                           // self.isStartEventCall = true
-//                                            //self.isShowLoading = false
-//                                //    self.getContestDetail(isfromtimer: false, isStart: 1)
-//
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            if startTimer != nil {
-//                                startTimer!.invalidate()
-//                                startTimer = nil
-//                                 labelTimer.text = ""
-//            //                    let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
-//            //                          //  labelTimer.text = ""
-//            //                           if gameStatus == "start" {
-//            //                            updateColors()
-//            //                            collectionGame.reloadData()
-//            //                            self.setData(isfromtime: false)
-//            //                    }
-//            //                    else
-//            //                    {
-//            //                            let alert = UIAlertController(title: "Alert", message: "Your network connection maybe down or its not connected", preferredStyle: .alert)
-//            //
-//            //                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//            //                                print("Back")
-//            //                                NotificationCenter.default.removeObserver(self)
-//            //                                self.navigationController?.popViewController(animated: true)
-//            //                            }))
-//            //
-//            //                            self.present(alert, animated: true)
-//            //                    }
-//
-//                            }
-//
-//
-//
-//
-//
-//
-//                            // changed delay time to
-//                            // TODO: 05/08/20 Change 2.5 to 0.1
-//            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//            //                    if !self.isStartEventCall {
-//            //                        print("If Start Event call.")
-//            //                        self.isStartEventCall = true
-//            //                        self.isShowLoading = false
-//            //                        self.getContestDetail()
-//            //                    }
-//            //                }
-//
-//
-//
-//            //                isGameStart = true
-//            //
-//            //                         // print(dictGameData["duration"] as? Int)
-//            //                          second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond)
-//            //                          self.labelTimer.text = "\(self.second)"
-//            //                          second = second - 1
-//            //                          setTimer()
-//                        }
                     }
         }
         else
@@ -1834,8 +1728,6 @@ class CGGamePlayVC: UIViewController  {
             startTimer = nil
             }
         }
-        
-       
     }
     
     func timeString(time: TimeInterval) -> String {
@@ -1879,7 +1771,7 @@ class CGGamePlayVC: UIViewController  {
 //                self.labelTimer.text = "\(second-1)" + ":"  + "\(msecond)"
             
 //            }
-            
+            setnewData()
             self.labelTimer.text = String(format: "%02i", self.second)
             //print(labelTimer.text!)
             second = second - 1
@@ -1892,6 +1784,11 @@ class CGGamePlayVC: UIViewController  {
                 self.labelTimer.text = "00"
                 timer!.invalidate()
                 timer = nil
+                NotificationCenter.default.removeObserver(self)
+                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
+                resultVC.dictContest = dictContest
+                self.navigationController?.pushViewController(resultVC, animated: true)
+
             }
         }
     }
@@ -1931,7 +1828,7 @@ class CGGamePlayVC: UIViewController  {
                 }
                 
                 NotificationCenter.default.removeObserver(self)
-                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
                 resultVC.dictContest = dictContest
                 self.navigationController?.pushViewController(resultVC, animated: true)
             }
@@ -1956,6 +1853,22 @@ class CGGamePlayVC: UIViewController  {
         let gameInfo = GamePlayInfo.instanceFromNib() as! GamePlayInfo
         gameInfo.frame = view.bounds
         view.addSubview(gameInfo)
+    }
+    var isclick = false
+    @IBAction func playpause_click(_ sender: UIButton) {
+        if isclick {
+            isclick = false
+            imgplaypause.image = UIImage(named: "pause")
+            lblplaypause.text = "pause"
+            configStartTimer()
+        }
+        else
+        {
+            isclick = true
+            imgplaypause.image = UIImage(named: "play-button")
+            lblplaypause.text = "play"
+            deconfigStartTimer()
+        }
     }
 }
 
