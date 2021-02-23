@@ -449,13 +449,10 @@ extension JticketlistingViewController {
         
         let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "JticketWaitingListViewController") as! JticketWaitingListViewController
         //  gamePlayVC.isFromNotification = true
+        jticketwaitinglists.modalPresentationStyle = .fullScreen
         jticketwaitinglists.id = id
         self.present(jticketwaitinglists, animated: true, completion: nil)
-        
     }
-
-
-    
     
     func random(colors: [UIColor]) -> UIColor {
         return colors[Int(arc4random_uniform(UInt32(colors.count)))]

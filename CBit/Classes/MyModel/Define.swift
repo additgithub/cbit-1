@@ -151,7 +151,14 @@ class Define {
     static let ADD_Jticket = "addJTicket"
     static let getUserJTicket = "getUserJTicket"
     static let getWaitingroom = "getWaitingList"
+    static let getUserWaitingList = "getUserWaitingList"
     static let ApplyJtciket = "ApplyJtciket"
+    static let ApplyJtciketApproach = "ApplyJtciketApproach"
+    static let ApplyApproachNegotiate = "ApproachNegotiate"
+    static let ApplyUserApproachNegotiate = "UserApproachNegotiate"
+    static let ApplyApproachComfirm = "ApproachComfirm"
+    
+    
     
     static let getUserJTicketDate = "getUserJTicketDate"
     static let getUserJTicketName = "getUserJTicketName"
