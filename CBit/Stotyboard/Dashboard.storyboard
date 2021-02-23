@@ -16919,7 +16919,7 @@ Cg
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="J Tickets Waiting List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3m-h3-f4a">
-                                        <rect key="frame" x="60" y="15" width="185.5" height="20"/>
+                                        <rect key="frame" x="60" y="15" width="161" height="20"/>
                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
                                         <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -17184,6 +17184,7 @@ Cg
                         <outlet property="tbl_approch" destination="i1l-0w-o04" id="dt5-Gc-m0s"/>
                         <outlet property="tblwaitinglist" destination="ae2-lZ-gmA" id="sP9-uF-Evt"/>
                         <outlet property="txt_approch" destination="meh-eh-8ei" id="D0z-Uh-ER8"/>
+                        <outlet property="txt_reply_approch" destination="F7I-Go-nk5" id="CNp-1D-m2A"/>
                         <outlet property="vw_approch" destination="fQk-kI-nOK" id="Tc4-ul-ePW"/>
                         <outlet property="vw_deal" destination="euS-tl-sEL" id="kzO-ok-p4w"/>
                         <outlet property="vw_offers" destination="39T-GO-Ads" id="k1g-C8-Uk5"/>

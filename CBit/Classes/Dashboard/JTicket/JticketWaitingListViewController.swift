@@ -31,23 +31,16 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     @IBOutlet var vw_offers: UIView!
     @IBOutlet weak var txt_approch: UITextField!
     @IBOutlet var vw_deal: UIView!
+    @IBOutlet weak var txt_reply_approch: UITextField!
     
     var selectedIndexpath : IndexPath?
     private var arrJticketuserwaitinglist = [[String: Any]]()
-    
-    
-    
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         isFirstTime = true
         getJticketWaitingList()
     }
-    
-    
-    
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tbl_approch
@@ -134,8 +127,6 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                 }
                 
             }
-            
-            
             
             return userCell
         }
@@ -285,7 +276,6 @@ extension JticketWaitingListViewController : UITextFieldDelegate
      //Check the specific textField
       if textField == txt_approch {
         
-        
           let textArray = resultString.components(separatedBy: ".")
           if textArray.count > 2 { //Allow only one "."
              return false
@@ -304,6 +294,7 @@ extension JticketWaitingListViewController : UITextFieldDelegate
          }
        }
         return true
+        
     }
 }
 
