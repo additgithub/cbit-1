@@ -32,6 +32,8 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     @IBOutlet weak var txt_approch: UITextField!
     @IBOutlet var vw_deal: UIView!
     @IBOutlet weak var txt_reply_approch: UITextField!
+    @IBOutlet weak var lbl_nagotiate_offer: UILabel!
+    @IBOutlet weak var lbl_nagotiate_offer_id: UILabel!
     
     var selectedIndexpath : IndexPath?
     private var arrJticketuserwaitinglist = [[String: Any]]()
@@ -97,26 +99,59 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                                                                                      returnFormat: "h:mm a dd-MM-yyyy")
             }
             
+            userCell.btn_offer_approch.tag = indexPath.row
+            userCell.btn_offer_approch.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+            
             let isApproch = arrJticketwaitinglist[indexPath.row]["isApproach"]! as! Int
             
             if isApproch > 0
             {
-                userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-                userCell.btn_offer_approch.setTitle("Approched", for: .normal)
-                userCell.btn_offer_approch.isUserInteractionEnabled = false
+                
+                    userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+                    userCell.btn_offer_approch.setTitle("Approched", for: .normal)
+                    userCell.btn_offer_approch.isUserInteractionEnabled = false
+                    
+                    
+                    let tempArrApprochList =  arrJticketwaitinglist[indexPath.row]["ApproachList"] as? [[String : Any]] ?? [["":""]]
+                    for i in 0..<tempArrApprochList.count
+                    {
+                        let touser = "\(tempArrApprochList[i]["user_to"]!)"
+                        let userId = Define.USERDEFAULT.value(forKey: "UserID") as? String
+                        
+                        let accepted = tempArrApprochList[i]["accept"]! as! Int
+                        if accepted == 1
+                        {
+                            userCell.btn_offer_approch.setTitle("Accepted", for: .normal)
+                            userCell.btn_offer_approch.isUserInteractionEnabled = false
+                            break
+                        }
+                        
+                        if touser == userId
+                        {
+                            let nagotiate =  tempArrApprochList[i]["negotiate"]! as! Int
+                            if nagotiate > 0
+                            {
+                                userCell.btn_offer_approch.setTitle("\(nagotiate)", for: .normal)
+                                userCell.btn_offer_approch.isUserInteractionEnabled = true
+                                break
+                            }
+                            else
+                            {
+                                userCell.btn_offer_approch.setTitle("Approched", for: .normal)
+                                userCell.btn_offer_approch.isUserInteractionEnabled = false
+                            }
+                        }
+                    }
+                
+                
             }
             else
             {
                 userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
                 userCell.btn_offer_approch.setTitle("Approch & Offer", for: .normal)
                 userCell.btn_offer_approch.isUserInteractionEnabled = true
+               
             }
-            
-            
-            
-            userCell.btn_offer_approch.tag = indexPath.row
-            userCell.btn_offer_approch.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
-            
             
             
             if arrJticketwaitinglist.count > 1 {
@@ -138,16 +173,50 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         print(buttonTag)
         
         selectedIndexpath = IndexPath(row: sender.tag, section: 0)
-        
         tbl_approch.reloadData()
     }
     
     @objc func connected(sender: UIButton){
         let buttonTag = sender.tag
         print(buttonTag)
-        let ticketId = arrJticketwaitinglist[buttonTag]["j_ticket_id"] as? String ?? ""
-        getJticketUserWaitingList()
         
+         let isApproch = arrJticketwaitinglist[buttonTag]["isApproach"]! as! Int
+        
+        if isApproch > 0
+        {
+            let tempArrApprochList =  arrJticketwaitinglist[buttonTag]["ApproachList"] as? [[String : Any]] ?? [["":""]]
+            
+            for i in 0..<tempArrApprochList.count
+            {
+                let touser = "\(tempArrApprochList[i]["user_to"]!)"
+                let userId = Define.USERDEFAULT.value(forKey: "UserID") as? String
+                
+                if touser == userId
+                {
+                    let nagotiate =  "\(tempArrApprochList[i]["negotiate"]!)"
+                    let userName = "\(tempArrApprochList[i]["userName"]!)"
+                    let j_ticket_user_approach_id = "\(tempArrApprochList[i]["j_ticket_user_approach_id"]!)"
+                    lbl_nagotiate_offer_id.text = "\(j_ticket_user_approach_id)"
+                    lbl_nagotiate_offer.text = "\(userName) Offer \(nagotiate)"
+                    break
+                }
+            }
+            
+            
+            
+            PopupNagotiate()
+        }
+        else
+        {
+            let ticketId = arrJticketwaitinglist[buttonTag]["j_ticket_id"] as? String ?? ""
+            getJticketUserWaitingList()
+        }
+    }
+    
+    
+    
+    func PopupTicketList()
+    {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
@@ -160,12 +229,29 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         
         self.view.addSubview(vw_approch)
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
+            self.vw_approch.transform = .identity
+        })
+    }
+    
+    func PopupNagotiate()
+    {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.tag = 100
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        vw_deal.center = view.center
+        vw_deal.alpha = 1
+        vw_deal.transform = CGAffineTransform(scaleX: 0.8, y: 1.2)
+        
+        self.view.addSubview(vw_deal)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
             //use if you want to darken the background
             //self.viewDim.alpha = 0.8
             //go back to original form
-            self.vw_approch.transform = .identity
+            self.vw_deal.transform = .identity
         })
-        
     }
     
     @IBAction func btn_back(_ sender: Any) {
@@ -186,6 +272,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             }
             self.vw_approch.removeFromSuperview()
             self.vw_offers.removeFromSuperview()
+            self.vw_deal.removeFromSuperview()
         }
         
         
@@ -212,15 +299,19 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                 self.vw_offers.transform = .identity
             })
         }
-        else
+        else if sender.tag == 11
         {
             getApplyJticketApproach(ticketApproachOd: "\(arrJticketuserwaitinglist[selectedIndexpath!.row]["id"]!)")
+        }
+        else if sender.tag == 22
+        {
+            getApplyJticketApproachNagotiate(ticketApproachOd: lbl_nagotiate_offer_id.text!)
         }
         
     }
     
     @IBAction func btn_DEAL(_ sender: Any) {
-        
+        getApplyJticketApproachConfirm(ticketApproachOd: lbl_nagotiate_offer_id.text!)
     }
     
 }
@@ -414,6 +505,7 @@ extension JticketWaitingListViewController
                     let arr =  content["contest"] as? [[String : Any]] ?? [["":""]]
                     if arr.count > 0 {
                         self.arrJticketuserwaitinglist.append(contentsOf: arr)
+                        self.PopupTicketList()
                     }
                     
                     
@@ -471,7 +563,9 @@ extension JticketWaitingListViewController
                     
                     let content = result!["content"] as! [String: Any]
                     //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
-                    
+                    self.arrJticketwaitinglist.removeAll()
+                    self.Start = 0
+                    self.getJticketWaitingList()
                     self.btn_CANCEL_APPROCH(UIButton.self)
                     
                 } else if status == 401 {
@@ -485,6 +579,102 @@ extension JticketWaitingListViewController
         }
     }
    
+    func getApplyJticketApproachNagotiate(ticketApproachOd:String) {
+        
+        Loading().showLoading(viewController: self)
+        
+        let parameter: [String: Any] = [
+            "j_ticket_user_approach_id":ticketApproachOd,
+            "negotiate":txt_reply_approch.text!
+        ]
+        
+        let strURL = Define.APP_URL + Define.ApplyUserApproachNegotiate
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as! [String: Any]
+                    //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    self.arrJticketwaitinglist.removeAll()
+                    self.Start = 0
+                    self.getJticketWaitingList()
+                    self.btn_CANCEL_APPROCH(UIButton.self)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func getApplyJticketApproachConfirm(ticketApproachOd:String) {
+        
+        Loading().showLoading(viewController: self)
+        
+        let parameter: [String: Any] = [
+            "j_ticket_user_approach_id":ticketApproachOd
+        ]
+        
+        let strURL = Define.APP_URL + Define.ApplyApproachComfirm
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as! [String: Any]
+                    //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    self.arrJticketwaitinglist.removeAll()
+                    self.Start = 0
+                    self.getJticketWaitingList()
+                    self.btn_CANCEL_APPROCH(UIButton.self)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
 }
 
 //MARK: - Alert Contollert

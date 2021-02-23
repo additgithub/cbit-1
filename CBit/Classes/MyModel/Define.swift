@@ -154,6 +154,9 @@ class Define {
     static let getUserWaitingList = "getUserWaitingList"
     static let ApplyJtciket = "ApplyJtciket"
     static let ApplyJtciketApproach = "ApplyJtciketApproach"
+    static let ApplyApproachNegotiate = "ApproachNegotiate"
+    static let ApplyUserApproachNegotiate = "UserApproachNegotiate"
+    static let ApplyApproachComfirm = "ApproachComfirm"
     
     
     

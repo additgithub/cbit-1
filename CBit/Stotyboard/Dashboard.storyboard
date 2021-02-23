@@ -17181,6 +17181,8 @@ Cg
                     <connections>
                         <outlet property="imgjticket" destination="nuH-GB-F6J" id="GpE-Og-hVT"/>
                         <outlet property="lblCurrentWaitingperiod" destination="Zf1-Yn-Gf1" id="Qe6-r2-kIa"/>
+                        <outlet property="lbl_nagotiate_offer" destination="u5c-lZ-Erv" id="7SU-S3-grY"/>
+                        <outlet property="lbl_nagotiate_offer_id" destination="LfB-QT-hRU" id="aRl-2g-Ofd"/>
                         <outlet property="tbl_approch" destination="i1l-0w-o04" id="dt5-Gc-m0s"/>
                         <outlet property="tblwaitinglist" destination="ae2-lZ-gmA" id="sP9-uF-Evt"/>
                         <outlet property="txt_approch" destination="meh-eh-8ei" id="D0z-Uh-ER8"/>
@@ -17453,6 +17455,13 @@ Cg
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LfB-QT-hRU">
+                            <rect key="frame" x="200" y="16" width="65" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Approach" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Et-JB-IUI">
                             <rect key="frame" x="16" y="89" width="82" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -17532,7 +17541,7 @@ Cg
                     </userDefinedRuntimeAttributes>
                 </view>
             </objects>
-            <point key="canvasLocation" x="3100" y="4343"/>
+            <point key="canvasLocation" x="3325" y="4329"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6j1-8E-tWW">
