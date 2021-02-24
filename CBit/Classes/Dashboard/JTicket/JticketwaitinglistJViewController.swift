@@ -81,6 +81,7 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         
         let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "JticketWaitingListViewController") as! JticketWaitingListViewController
         //  gamePlayVC.isFromNotification = true
+        jticketwaitinglists.modalPresentationStyle = .fullScreen
         jticketwaitinglists.id = id
         self.present(jticketwaitinglists, animated: true, completion: nil)
         
