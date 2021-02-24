@@ -36,28 +36,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
     @IBOutlet weak var btnlock: UIImageView!
     
-//    @IBOutlet weak var imglock09: UIImageView!
-//    @IBOutlet weak var btnzero: UIButton!
-//
-//    @IBOutlet weak var btnonee: UIButton!
-//
-//    @IBOutlet weak var btntwo: UIButton!
-//
-//    @IBOutlet weak var btnthree: UIButton!
-//
-//    @IBOutlet weak var btnfour: UIButton!
-//
-//    @IBOutlet weak var btnfive: UIButton!
-//
-//    @IBOutlet weak var btnsix: UIButton!
-//
-//
-//    @IBOutlet weak var btnseven: UIButton!
-//
-//    @IBOutlet weak var btneeight: UIButton!
-//
-//
-//    @IBOutlet weak var btnnine: UIButton!
+
     
     @IBOutlet weak var buttonAnsMinus: ButtonWithRadius!
     
@@ -206,62 +185,23 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             }
 
         }
-        
-        
-        
 
-        
-//        for _ in 1..<10 {
-//            originalarr.append(UIImage(named: "bananas")!)
-//            originalarr.append(UIImage(named: "cherry")!)
-//            originalarr.append(UIImage(named: "mango")!)
-//            originalarr.append(UIImage(named: "strawberry")!)
-//            originalarr.append(UIImage(named: "apple")!)
-//            originalarr.append(UIImage(named: "bananas")!)
-//            originalarr.append(UIImage(named: "cherry")!)
-//        }
-        
        slotarr = itemarr
-        
-        
-        
-        
-        
         
         tableAnswer.rowHeight = UITableView.automaticDimension
         tableAnswer.tableFooterView = UIView()
         
-
-        
         if !isFromNotification {
             
             gamelevel = dictContest["level"] as? Int ?? 1
-            let date = dictContest["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
-            let calender = Calendar.current
-            let unitFlags = Set<Calendar.Component>([ .second])
-            let dateComponent = calender.dateComponents(unitFlags, from: Date(), to: startDate)
-            
-            if dateComponent.second! < 0
-            {
-                
-                startSecond = 0
-                
-            } else {
-                
-                startSecond = dateComponent.second!
-                
-            }
-            
-            
         }
         
 
         
-        NotificationCenter.default.addObserver(self,
-                                                      selector: #selector(handleNotificationEnterPage(_:)),
-                                                      name: .EnterGamePage,
-                                                      object: nil)
+//        NotificationCenter.default.addObserver(self,
+//                                                      selector: #selector(handleNotificationEnterPage(_:)),
+//                                                      name: .EnterGamePage,
+//                                                      object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotification(_:)),
@@ -296,9 +236,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      //  configAutoscrollTimer()
-      //  configFadeTimer()
-     //   configStartTimer()
         
     }
     
@@ -398,11 +335,15 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !isFromNotification {
-            labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+           // labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
         }
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
      //   self.startlistner()
+          configAutoscrollTimer()
+        //  configFadeTimer()
+          configStartTimer()
+
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -412,169 +353,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     }
     
     
-//    @IBAction func btn_nopressed(_ sender: UIButton) {
-//
-//        if sender.tag == 0
-//        {
-//            strDisplayValuelockall = "0"
-//             btnzero.backgroundColor = UIColor.white
-//             btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btnthree.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-//             btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//             btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//
-//        }
-//
-//        else if sender.tag == 1
-//        {
-//
-//            strDisplayValuelockall = "1"
-//
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = UIColor.white
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//
-//        }
-//
-//        else if sender.tag == 2
-//        {
-//            strDisplayValuelockall = "2"
-//
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = UIColor.white
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//        }
-//
-//        else if sender.tag == 3
-//        {
-//            strDisplayValuelockall = "3"
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = UIColor.white
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//
-//        }
-//        else if sender.tag == 4
-//        {
-//            strDisplayValuelockall = "4"
-//
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = UIColor.white
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//
-//        }
-//
-//        else if sender.tag == 5
-//        {
-//            strDisplayValuelockall = "5"
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = UIColor.white
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//
-//        }
-//
-//        else if sender.tag == 6
-//        {
-//            strDisplayValuelockall = "6"
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = UIColor.white
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//        }
-//
-//        else if sender.tag == 7
-//        {
-//            strDisplayValuelockall = "7"
-//
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = UIColor.white
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//        }
-//        else if sender.tag == 8
-//        {
-//            strDisplayValuelockall = "8"
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = UIColor.white
-//            btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//        }
-//        else if sender.tag == 9
-//        {
-//
-//            strDisplayValuelockall = "9"
-//            btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//            btnnine.backgroundColor = UIColor.white
-//
-//        }
-//        lblnumberanswerselected.text! = strDisplayValuelockall ?? ""
-//    }
+
     
     func configStartTimer()
     {
@@ -623,32 +402,15 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                view.addSubview(Lockall1!)
 
            }
+        
          btnlockall.isHidden = true
-          
            btnlockall.isEnabled = false
            btnlockall.alpha = 0.5
            btnlock.isHidden = false
-         //  imglock09.isHidden = false
-        
-//           btnlockallnumber.isEnabled = false
-//           btnlockallnumber.alpha = 0.5
-        
            buttonAnsMinus.isEnabled = false
            buttonAnsPlus.isEnabled = false
            buttonAnsZero.isEnabled = false
         
-//           btnonee.isEnabled = false
-//           btntwo.isEnabled = false
-//           btnthree.isEnabled = false
-//           btnfour.isEnabled = false
-//           btnfive.isEnabled = false
-//           btnsix.isEnabled = false
-//           btnseven.isEnabled = false
-//           btneeight.isEnabled = false
-//           btnnine.isEnabled = false
-//           btnzero.isEnabled = false
-
-           
         
                let parameter:[String: Any] = ["userId": Define.USERDEFAULT.value(forKey: "UserID")!,
                                               "contestId": dictContest["id"]!,
@@ -809,47 +571,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
      var socket: SocketIOClient!
     
-//    func startlistner() {
-//        //TODO: Game Start
-//               socket.on("onContestLive") { (data, ack) in
-//                   print("➤ On Contest Start")
-//                   print("Data: \(data)")
-//                   let strValue = data[0] as! String
-//                   
-//                   let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
-//                   let dictData = MyModel().convertToDictionary(text: strJSON)
-//                   
-//                  
-//                                          
-//                                          print("Game Data: \(String(describing: dictData))")
-//
-//                                                     self.dictGameData = dictData!["content"] as! [String: Any]
-//                                                     print(self.dictGameData)
-//
-//                                                     self.gametype  = self.dictContest["game_type"] as! String
-//                                                     if self.gametype == "spinning-machine" {
-//                                                         self.viewrdb.isHidden = false
-//                                                      //   self.buttonAnsMinus.backgroundColor = UIColor.red
-//
-//                                                     }
-//                                                     else
-//                                                     {
-//                                                        // self.view0to9.isHidden = false
-//                                                     }
-//                                                     let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
-//                                                     self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
-//
-//                                                     print("➤ \(self.dictGameData)")
-//                                          
-//
-//                                          
-//                                          self.setnewData()
-//                                       
-//                                          
-//                                                     Loading().hideLoading(viewController: self)
-//                                        
-//               }
-//    }
+
     var gamestart = true
     func setnewData()  {
             
@@ -886,7 +608,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                
                 print("secondss",second)
 
-                self.labelTimer.text = "\(gameTime)"
+             //   self.labelTimer.text = "\(gameTime)"
         
                 if gamestart {
                     
@@ -914,32 +636,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                     tableAnswer.reloadData()
                     gamestart = false
 
-                                    
-//                                  btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                    
-//                            btnlockallnumber.isEnabled = true
-//                            btnlockallnumber.alpha = 1.0
-                           
-//                              btnonee.isEnabled = true
-//                              btntwo.isEnabled = true
-//                              btnthree.isEnabled = true
-//                              btnfour.isEnabled = true
-//                              btnfive.isEnabled = true
-//                              btnsix.isEnabled = true
-//                              btnseven.isEnabled = true
-//                              btneeight.isEnabled = true
-//                              btnnine.isEnabled = true
-//                              btnzero.isEnabled = true
-                    
                                         btnlockall.alpha = 1.0
                                            btnlockall.isEnabled = true
                                            btnlockall.isHidden = false
@@ -948,7 +644,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                            buttonAnsMinus.isEnabled = true
                                            buttonAnsPlus.isEnabled = true
                                            buttonAnsZero.isEnabled = true
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                    //self.getContestDetail(isfromtimer: true, isStart: 0)
                 }
                 
             
@@ -961,22 +657,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 SMResultVC.dictContest = dictContest
                 self.navigationController?.pushViewController(SMResultVC, animated: true)
                 
-                
             } else {
                 isGameStart = false
-                
-                let date = dictGameData["startDate"] as! String
-                let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
-                
-                let calender = Calendar.current
-                let unitFlags = Set<Calendar.Component>([ .second])
-                let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
-                startSecond = dateComponent.second! - differenceSecond
-                //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-                print("Seconds: \(startSecond)")
-                labelTimer.text = "Game starts in 00:\(time)"
 
-               
             }
 
         }
@@ -1037,11 +720,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                     
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     self.getContestDetail(isfromtimer: true, isStart: 0)
-//                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
-//                    let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
-//                    paymentVC.isFromLink = self.isFromLink
-//                    self.navigationController?.pushViewController(paymentVC, animated: true)
-                    
+
                     //UpComingContest
                     NotificationCenter.default.post(name: .upComingContest, object: nil)
                     
@@ -1121,18 +800,25 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                         
                         let getResponceTime = Date()
 
-                                                        let calender = Calendar.current
-                                                        let unitFlags = Set<Calendar.Component>([ .second])
-                                                        let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
+                        let calender = Calendar.current
+                        let unitFlags = Set<Calendar.Component>([ .second])
+                        let dateComponent = calender.dateComponents(unitFlags, from: sendRequestTime, to: getResponceTime)
 
-                                                        self.differenceSecond = dateComponent.second!
+                        self.differenceSecond = dateComponent.second!
                         print("=> The Difference Of Second is: ", self.differenceSecond)
                         
                    
-                    
-                        
                         if isfromtimer {
                         self.setData(isfromtime: isfromtimer)
+                        }
+                        else
+                        {
+                            self.btnlock.isHidden = true
+                            self.btnlockall.isEnabled = false
+                            self.btnlockall.alpha = 0.5
+                            self.buttonAnsMinus.isEnabled = false
+                            self.buttonAnsPlus.isEnabled = false
+                            self.buttonAnsZero.isEnabled = false
                         }
                         
                        
@@ -1156,7 +842,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     }
     
     func   setData(isfromtime:Bool) {
-        
+        setnewData()
         arrTickets = dictGameData["tickets"] as! [[String: Any]]
         arrBrackets = dictGameData["boxJson"] as! [[String: Any]]
         gameMode = dictGameData["gameMode"] as? String ?? "public"
@@ -1214,7 +900,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
    
         //  labelTimer.text = ""
         if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
-            self.configFadeTimer()
+           // self.configFadeTimer()
         }
         else
         {
@@ -1252,7 +938,11 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         //  labelTimer.text = ""
         if (gameStatus == "start") {
            
-            
+            second = 30
+            self.labelTimer.text = "\(self.second)"
+            second = second - 1
+            setTimer()
+
 
             
             if self.gametype == "spinning-machine" {
@@ -1277,36 +967,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                             buttonAnsZero.isEnabled = false
                                             lbllockedat.isHidden = false
                                             
-//                                            if displayValue == "Red win" {
-//                                             //   labelanswerselected.text! = displayValue
-//                                                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                buttonAnsMinus.layer.borderColor = UIColor.black.cgColor
-//                                                buttonAnsMinus.layer.borderWidth = 2
-//
-//                                                buttonAnsPlus.layer.borderWidth = 0
-//                                                buttonAnsZero.layer.borderWidth = 0
-//
-//                                            }
-//                                            else if displayValue == "Draw" {
-//
-//                                                //labelanswerselected.text! = displayValue
-//                                                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                buttonAnsZero.layer.borderColor = UIColor.black.cgColor
-//                                                buttonAnsZero.layer.borderWidth = 2
-//
-//                                                buttonAnsPlus.layer.borderWidth = 0
-//                                                buttonAnsMinus.layer.borderWidth = 0
-//
-//                                            }
-//                                            else if displayValue == "Blue win" {
-//                                               // labelanswerselected.text! = displayValue
-//                                                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                buttonAnsPlus.layer.borderColor = UIColor.black.cgColor
-//                                                buttonAnsPlus.layer.borderWidth = 2
-//
-//                                                buttonAnsZero.layer.borderWidth = 0
-//                                                buttonAnsMinus.layer.borderWidth = 0
-//                                            }
+
                                         }
                                         else
                                         {
@@ -1356,35 +1017,10 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             buttonAnsPlus.isEnabled = false
             buttonAnsZero.isEnabled = false
             
-//                                        btnlockallnumber.isEnabled = false
-//                                        btnlockallnumber.alpha = 0.5
-                                     
-//                                        btnonee.isEnabled = false
-//                                        btntwo.isEnabled = false
-//                                        btnthree.isEnabled = false
-//                                        btnfour.isEnabled = false
-//                                        btnfive.isEnabled = false
-//                                        btnsix.isEnabled = false
-//                                        btnseven.isEnabled = false
-//                                        btneeight.isEnabled = false
-//                                        btnnine.isEnabled = false
-//                                        btnzero.isEnabled = false
-
-            
-            let date = dictGameData["startDate"] as! String
-            let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
-            
-            let calender = Calendar.current
-            let unitFlags = Set<Calendar.Component>([ .second])
-            let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
-            startSecond = dateComponent.second! - differenceSecond
-            //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-            print("Seconds: \(startSecond)")
-            
             if isfromtime {
                  if startTimer == nil {
-                               startSecond = startSecond - 1
-                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+                           //    startSecond = startSecond - 1
+                             //  labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
                                setStartTimer()
                     
                            }
@@ -1397,6 +1033,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         }
 
         tableAnswer.reloadData()
+       
     }
     
     func setlockalldata(dictdata:[String:Any])  {
@@ -1433,36 +1070,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                                     buttonAnsPlus.isEnabled = false
                                                     buttonAnsZero.isEnabled = false
                                                     lbllockedat.isHidden = false
-//                                                    if displayValue == "Red win" {
-//                                                       // labelanswerselected.text! = displayValue
-//                                                        imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                        buttonAnsMinus.layer.borderColor = UIColor.black.cgColor
-//                                                        buttonAnsMinus.layer.borderWidth = 2
-//
-//                                                        buttonAnsPlus.layer.borderWidth = 0
-//                                                        buttonAnsZero.layer.borderWidth = 0
-//                                                    }
-//                                                    else if displayValue == "Draw" {
-//
-//                                                      //  labelanswerselected.text! = displayValue
-//                                                        imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                        buttonAnsZero.layer.borderColor = UIColor.black.cgColor
-//                                                        buttonAnsZero.layer.borderWidth = 2
-//
-//                                                        buttonAnsPlus.layer.borderWidth = 0
-//                                                        buttonAnsMinus.layer.borderWidth = 0
-//
-//
-//                                                    }
-//                                                    else if displayValue == "Blue win" {
-//                                                       // labelanswerselected.text! = displayValue
-//                                                        imgselected.image = loadImageFromDocumentDirectory(nameOfImage: displayValue)
-//                                                        buttonAnsPlus.layer.borderColor = UIColor.black.cgColor
-//                                                        buttonAnsPlus.layer.borderWidth = 2
-//
-//                                                        buttonAnsZero.layer.borderWidth = 0
-//                                                        buttonAnsMinus.layer.borderWidth = 0
-//                                                    }
                                                 }
                                                 else
                                                 {
@@ -1496,64 +1103,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     var gameTime = String()
     var time = String()
     
-    @objc func handleNotificationEnterPage(_ notification: Notification) {
-           print("Game Start.")
-           
-         //  isStartEventCall = true
-           if (notification.userInfo as Dictionary?) != nil {
-               print("--> User Info Data: \(notification.userInfo!)")
-            
-            let dictData = notification.userInfo!
-            gameTime = String(dictData["gameTime"] as! Int)
-             time = dictData["time"] as! String
-            self.dictGameData = dictData["contest"] as! [String: Any]
-                                                     print(self.dictGameData)
-            
-            if  (Int(gameTime)! == 40 )  //&& Int(gameTime)! >= 30 &&  Int(gameTime)! >= 0{
-            {
-                slotarr = randomarr
-                deconfigFadeTimer()
-                configAutoscrollTimer()
-            }
-//            else if Int(gameTime)! <= 30
-//                {
-//
-//            }
-           
-            let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
-
-            
-
-                                                     self.gametype  = self.dictContest["game_type"] as! String
-                                                     if self.gametype == "spinning-machine" {
-                                                         self.viewrdb.isHidden = false
-
-                                                     }
-                                                     else
-                                                     {
-                                                         //self.view0to9.isHidden = false
-                                                     }
-
-            if dictContest["id"] as! Int == dictGameData["id"] as! Int {
-                 self.setnewData()
-            }
-            
-                                         
-                                    
-                                          
-                                                     Loading().hideLoading(viewController: self)
-           } else {
-               
-               print("--> No Data")
-               isShowLoading = false
-
-            
-               
-
-
-           }
-       }
-    
     @objc func handleNotification(_ notification: Notification) {
         print("Game Start.")
         
@@ -1564,19 +1113,11 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             let selectedContestID = "\(dictContest["id"]!)"
             if contestId == selectedContestID {
                 isShowLoading = false
-
-          
-                
-
             }
         } else {
             
             print("--> No Data")
             isShowLoading = false
-
-        
-            
-
 
         }
     }
@@ -1585,21 +1126,21 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         print("Gaem End")
         
         if (notification.userInfo as Dictionary?) != nil {
-            
+
             print("--> User Info Data: \(notification.userInfo!)")
             let contestId = "\(notification.userInfo!["contestId"]!)"
             let selectedContestID = "\(dictContest["id"]!)"
             if contestId == selectedContestID {
-                setEndTimer()
-                
+               // setEndTimer()
+
             }
         } else {
-            
+
             print("--> No Data")
-            setEndTimer()
-            
+           // setEndTimer()
+
         }
-        
+
     }
     
     func setColors() {
@@ -1660,7 +1201,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                             if startTimer != nil {
                                 startTimer!.invalidate()
                                 startTimer = nil
-                                 labelTimer.text = ""
+                                // labelTimer.text = ""
     
                                
                             }
@@ -1712,7 +1253,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     @objc func handleTimer(){
         if second > 0 {
 
-            
+           // setnewData()
             self.labelTimer.text = String(format: "%02i", self.second)
             //print(labelTimer.text!)
             second = second - 1
@@ -1725,6 +1266,10 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 self.labelTimer.text = "00"
                 timer!.invalidate()
                 timer = nil
+                NotificationCenter.default.removeObserver(self)
+                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
+                SMResultVC.dictContest = dictContest
+                self.navigationController?.pushViewController(SMResultVC, animated: true)
             }
         }
     }
@@ -2040,11 +1585,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 else
                 {
-                  // imgzero.isHidden = false
-//                    if  arrSloats[1]["displayValue"] as! String != "Draw" {
-//                        let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-//                        imgzero.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
-//                    }
+
                     let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
                     if imageIsNullOrNot(imageName: localimg1) {
                         imgzero.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
@@ -2058,24 +1599,6 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
       
             }
            
-        
-            
-//            if displayValue == "Draw" {
-//                labelAnsZero.text = displayValue
-//            }
-//            else
-//            {
-//                let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
-//               // let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-//                let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
-//
-//                imgminus.image = localimg0.imageByMakingWhiteBackgroundTransparent()
-//              //  imgzero.image = localimg1.imageByMakingWhiteBackgroundTransparent()
-//                imgplus.image = localimg2.imageByMakingWhiteBackgroundTransparent()
-//
-//            }
-           
-                
                 let isLock = arrSelectedTicket[indexPath.row]["isLock"] as? Bool ?? false
                 if isLock {
 
@@ -2378,8 +1901,6 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                                       viewController: self)
                     return
                 }
-                
-                
                 let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
                 let dictData = MyModel().convertToDictionary(text: strJSON)
                 print("Get Data: \(dictData!)")

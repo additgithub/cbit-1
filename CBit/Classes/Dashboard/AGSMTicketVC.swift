@@ -363,11 +363,11 @@ class AGSMTicketVC: UIViewController {
                  //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
                  if totalSelectedAmount <= pbAmount {
                      
-                     let AGSMPlayVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMPlayVC") as! AGSMPlayVC
-                    AGSMPlayVC.dictContest = dictContestDetail
-                    AGSMPlayVC.isFromNotification = false
-                    AGSMPlayVC.arrSelectedTikets = arrSelectedTikets
-                     self.navigationController?.pushViewController(AGSMPlayVC, animated: true)
+//                     let AGSMPlayVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMPlayVC") as! AGSMPlayVC
+//                    AGSMPlayVC.dictContest = dictContestDetail
+//                    AGSMPlayVC.isFromNotification = false
+//                    AGSMPlayVC.arrSelectedTikets = arrSelectedTikets
+//                     self.navigationController?.pushViewController(AGSMPlayVC, animated: true)
                      
  //                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
  //                    labelwidrawableBalance.text = "₹ 0.0"
