@@ -157,7 +157,7 @@ class CGGamePlayVC: UIViewController  {
         if !isFromNotification {
             
             gamelevel = dictContest["level"] as? Int ?? 1
-            let date = dictContest["startDate"] as! String
+          //  let date = dictContest["startDate"] as! String
            
         }
         
