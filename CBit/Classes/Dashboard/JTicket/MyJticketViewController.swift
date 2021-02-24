@@ -128,7 +128,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             userCell.btnapply.isUserInteractionEnabled = true
             //   userCell.lblwon.isHidden = true
             //    userCell.lblwinningprice.isHidden  = true
-            userCell.btnapply.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
+            userCell.btnapply.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8652893926)
             userCell.vwhit.isHidden = true
             userCell.lbldate.isHidden = true
             userCell.stack_view.isHidden = true
