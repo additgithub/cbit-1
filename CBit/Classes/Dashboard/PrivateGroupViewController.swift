@@ -30,18 +30,21 @@ class PrivateGroupViewController: UIViewController {
     
     @IBOutlet var tbllist: UITableView!
     var GroupList = [String]()
+    private var arrGroupList = [[String: Any]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         GroupList = ["Happy family","Cousion","Friends Forever","Top 20","Land On moon","Old is Gold"]
+        MyGroupList()
     }
     
 
  
     @IBAction func back_click(_ sender: UIButton) {
-         self.navigationController?.popViewController(animated: true)
+        // self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func searchgroup_click(_ sender: UIButton) {
     }
@@ -50,6 +53,49 @@ class PrivateGroupViewController: UIViewController {
         self.navigationController?.pushViewController(CreatePrivateGroupVC, animated: true)
     }
     
+    
+    func MyGroupList() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [
+           
+            :]
+        let strURL = Define.APP_URL + Define.ALL_Contest_Request
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    self.arrGroupList = result!["content"] as? [[String: Any]] ?? []
+                    
+                    self.tbllist.reloadData()
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    
 }
 
 
@@ -57,7 +103,7 @@ class PrivateGroupViewController: UIViewController {
 extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GroupList.count
+        return arrGroupList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,10 +113,11 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
        
         
         //Set Button
-        cell.btnjoincontest.addTarget(self, action: #selector(buttonJoinContest(_:)), for: .touchUpInside)
         cell.btnjoincontest.tag = indexPath.row
+        cell.btnjoincontest.addTarget(self, action: #selector(buttonJoinContest(_:)), for: .touchUpInside)
         
-        cell.lblgroupname.text = GroupList[indexPath.row]
+        
+        cell.lblgroupname.text = arrGroupList[indexPath.row]["private_group_name"] as? String
         
         DispatchQueue.main.async {
             MyModel().roundCorners(corners: [.topRight,.topLeft,.bottomRight, .bottomLeft], radius: 10, view: cell.topvw)
@@ -91,11 +138,30 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
     
     //MARK: - Tableview Button Mathod
     @objc func buttonJoinContest(_ sender: UIButton) {
-//        isVisible = false
-//        let index = sender.tag
-//        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-//        ticketVC.dictContest = arrContest[index]
-//        ticketVC.isFromMyTickets = false
-//        self.navigationController?.pushViewController(ticketVC, animated: true)
+        print(sender.tag)
+
     }
+}
+
+extension PrivateGroupViewController {
+    func retry() {
+        let alertController = UIAlertController(title: Define.ERROR_TITLE,
+                                                message: Define.ERROR_SERVER,
+                                                preferredStyle: .alert)
+        let buttonRetry = UIAlertAction(title: "Retry",
+                                        style: .default)
+        { _ in
+            self.MyGroupList()
+        }
+        let cancel = UIAlertAction(title: "Cancel",
+                                   style: .cancel,
+                                   handler: nil)
+        alertController.addAction(cancel)
+        alertController.addAction(buttonRetry)
+        self.present(alertController,
+                     animated: true,
+                     completion: nil)
+    }
+    
+  
 }

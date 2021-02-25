@@ -166,6 +166,7 @@
 		B0D7A08222E1C69C002229B5 /* PayKun.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0D7A07F22E1C656002229B5 /* PayKun.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B14A1109E2C43006116AF340 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		E40AE33081BCB57CE563A1F6 /* Pods_CBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D652900B505E5F93EC1228 /* Pods_CBit.framework */; };
+		E849A9C225E7CCC5004FB85C /* MyPrivateGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -373,6 +374,7 @@
 		B0D30A54231814A100A63315 /* FAQsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQsVC.swift; sourceTree = "<group>"; };
 		B0D6ED1122C63D170019C6E6 /* PrivateModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateModeVC.swift; sourceTree = "<group>"; };
 		B0D7A07F22E1C656002229B5 /* PayKun.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayKun.framework; sourceTree = "<group>"; };
+		E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPrivateGroupsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -748,6 +750,7 @@
 				1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */,
 				9F6800EB25B804530052A76D /* ClassicGridViewController.swift */,
 				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
+				E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */,
 				9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */,
 				9FC75B9625C2CB2500A3B75D /* IDsVC.swift */,
 				9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */,
@@ -1112,6 +1115,7 @@
 				B06C74DB22CB9AE900F6BE94 /* TermsAndConditionVC.swift in Sources */,
 				1F3FA2702269983600D8E4BC /* ViewAcitvityIndicator.swift in Sources */,
 				1FBD33AC222918E500B74578 /* Define.swift in Sources */,
+				E849A9C225E7CCC5004FB85C /* MyPrivateGroupsVC.swift in Sources */,
 				1F5DB447222FDB1B00EF5FD5 /* HistoryVC.swift in Sources */,
 				1F0A5C32223BB1F9004F335C /* MyDataType.swift in Sources */,
 				1F5A9877224620860070C1B6 /* NotificationName.swift in Sources */,

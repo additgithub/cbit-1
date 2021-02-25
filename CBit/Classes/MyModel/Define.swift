@@ -174,6 +174,7 @@ class Define {
     static let REQUEST_JOIN_GROUP = "requestToJoinPrivateGroup"
     static let ALL_PRIVATE_GROUP = "allPrivateGroup"
     static let ALL_USER_PRIVATE_GROUP = "allUsersPrivateGroup"
+    static let ALL_Contest_Request = "allContestRequests"
     
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
