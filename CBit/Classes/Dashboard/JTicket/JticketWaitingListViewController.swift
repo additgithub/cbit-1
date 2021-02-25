@@ -34,6 +34,8 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     @IBOutlet weak var txt_reply_approch: UITextField!
     @IBOutlet weak var lbl_nagotiate_offer: UILabel!
     @IBOutlet weak var lbl_nagotiate_offer_id: UILabel!
+    @IBOutlet weak var lbl_jticket_id: UILabel!
+    
     
     var selectedIndexpath : IndexPath?
     private var arrJticketuserwaitinglist = [[String: Any]]()
@@ -208,8 +210,9 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         }
         else
         {
-            let ticketId = arrJticketwaitinglist[buttonTag]["j_ticket_id"] as? String ?? ""
-            getJticketUserWaitingList()
+            lbl_jticket_id.text = "\(arrJticketwaitinglist[buttonTag]["id"]!)"
+            
+            getJticketUserWaitingList(ticketId: lbl_jticket_id.text!)
         }
     }
     
@@ -281,31 +284,55 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         
         if sender.tag == 1
         {
-            let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.frame = view.bounds
-            blurEffectView.tag = 100
-            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            view.addSubview(blurEffectView)
-            vw_offers.center = view.center
-            vw_offers.alpha = 1
-            vw_offers.transform = CGAffineTransform(scaleX: 0.8, y: 1.2)
+            if selectedIndexpath != nil
+            {
+                
+                let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+                let blurEffectView = UIVisualEffectView(effect: blurEffect)
+                blurEffectView.frame = view.bounds
+                blurEffectView.tag = 100
+                blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                view.addSubview(blurEffectView)
+                vw_offers.center = view.center
+                vw_offers.alpha = 1
+                vw_offers.transform = CGAffineTransform(scaleX: 0.8, y: 1.2)
+                
+                self.view.addSubview(vw_offers)
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
+                    //use if you want to darken the background
+                    //self.viewDim.alpha = 0.8
+                    //go back to original form
+                    self.vw_offers.transform = .identity
+                })
+            }
+            else
+            {
+                showToast(message: "Plese select ticket.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+            }
             
-            self.view.addSubview(vw_offers)
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
-                //use if you want to darken the background
-                //self.viewDim.alpha = 0.8
-                //go back to original form
-                self.vw_offers.transform = .identity
-            })
         }
         else if sender.tag == 11
         {
-            getApplyJticketApproach(ticketApproachOd: "\(arrJticketuserwaitinglist[selectedIndexpath!.row]["id"]!)")
+            if txt_approch.text!.count > 0
+            {
+                getApplyJticketApproach(ticketId: "\(lbl_jticket_id.text!)")
+            }
+            else
+            {
+                showToast(message: "please enter offer value", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+            }
+            
         }
         else if sender.tag == 22
         {
-            getApplyJticketApproachNagotiate(ticketApproachOd: lbl_nagotiate_offer_id.text!)
+            if txt_reply_approch.text!.count > 0
+            {
+                getApplyJticketApproachNagotiate(ticketApproachOd: lbl_nagotiate_offer_id.text!)
+            }
+            else
+            {
+                showToast(message: "please enter offer value", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+            }
         }
         
     }
@@ -469,10 +496,9 @@ extension JticketWaitingListViewController
 extension JticketWaitingListViewController
 {
     // Mark API For Getting ALLJticket
-    func getJticketUserWaitingList() {
+    func getJticketUserWaitingList(ticketId:String) {
         
         Loading().showLoading(viewController: self)
-        arrJticketuserwaitinglist.removeAll()
         
         let parameter: [String: Any] = [
             "id":id
@@ -504,6 +530,7 @@ extension JticketWaitingListViewController
                     
                     let arr =  content["contest"] as? [[String : Any]] ?? [["":""]]
                     if arr.count > 0 {
+                        self.arrJticketuserwaitinglist.removeAll()
                         self.arrJticketuserwaitinglist.append(contentsOf: arr)
                         self.PopupTicketList()
                     }
@@ -527,16 +554,16 @@ extension JticketWaitingListViewController
 extension JticketWaitingListViewController
 {
     // Mark API For Getting ALLJticket
-    func getApplyJticketApproach(ticketApproachOd:String) {
+    func getApplyJticketApproach(ticketId:String) {
         
         Loading().showLoading(viewController: self)
-        arrJticketuserwaitinglist.removeAll()
         
-        let ticketId = "\(arrJticketwaitinglist[selectedIndexpath!.row]["id"]!)"
+        
+        let ticketIdApproch = "\(arrJticketuserwaitinglist[selectedIndexpath!.row]["id"]!)"
         
         let parameter: [String: Any] = [
             "ticketId":ticketId,
-            "ticketIdApproach":ticketApproachOd,
+            "ticketIdApproach":ticketIdApproch,
             "Approach":txt_approch.text!
         ]
         let strURL = Define.APP_URL + Define.ApplyJtciketApproach
@@ -563,6 +590,7 @@ extension JticketWaitingListViewController
                     
                     let content = result!["content"] as! [String: Any]
                     //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    
                     self.arrJticketwaitinglist.removeAll()
                     self.Start = 0
                     self.getJticketWaitingList()
