@@ -3,7 +3,6 @@
    uuid = "0E2A60B6-9167-442E-A32B-287703CB92D0"
    type = "0"
    version = "2.0">
-
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
@@ -33,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "532"
             endingLineNumber = "532"
-            landmarkName = "getApplyJticketApproach(ticketApproachOd:)"
+            landmarkName = "getJticketUserWaitingList(ticketId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -97,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "533"
             endingLineNumber = "533"
-            landmarkName = "getApplyJticketApproach(ticketApproachOd:)"
+            landmarkName = "getJticketUserWaitingList(ticketId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

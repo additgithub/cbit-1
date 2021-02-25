@@ -439,8 +439,6 @@ extension JticketlistingViewController {
     }
     
     @objc func btnWaitinglist(_ sender: Any, event: Any) {
-   
-        
         let point : CGPoint = (sender as AnyObject).convert(CGPoint.zero, to:tbllisting)
         let indexPath =  self.tbllisting!.indexPathForRow(at: point)
         let selectedrow = indexPath!.row
