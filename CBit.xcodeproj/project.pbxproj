@@ -130,6 +130,7 @@
 		1FFB3E4F225C596000DC1AFA /* JoinedPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E4E225C596000DC1AFA /* JoinedPlayerVC.swift */; };
 		1FFB3E51225C6A7600DC1AFA /* PrivateContestResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */; };
 		1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */; };
+		2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */; };
 		2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */; };
 		2F6FDC9625D64C5200555712 /* SpinningMachinePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */; };
 		2F7D448525D69EFB00554F40 /* SMGameAnswerOneTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */; };
@@ -336,6 +337,7 @@
 		1FFB3E4E225C596000DC1AFA /* JoinedPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinedPlayerVC.swift; sourceTree = "<group>"; };
 		1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContestResultVC.swift; sourceTree = "<group>"; };
 		1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContesrWinnerVC.swift; sourceTree = "<group>"; };
+		2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMResultVC.swift; sourceTree = "<group>"; };
 		2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineCell.swift; sourceTree = "<group>"; };
 		2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachinePlayVC.swift; sourceTree = "<group>"; };
 		2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMGameAnswerOneTVC.swift; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				2F8FBDC825D7B36600603A48 /* SMResultVC.swift */,
 				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
 				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
+				2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1115,6 +1118,7 @@
 				1F5DB447222FDB1B00EF5FD5 /* HistoryVC.swift in Sources */,
 				1F0A5C32223BB1F9004F335C /* MyDataType.swift in Sources */,
 				1F5A9877224620860070C1B6 /* NotificationName.swift in Sources */,
+				2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */,
 				1F63528B22296AE70054BD12 /* Alert.swift in Sources */,
 				1FD003972230E59600040670 /* GamePlayVC.swift in Sources */,
 				1FBE45E0222F9C7F00741438 /* DatePickerDialog.swift in Sources */,
