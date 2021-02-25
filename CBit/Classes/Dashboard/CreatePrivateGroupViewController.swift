@@ -20,16 +20,17 @@ class CreatePrivateGroupViewController: UIViewController {
     
 
     @IBAction func back_click(_ sender: UIButton) {
-         self.navigationController?.popViewController(animated: true)
+        // self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func create_click(_ sender: UIButton) {
         if txtgroupname.text != "" {
-                 CreateGroup()
-                    }
-                    else
-                    {
-                        Alert().showAlert(title: "Error",message: "Please select group name",viewController: self)
-                    }
+            CreateGroup()
+        }
+        else
+        {
+            Alert().showAlert(title: "Error",message: "Please select group name",viewController: self)
+        }
     }
     
     
