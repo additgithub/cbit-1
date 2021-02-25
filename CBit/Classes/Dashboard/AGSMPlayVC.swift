@@ -653,9 +653,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 
                 NotificationCenter.default.removeObserver(self)
                 SocketIOManager.sharedInstance.lastViewController = nil
-                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-                SMResultVC.dictContest = dictContest
-                self.navigationController?.pushViewController(SMResultVC, animated: true)
+                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+                AGSMResultVC.dictContest = dictContest
+                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
                 
             } else {
                 isGameStart = false
@@ -1001,9 +1001,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         } else if gameStatus == "gameEnd" {
             NotificationCenter.default.removeObserver(self)
             SocketIOManager.sharedInstance.lastViewController = nil
-            let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-            SMResultVC.dictContest = dictContest
-            self.navigationController?.pushViewController(SMResultVC, animated: true)
+            let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+            AGSMResultVC.dictContest = dictContest
+            self.navigationController?.pushViewController(AGSMResultVC, animated: true)
             
             
         } else {
@@ -1267,9 +1267,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 timer!.invalidate()
                 timer = nil
                 NotificationCenter.default.removeObserver(self)
-                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-                SMResultVC.dictContest = dictContest
-                self.navigationController?.pushViewController(SMResultVC, animated: true)
+                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+                AGSMResultVC.dictContest = dictContest
+                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
             }
         }
     }
@@ -1309,9 +1309,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 }
                 
                 NotificationCenter.default.removeObserver(self)
-                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-                SMResultVC.dictContest = dictContest
-                self.navigationController?.pushViewController(SMResultVC, animated: true)
+                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+                AGSMResultVC.dictContest = dictContest
+                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
             }
         }
     }
