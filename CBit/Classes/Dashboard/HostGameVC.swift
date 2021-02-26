@@ -22,7 +22,8 @@ class HostGameVC: UIViewController {
 
  
     @IBAction func back_click(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func group_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
