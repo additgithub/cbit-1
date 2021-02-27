@@ -14,41 +14,9 @@
             filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "664"
-            endingLineNumber = "664"
+            startingLineNumber = "669"
+            endingLineNumber = "669"
             landmarkName = "getApplyJticketApproachConfirm(ticketApproachOd:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CB28C500-73B4-44C0-91EE-BDD0E4038EF6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "getJticketUserWaitingList(ticketId:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "850C1DE5-F171-4C79-932B-CBE11FA2C2C5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
-            landmarkName = "getJticketUserWaitingList(ticketId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
