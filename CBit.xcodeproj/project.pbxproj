@@ -168,6 +168,7 @@
 		E40AE33081BCB57CE563A1F6 /* Pods_CBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D652900B505E5F93EC1228 /* Pods_CBit.framework */; };
 		E849A9C225E7CCC5004FB85C /* MyPrivateGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */; };
 		E84D1BA625EA1867006E11F8 /* EditGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D1BA525EA1867006E11F8 /* EditGameVC.swift */; };
+		E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -377,6 +378,7 @@
 		B0D7A07F22E1C656002229B5 /* PayKun.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayKun.framework; sourceTree = "<group>"; };
 		E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPrivateGroupsVC.swift; sourceTree = "<group>"; };
 		E84D1BA525EA1867006E11F8 /* EditGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGameVC.swift; sourceTree = "<group>"; };
+		E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -766,6 +768,7 @@
 				2F8FBDC825D7B36600603A48 /* SMResultVC.swift */,
 				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
 				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
+				E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 				1F33F4C1226882AB00883616 /* OTPVarificationVC.swift in Sources */,
 				1F82201B222D3AE7008FDF65 /* WalletVC.swift in Sources */,
 				2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */,
+				E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

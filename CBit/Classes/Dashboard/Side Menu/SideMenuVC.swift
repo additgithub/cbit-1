@@ -401,7 +401,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                   // vc.modalPresentationStyle = .fullScreen
                    self.present(vc, animated: true, completion: nil)
                } else if indexPath.row == 1 {
-                   let vc = authStoryboard.instantiateViewController(withIdentifier: "MyPrivateGroupsVC") as! MyPrivateGroupsVC
+                   let vc = authStoryboard.instantiateViewController(withIdentifier: "JoinGroupVC") as! JoinGroupVC
                    vc.modalPresentationStyle = .fullScreen
                    self.present(vc, animated: true, completion: nil)
                } else if indexPath.row == 2 {

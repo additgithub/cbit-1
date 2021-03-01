@@ -118,6 +118,11 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             
             cell.lbl_username.text = arrApproachList[indexPath.row]["userName"] as? String ?? ""
             cell.lbl_offer.text = "\(arrApproachList[indexPath.row]["offer"] as? Int ?? 0) %"
+            cell.txt_offer.tag = indexPath.row
+            
+            cell.btn_confirm.tag = indexPath.row
+            cell.btn_confirm.addTarget(self, action: #selector(checkbox(sender:)), for: .touchUpInside)
+            
             
             return cell
         }
@@ -223,6 +228,26 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             return userCell
         }
         
+        
+    }
+    
+    @objc func checkbox(sender: UIButton){
+        let buttonTag = sender.tag
+        print(buttonTag)
+        let index = IndexPath(row: buttonTag, section: 0)
+        let cell: MyJticketCell = self.tbl_offer.cellForRow(at: index) as! MyJticketCell
+        let user_approch_j_ticket_id = arrApproachList[sender.tag]["j_ticket_user_approach_id"] as? Int
+        
+        if cell.txt_offer.text?.count ?? 0 > 0
+        {
+
+            let offerPrice = cell.txt_offer.text!
+            getApplyJticketApproachNagotiate(ticketApproachOd: "\(String(describing: user_approch_j_ticket_id!))", nagotiatePrice: offerPrice)
+        }
+        else
+        {
+            showToast(message: "Plese enter nagotiate.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+        }
         
     }
     
@@ -812,6 +837,56 @@ extension MyJticketViewController {
         ApplyJticket()
         
         
+    }
+    
+    func getApplyJticketApproachNagotiate(ticketApproachOd:String,nagotiatePrice:String) {
+        
+        Loading().showLoading(viewController: self)
+        
+        let parameter: [String: Any] = [
+            "j_ticket_user_approach_id":ticketApproachOd,
+            "negotiate":nagotiatePrice
+        ]
+        
+        let strURL = Define.APP_URL + Define.ApplyApproachNegotiate
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as! [String: Any]
+                    //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    //self.arrJticketwaitinglist.removeAll()
+                    //self.Start = 0
+                    //self.getJticketWaitingList()
+                    let btn = UIButton()
+                    self.btn_CLOSE_POPUP(btn)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
     }
     
     
