@@ -269,8 +269,8 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
             resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
-            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+//            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+//            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
         return resultCell

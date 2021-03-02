@@ -68,19 +68,39 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let game  = arrHistory[indexPath.row]["game"] as! String
         let gametype  = arrHistory[indexPath.row]["game_type"] as! String
-        if gametype == "spinning-machine" {
-            let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-            SMResultVC.dictContest = arrHistory[indexPath.row]
-            self.navigationController?.pushViewController(SMResultVC, animated: true)
+        
+        if game == "Anytime Game" {
+            if gametype == "spinning-machine" {
+                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+                AGSMResultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
 
+            }
+            else
+            {
+                let CGGameResultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
+                CGGameResultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(CGGameResultVC, animated: true)
+            }
         }
         else
         {
-            let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
-            resultVC.dictContest = arrHistory[indexPath.row]
-            self.navigationController?.pushViewController(resultVC, animated: true)
+            if gametype == "spinning-machine" {
+                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
+                SMResultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(SMResultVC, animated: true)
+
+            }
+            else
+            {
+                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+                resultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(resultVC, animated: true)
+            }
         }
+ 
         
     }
     

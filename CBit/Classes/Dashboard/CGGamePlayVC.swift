@@ -93,7 +93,7 @@ class CGGamePlayVC: UIViewController  {
     private var isStartEventCall = Bool()
     
     var timer: Timer?
-    var second = Int()
+    var second = 30
     var msecond:Int = 999
     
     var endGameTimer: Timer?
@@ -133,7 +133,7 @@ class CGGamePlayVC: UIViewController  {
     var stopTime: CFAbsoluteTime!
     var bytesReceived: Int!
     
-    
+    var AnyTimedictContest = [[String: Any]]()
     
     @IBOutlet weak var imgTower: UIImageView!
     
@@ -333,6 +333,10 @@ class CGGamePlayVC: UIViewController  {
 
         labelTimer.text = "Game starts in: \(StartSecond)"
                 if StartSecond == 0 {
+                    if startTimer != nil {
+                    startTimer!.invalidate()
+                    startTimer = nil
+                    }
                    deconfigStartTimer()
                     btnplaypause.isHidden = true
                     imgplaypause.isHidden = true
@@ -1110,8 +1114,8 @@ class CGGamePlayVC: UIViewController  {
         
         print("Set Data",dictGameData)
         let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
-        second = (dictGameData["duration"] as? Int)!
-        print("secondsspre",second)
+       // second = (dictGameData["duration"] as? Int)!
+      //  print("secondsspre",second)
         
    
         
@@ -1124,9 +1128,9 @@ class CGGamePlayVC: UIViewController  {
 //            print("secondss",second)
 //           // print(dictGameData["duration"] as? Int)
 //            second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond - 4)
-            second = 30
+           // second = 30
             self.labelTimer.text = "\(self.second)"
-            second = second - 1
+           // second = second - 1
             setTimer()
             
             if self.gametype == "rdb" {
@@ -1847,7 +1851,8 @@ class CGGamePlayVC: UIViewController  {
     //MARK: - Button Method
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
-        self.navigationController?.popViewController(animated: true)
+      //  self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     @IBAction func buttonInfo(_ sender: Any) {
         let gameInfo = GamePlayInfo.instanceFromNib() as! GamePlayInfo
@@ -2097,8 +2102,9 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let test = Double(strAmount) ?? 0.00
                     fixCell.labelEntryFees.text = String(format: "₹ %.02f", test)
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"
@@ -2196,8 +2202,9 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.labelEntryFees.text = String(format: "₹ %.02f", test)
                     
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"
@@ -2340,8 +2347,9 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.labelEntryFees.text = String(format: "₹ %.02f", test)
                     
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"
@@ -2381,8 +2389,9 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     
                     
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"

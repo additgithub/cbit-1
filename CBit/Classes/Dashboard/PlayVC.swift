@@ -71,6 +71,9 @@ class PlayVC: UIViewController {
     
     @objc func handleNotitication(_ notification: Notification) {
         isShowLoading = false
+         Start = 0
+         Limit = 30
+        arrContest = [[String:Any]]()
         self.getAllContest()
     }
 }

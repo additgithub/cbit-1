@@ -50,7 +50,7 @@ class DashboardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UNUserNotificationCenter.current().delegate = self
-        constraintAdsHeight.constant = self.view.frame.width / 3
+       // constraintAdsHeight.constant = self.view.frame.width / 3
        
           //   socket.off("onContestLive")
       
