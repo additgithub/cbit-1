@@ -270,6 +270,7 @@ class CGTicketVC: UIViewController {
                     CGGamePlayVC.dictContest = dictContestDetail
                     CGGamePlayVC.isFromNotification = false
                     CGGamePlayVC.arrSelectedTikets = arrSelectedTikets
+                    CGGamePlayVC.AnyTimedictContest = AnyTimedictContest
                     //gamePlayVC.dictGameData = dictGameData
                     self.navigationController?.pushViewController(CGGamePlayVC, animated: true)
                     
@@ -595,8 +596,9 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
                 
                 
                 //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
-                let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
-                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+              //  let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
+//                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                ticketCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                 
                 let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
                 
@@ -975,12 +977,12 @@ extension CGTicketVC {
                     let arr = result!["content"] as? [[String: Any]] ?? []
                     if arr.count > 0 {
                         self.AnyTimedictContest = arr
+                        self.getContestDetail()
                     }
                    
                     print(self.dictContestDetail)
                    
-                    self.getContestDetail()
-                } else if status == 401 {
+                                    } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
                     Alert().showAlert(title: "Error",
@@ -1138,7 +1140,7 @@ extension CGTicketVC {
 
             let content = UNMutableNotificationContent()
                content.title = strTitle
-               content.body = "Your game start soon, Hurry!!!!"
+               content.body = "Your game starts soon, Hurry!!!!"
                content.categoryIdentifier = "alarm"
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]

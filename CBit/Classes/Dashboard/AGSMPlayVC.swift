@@ -95,7 +95,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     private var isStartEventCall = Bool()
     
     var timer: Timer?
-    var second = Int()
+    var second = 30
     var msecond:Int = 999
     
     var endGameTimer: Timer?
@@ -136,6 +136,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     var bytesReceived: Int!
     
     var arrSelectedTikets = [[String: Any]]()
+    var AnyTimedictContest = [[String: Any]]()
     
     @IBOutlet weak var imgTower: UIImageView!
     
@@ -883,8 +884,8 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         
         print("Set Data",dictGameData)
         let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
-        second = (dictGameData["duration"] as? Int)!
-        print("secondsspre",second)
+//        second = (dictGameData["duration"] as? Int)!
+//        print("secondsspre",second)
         
         //
       
@@ -938,9 +939,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         //  labelTimer.text = ""
         if (gameStatus == "start") {
            
-            second = 30
+            
             self.labelTimer.text = "\(self.second)"
-            second = second - 1
+            //second = second - 1
             setTimer()
 
 
@@ -1038,8 +1039,8 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
     func setlockalldata(dictdata:[String:Any])  {
          let gameStatus = dictdata["gameStatus"] as? String ?? "notStart"
-                second = (dictdata["duration"] as? Int)!
-                print("secondsspre",second)
+              //  second = (dictdata["duration"] as? Int)!
+             //   print("secondsspre",second)
                 
            
                 
@@ -1328,7 +1329,10 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     //MARK: - Button Method
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
-        self.navigationController?.popViewController(animated: true)
+       // self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
+//        let DashboardVC = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardVC
+//        self.navigationController?.pushViewController(DashboardVC, animated: true)
     }
     @IBAction func buttonInfo(_ sender: Any) {
         let gameInfo = GamePlayInfo.instanceFromNib() as! GamePlayInfo
@@ -1374,11 +1378,11 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
         
         if collectionView == collection_slot {
-            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_original {
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         } else {
             return cell
@@ -1610,8 +1614,9 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.labelEntryFees.text = String(format: "₹ %.02f", test)
                     
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"
@@ -1679,8 +1684,9 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                     
                     
                     
-                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
-                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+//                    let strTickets = "\(arrSelectedTicket[indexPath.row]["totalTickets"]!)"
+//                    fixCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                    fixCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                     let strWinnings = "\(arrSelectedTicket[indexPath.row]["totalWinnings"]!)"
                     fixCell.labelTotalWinnig.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
                     let strWinners = "\(arrSelectedTicket[indexPath.row]["maxWinners"]!)"

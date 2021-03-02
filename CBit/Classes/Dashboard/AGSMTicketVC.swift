@@ -367,6 +367,7 @@ class AGSMTicketVC: UIViewController {
                     AGSMPlayVC.dictContest = dictContestDetail
                     AGSMPlayVC.isFromNotification = false
                     AGSMPlayVC.arrSelectedTikets = arrSelectedTikets
+                    AGSMPlayVC.AnyTimedictContest = AnyTimedictContest
                      self.navigationController?.pushViewController(AGSMPlayVC, animated: true)
                      
  //                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
@@ -676,9 +677,9 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
             let test = Double(strAmonut) ?? 0.00
             ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
             //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
-            let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
-            ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-            
+//            let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
+//            ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+            ticketCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
 
             
      let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
@@ -1090,11 +1091,12 @@ extension AGSMTicketVC {
                     let arr = result!["content"] as? [[String: Any]] ?? []
                     if arr.count > 0 {
                         self.AnyTimedictContest = arr
+                        self.getContestDetail()
                     }
                    
                     print(self.dictContestDetail)
                    
-                    self.getContestDetail()
+                   
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
@@ -1293,7 +1295,7 @@ extension AGSMTicketVC {
 
             let content = UNMutableNotificationContent()
                content.title = strTitle
-               content.body = "Your game start soon, Hurry!!!!"
+               content.body = "Your game starts soon, Hurry!!!!"
                content.categoryIdentifier = "alarm"
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]

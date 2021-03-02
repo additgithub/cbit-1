@@ -1057,7 +1057,7 @@ extension TicketVC {
 
             let content = UNMutableNotificationContent()
                content.title = strTitle
-               content.body = "Your game start soon, Hurry!!!!"
+               content.body = "Your game starts soon, Hurry!!!!"
                content.categoryIdentifier = "alarm"
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]
