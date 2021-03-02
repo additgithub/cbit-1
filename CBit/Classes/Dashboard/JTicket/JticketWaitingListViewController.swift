@@ -44,6 +44,9 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         super.viewDidLoad()
         isFirstTime = true
         getJticketWaitingList()
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,7 +76,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             }
             
             cell.lbl_jticketno.text = arrJticketuserwaitinglist[indexPath.row]["ticket_number"] as? String ?? "N/A"
-            cell.lbl_cashback.text = "\(arrJticketuserwaitinglist[indexPath.row]["price"]!)"
+            cell.lbl_cashback.text = "₹ \(arrJticketuserwaitinglist[indexPath.row]["price"]!)"
             cell.lbl_pos.text = "\(arrJticketuserwaitinglist[indexPath.row]["waiting"]!)"
             
             cell.btn_checkbox.tag = indexPath.row
@@ -104,6 +107,11 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             userCell.btn_offer_approch.tag = indexPath.row
             userCell.btn_offer_approch.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
             
+            
+            
+            
+            
+            
             let isApproch = arrJticketwaitinglist[indexPath.row]["isApproach"]! as! Int
             
             if isApproch > 0
@@ -123,7 +131,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                         let accepted = tempArrApprochList[i]["accept"]! as! Int
                         if accepted == 1
                         {
-                            userCell.btn_offer_approch.setTitle("Accepted", for: .normal)
+                            userCell.btn_offer_approch.setTitle("approached", for: .normal)
                             userCell.btn_offer_approch.isUserInteractionEnabled = false
                             break
                         }
@@ -139,7 +147,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                             }
                             else
                             {
-                                userCell.btn_offer_approch.setTitle("Approched", for: .normal)
+                                userCell.btn_offer_approch.setTitle("Approach", for: .normal)
                                 userCell.btn_offer_approch.isUserInteractionEnabled = false
                             }
                         }
@@ -278,6 +286,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             self.vw_deal.removeFromSuperview()
         }
         
+        selectedIndexpath = nil
         
     }
     @IBAction func btn_APPY_APPROCH(_ sender: UIButton) {
@@ -372,6 +381,9 @@ class Jticketwaitinglisting: UITableViewCell {
     @IBOutlet weak var lblappliedDate: UILabel!
     
     @IBOutlet weak var jticketwaitingno: UILabel!
+    
+    @IBOutlet weak var lbl_cashback: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -586,6 +598,7 @@ extension JticketWaitingListViewController
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
+                self.selectedIndexpath = nil
                 if status == 200 {
                     
                     let content = result!["content"] as! [String: Any]

@@ -167,6 +167,9 @@
 		B14A1109E2C43006116AF340 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		E40AE33081BCB57CE563A1F6 /* Pods_CBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D652900B505E5F93EC1228 /* Pods_CBit.framework */; };
 		E849A9C225E7CCC5004FB85C /* MyPrivateGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */; };
+		E84D1BA625EA1867006E11F8 /* EditGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D1BA525EA1867006E11F8 /* EditGameVC.swift */; };
+		E8551DAF25EE4D940074D885 /* SearchAllPrivateGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */; };
+		E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -375,6 +378,9 @@
 		B0D6ED1122C63D170019C6E6 /* PrivateModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateModeVC.swift; sourceTree = "<group>"; };
 		B0D7A07F22E1C656002229B5 /* PayKun.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayKun.framework; sourceTree = "<group>"; };
 		E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPrivateGroupsVC.swift; sourceTree = "<group>"; };
+		E84D1BA525EA1867006E11F8 /* EditGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGameVC.swift; sourceTree = "<group>"; };
+		E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAllPrivateGroupVC.swift; sourceTree = "<group>"; };
+		E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -751,7 +757,9 @@
 				9F6800EB25B804530052A76D /* ClassicGridViewController.swift */,
 				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
 				E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */,
+				E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */,
 				9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */,
+				E84D1BA525EA1867006E11F8 /* EditGameVC.swift */,
 				9FC75B9625C2CB2500A3B75D /* IDsVC.swift */,
 				9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */,
 				9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */,
@@ -763,6 +771,7 @@
 				2F8FBDC825D7B36600603A48 /* SMResultVC.swift */,
 				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
 				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
+				E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1048,6 +1057,7 @@
 				1FFB3E4F225C596000DC1AFA /* JoinedPlayerVC.swift in Sources */,
 				1FF6B0D7223CD59F00CB8C84 /* ViewComman.swift in Sources */,
 				1F801356224D044300675AF7 /* ViewWinnersVC.swift in Sources */,
+				E84D1BA625EA1867006E11F8 /* EditGameVC.swift in Sources */,
 				1F5DB44A222FEC7C00EF5FD5 /* ViewFilter.swift in Sources */,
 				1F631EF0225B2D050021EBAC /* ShareContestCodeVC.swift in Sources */,
 				1F5DB445222FC72000EF5FD5 /* PassBookTVC.swift in Sources */,
@@ -1141,6 +1151,7 @@
 				1FBD33B622291A3D00B74578 /* HowToPlayVC.swift in Sources */,
 				1F5DB450222FED1F00EF5FD5 /* ViewShorting.swift in Sources */,
 				1F01924322493E030063F3C0 /* AboutUsVC.swift in Sources */,
+				E8551DAF25EE4D940074D885 /* SearchAllPrivateGroupVC.swift in Sources */,
 				1FBD33B0222919BD00B74578 /* RegisterVC.swift in Sources */,
 				1F21C4D222896AA100F5A789 /* LinkBankAccountVC.swift in Sources */,
 				B028C91922D715D2009A4AA5 /* ReachabilityManager.swift in Sources */,
@@ -1171,6 +1182,7 @@
 				1F33F4C1226882AB00883616 /* OTPVarificationVC.swift in Sources */,
 				1F82201B222D3AE7008FDF65 /* WalletVC.swift in Sources */,
 				2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */,
+				E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

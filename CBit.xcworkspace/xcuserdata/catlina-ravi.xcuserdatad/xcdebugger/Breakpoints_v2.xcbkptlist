@@ -7,48 +7,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "907FCB3D-DF36-4365-8BBB-A424332B0251"
+            uuid = "6A9E353E-62A2-4F7A-BE7E-C9F0322E427B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
+            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "664"
-            endingLineNumber = "664"
-            landmarkName = "getApplyJticketApproachConfirm(ticketApproachOd:)"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "checkbox(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CB28C500-73B4-44C0-91EE-BDD0E4038EF6"
+            uuid = "336D4214-0B5B-4228-B0F4-76A2F4918A76"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
+            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "getJticketUserWaitingList(ticketId:)"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "checkbox(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "850C1DE5-F171-4C79-932B-CBE11FA2C2C5"
+            uuid = "39B6523C-EAB0-42FA-A419-CCDAD898CA61"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "checkbox(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6057478E-936E-46EE-992E-834FE4CA906B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "846"
+            endingLineNumber = "846"
+            landmarkName = "getApplyJticketApproachNagotiate(ticketApproachOd:nagotiatePrice:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "89FA2D4D-B977-43AA-A254-2F39A03EC496"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CBit/Classes/Dashboard/JTicket/JticketWaitingListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
-            landmarkName = "getJticketUserWaitingList(ticketId:)"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

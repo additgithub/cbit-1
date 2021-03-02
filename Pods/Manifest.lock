@@ -74,6 +74,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
+  - HSSearchable (4.2)
   - IGRPhotoTweaks (1.0.7)
   - IQKeyboardManagerSwift (6.2.0)
   - M13Checkbox (3.4.0)
@@ -110,6 +111,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - Firebase/Core
   - Firebase/Messaging
+  - HSSearchable
   - IGRPhotoTweaks (~> 1.0.0)
   - IQKeyboardManagerSwift
   - M13Checkbox
@@ -141,6 +143,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleUtilities
+    - HSSearchable
     - IGRPhotoTweaks
     - IQKeyboardManagerSwift
     - M13Checkbox
@@ -160,9 +163,9 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 6d79f6f3b98e2b21d218dd65a39f634ff37a27e5
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
   FBSDKLoginKit: caa165495afa29a12324cb2307fe6e5b33783142
   FBSDKShareKit: d0538e2385480d8b2901468c80abcf22aeaf2abd
@@ -174,6 +177,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: acbd51fe1a172bf29abaaa6e93a60f98bbf8e4f9
   GoogleAppMeasurement: 621f3bc6211d5ba548debe01fafad30cf5ab6859
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
+  HSSearchable: dbc30021c7d85f709eb58d9d25a5c95cdcecbe2b
   IGRPhotoTweaks: 8fe6b62c6599238d860b19b46a85a454e202f502
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
@@ -190,6 +194,6 @@ SPEC CHECKSUMS:
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
 
-PODFILE CHECKSUM: 97cc091f88cadc78be0cc690668ac3712e09fe89
+PODFILE CHECKSUM: 34b819190df46499add8c7ea97a090feca450562
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

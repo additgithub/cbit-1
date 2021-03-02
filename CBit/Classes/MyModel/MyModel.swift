@@ -82,7 +82,7 @@ class MyModel {
     
     // MARK: - Date Formatter
     func converStringToDate(strDate: String, getFormate: String) -> Date {
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = getFormate
         

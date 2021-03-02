@@ -18,6 +18,9 @@ class privategroupcell: UITableViewCell {
     @IBOutlet var lbltitle: UILabel!
     @IBOutlet var lbllockstyle: UILabel!
     
+    @IBOutlet weak var img_lockstyle: UIImageView!
+    @IBOutlet weak var img_grouptype: UIImageView!
+    
 }
 
 class PrivateGroupViewController: UIViewController {
@@ -53,6 +56,15 @@ class PrivateGroupViewController: UIViewController {
         self.navigationController?.pushViewController(CreatePrivateGroupVC, animated: true)
     }
     
+    @IBAction func btn_editgame_click(_ sender: UIButton) {
+        //let CreatePrivateGroupVC = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
+        //self.navigationController?.pushViewController(CreatePrivateGroupVC, animated: true)
+        
+        let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
+        jticketwaitinglists.modalPresentationStyle = .fullScreen
+        self.present(jticketwaitinglists, animated: true, completion: nil)
+        
+    }
     
     func MyGroupList() {
         Loading().showLoading(viewController: self)
@@ -80,7 +92,8 @@ class PrivateGroupViewController: UIViewController {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    self.arrGroupList = result!["content"] as? [[String: Any]] ?? []
+                    let tempDict = result!["content"] as? [String: Any] ?? [:]
+                    self.arrGroupList = tempDict["allRequest"] as? [[String:Any]] ?? []
                     
                     self.tbllist.reloadData()
                     
@@ -117,7 +130,39 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
         cell.btnjoincontest.addTarget(self, action: #selector(buttonJoinContest(_:)), for: .touchUpInside)
         
         
-        cell.lblgroupname.text = arrGroupList[indexPath.row]["private_group_name"] as? String
+        cell.lblgroupname.text = "Group Name : \(arrGroupList[indexPath.row]["group_name"] as? String ?? "N/A")"
+        
+        let lockStyle =  arrGroupList[indexPath.row]["lock_style"] as? String ?? "N/A"
+        if lockStyle == "basic"
+        {
+            cell.lbllockstyle.text = "Lock Style : Basic"
+            cell.img_lockstyle.image = #imageLiteral(resourceName: "classic_grid")
+        }
+        else if lockStyle == "paper_chit"
+        {
+            cell.lbllockstyle.text = "Lock Style : Paper Chit"
+            cell.img_lockstyle.image = #imageLiteral(resourceName: "ic_paper_chit")
+        }
+        else
+        {
+            cell.lbllockstyle.text = "Lock Style : Other"
+            cell.img_lockstyle.image = #imageLiteral(resourceName: "ic_paper_chit")
+        }
+        
+        
+        let soldTicket = arrGroupList[indexPath.row]["ticketSold"] as? String ?? "0"
+        let gameType =  arrGroupList[indexPath.row]["game_type"] as? String ?? "N/A"
+        if gameType == "spinning-machine"
+        {
+            cell.lbltitle.text = "Game Type : Spinning Machine (\(soldTicket) Tickets sold)"
+            cell.img_grouptype.image = #imageLiteral(resourceName: "slot_machine")
+        }
+        else if gameType == "0-9"
+        {
+            cell.lbltitle.text = "Game Type : Classic Grid (\(soldTicket) Tickets sold)"
+            cell.img_grouptype.image = #imageLiteral(resourceName: "classic_grid")
+        }
+        
         
         DispatchQueue.main.async {
             MyModel().roundCorners(corners: [.topRight,.topLeft,.bottomRight, .bottomLeft], radius: 10, view: cell.topvw)
@@ -125,6 +170,7 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
             MyModel().roundCorners(corners: [.bottomLeft], radius: 10, view: cell.btnjoincontest)
             cell.bottomvw.createDottedLine(width: 3, color: UIColor.black.cgColor)
         }
+        
         return cell
     }
     
