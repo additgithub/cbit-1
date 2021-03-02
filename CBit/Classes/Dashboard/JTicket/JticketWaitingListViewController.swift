@@ -76,7 +76,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             }
             
             cell.lbl_jticketno.text = arrJticketuserwaitinglist[indexPath.row]["ticket_number"] as? String ?? "N/A"
-            cell.lbl_cashback.text = "\(arrJticketuserwaitinglist[indexPath.row]["price"]!)"
+            cell.lbl_cashback.text = "₹ \(arrJticketuserwaitinglist[indexPath.row]["price"]!)"
             cell.lbl_pos.text = "\(arrJticketuserwaitinglist[indexPath.row]["waiting"]!)"
             
             cell.btn_checkbox.tag = indexPath.row
@@ -106,6 +106,11 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             
             userCell.btn_offer_approch.tag = indexPath.row
             userCell.btn_offer_approch.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+            
+            
+            
+            
+            
             
             let isApproch = arrJticketwaitinglist[indexPath.row]["isApproach"]! as! Int
             

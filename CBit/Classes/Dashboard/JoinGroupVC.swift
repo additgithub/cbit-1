@@ -22,7 +22,9 @@ class JoinGroupVC: UIViewController {
         if sender.tag == 11
         {//Search Click
             print("Search Click")
-            
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchAllPrivateGroupVC") as! SearchAllPrivateGroupVC
+            vc.modalPresentationStyle = .fullScreen
+                    self.present(vc, animated: true, completion: nil)
         }
         else
         {//Create Click

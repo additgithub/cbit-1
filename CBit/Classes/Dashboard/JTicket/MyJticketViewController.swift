@@ -197,6 +197,9 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
                 let tot = arrMyJTicket[indexPath.row]["ApproachList"] as? [[String:Any]] ?? []
                 userCell.btn_exhange.setTitle("Exchange Offer:\(tot.count)", for: .normal)
                 
+                userCell.btn_waiting_no.setTitle("Current Waiting No:\(waiting)", for: .normal)
+                userCell.btn_cash_back.setTitle("Cashback upto : ₹\(price)", for: .normal)
+                
                 
             }
             else if status == 2 {
@@ -547,8 +550,8 @@ class MyJticketlisting: UITableViewCell {
     
     @IBOutlet weak var stack_view: UIStackView!
     @IBOutlet weak var btn_exhange: UIButton!
-    
-    
+    @IBOutlet weak var btn_waiting_no: UIButton!
+    @IBOutlet weak var btn_cash_back: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
