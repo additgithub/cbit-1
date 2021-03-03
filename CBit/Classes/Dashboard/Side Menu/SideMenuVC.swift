@@ -53,8 +53,8 @@ class SideMenuVC: UIViewController {
             "My Group"
             ], isExpand: false),
         SideMenu(title: "Ids", subMenus: nil, isExpand: false),
-        SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
-        SideMenu(title: "Horoscope", subMenus: nil, isExpand: false),
+        //SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
+        //SideMenu(title: "Horoscope", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
         SideMenu(title: "Notification", subMenus: nil, isExpand: false),
         SideMenu(title: "History", subMenus: nil, isExpand: false),
@@ -126,8 +126,8 @@ class SideMenuVC: UIViewController {
         else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }
-        else if arrSideMenu[13].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[13].arrSubMenu!.count * 60))
+        else if arrSideMenu[11].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[11].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -156,132 +156,142 @@ class SideMenuVC: UIViewController {
     }
     
     func setViewController() {
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "DashboardNC")
-//        }, with: "0")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "RedeemJTicketNC")
-//        }, with: "1")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "PrivateModeNC")
-//        }, with: "2")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
-//        }, with: "3")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
-//        }, with: "4")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
-//        }, with: "5")
-//        // Terms & Condition TermsAndConditionNC
-////        sideMenuController?.cache(viewControllerGenerator: {
-////            self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionNC")
-////        }, with: "5")
-////        sideMenuController?.cache(viewControllerGenerator: {
-////            self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyNC")
-////        }, with: "6")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-//        }, with: "6")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
-//        }, with: "7")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "ResetPasswordNC")
-//        }, with: "8")
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
-//        }, with: "9")
-//
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "CreateContestVC") as! CreateContestVC
-//        }, with: "Zero")
-//
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "DashboardNC")
+        //        }, with: "0")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "RedeemJTicketNC")
+        //        }, with: "1")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "PrivateModeNC")
+        //        }, with: "2")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
+        //        }, with: "3")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
+        //        }, with: "4")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
+        //        }, with: "5")
+        //        // Terms & Condition TermsAndConditionNC
+        ////        sideMenuController?.cache(viewControllerGenerator: {
+        ////            self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionNC")
+        ////        }, with: "5")
+        ////        sideMenuController?.cache(viewControllerGenerator: {
+        ////            self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyNC")
+        ////        }, with: "6")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
+        //        }, with: "6")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
+        //        }, with: "7")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "ResetPasswordNC")
+        //        }, with: "8")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
+        //        }, with: "9")
+        //
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "CreateContestVC") as! CreateContestVC
+        //        }, with: "Zero")
+        //
         // deep for hidfing packages
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "PackageNC")
-//        }, with: "One")
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "PackageNC")
+        //        }, with: "One")
         
         
-//
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
-//
-//        }, with: "Two")
-//
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
-//        }, with: "Three")
-//
+        //
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+        //
+        //        }, with: "Two")
+        //
+        //        sideMenuController?.cache(viewControllerGenerator: {
+        //            self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
+        //        }, with: "Three")
+        //
         
-    
         
-//
-//            sideMenuController?.cache(viewControllerGenerator: {
-//                   self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
-//
-//               }, with: "One")
-//
-//              sideMenuController?.cache(viewControllerGenerator: {
-//                  self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
-//              }, with: "Two")
+        
+        //
+        //            sideMenuController?.cache(viewControllerGenerator: {
+        //                   self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+        //
+        //               }, with: "One")
+        //
+        //              sideMenuController?.cache(viewControllerGenerator: {
+        //                  self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
+        //              }, with: "Two")
         
         
         
         
         sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "DashboardNC")
-             }, with: "0")
-             sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "IDsNC")
-             }, with: "3")
+            self.storyboard?.instantiateViewController(withIdentifier: "DashboardNC")
+        }, with: "0")
+        
         sideMenuController?.cache(viewControllerGenerator: {
-                self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
-            }, with: "4")
+            self.storyboard?.instantiateViewController(withIdentifier: "IDsNC")
+        }, with: "3")
+        
+        /*sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+        }, with: "4")*/
+        
+        /*sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "HoroscopeNC")
+        }, with: "5")*/
+        
         sideMenuController?.cache(viewControllerGenerator: {
-                        self.storyboard?.instantiateViewController(withIdentifier: "HoroscopeNC")
-                    }, with: "5")
+            self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
+        }, with: "4")
+        
         sideMenuController?.cache(viewControllerGenerator: {
-                        self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
-                    }, with: "6")
-             sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
-             }, with: "7")
-             sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
-             }, with: "8")
+            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
+        }, with: "5")
+        
         sideMenuController?.cache(viewControllerGenerator: {
-                          self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
-                      }, with: "9")
+            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
+        }, with: "6")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
+        }, with: "7")
+        
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
+        }, with: "8")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
+        }, with: "9")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
         }, with: "10")
-       sideMenuController?.cache(viewControllerGenerator: {
-                 self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-               }, with: "11")
-      
-               sideMenuController?.cache(viewControllerGenerator: {
-                   self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
-               }, with: "12")
-              
-               
         
-//               sideMenuController?.cache(viewControllerGenerator: {
-//                   self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-//               }, with: "5")
-               sideMenuController?.cache(viewControllerGenerator: {
-                   self.storyboard?.instantiateViewController(withIdentifier: "CreateContestVC") as! CreateContestVC
-               }, with: "Zero")
         
-//                sideMenuController?.cache(viewControllerGenerator: {
-//                       self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
-//
-//                   }, with: "One")
         
-                  sideMenuController?.cache(viewControllerGenerator: {
-                      self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
-                  }, with: "Two")
+        //               sideMenuController?.cache(viewControllerGenerator: {
+        //                   self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
+        //               }, with: "5")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "CreateContestVC") as! CreateContestVC
+        }, with: "Zero")
+        
+        //                sideMenuController?.cache(viewControllerGenerator: {
+        //                       self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
+        //
+        //                   }, with: "One")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "JoinByCodeNC")
+        }, with: "Two")
         
     }
     
@@ -327,7 +337,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 2 || section == 13 {
+        if section == 1 || section == 2 || section == 11 {
             headerCell.imageMenuArrow.isHidden = false
         } else {
             headerCell.imageMenuArrow.isHidden = true
@@ -353,7 +363,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 13{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 11{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -411,7 +421,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }
-     else if indexPath.section == 13 {
+     else if indexPath.section == 11 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -442,7 +452,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[13].isExpande = false
+            arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -451,16 +461,16 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[13].isExpande = false
+            arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
         }
-        else if index == 13 {
+        else if index == 11 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[13].isExpande = false
+            arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -472,14 +482,14 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                 self.sideMenuController?.hideMenu()
             }
         }
-        else if index == 5 {
+        /*else if index == 5 {
             let IDsVC = self.storyboard?.instantiateViewController(withIdentifier: "HoroscopeVC") as! HoroscopeVC
             IDsVC.modalPresentationStyle = .fullScreen
             self.present(IDsVC, animated: true){
                 self.sideMenuController?.hideMenu()
             }
-        }
-        else if index == 7 {
+        }*/
+        else if index == 5 {
             let notificationVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
             notificationVC.modalPresentationStyle = .fullScreen
             self.present(notificationVC, animated: true){
@@ -495,7 +505,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 12 {
+        else if index == 10 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC
@@ -689,10 +699,26 @@ extension SideMenuVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     let dictData = result!["content"] as! [String: Any]
-                    self.lblapd.text = "₹\(dictData["ADP"]!)"
-                    self.lblefm.text = "₹\(dictData["TotalEntry"]!)"
-                    self.lblem.text = "₹\(dictData["TotalEarning"]!)"
-                    self.lblbap.text = "CC - \(dictData["BAP"]!)"
+                    
+                    let adp = dictData["ADP"]! as? String ?? "0.0"
+                    let efm = dictData["TotalEntry"]! as! Int
+                    let em = dictData["TotalEarning"]! as! Double
+                    let cc = dictData["BAP"]! as? String ?? "0.0"
+                    
+                    let formatter = NumberFormatter()              // Cache this, NumberFormatter creation is expensive.
+                    formatter.locale = Locale(identifier: "en_IN") // Here indian locale with english language is used
+                    formatter.numberStyle = .decimal               // Change to `.currency` if needed
+
+                     
+                    
+                    
+                    //let asd = formatter.string(for: <#T##Any?#>)
+                    
+                    
+                    self.lblapd.text = "₹\(String(describing: formatter.string(from: NSNumber(value: Double(adp)!))!))"
+                    self.lblefm.text = "₹\(String(describing: formatter.string(from: NSNumber(value: efm))!))"
+                    self.lblem.text = "₹\(String(describing: formatter.string(from: NSNumber(value: em))!))"
+                    self.lblbap.text = "CC - \(String(describing: formatter.string(from: NSNumber(value: Double(cc)!))!))"
                 } else if status == 401 {
                    
                     self.dismiss(animated: true, completion: nil)
