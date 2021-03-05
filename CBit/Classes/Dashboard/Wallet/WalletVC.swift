@@ -16,6 +16,8 @@ class WalletVC: UIViewController {
     
     @IBOutlet weak var btntranfertoaccnt: UIButton!
     
+    @IBOutlet weak var vw_jticketasset: UIView!
+    
     @IBOutlet weak var lblcc: UILabel!
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -89,6 +91,39 @@ class WalletVC: UIViewController {
     @objc func handleNotification() {
         viewWillAppear(true)
     }
+    
+    @IBAction func btn_WALLATE_J_ASSET(_ sender: Any) {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.tag = 100
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        vw_jticketasset.center = view.center
+        vw_jticketasset.alpha = 1
+        vw_jticketasset.transform = CGAffineTransform(scaleX: 0.8, y: 1.2)
+        
+        self.view.addSubview(vw_jticketasset)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
+            self.vw_jticketasset.transform = .identity
+        })
+    }
+    
+    @IBAction func btn_CLOSE(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: [], animations: {
+            //use if you wish to darken the background
+            //self.viewDim.alpha = 0
+            self.vw_jticketasset.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (success) in
+            for view in self.view.subviews {
+                if let viewWithTag = view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                }
+            }
+            self.vw_jticketasset.removeFromSuperview()
+        }
+    }
+    
     
     //MARK: - Button Method
     @IBAction func buttonMenu(_ sender: Any) {

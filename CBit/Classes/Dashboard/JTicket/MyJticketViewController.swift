@@ -25,7 +25,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     var MyJTicketDateArr = [[String: Any]]()
     var MyJTicketNameArr = [[String: Any]]()
     var arrApproachList = [[String:Any]]()
-
+    
     var isasc = true
     private var id = 0
     private var jticketid = 0
@@ -38,6 +38,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     var filterASC = "ASC"
     var filterticketname = ""
     var filterByDate = ""
+    var filterByExchange = "1"
     var isfromtab = false
     
     @IBOutlet weak var tbllistingMyjticket: UITableView!
@@ -54,6 +55,9 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     
     @IBOutlet var vw_exchangeoffer: UIView!
     @IBOutlet weak var tbl_offer: UITableView!
+    
+    @IBOutlet weak var btn_sortbyexchange: UIButton!
+    @IBOutlet weak var img_exchange: UIImageView!
     
     
     override func viewDidLoad() {
@@ -169,17 +173,18 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
                 userCell.btnapply.isUserInteractionEnabled = true
                 //   userCell.lblwon.isHidden = true
                 //    userCell.lblwinningprice.isHidden  = true
-                userCell.btnapply.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8652893926)
+                userCell.btnapply.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
                 userCell.vwhit.isHidden = true
                 userCell.lbldate.isHidden = true
                 userCell.stack_view.isHidden = true
+                userCell.btnapply.isHidden = false
             }
             else if status == 1 {
                 
                 
                 let  waiting = arrMyJTicket[indexPath.row]["waiting"] as? Int ?? 0
                 
-                let price = arrMyJTicket[indexPath.row]["price"] as? Double ?? 0.00
+                let price = arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0.00
                 
                 userCell.btnapply.setTitle("Current Waiting : \(waiting)" , for: .normal)
                 userCell.btnapply.isUserInteractionEnabled = false
@@ -197,9 +202,10 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
                 let tot = arrMyJTicket[indexPath.row]["ApproachList"] as? [[String:Any]] ?? []
                 userCell.btn_exhange.setTitle("Exchange Offer:\(tot.count)", for: .normal)
                 
-                userCell.btn_waiting_no.setTitle("Current Waiting No:\(waiting)", for: .normal)
-                userCell.btn_cash_back.setTitle("Cashback upto : ₹\(price)", for: .normal)
-                
+                userCell.btn_waiting_no.setTitle("Current Waiting\n No:\(waiting)", for: .normal)
+                userCell.btn_cash_back.setTitle("Cashback upto :\n ₹\(price)", for: .normal)
+                userCell.btn_waiting_no.titleLabel?.textAlignment = .center
+                userCell.btn_cash_back.titleLabel?.textAlignment = .center
                 
             }
             else if status == 2 {
@@ -243,7 +249,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         
         if cell.txt_offer.text?.count ?? 0 > 0
         {
-
+            
             let offerPrice = cell.txt_offer.text!
             getApplyJticketApproachNagotiate(ticketApproachOd: "\(String(describing: user_approch_j_ticket_id!))", nagotiatePrice: offerPrice)
         }
@@ -283,6 +289,23 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         }
     }
     
+    
+    @IBAction func btn_SORT_BY_EXCHANGE(_ sender: UIButton) {
+        
+        if sender.tag == 0
+        {
+            img_exchange.image = UIImage(named: "ic_send")
+            btn_sortbyexchange.tag = 1
+            filterByExchange = "1"
+        }
+        else
+        {
+            
+            img_exchange.image = UIImage(named: "ic_recive")
+            btn_sortbyexchange.tag = 0
+            filterByExchange = "0"
+        }
+    }
     
     @IBAction func btn_back(_ sender: Any) {
         self.dismiss(animated: true)
@@ -465,7 +488,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         arrMyJTicket = [[String:Any]]()
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
-        Limit = 5
+        Limit = 10
         isfromtab = true
         getUserJticket()
     }
@@ -482,6 +505,10 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         isasc = true
         btnbydate.setTitle("By Date", for: .normal)
         btnbyjticket.setTitle("By JTicket", for: .normal)
+        
+        img_exchange.image = UIImage(named: "ic_send")
+        filterByExchange = "1"
+        btn_sortbyexchange.tag = 1
         
         isfromtab = true
         filterticketname = ""
@@ -500,7 +527,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         arrMyJTicket = [[String:Any]]()
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
-        Limit = 5
+        Limit = 10
         
         if segment.selectedSegmentIndex == 0 {
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
@@ -562,6 +589,7 @@ class MyJticketlisting: UITableViewCell {
         
     }
 }
+
 extension MyJticketViewController {
     // Mark API For Getting ALLJticket
     func getUserJticket()  {
@@ -577,7 +605,8 @@ extension MyJticketViewController {
             "limit":Limit,
             "filterAscDesc":filterASC,
             "filterTicketName":filterticketname,
-            "filterByDate":filterByDate
+            "filterByDate":filterByDate,
+            "sortByApproch":filterByExchange
         ]
         
         SwiftAPI().postMethodSecure(stringURL: strURL,
@@ -621,8 +650,8 @@ extension MyJticketViewController {
                         self.arrMyJTicket.append(contentsOf: arr)
                         self.MainarrMyJTicket.append(contentsOf: arr)
                         self.ismoredata = true
-                        self.Start = self.Start + 5
-                        self.Limit =  5
+                        self.Start = self.Start + 10
+                        self.Limit =  10
                     }
                     else
                     {
