@@ -45,7 +45,7 @@ class JticketlistingViewController: UIViewController,UITableViewDelegate,UITable
         let purchaseprice = arrjtickets[indexPath.row]["price"] as? Double ?? 0.00
         
         
-        let boldText = "\(purchaseprice)"
+        let boldText = "\(String(format: "%.2f", purchaseprice))"
       
 //        let myBlue = UIColor(red: 62.0/255, green: 174.0/255, blue: 206.0/255, alpha: 1.0)
 //        let myGreen = UIColor(red: 110.0/255, green: 186.0/255, blue: 64.0/255, alpha: 1.0)
@@ -61,7 +61,7 @@ class JticketlistingViewController: UIViewController,UITableViewDelegate,UITable
         let redemptionfrom = arrjtickets[indexPath.row]["redenption_from"] as? Double ?? 0.00
         let redemptionto = arrjtickets[indexPath.row]["redenption_to"] as? Double ?? 0.00
   
-        let boldtext1 = "₹ " + "\(redemptionto)"
+        let boldtext1 = "₹ " + "\(String(format: "%.2f", redemptionto))"
    
         
         userCell.lblCurrentRedemptionvalue.text = boldtext1
