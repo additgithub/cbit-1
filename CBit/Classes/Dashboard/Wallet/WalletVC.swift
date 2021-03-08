@@ -19,14 +19,45 @@ class WalletVC: UIViewController {
     @IBOutlet weak var vw_jticketasset: UIView!
     
     @IBOutlet weak var lblcc: UILabel!
+    
+    
+    @IBOutlet weak var lbl_redeem_cc: UILabel!
+    @IBOutlet weak var lbl_applied_cc: UILabel!
+    @IBOutlet weak var tbl_redeem: UITableView!
+    @IBOutlet weak var tbl_apllied: UITableView!
+    
+     private var isFirstTime = Bool()
+    private var arrjtickets = [[String: Any]]()
+    
+    
+    private var arrMyJTicket = [[String: Any]]()
+    
+    var MainarrMyJTicket = [[String: Any]]()
+    var MyJTicketDateArr = [[String: Any]]()
+    var MyJTicketNameArr = [[String: Any]]()
+    var arrApproachList = [[String:Any]]()
+    
+    var isasc = true
+    private var id = 0
+    private var jticketid = 0
+    
+    var Start = 0
+    var Limit = 10
+    var ismoredata = false
+    
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
+        isFirstTime = true
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotification),
                                                name: .paymentUpdated,
                                                object: nil)
         UNUserNotificationCenter.current().delegate = self
+        
+        getUserJticket()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -258,5 +289,173 @@ extension WalletVC: KYCVerifycationDelegate {
 //        Alert().showAlert(title: "CBit",
 //                          message: "Your PAN card added successfully, Wait for the verification.",
 //                          viewController: self)
+    }
+}
+
+extension WalletVC
+{
+   
+    func getUserJticket()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getUserJTicket
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            "status":"0",
+            "start":Start,
+            "limit":"",
+            "filterAscDesc":"",
+            "filterTicketName":"",
+            "filterByDate":"",
+            "sortByApproch":""
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as? [String: Any] ?? [:]
+                    let apddict : NSDictionary = result!["content"] as! NSDictionary
+                    
+                    //  self.arrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    //  self.MainarrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    
+                    // self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
+                    
+                    //print(self.arrMyJTicket)
+                    print(content)
+                    
+                    
+                    let arr =  content["contest"] as! [[String : Any]]
+                    if arr.count > 0 {
+                        self.arrMyJTicket.append(contentsOf: arr)
+                        self.MainarrMyJTicket.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 10
+                        self.Limit =  10
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
+                    
+                    
+                    
+                    let APD = "\(apddict.value(forKey:"ADP") as? String ?? "0.00")"
+                    
+                    guard let amountPB = Double(APD) else {
+                        return
+                    }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+}
+
+extension WalletVC : UITableViewDelegate , UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == tbl_redeem
+        {
+            return 11
+        }
+        else
+        {
+            return 111
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == tbl_redeem
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
+            
+            return cell
+        }
+        else
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
+            
+            return cell
+        }
+        
+    }
+    
+    
+}
+
+//MARK: - Alert Contollert
+extension WalletVC {
+    func retry() {
+        let alertController = UIAlertController(title: Define.ERROR_TITLE,
+                                                message: Define.ERROR_SERVER,
+                                                preferredStyle: .alert)
+        let buttonRetry = UIAlertAction(title: "Retry",
+                                        style: .default)
+        { _ in
+            self.getUserJticket()
+        }
+        let cancel = UIAlertAction(title: "Cancel",
+                                   style: .cancel,
+                                   handler: nil)
+        alertController.addAction(cancel)
+        alertController.addAction(buttonRetry)
+        self.present(alertController,
+                     animated: true,
+                     completion: nil)
+    }
+    
+    
+    
+}
+
+
+class WalletCell : UITableViewCell
+{
+    
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        
     }
 }

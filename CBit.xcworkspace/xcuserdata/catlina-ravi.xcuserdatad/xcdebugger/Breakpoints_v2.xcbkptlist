@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "82A2749A-E0D4-4F94-981B-904BF670FB83"
+            uuid = "7FC3C9D2-3C6F-4817-8C3F-40009EDEDED4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
+            filePath = "CBit/Classes/Dashboard/Wallet/WalletVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
-            landmarkName = "apply_click(_:)"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "getUserJticket()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2B55044D-531D-4641-901E-301E843FE090"
+            uuid = "FCF3601E-B725-4072-933A-04558201BE29"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CBit/Classes/Dashboard/JTicket/MyJticketViewController.swift"
+            filePath = "CBit/Classes/Dashboard/Wallet/WalletVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
-            landmarkName = "apply_click(_:)"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "getUserJticket()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
