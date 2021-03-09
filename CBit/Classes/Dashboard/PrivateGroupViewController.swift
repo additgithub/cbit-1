@@ -46,10 +46,11 @@ class PrivateGroupViewController: UIViewController {
 
  
     @IBAction func back_click(_ sender: UIButton) {
-        // self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
+         self.navigationController?.popViewController(animated: true)
+        //self.dismiss(animated: true, completion: nil)
     }
     @IBAction func searchgroup_click(_ sender: UIButton) {
+        
     }
     @IBAction func creategroup_click(_ sender: UIButton) {
         let CreatePrivateGroupVC = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupVC") as! CreatePrivateGroupVC

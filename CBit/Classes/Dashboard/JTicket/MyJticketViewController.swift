@@ -342,17 +342,6 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     }
     @IBAction func btnsortbydate_click(_ sender: UIButton) {
         
-        //        let dateFormatter: DateFormatter = DateFormatter()
-        //        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss a"
-        //        let tempArray: NSMutableArray = NSMutableArray()
-        //        for i in 0..<MainarrMyJTicket.count {
-        //            let dic: NSMutableDictionary = (MainarrMyJTicket[i] as NSDictionary).mutableCopy() as! NSMutableDictionary
-        //            let dateConverted: NSDate = dateFormatter.date(from: dic["ApplyDate"] as? String ?? "") as NSDate? ?? NSDate()
-        //            let strdate = dateFormatter.string(from: dateConverted as Date)
-        //            dic["ApplyDate"] = strdate
-        //            tempArray.add(dic)
-        //        }
-        
         
         if isasc {
             imgdt.image = UIImage(named: "ic_recive")
