@@ -74,7 +74,16 @@ extension MyPrivateGroupsVC : UITableViewDelegate , UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MyPrivateGroupsCell
         cell.lbl_name.text = arrUserGroupList[indexPath.row]["private_group_name"] as? String ?? "N/A"
+        cell.lbl_tot_users.text = "Total User : \(arrUserGroupList[indexPath.row]["count"] as? Int ?? 00)"
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "GroupUserAndRequestListVC") as! GroupUserAndRequestListVC
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
     
@@ -110,6 +119,7 @@ class MyPrivateGroupsCell : UITableViewCell
     @IBOutlet weak var img_profile: UIImageView!
     @IBOutlet weak var lbl_name: UILabel!
     
+    @IBOutlet weak var lbl_tot_users: UILabel!
     
     
 }

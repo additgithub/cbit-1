@@ -169,6 +169,7 @@
 		E849A9C225E7CCC5004FB85C /* MyPrivateGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */; };
 		E84D1BA625EA1867006E11F8 /* EditGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D1BA525EA1867006E11F8 /* EditGameVC.swift */; };
 		E8551DAF25EE4D940074D885 /* SearchAllPrivateGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */; };
+		E85624BE25F7752E00D9C06D /* GroupUserAndRequestListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85624BD25F7752E00D9C06D /* GroupUserAndRequestListVC.swift */; };
 		E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -380,6 +381,7 @@
 		E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPrivateGroupsVC.swift; sourceTree = "<group>"; };
 		E84D1BA525EA1867006E11F8 /* EditGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGameVC.swift; sourceTree = "<group>"; };
 		E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAllPrivateGroupVC.swift; sourceTree = "<group>"; };
+		E85624BD25F7752E00D9C06D /* GroupUserAndRequestListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUserAndRequestListVC.swift; sourceTree = "<group>"; };
 		E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -754,6 +756,7 @@
 				1F48932724EC0D8B009D98E9 /* AutomationViewController.swift */,
 				1F258422255563E100324564 /* PrivateGroupViewController.swift */,
 				1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */,
+				E85624BD25F7752E00D9C06D /* GroupUserAndRequestListVC.swift */,
 				9F6800EB25B804530052A76D /* ClassicGridViewController.swift */,
 				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
 				E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */,
@@ -1152,6 +1155,7 @@
 				1F5DB450222FED1F00EF5FD5 /* ViewShorting.swift in Sources */,
 				1F01924322493E030063F3C0 /* AboutUsVC.swift in Sources */,
 				E8551DAF25EE4D940074D885 /* SearchAllPrivateGroupVC.swift in Sources */,
+				E85624BE25F7752E00D9C06D /* GroupUserAndRequestListVC.swift in Sources */,
 				1FBD33B0222919BD00B74578 /* RegisterVC.swift in Sources */,
 				1F21C4D222896AA100F5A789 /* LinkBankAccountVC.swift in Sources */,
 				B028C91922D715D2009A4AA5 /* ReachabilityManager.swift in Sources */,

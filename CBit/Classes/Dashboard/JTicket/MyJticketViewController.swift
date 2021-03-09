@@ -48,6 +48,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     @IBOutlet weak var lblApdrefresh: UILabel!
     
     @IBOutlet weak var filtervw: UIView!
+    @IBOutlet weak var vw_sortbyexchange_hide: UIView!
     @IBOutlet weak var imgdt: UIImageView!
     @IBOutlet weak var btnsortbydate: UIButton!
     @IBOutlet weak var btnbydate: UIButton!
@@ -181,15 +182,12 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             }
             else if status == 1 {
                 
-                
                 let  waiting = arrMyJTicket[indexPath.row]["waiting"] as? Int ?? 0
-                
                 let price = arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0.00
                 
                 userCell.btnapply.setTitle("Current Waiting : \(waiting)" , for: .normal)
                 userCell.btnapply.isUserInteractionEnabled = false
-                //      userCell.lblwon.isHidden = true
-                //       userCell.lblwinningprice.isHidden  = true
+                
                 userCell.btnapply.backgroundColor = #colorLiteral(red: 0.9670128226, green: 0.7354109883, blue: 0.1693300009, alpha: 1)
                 userCell.vwhit.isHidden = true
                 userCell.lbldate.isHidden = true
@@ -214,7 +212,6 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
                 
                 userCell.btnapply.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                 
-                //            userCell.btnapply.backgroundColor = #colorLiteral(red: 0.1254901961, green: 0.6117647059, blue: 0.6196078431, alpha: 1)
                 
                 userCell.btnapply.isUserInteractionEnabled = false
                 userCell.vwhit.isHidden = false
@@ -329,19 +326,21 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     //                }
     @IBAction func filter_click(_ sender: UIButton) {
         filtervw.isHidden = false
+        
+        if status == "0"
+        {
+            vw_sortbyexchange_hide.isHidden = false
+        }
+        else
+        {
+            vw_sortbyexchange_hide.isHidden = true
+        }
+        
+        
+        
+        
     }
     @IBAction func btnsortbydate_click(_ sender: UIButton) {
-        
-        //        let dateFormatter: DateFormatter = DateFormatter()
-        //        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss a"
-        //        let tempArray: NSMutableArray = NSMutableArray()
-        //        for i in 0..<MainarrMyJTicket.count {
-        //            let dic: NSMutableDictionary = (MainarrMyJTicket[i] as NSDictionary).mutableCopy() as! NSMutableDictionary
-        //            let dateConverted: NSDate = dateFormatter.date(from: dic["ApplyDate"] as? String ?? "") as NSDate? ?? NSDate()
-        //            let strdate = dateFormatter.string(from: dateConverted as Date)
-        //            dic["ApplyDate"] = strdate
-        //            tempArray.add(dic)
-        //        }
         
         
         if isasc {
@@ -533,6 +532,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
             //            tbllistingMyjticket.reloadData()
             status = "0"
+            filterByExchange = "0"
         }
         else if segment.selectedSegmentIndex == 1 {
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 1}
@@ -593,6 +593,12 @@ class MyJticketlisting: UITableViewCell {
 extension MyJticketViewController {
     // Mark API For Getting ALLJticket
     func getUserJticket()  {
+        
+        if status == "0"
+        {
+            filterByExchange = "0"
+        }
+        
         if isFirstTime {
             Loading().showLoading(viewController: self)
         }

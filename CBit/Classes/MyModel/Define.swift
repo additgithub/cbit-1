@@ -175,10 +175,17 @@ class Define {
     static let ALL_PRIVATE_GROUP = "allPrivateGroup"
     static let ALL_USER_PRIVATE_GROUP = "allUsersPrivateGroup"
     static let ALL_Contest_Request = "allContestRequests"
+    static let ALL_Private_Group_User_List = "PrivateGroupUserList"
+    
+    static let ALL_PRIVATE_GROUP_REQUEST_JOIN = "requestToJoinPrivateGroup"
+    static let ALL_PRIVATE_GROUP_REQUEST_ACCEPT_DECLINE = "acceptDeclineRequest"
     
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
      static let PLACEHOLDER_PROFILE_SIDE_IMAGE = #imageLiteral(resourceName: "sidemenuicon")
     static let PLACEHOLDER_PROFILE_IMAGE1 = #imageLiteral(resourceName: "ic_ractangle")
  }
+
+
+
 

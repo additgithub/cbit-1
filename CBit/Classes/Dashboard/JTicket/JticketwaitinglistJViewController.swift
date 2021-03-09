@@ -16,16 +16,10 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         
         
         @IBOutlet weak var tblwaitinglist: UITableView!
-        
-      
     
         private var arrJticketwaitinglist = [[String: Any]]()
-        
-        
         var id = 0
-        
     
-        
         override func viewDidLoad() {
             super.viewDidLoad()
             
@@ -34,10 +28,6 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
             getJticketWaitingListJ()
             
         }
-        
-        
-        
-        
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             
@@ -56,10 +46,9 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
             let imageURL = URL(string: arrJticketwaitinglist  [indexPath.row]["image"] as? String ?? "")
             userCell.imgjticket.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
             
+            userCell.lbl_appliy_count.text = "Apply : \(arrJticketwaitinglist[indexPath.row]["applyCount"] as? Int ?? 00)"
+            
             return userCell
-            
-            
-            
             
         }
         
@@ -102,6 +91,9 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         
         @IBOutlet weak var lblwaitingno: UILabel!
         
+        
+        @IBOutlet weak var lbl_appliy_count: UILabel!
+        
         override func awakeFromNib() {
             super.awakeFromNib()
             
@@ -142,6 +134,7 @@ extension JticketwaitinglistJViewController {
                     Loading().hideLoading(viewController: self)
                 }
                 print("Result: \(result!)")
+                //applyCount = 0
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     

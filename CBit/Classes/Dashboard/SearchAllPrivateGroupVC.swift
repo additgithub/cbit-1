@@ -128,6 +128,47 @@ class SearchAllPrivateGroupVC: UIViewController {
         }
     }
 
+    
+    func SendJoinRequest(groupId:String) {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [
+            "group_id":groupId
+        ]
+        let strURL = Define.APP_URL + Define.ALL_PRIVATE_GROUP_REQUEST_JOIN
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let meg = result!["message"] as? String
+                    self.showToast(message: meg!, font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
 }
 
 extension AllUserListData: SearchableData {
@@ -149,11 +190,39 @@ extension SearchAllPrivateGroupVC : UITableViewDelegate , UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SearchAllPrivateGroupCell
         cell.lbl_name.text = arrUserGroupList[indexPath.row].privateGroupName ?? ""
+        
+        
+        cell.btn_join.tag = indexPath.row
+        cell.btn_join.addTarget(self, action: #selector(connected(sender:)), for: .touchUpInside)
+
+        
+        let user_id = arrUserGroupList[indexPath.row].userID!
+        let userId = Define.USERDEFAULT.value(forKey: "UserID") as? String
+        
+        if userId == "\(user_id)"
+        {
+            cell.btn_join.isUserInteractionEnabled = false
+            cell.btn_join.alpha = 0.7
+        }
+        else
+        {
+            cell.btn_join.isUserInteractionEnabled = true
+            cell.btn_join.alpha = 1.0
+        }
+        
+        
+        
         return cell
     }
     
+    @objc func connected(sender: UIButton){
+        let buttonTag = sender.tag
+        let idd = arrUserGroupList[sender.tag].id!
+        self.SendJoinRequest(groupId: "\(idd)")
+    }
     
 }
+
 
 extension SearchAllPrivateGroupVC {
     func retry() {
@@ -185,6 +254,7 @@ class SearchAllPrivateGroupCell : UITableViewCell
     @IBOutlet weak var img_profile: UIImageView!
     @IBOutlet weak var lbl_name: UILabel!
     
+    @IBOutlet weak var btn_join: UIButton!
     
     
 }
