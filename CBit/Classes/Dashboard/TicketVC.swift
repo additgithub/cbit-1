@@ -354,6 +354,7 @@ class TicketVC: UIViewController {
     }
     @IBAction func joinprivategroup_click(_ sender: UIButton) {
         let NextVC = self.storyboard?.instantiateViewController(withIdentifier: "PrivateGroupViewController") as! PrivateGroupViewController
+        NextVC.dictContest = dictContest
         self.navigationController?.pushViewController(NextVC, animated: true)
         
     }
@@ -433,10 +434,8 @@ extension TicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         let cell1 = collectionView.dequeueReusableCell(withReuseIdentifier: "Bracketcv", for: indexPath) as! Bracketcv
         
-
             cell1.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
-            
-           cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
+            cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
       
         return cell1
         

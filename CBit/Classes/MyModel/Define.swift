@@ -163,6 +163,8 @@ class Define {
     static let getUserJTicketDate = "getUserJTicketDate"
     static let getUserJTicketName = "getUserJTicketName"
     
+    static let getJAssets = "getJAssets"
+    
     static let getSpinningMachine = "getSpinningMachine"
     
     static let CONTEST_DAYS = "contestDays"
@@ -185,6 +187,7 @@ class Define {
      static let PLACEHOLDER_PROFILE_SIDE_IMAGE = #imageLiteral(resourceName: "sidemenuicon")
     static let PLACEHOLDER_PROFILE_IMAGE1 = #imageLiteral(resourceName: "ic_ractangle")
  }
+
 
 
 
