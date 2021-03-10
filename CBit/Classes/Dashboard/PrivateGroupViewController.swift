@@ -35,14 +35,110 @@ class PrivateGroupViewController: UIViewController {
     var GroupList = [String]()
     private var arrGroupList = [[String: Any]]()
     
+    var dictContest = [String: Any]()
+    private var currentData = Date()
+    var timer: Timer?
+    var seconds = Int()
+    
+    private var closeDate = Date()
+    var closeSecond = Int()
+    var closeTimer: Timer?
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        GroupList = ["Happy family","Cousion","Friends Forever","Top 20","Land On moon","Old is Gold"]
-        MyGroupList()
+        //GroupList = ["Happy family","Cousion","Friends Forever","Top 20","Land On moon","Old is Gold"]
+        //MyGroupList()
+        
+        
+        let sDate1 = dictContest["startDate"]  as! String
+        
+        lblgametime.text = MyModel().convertStringDateToString(strDate: sDate1,
+        getFormate: "yyyy-MM-dd HH:mm:ss",
+        returnFormat: "hh:mm a")
+        
+        lbldate.text = "Date: \( MyModel().convertStringDateToString(strDate: sDate1, getFormate: "yyyy-MM-dd HH:mm:ss", returnFormat: "dd-MM-yyyy"))"
+        
+        
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let sDate = dateFormater.date(from:sDate1)
+        
+        print("Start Date :\(String(describing: sDate))")
+                let calender = Calendar.current
+                let unitFlags = Set<Calendar.Component>([ .second])
+        let dateComponent = calender.dateComponents(unitFlags, from: Date(), to:sDate!)
+                seconds = dateComponent.second!
+                print("Seconds: \(seconds)")
+                if timer == nil {
+                    timer = Timer.scheduledTimer(timeInterval: 1,
+                                                 target: self,
+                                                 selector: #selector(handleTimer),
+                                                 userInfo: nil,
+                                                 repeats: true)
+                }
+        
+        let closeDate1 = dictContest["closeDate"]  as! String
+        let dateFormater1 = DateFormatter()
+        dateFormater1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let closeDate = dateFormater1.date(from:closeDate1)
+        
+        print("Close Date :\(String(describing: closeDate))")
+                let calender1 = Calendar.current
+                let unitFlags1 = Set<Calendar.Component>([ .second])
+        let dateComponent1 = calender1.dateComponents(unitFlags1, from: Date(), to:closeDate!)
+                closeSecond = dateComponent1.second!
+                print("Seconds: \(closeSecond)")
+                if closeTimer == nil {
+                    closeTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                 target: self,
+                                                 selector: #selector(handleCloseTimer),
+                                                 userInfo: nil,
+                                                 repeats: true)
+                }
+        
+        
     }
     
+    @objc func handleTimer() {
+        if  seconds > 0{
+            seconds -= 1
+            lblremainingtime.text = "\(timeString(time: TimeInterval(seconds)))"
+        } else {
+            if timer != nil {
+                timer!.invalidate()
+                timer = nil
+            }
+            lblremainingtime.text = "00:00:00"
+        }
+    }
+    
+    @objc func handleCloseTimer() {
+        if closeSecond > 0 {
+            closeSecond = closeSecond - 1
+            lblentryclosing.text = timeString(time: TimeInterval(closeSecond))
+        } else {
+            if closeTimer != nil {
+                closeTimer!.invalidate()
+                closeTimer = nil
+            }
+            lblentryclosing.text = "00:00:00"
+        }
+    }
+    
+    func timeString(time: TimeInterval) -> String {
+        let hours = Int(time) / 3600
+        let minutes = Int(time) / 60 % 60
+        let secounds = Int(time) % 60
+        
+        let strTime = String(format: "%02i:%02i:%02i", hours, minutes, secounds)
+        return strTime
+    }
 
  
     @IBAction func back_click(_ sender: UIButton) {
@@ -61,7 +157,7 @@ class PrivateGroupViewController: UIViewController {
         //let CreatePrivateGroupVC = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
         //self.navigationController?.pushViewController(CreatePrivateGroupVC, animated: true)
         
-        let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
+        let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupVC") as! CreatePrivateGroupVC
         jticketwaitinglists.modalPresentationStyle = .fullScreen
         self.present(jticketwaitinglists, animated: true, completion: nil)
         

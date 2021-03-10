@@ -24,7 +24,6 @@ class WalletVC: UIViewController {
     @IBOutlet weak var lbl_redeem_cc: UILabel!
     @IBOutlet weak var lbl_applied_cc: UILabel!
     @IBOutlet weak var tbl_redeem: UITableView!
-    @IBOutlet weak var tbl_apllied: UITableView!
     
      private var isFirstTime = Bool()
     private var arrjtickets = [[String: Any]]()
@@ -36,6 +35,8 @@ class WalletVC: UIViewController {
     var MyJTicketDateArr = [[String: Any]]()
     var MyJTicketNameArr = [[String: Any]]()
     var arrApproachList = [[String:Any]]()
+    
+    var arrAssetList = [GetAppliedReedeemedList]()
     
     var isasc = true
     private var id = 0
@@ -58,6 +59,7 @@ class WalletVC: UIViewController {
         UNUserNotificationCenter.current().delegate = self
         
         getUserJticket()
+        CallJAssetData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -382,35 +384,88 @@ extension WalletVC
         }
     }
     
+    func CallJAssetData()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getJAssets
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
+                        // here "jsonData" is the dictionary encoded in JSON data
+                        
+                        let allAssetListModel = try? JSONDecoder().decode(JAssetsListModel.self, from: jsonData)
+                        
+                        self.arrAssetList = (allAssetListModel?.content?.getAppliedReedeemedList)!
+                        let contact = allAssetListModel?.content!
+                        self.lbl_applied_cc.text = "CC \(contact!.appliedCC!)"
+                        self.lbl_redeem_cc.text = "CC \(contact!.redemedCC!)"
+                        
+                        self.tbl_redeem.reloadData()
+                       
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
 }
 
 extension WalletVC : UITableViewDelegate , UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == tbl_redeem
-        {
-            return 11
-        }
-        else
-        {
-            return 111
-        }
+        return arrAssetList.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == tbl_redeem
-        {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
-            
-            return cell
-        }
-        else
-        {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
-            
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
+        
+        cell.lbl_ticket_name.text = arrAssetList[indexPath.row].name ?? ""
+        cell.lbl_redeemcc.text = "CC \(arrAssetList[indexPath.row].redemedCC!)"
+        cell.lbl_appliedcc.text = "CC \(arrAssetList[indexPath.row].appliedCC!)"
+        
+        return cell
         
     }
     
@@ -446,6 +501,9 @@ extension WalletVC {
 class WalletCell : UITableViewCell
 {
     
+    @IBOutlet weak var lbl_ticket_name: UILabel!
+    @IBOutlet weak var lbl_redeemcc: UILabel!
+    @IBOutlet weak var lbl_appliedcc: UILabel!
     
     
     override func awakeFromNib() {
@@ -457,5 +515,39 @@ class WalletCell : UITableViewCell
         super.setSelected(selected, animated: animated)
         
         
+    }
+}
+
+
+import Foundation
+
+// MARK: - JAssetsListModel
+struct JAssetsListModel: Codable {
+    let message: String?
+    let content: ContentData?
+    let statusCode: Int?
+}
+
+// MARK: - Content
+struct ContentData: Codable {
+    let appliedCC, redemedCC: Int?
+    let getAppliedReedeemedList: [GetAppliedReedeemedList]?
+
+    enum CodingKeys: String, CodingKey {
+        case appliedCC = "AppliedCC"
+        case redemedCC = "RedemedCC"
+        case getAppliedReedeemedList
+    }
+}
+
+// MARK: - GetAppliedReedeemedList
+struct GetAppliedReedeemedList: Codable {
+    let appliedCC, redemedCC, id: Int?
+    let name: String?
+
+    enum CodingKeys: String, CodingKey {
+        case appliedCC = "AppliedCC"
+        case redemedCC = "RedemedCC"
+        case id, name
     }
 }
