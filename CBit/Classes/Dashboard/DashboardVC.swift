@@ -281,8 +281,6 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return 1
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        
         if collectionView == self.collectionSpecialcontest
