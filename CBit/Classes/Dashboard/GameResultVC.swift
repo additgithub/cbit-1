@@ -356,101 +356,15 @@ class GameResultTVC: UITableViewCell {
     @IBOutlet weak var img0: UIImageView!
     @IBOutlet weak var img1: UIImageView!
     @IBOutlet weak var img2: UIImageView!
-    @IBOutlet weak var lblplaypending: UILabel!
-    @IBOutlet weak var lblgameno: UILabel!
-    
-    
-    @IBOutlet weak var collectionlist: UICollectionView!
-    
-    var arrSloats = [[String: Any]]()
-    var strDisplayValue = String()
-    
-//    var arrData:[[String: Any]]? {
-//        didSet {
-//            guard let arrList = arrData else { return }
-//            arrSloats = arrList
-//            collectionlist.reloadData()
-//        }
-//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         buttonViewWinners.layer.cornerRadius = 5
         buttonViewWinners.layer.masksToBounds = true
-       
-        collectionlist?.delegate = self
-        collectionlist?.dataSource = self
-        
-        
     }
-    
-   
-
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-    }
-}
-
-extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrSloats.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if arrSloats.count == 2 {
-            return CGSize(width: 50, height: 50)
-        } else {
-            return CGSize(width: 50, height: 50)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
-        
-        if strDisplayValue == arrSloats[indexPath.row]["displayValue"] as? String ?? "" {
-            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-            lockcell.contentView.layer.borderWidth = 2
-        }
-        else
-        {
-            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-            lockcell.contentView.layer.borderWidth = 0
-        }
-        
-        let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
-      
-             if strDisplayValue == "Draw" {
-                 let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                lockcell.labelDisplayValue.text = strMainString
-                lockcell.labelDisplayValue.isHidden = false
-                lockcell.img.isHidden = true
-             }
-             else
-             {
-                lockcell.labelDisplayValue.isHidden = true
-                lockcell.img.isHidden = false
-                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
-                lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
-             }
-      
-        return lockcell
-    }
-    
-    func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
-        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
-        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
-        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
-        if let dirPath = paths.first{
-            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
-            let image    = UIImage(contentsOfFile: imageURL.path) ?? UIImage()
-            return image
-        }
-        return UIImage.init(named: "default.png")!
     }
 }

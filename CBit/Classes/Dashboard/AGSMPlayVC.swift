@@ -10,20 +10,12 @@ import UIKit
 import AVFoundation
 import SocketIO
 
-class lockallcell: UICollectionViewCell {
-    @IBOutlet weak var labelDisplayValue: UILabel!
-    @IBOutlet weak var viewSloats: ViewWithRadius!
-    @IBOutlet weak var img: UIImageView!
-
-}
-
 class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
-//    @IBOutlet weak var imgminus: UIImageView!
-//    @IBOutlet weak var imgzero: UIImageView!
-//    @IBOutlet weak var imgplus: UIImageView!
+    @IBOutlet weak var imgminus: UIImageView!
+    @IBOutlet weak var imgzero: UIImageView!
+    @IBOutlet weak var imgplus: UIImageView!
     
-    @IBOutlet weak var collection_lockall: UICollectionView!
     @IBOutlet var collection_slot: UICollectionView!
     @IBOutlet weak var collection_original: UICollectionView!
     @IBOutlet weak var fadevw: UIView!
@@ -46,16 +38,18 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
 
     
-  //  @IBOutlet weak var buttonAnsMinus: ButtonWithRadius!
+    @IBOutlet weak var buttonAnsMinus: ButtonWithRadius!
     
     @IBOutlet weak var labelanswerselected: UILabel!
     
-  //  @IBOutlet weak var buttonAnsZero: ButtonWithRadius!
+    @IBOutlet weak var buttonAnsZero: ButtonWithRadius!
     
     
-  //  @IBOutlet weak var buttonAnsPlus: ButtonWithRadius!
+    @IBOutlet weak var buttonAnsPlus: ButtonWithRadius!
     
     @IBOutlet weak var viewrdb: UIView!
+    
+    @IBOutlet weak var view0to9: UIView!
     
     @IBOutlet weak var btnlockall: ButtonWithRadius!
     
@@ -64,10 +58,10 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     var gametype : String = ""
     var strDisplayValuelockall: String?
     
-//    @IBOutlet weak var labelAnsMinus: UILabel!
-//    @IBOutlet weak var labelAnsZero: UILabel!
-//
-//    @IBOutlet weak var labelAnsPlus: UILabel!
+    @IBOutlet weak var labelAnsMinus: UILabel!
+    @IBOutlet weak var labelAnsZero: UILabel!
+    
+    @IBOutlet weak var labelAnsPlus: UILabel!
     
     //MARK: - Properites
     @IBOutlet weak var viewTimmer: UIView!
@@ -75,11 +69,11 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     @IBOutlet weak var tableAnswer: UITableView!
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var labelTimer: UILabel!
-   
+    @IBOutlet var btnlockallnumber: ButtonWithRadius!
     @IBOutlet var lbllockedat: UILabel!
     
     @IBOutlet weak var constrainCollectionViewHeight: NSLayoutConstraint!
-    
+    @IBOutlet var lblnumberanswerselected: UILabel!
     @IBOutlet weak var imgselected: UIImageView!
     
     @IBOutlet weak var imgplaypause: UIImageView!
@@ -143,7 +137,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
     var arrSelectedTikets = [[String: Any]]()
     var AnyTimedictContest = [[String: Any]]()
-    var arrSloat = [[String:Any]]()
     
     @IBOutlet weak var imgTower: UIImageView!
     
@@ -166,12 +159,6 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
            // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
            // constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
-        
-//     //   collection_lockall.register(lockallcell.self, forCellWithReuseIdentifier: "lockallcell")
-//        let nib = UINib(nibName: "UICollectionElementKindCell", bundle:nil)
-//        self.collection_lockall.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
-        let layout = collection_lockall?.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: 50, height: 50)
         
          gamelevel = dictContest["rows"] as? Int ?? 0
       
@@ -371,7 +358,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
     func configStartTimer()
     {
-        startTimer=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(AGSMPlayVC.HandleGameStartTimer), userInfo: nil, repeats: true)
+        startTimer=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(AGSMPlayVC.HandleStartTimer), userInfo: nil, repeats: true)
         RunLoop.current.add(self.startTimer!, forMode: .common)
     }
     
@@ -380,21 +367,18 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         startTimer?.invalidate()
     }
     
-    @objc func HandleGameStartTimer()
+    @objc func HandleStartTimer()
     {
         StartSecond = StartSecond-1
 
         labelTimer.text = "Game starts in: \(StartSecond)"
-                if StartSecond == 1 {
-                    joinContest()
+                if StartSecond == 0 {
+                   deconfigStartTimer()
                     btnplaypause.isHidden = true
                     imgplaypause.isHidden = true
                     lblplaypause.isHidden = true
+                    joinContest()
                 }
-        if StartSecond == 0
-        {
-            deconfigStartTimer()
-        }
     }
     
     @IBAction func btn_lockall(_ sender: Any) {
@@ -424,10 +408,10 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
            btnlockall.isEnabled = false
            btnlockall.alpha = 0.5
            btnlock.isHidden = false
-//           buttonAnsMinus.isEnabled = false
-//           buttonAnsPlus.isEnabled = false
-//           buttonAnsZero.isEnabled = false
-        collection_lockall.isUserInteractionEnabled = false
+           buttonAnsMinus.isEnabled = false
+           buttonAnsPlus.isEnabled = false
+           buttonAnsZero.isEnabled = false
+        
         
                let parameter:[String: Any] = ["userId": Define.USERDEFAULT.value(forKey: "UserID")!,
                                               "contestId": dictContest["id"]!,
@@ -452,6 +436,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                        return
                    }
                    
+                   
                    let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
                    let dictData = MyModel().convertToDictionary(text: strJSON)
                    print("Get Data: \(dictData!)")
@@ -460,14 +445,14 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                    if status == 200 {
                        self.Lockall1?.removeFromSuperview()
                        
-                    let dictItemData1 = dictData!["content"] as! [[String: Any]]
+                       var dictItemData1 = dictData!["content"] as! [[String: Any]]
                        print(dictItemData1)
                        
-                    let i = 0
+                       var i = 0
                        
                        for i in i..<self.arrSelectedTicket.count {
                            
-                        let dictItemData = dictItemData1[i]
+                       var dictItemData = dictItemData1[i]
                        var dictTicket = self.arrSelectedTicket[i]
                        dictTicket["isLock"] = dictItemData["isLockAll"]
                        dictTicket["displayValue"] = dictItemData["DisplayValue"]
@@ -477,104 +462,103 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                        
 //                       let indexPath = IndexPath(row:i, section: 0)
 //                       self.tableAnswer.reloadRows(at: [indexPath], with: .none)
+                        self.tableAnswer.reloadData()
+                        self.getContestDetail(isfromtimer: true, isStart: 0)
                        }
-                    self.tableAnswer.reloadData()
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
-                    self.setlockalldata(dictdata: dictItemData1[0])
                    }
                }
         
         
     }
     
-//    @IBAction func btnAnsMinus(_ sender: Any) {
-//
-//        buttonAnsMinus.layer.borderColor = UIColor.black.cgColor
-//        buttonAnsMinus.layer.borderWidth = 2
-//
-//        buttonAnsPlus.layer.borderWidth = 0
-//        buttonAnsZero.layer.borderWidth = 0
-//
-//
-//        let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-//
-//      // labelanswerselected.text! = arrSloats[0]["displayValue"] as? String ?? "-"
-//        //labelanswerselected.text! = labelAnsMinus.text ?? ""
-//
-//
-//        strDisplayValuelockall = arrSloats[0]["displayValue"] as? String ?? ""
-//        if strDisplayValuelockall == "Draw" {
-//            labelanswerselected.isHidden = false
-//            imgselected.isHidden = true
-//            labelanswerselected.text = strDisplayValuelockall
-//        }
-//        else
-//        {
-//            labelanswerselected.isHidden = true
-//            imgselected.isHidden = false
-//            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
-//        }
-//
-//
-//    }
+    @IBAction func btnAnsMinus(_ sender: Any) {
+        
+        buttonAnsMinus.layer.borderColor = UIColor.black.cgColor
+        buttonAnsMinus.layer.borderWidth = 2
+        
+        buttonAnsPlus.layer.borderWidth = 0
+        buttonAnsZero.layer.borderWidth = 0
+        
+        
+        let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+        
+      // labelanswerselected.text! = arrSloats[0]["displayValue"] as? String ?? "-"
+        //labelanswerselected.text! = labelAnsMinus.text ?? ""
+
+        
+        strDisplayValuelockall = arrSloats[0]["displayValue"] as? String ?? ""
+        if strDisplayValuelockall == "Draw" {
+            labelanswerselected.isHidden = false
+            imgselected.isHidden = true
+            labelanswerselected.text = strDisplayValuelockall
+        }
+        else
+        {
+            labelanswerselected.isHidden = true
+            imgselected.isHidden = false
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
+        }
+        
+        
+    }
     
     
-//    @IBAction func btnAnsZero(_ sender: Any) {
-//
-//        buttonAnsZero.layer.borderColor = UIColor.black.cgColor
-//        buttonAnsZero.layer.borderWidth = 2
-//
-//        buttonAnsPlus.layer.borderWidth = 0
-//        buttonAnsMinus.layer.borderWidth = 0
-//
-//
-//        let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-//      //  labelanswerselected.text! = arrSloats[1]["displayValue"] as? String ?? "0"
-//
-//       // labelanswerselected.text! = labelAnsZero.text ?? ""
-//
-//
-//         strDisplayValuelockall = arrSloats[1]["displayValue"] as? String ?? ""
-//        if strDisplayValuelockall == "Draw" {
-//            labelanswerselected.isHidden = false
-//            imgselected.isHidden = true
-//            labelanswerselected.text = strDisplayValuelockall
-//        }
-//        else
-//        {
-//            labelanswerselected.isHidden = true
-//            imgselected.isHidden = false
-//            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
-//        }
-//
-//    }
+    @IBAction func btnAnsZero(_ sender: Any) {
+        
+        buttonAnsZero.layer.borderColor = UIColor.black.cgColor
+        buttonAnsZero.layer.borderWidth = 2
+        
+        buttonAnsPlus.layer.borderWidth = 0
+        buttonAnsMinus.layer.borderWidth = 0
+        
+        
+        let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+      //  labelanswerselected.text! = arrSloats[1]["displayValue"] as? String ?? "0"
+        
+       // labelanswerselected.text! = labelAnsZero.text ?? ""
+        
+
+         strDisplayValuelockall = arrSloats[1]["displayValue"] as? String ?? ""
+        if strDisplayValuelockall == "Draw" {
+            labelanswerselected.isHidden = false
+            imgselected.isHidden = true
+            labelanswerselected.text = strDisplayValuelockall
+        }
+        else
+        {
+            labelanswerselected.isHidden = true
+            imgselected.isHidden = false
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
+        }
+
+    }
     
-//    @IBAction func btnAnsPlua(_ sender: Any) {
-//
-//        buttonAnsPlus.layer.borderColor = UIColor.black.cgColor
-//        buttonAnsPlus.layer.borderWidth = 2
-//
-//        buttonAnsZero.layer.borderWidth = 0
-//        buttonAnsMinus.layer.borderWidth = 0
-//
-//          let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-//        // labelanswerselected.text = arrSloats[2]["displayValue"] as? String ?? "+"
-//        //  labelanswerselected.text! = labelAnsPlus.text ?? ""
-//
-//         strDisplayValuelockall = arrSloats[2]["displayValue"] as? String ?? ""
-//        if strDisplayValuelockall == "Draw" {
-//            labelanswerselected.isHidden = false
-//            imgselected.isHidden = true
-//            labelanswerselected.text = strDisplayValuelockall
-//        }
-//        else
-//        {
-//            labelanswerselected.isHidden = true
-//            imgselected.isHidden = false
-//            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
-//        }
-//
-//    }
+    @IBAction func btnAnsPlua(_ sender: Any) {
+        
+        buttonAnsPlus.layer.borderColor = UIColor.black.cgColor
+        buttonAnsPlus.layer.borderWidth = 2
+        
+        buttonAnsZero.layer.borderWidth = 0
+        buttonAnsMinus.layer.borderWidth = 0
+         
+          let arrSloats = arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+        // labelanswerselected.text = arrSloats[2]["displayValue"] as? String ?? "+"
+        //  labelanswerselected.text! = labelAnsPlus.text ?? ""
+
+         strDisplayValuelockall = arrSloats[2]["displayValue"] as? String ?? ""
+        if strDisplayValuelockall == "Draw" {
+            labelanswerselected.isHidden = false
+            imgselected.isHidden = true
+            labelanswerselected.text = strDisplayValuelockall
+        }
+        else
+        {
+            labelanswerselected.isHidden = true
+            imgselected.isHidden = false
+            imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
+        }
+
+    }
     
     override func viewWillLayoutSubviews() {
         
@@ -658,10 +642,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                            btnlockall.isHidden = false
                                            btnlock.isHidden = true
                                            lbllockedat.isHidden = true
-//                                           buttonAnsMinus.isEnabled = true
-//                                           buttonAnsPlus.isEnabled = true
-//                                           buttonAnsZero.isEnabled = true
-                    collection_lockall.isUserInteractionEnabled = true
+                                           buttonAnsMinus.isEnabled = true
+                                           buttonAnsPlus.isEnabled = true
+                                           buttonAnsZero.isEnabled = true
                     //self.getContestDetail(isfromtimer: true, isStart: 0)
                 }
                 
@@ -834,17 +817,16 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                             self.btnlock.isHidden = true
                             self.btnlockall.isEnabled = false
                             self.btnlockall.alpha = 0.5
-//                            self.buttonAnsMinus.isEnabled = false
-//                            self.buttonAnsPlus.isEnabled = false
-//                            self.buttonAnsZero.isEnabled = false
-                            self.collection_lockall.isUserInteractionEnabled = false
+                            self.buttonAnsMinus.isEnabled = false
+                            self.buttonAnsPlus.isEnabled = false
+                            self.buttonAnsZero.isEnabled = false
                         }
                         
-                        let tickets = self.dictGameData["tickets"] as! [[String: Any]]
-                        self.arrSloat = tickets[0]["slotes"] as! [[String: Any]]
-                        self.collection_lockall.reloadData()
                        
-                        Loading().hideLoading(viewController: self)
+                        
+                                   Loading().hideLoading(viewController: self)
+                      
+                        
                         
                     } else if status == 401 {
                         Define.APPDELEGATE.handleLogout()
@@ -964,57 +946,54 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
 
 
             
-//            if self.gametype == "spinning-machine" {
-//                btnlockall.isEnabled = true
-//                                                btnlockall.alpha = 1.0
-////                                                buttonAnsMinus.isEnabled = true
-////                                                buttonAnsPlus.isEnabled = true
-////                                                buttonAnsZero.isEnabled = true
-//                collection_lockall.isUserInteractionEnabled = true
-//
-//                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
-//                                    if LockAllData.count > 0 {
-//                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
-//
-//                                        if isLockAll {
-//                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
-//                                             lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
-//                                               btnlockall.isHidden = true
-//                                                btnlock.isHidden = false
-////                                              buttonAnsMinus.isEnabled = false
-////                                            buttonAnsPlus.isEnabled = false
-////                                            buttonAnsZero.isEnabled = false
-//                                            collection_lockall.isUserInteractionEnabled = false
-//                                            lbllockedat.isHidden = false
-//
-//
-//                                        }
-//                                        else
-//                                        {
-//                                          btnlockall.alpha = 1.0
-//                                          btnlockall.isEnabled = true
-//                                          btnlockall.isHidden = false
-//                                          btnlock.isHidden = true
-//                                          lbllockedat.isHidden = true
-////                                          buttonAnsMinus.isEnabled = true
-////                                          buttonAnsPlus.isEnabled = true
-////                                          buttonAnsZero.isEnabled = true
-//                                            collection_lockall.isUserInteractionEnabled = true
-//                                        }
-//                                    }
-//                          else
-//                                    {
-//                                      btnlockall.alpha = 1.0
-//                                      btnlockall.isEnabled = true
-//                                      btnlockall.isHidden = false
-//                                      btnlock.isHidden = true
-//                                      lbllockedat.isHidden = true
-////                                      buttonAnsMinus.isEnabled = true
-////                                      buttonAnsPlus.isEnabled = true
-////                                      buttonAnsZero.isEnabled = true
-//                                        collection_lockall.isUserInteractionEnabled = true
-//                          }
-//            }
+            if self.gametype == "spinning-machine" {
+                btnlockall.isEnabled = true
+                                                btnlockall.alpha = 1.0
+                                                buttonAnsMinus.isEnabled = true
+                                                buttonAnsPlus.isEnabled = true
+                                                buttonAnsZero.isEnabled = true
+                          
+                          
+                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+                                    if LockAllData.count > 0 {
+                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+                                        
+                                        if isLockAll {
+                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+                                             lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
+                                               btnlockall.isHidden = true
+                                                btnlock.isHidden = false
+                                              buttonAnsMinus.isEnabled = false
+                                            buttonAnsPlus.isEnabled = false
+                                            buttonAnsZero.isEnabled = false
+                                            lbllockedat.isHidden = false
+                                            
+
+                                        }
+                                        else
+                                        {
+                                          btnlockall.alpha = 1.0
+                                          btnlockall.isEnabled = true
+                                          btnlockall.isHidden = false
+                                          btnlock.isHidden = true
+                                          lbllockedat.isHidden = true
+                                          buttonAnsMinus.isEnabled = true
+                                          buttonAnsPlus.isEnabled = true
+                                          buttonAnsZero.isEnabled = true
+                                        }
+                                    }
+                          else
+                                    {
+                                      btnlockall.alpha = 1.0
+                                      btnlockall.isEnabled = true
+                                      btnlockall.isHidden = false
+                                      btnlock.isHidden = true
+                                      lbllockedat.isHidden = true
+                                      buttonAnsMinus.isEnabled = true
+                                      buttonAnsPlus.isEnabled = true
+                                      buttonAnsZero.isEnabled = true
+                          }
+            }
 
                               
 
@@ -1035,11 +1014,9 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             btnlock.isHidden = true
             btnlockall.isEnabled = false
             btnlockall.alpha = 0.5
-//            buttonAnsMinus.isEnabled = false
-//            buttonAnsPlus.isEnabled = false
-//            buttonAnsZero.isEnabled = false
-            
-            collection_lockall.isUserInteractionEnabled = false
+            buttonAnsMinus.isEnabled = false
+            buttonAnsPlus.isEnabled = false
+            buttonAnsZero.isEnabled = false
             
             if isfromtime {
                  if startTimer == nil {
@@ -1068,7 +1045,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
            
                 
                 //  labelTimer.text = ""
-            //    if (gameStatus == "start") {
+                if (gameStatus == "start") {
                    
                     
 
@@ -1076,25 +1053,23 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                     if self.gametype == "spinning-machine" {
                         btnlockall.isEnabled = true
                                                         btnlockall.alpha = 1.0
-//                                                        buttonAnsMinus.isEnabled = true
-//                                                        buttonAnsPlus.isEnabled = true
-//                                                        buttonAnsZero.isEnabled = true
-                        collection_lockall.isUserInteractionEnabled = true
+                                                        buttonAnsMinus.isEnabled = true
+                                                        buttonAnsPlus.isEnabled = true
+                                                        buttonAnsZero.isEnabled = true
                                   
                                   
-//                                           let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
-//                                            if LockAllData.count > 0 {
-                                                let isLockAll = dictdata["isLockAll"] as? Bool ?? false
+                                           let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+                                            if LockAllData.count > 0 {
+                                                let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
                                                 
                                                 if isLockAll {
-                                                   // let displayValue = dictdata["displayValue"] as? String ?? "0"
-                                                     lbllockedat.text = "locked at: \(dictdata["isLockTime"] as? String ?? "0")"
+                                                    let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+                                                     lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
                                                        btnlockall.isHidden = true
                                                         btnlock.isHidden = false
-//                                                      buttonAnsMinus.isEnabled = false
-//                                                    buttonAnsPlus.isEnabled = false
-//                                                    buttonAnsZero.isEnabled = false
-                                                    collection_lockall.isUserInteractionEnabled = false
+                                                      buttonAnsMinus.isEnabled = false
+                                                    buttonAnsPlus.isEnabled = false
+                                                    buttonAnsZero.isEnabled = false
                                                     lbllockedat.isHidden = false
                                                 }
                                                 else
@@ -1104,25 +1079,23 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                                   btnlockall.isHidden = false
                                                   btnlock.isHidden = true
                                                   lbllockedat.isHidden = true
-//                                                  buttonAnsMinus.isEnabled = true
-//                                                  buttonAnsPlus.isEnabled = true
-//                                                  buttonAnsZero.isEnabled = true
-                                                    collection_lockall.isUserInteractionEnabled = true
+                                                  buttonAnsMinus.isEnabled = true
+                                                  buttonAnsPlus.isEnabled = true
+                                                  buttonAnsZero.isEnabled = true
                                                 }
-//                                            }
-//                                  else
-//                                            {
-//                                              btnlockall.alpha = 1.0
-//                                              btnlockall.isEnabled = true
-//                                              btnlockall.isHidden = false
-//                                              btnlock.isHidden = true
-//                                              lbllockedat.isHidden = true
-////                                              buttonAnsMinus.isEnabled = true
-////                                              buttonAnsPlus.isEnabled = true
-////                                              buttonAnsZero.isEnabled = true
-//                                                collection_lockall.isUserInteractionEnabled = true
-//                                  }
-             //       }
+                                            }
+                                  else
+                                            {
+                                              btnlockall.alpha = 1.0
+                                              btnlockall.isEnabled = true
+                                              btnlockall.isHidden = false
+                                              btnlock.isHidden = true
+                                              lbllockedat.isHidden = true
+                                              buttonAnsMinus.isEnabled = true
+                                              buttonAnsPlus.isEnabled = true
+                                              buttonAnsZero.isEnabled = true
+                                  }
+                    }
     }
     }
     
@@ -1396,87 +1369,26 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         }
         if collectionView == collection_original {
             return originalarr.count
-        }
-        if collectionView == collection_lockall
-        {
-            return arrSloat.count
-        }
-        else {
+        } else {
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
         
         if collectionView == collection_slot {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_original {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
+            return cell
+        } else {
             return cell
         }
-        if collectionView == collection_lockall {
-            let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
-            
-            if strDisplayValuelockall == arrSloat[indexPath.row]["displayValue"] as? String ?? "" {
-                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-                lockcell.contentView.layer.borderWidth = 2
-            }
-            else
-            {
-                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-                lockcell.contentView.layer.borderWidth = 0
-            }
-            
-            let strDisplayValue = arrSloat[indexPath.row]["displayValue"] as! String
-          
-                 if strDisplayValue == "Draw" {
-                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                    lockcell.labelDisplayValue.text = strMainString
-                    lockcell.labelDisplayValue.isHidden = false
-                    lockcell.img.isHidden = true
-                 }
-                 else
-                 {
-                    lockcell.labelDisplayValue.isHidden = true
-                    lockcell.img.isHidden = false
-                     let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
-                    lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
-                 }
-          
-            return lockcell
-        }
-        else {
-            return UICollectionViewCell()
-        }
     }
     
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if collectionView == collection_lockall
-        {
-            strDisplayValuelockall = arrSloat[indexPath.row]["displayValue"] as? String ?? ""
-                    
-            if strDisplayValuelockall == "Draw" {
-                labelanswerselected.isHidden = false
-                imgselected.isHidden = true
-                labelanswerselected.text = strDisplayValuelockall
-            }
-            else
-            {
-                labelanswerselected.isHidden = true
-                imgselected.isHidden = false
-                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
-            }
-            collection_lockall.reloadData()
-    }
-    }
 }
 
 //MARK: - TableView Delegate
@@ -1550,6 +1462,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 flexiCell.labelLockTime.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
+               // lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                 
                 return flexiCell
             } else {
@@ -1563,6 +1476,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                     flexiCell.viewLocked.isHidden = false
                     flexiCell.labelLockedAnswer.text = "\(dictUserSelectData["startValue"]!) to \(dictUserSelectData["endValue"]!)"
                     flexiCell.labelLockedAt.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
+                  //   lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                 } else {
                     flexiCell.viewUnLocked.isHidden = false
@@ -1637,57 +1551,57 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             //TODO: FIX
             let arrSloats = arrSelectedTicket[indexPath.row]["slotes"] as! [[String: Any]]
-//          let displayValue =  arrSloats[0]["displayValue"] as! String
-//            var isdraw = false
+          let displayValue =  arrSloats[0]["displayValue"] as! String
+            var isdraw = false
             
-//            for (i,dict) in arrSloats.enumerated() {
-//                let displayValue = "\(dict["displayValue"] as? String ?? "0")"
-//                if displayValue == "Draw" {
-//                    isdraw = true
-//                    let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
-//                    if i == 0 {
-//                        labelAnsMinus.text = strMainString
-//                         imgminus.isHidden = true
-//                    }
-//                    else
-//                    {
-//                        imgminus.isHidden = false
-//                    }
-//                     if i==1
-//                    {
-//                        labelAnsZero.text = strMainString
-//                         imgzero.isHidden = true
-//                    }
-//                     else
-//                     {
-//                        imgzero.isHidden = false
-//                     }
-//                     if i==2
-//                    {
-//                        labelAnsPlus.text = strMainString
-//                         imgplus.isHidden = true
-//                    }
-//                    else
-//                     {
-//                        imgplus.isHidden = false
-//                     }
-//
-//                }
-//                else
-//                {
-//
-//                    let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-//                    if imageIsNullOrNot(imageName: localimg1) {
-//                        imgzero.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
-//                    }
-//
-//                    let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
-//                    let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
-//                     imgminus.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
-//                     imgplus.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
-//                }
-//
-//            }
+            for (i,dict) in arrSloats.enumerated() {
+                let displayValue = "\(dict["displayValue"] as? String ?? "0")"
+                if displayValue == "Draw" {
+                    isdraw = true
+                    let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
+                    if i == 0 {
+                        labelAnsMinus.text = strMainString
+                         imgminus.isHidden = true
+                    }
+                    else
+                    {
+                        imgminus.isHidden = false
+                    }
+                     if i==1
+                    {
+                        labelAnsZero.text = strMainString
+                         imgzero.isHidden = true
+                    }
+                     else
+                     {
+                        imgzero.isHidden = false
+                     }
+                     if i==2
+                    {
+                        labelAnsPlus.text = strMainString
+                         imgplus.isHidden = true
+                    }
+                    else
+                     {
+                        imgplus.isHidden = false
+                     }
+                 
+                }
+                else
+                {
+
+                    let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
+                    if imageIsNullOrNot(imageName: localimg1) {
+                        imgzero.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
+                    }
+                  
+                    let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
+                    let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
+                     imgminus.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
+                     imgplus.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
+                }
+      
+            }
            
                 let isLock = arrSelectedTicket[indexPath.row]["isLock"] as? Bool ?? false
                 if isLock {
@@ -1713,6 +1627,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.arrData = arrSloats
                     
                     fixCell.labelLockTime.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
+                 //   lbllockedat.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                     for item in arrSloats {
                         let isSelected = item["isSelected"] as? Bool ?? false

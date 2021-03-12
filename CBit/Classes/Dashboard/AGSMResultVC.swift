@@ -7,25 +7,22 @@
 //
 
 import UIKit
-import SDWebImage
 
 class AGSMResultVC: UIViewController {
     
     @IBOutlet weak var collection_original: UICollectionView!
-//    @IBOutlet weak var lblnowin: UILabel!
-//    @IBOutlet weak var ccwinning: UILabel!
-//    @IBOutlet weak var totalblue: UILabel!
-//    @IBOutlet weak var totalred: UILabel!
+    @IBOutlet weak var lblnowin: UILabel!
+    @IBOutlet weak var ccwinning: UILabel!
+    @IBOutlet weak var totalblue: UILabel!
+    @IBOutlet weak var totalred: UILabel!
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var collectionGameView: UICollectionView!
     @IBOutlet weak var labelAnswer: UILabel!
     @IBOutlet weak var tableResult: UITableView!
-   // @IBOutlet weak var labelWinningAmount: UILabel!
+    @IBOutlet weak var labelWinningAmount: UILabel!
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imganswer: UIImageView!
-    @IBOutlet weak var collectionitem: UICollectionView!
-    
     var dictContest = [String: Any]()
     var gamelevel = Int()
     
@@ -36,8 +33,6 @@ class AGSMResultVC: UIViewController {
     var dictContestDetail = [String: Any]()
     
     var originalarr  = [UIImage]()
-    var winning_options = [[String: Any]]()
-  var isfromhistory = false
     
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -59,21 +54,13 @@ class AGSMResultVC: UIViewController {
            // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
         
-        let layout = collectionitem?.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: 80, height: 100)
+        
         
         tableResult.rowHeight = UITableView.automaticDimension
         tableResult.tableFooterView = UIView()
         UNUserNotificationCenter.current().delegate = self
         
-        if isfromhistory {
-            getContestDetailHistory()
-        }
-        else
-        {
-            getContestDetail()
-        }
-        
+        getContestDetail()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,21 +82,19 @@ class AGSMResultVC: UIViewController {
         
        
         
-//        totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
-//        totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
+        totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
+        totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
         
         
        // arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
         arrTiclets = dictContestDetail["tickets"] as! [[String: Any]]
         let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
         let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
-//        labelWinningAmount.text = "You win ₹\(winAmount)"
-//        lblnowin.text = "No win ₹\(NowinAmount)"
-//        
-//        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-//        ccwinning.text = "You win CC \(winCCAmount)"
+        labelWinningAmount.text = "You win ₹\(winAmount)"
+        lblnowin.text = "No win ₹\(NowinAmount)"
         
-        
+        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
+        ccwinning.text = "You win CC \(winCCAmount)"
         
         
         for item in arrTiclets {
@@ -130,7 +115,7 @@ class AGSMResultVC: UIViewController {
 //        }
         
         tableResult.reloadData()
-        collectionitem.reloadData()
+     //   collectionGameView.reloadData()
     }
     
     //MAKR: - Buttom Method
@@ -143,17 +128,7 @@ class AGSMResultVC: UIViewController {
 //MAKR: - Collection View Delegate Mehtod
 extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == collectionitem {
-            return winning_options.count
-        }
-        else if collectionView == collection_original
-        {
             return originalarr.count
-        }
-        else
-        {
-            return 0
-        }
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -169,29 +144,10 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-        if collectionView == collectionitem {
-            cell.imgImage.sd_setImage(with: URL(string: winning_options[indexPath.row]["ImageUrl"] as! String), completed: nil)
-            cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
-            
-            if Int(self.dictContestDetail["answer"] as! String) ==  winning_options[indexPath.row]["id"] as? Int {
-                cell.contentView.backgroundColor = UIColor.white
-                cell.contentView.layer.borderColor = UIColor.black.cgColor
-                cell.contentView.layer.borderWidth = 2
-            }
-            else
-            {
-                cell.contentView.backgroundColor = UIColor.white
-                cell.contentView.layer.borderColor = UIColor.black.cgColor
-                cell.contentView.layer.borderWidth = 0
-            }
-        }
-        else if collectionView == collection_original
-        {
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
-        }
         
-       return cell
        
+            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            return cell
         
     }
 }
@@ -204,11 +160,6 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
-        
-        let game_no = arrSelectedTickets[indexPath.row]["game_no"] as? Int ?? 0
-        
-        resultCell.lblgameno.text = "Game No: \(game_no)"
-        resultCell.lblplaypending.text = "\(arrSelectedTickets[indexPath.row]["played"]!) Played /\(arrSelectedTickets[indexPath.row]["pending"]!) Pending"
         
         let strAmount = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
         //resultCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmount)!))"
@@ -322,12 +273,6 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
 //            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
-//        resultCell.collectionlist.delegate = self
-//        resultCell.collectionlist.dataSource = self
-        resultCell.strDisplayValue = strValue
-       // resultCell.arrData = nil
-        resultCell.arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as? [[String: Any]] ?? []
-        
         return resultCell
     }
     
@@ -359,94 +304,6 @@ extension AGSMResultVC {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
-        print("Parameter: \(parameter)\nURL: \(strURL)")
-
-        let jsonString = MyModel().getJSONString(object: parameter)
-        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
-        let strbase64 = encriptString.toBase64()
-
-        SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: ["data":strbase64!],
-                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
-            if error != nil {
-                Loading().hideLoading(viewController: self)
-                print("Error: \(error!)")
-//                Alert().showAlert(title: "Error",
-//                                  message: Define.ERROR_SERVER,
-//                                  viewController: self)
-                self.getContestDetail()
-            } else {
-                Loading().hideLoading(viewController: self)
-                print("Result: \(result!)")
-                let status = result!["statusCode"] as? Int ?? 0
-                if status == 200 {
-                    self.dictContestDetail = result!["content"] as! [String: Any]
-
-                    let gamelevel = self.dictContestDetail["rows"] as? Int ?? 0
-                    let width = (self.view.frame.width-20)/5
-                        if gamelevel == 3 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 4 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 5 {
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        }
-
-                    self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
-                    self.winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
-
-                    for box in self.arrBrackets {
-                        for option in self.winning_options {
-                            let number = box["number"]!
-                            let objectNo = option["objectNo"]!
-                            if number as? NSObject == objectNo as? NSObject {
-                                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-                            }
-                            if Int(self.dictContestDetail["answer"] as! String) ==  option["id"] as? Int {
-                              //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
-                                let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
-                                if self.imageIsNullOrNot(imageName: img) {
-                                    self.imganswer.image = img
-                                }
-                                else
-                                {
-                                    self.labelAnswer.text = "Win = \(option["Item"] as! String)"
-                                }
-
-                            }
-                        }
-                    }
-                    self.collection_original.reloadData()
-
-                    print(self.dictContestDetail)
-                    self.setDetail()
-
-                } else if status == 401 {
-                    Define.APPDELEGATE.handleLogout()
-                } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as! String,
-                                      viewController: self)
-                }
-            }
-        }
-    }
-    
-    func getContestDetailHistory() {
-        Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
-                                        "GameNo": dictContest["game_no"]!,
-                                        "contest_price_id": dictContest["contestPriceID"]!
-        ]
-        let strURL = Define.APP_URL + Define.contestDetailsAnyTimeGame
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
         let jsonString = MyModel().getJSONString(object: parameter)
@@ -489,10 +346,10 @@ extension AGSMResultVC {
                         }
                 
                     self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
-                    self.winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
+                    let winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
                     
                     for box in self.arrBrackets {
-                        for option in self.winning_options {
+                        for option in winning_options {
                             let number = box["number"]!
                             let objectNo = option["objectNo"]!
                             if number as? NSObject == objectNo as? NSObject {
@@ -527,7 +384,6 @@ extension AGSMResultVC {
             }
         }
     }
-
     
     func imageIsNullOrNot(imageName : UIImage)-> Bool
     {

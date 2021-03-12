@@ -36,7 +36,6 @@ class CGTicketVC: UIViewController {
     @IBOutlet weak var constraintPaymentViewHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintSelectionViewHeight: NSLayoutConstraint!
     
-    @IBOutlet weak var lblgamename: UILabel!
     //View Amount
 //    @IBOutlet weak var viewAmountMain: UIView!
 //    @IBOutlet weak var viewAmount: UIView!
@@ -48,9 +47,6 @@ class CGTicketVC: UIViewController {
     
     private var arrSelectedTikets = [[String: Any]]()
     var AnyTimedictContest = [[String: Any]]()
-    var AnyTimeGameList = [[String: Any]]()
-    var totalgame = 0
-    var currentindex = 0
     var dictContest = [String: Any]()
     var isFromMyTickets = Bool()
     private var isDataLoaded = Bool()
@@ -84,7 +80,6 @@ class CGTicketVC: UIViewController {
         } else {
           //  getContestDetail()
             getAnyTimeGameList()
-           // getAnyTimeGameContestList()
         }
         
        // setReminder()
@@ -246,23 +241,6 @@ class CGTicketVC: UIViewController {
     }
     
     //MARK: - Button Method
-    
-    @IBAction func left_click(_ sender: UIButton) {
-        if (currentindex > 0) {
-            currentindex = currentindex-1
-            self.lblgamename.text = self.AnyTimeGameList[currentindex]["name"] as? String
-            self.getContestDetail(index: currentindex)
-        }
-    }
-    @IBAction func right_click(_ sender: UIButton) {
-        if (currentindex < totalgame-1) {
-            currentindex = currentindex + 1
-            self.lblgamename.text = self.AnyTimeGameList[currentindex]["name"] as? String
-            self.getContestDetail(index: currentindex)
-           
-        }
-    }
-    
     @IBAction func hostgame_click(_ sender: UIButton) {
         let HostGameVC = self.storyboard?.instantiateViewController(withIdentifier: "HostGameVC") as! HostGameVC
         self.navigationController?.pushViewController(HostGameVC, animated: true)
@@ -583,13 +561,9 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
             if arrSloats.count == 3 {
                 let ticketCell = tableView.dequeueReusableCell(withIdentifier: "ThreeSloatTVC") as! ThreeSloatTVC
                 
-                let game_no = arrTicket[indexPath.row]["game_no"] as? Int ?? 0
-                
-                ticketCell.lblgameno.text = "Game No: \(game_no)"
-                
                 let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
                 
-                ticketCell.lblpending.text = "\(arrTicket[indexPath.row]["played"]!) Played /\(arrTicket[indexPath.row]["pending"]!) Pending"
+                ticketCell.lblpending.text = "\(AnyTimedictContest[indexPath.row]["players_played"]!) Played /\(AnyTimedictContest[indexPath.row]["pendingTickets"]!) Pending"
                 
                 ticketCell.lbllockstyle.text = "Lock Style : Basic"
                 
@@ -624,7 +598,7 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
                 //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
               //  let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
 //                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-                ticketCell.labelTotalTickets.text = "\(arrTicket[indexPath.row]["no_of_players"]!)"
+                ticketCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
                 
                 let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
                 
@@ -834,7 +808,6 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
         let userVC = self.storyboard?.instantiateViewController(withIdentifier: "UserListVC") as! UserListVC
         userVC.dictContestData = dictContest
         userVC.dictTicketData = arrTicket[indexPath.row]
-        userVC.isfromanytimegame = true
         self.navigationController?.pushViewController(userVC, animated: true)
     }
     
@@ -933,9 +906,9 @@ extension CGTicketVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - API
 extension CGTicketVC {
-    func getContestDetail(index:Int) {
+    func getContestDetail() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contest_id": AnyTimeGameList[index]["contestID"] ?? "0"]
+        let parameter: [String: Any] = ["contest_id": AnyTimedictContest[0]["contestID"] ?? "0"]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
@@ -954,7 +927,7 @@ extension CGTicketVC {
                 self.isGetContest = true
                 self.isJoinContest = false
                 //self.retry()
-                self.getContestDetail(index: index)
+                self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
@@ -995,7 +968,7 @@ extension CGTicketVC {
                 self.isGetContest = true
                 self.isJoinContest = false
                 //self.retry()
-               // self.getContestDetail()
+                self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
@@ -1004,57 +977,7 @@ extension CGTicketVC {
                     let arr = result!["content"] as? [[String: Any]] ?? []
                     if arr.count > 0 {
                         self.AnyTimedictContest = arr
-                        self.getAnyTimeGameContestList()
-                    }
-                   
-                    print(self.dictContestDetail)
-                   
-                                    } else if status == 401 {
-                    Define.APPDELEGATE.handleLogout()
-                } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as?  String ?? "No Message.",
-                                      viewController: self)
-                }
-            }
-        }
-    }
-    
-   
-    
-    func getAnyTimeGameContestList() {
-        Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["isSpinningMachine":"0"]
-        let strURL = Define.APP_URL + Define.API_ANYTIMEGAMECONTESTLIST
-        print("Parameter: \(parameter)\nURL: \(strURL)")
-        
-        let jsonString = MyModel().getJSONString(object: parameter)
-        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
-        let strbase64 = encriptString.toBase64()
-        
-        SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: ["data":strbase64!],
-                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
-            if error != nil {
-                Loading().hideLoading(viewController: self)
-                print("Error: \(error!)")
-                self.isGetContest = true
-                self.isJoinContest = false
-                //self.retry()
-             //   self.getContestDetail(index: in)
-            } else {
-                Loading().hideLoading(viewController: self)
-                print("Result: \(result!)")
-                let status = result!["statusCode"] as? Int ?? 0
-                if status == 200 {
-                    let arr = result!["content"] as? [[String: Any]] ?? []
-                    if arr.count > 0 {
-                        self.AnyTimeGameList = arr
-                        self.getContestDetail(index: 0)
-                        self.lblgamename.text = self.AnyTimeGameList[0]["name"] as? String
-                        self.totalgame = self.AnyTimeGameList.count
+                        self.getContestDetail()
                     }
                    
                     print(self.dictContestDetail)
@@ -1277,7 +1200,7 @@ extension CGTicketVC {
                                         style: .default)
         { _ in
             if self.isGetContest {
-                self.getContestDetail(index: self.currentindex)
+                self.getContestDetail()
             } else if self.isJoinContest {
                 self.joinContest()
             }

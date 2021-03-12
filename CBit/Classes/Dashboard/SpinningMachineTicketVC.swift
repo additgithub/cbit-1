@@ -123,7 +123,7 @@ class SpinningMachineTicketVC: UIViewController {
             for dict in Define.Globalimagearr {
                 self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
                     }
-                    for _ in 1..<2
+                    for _ in 1..<5
                     {
                         self.itemarr.append(contentsOf: self.itemarr)
                     }
@@ -184,7 +184,6 @@ class SpinningMachineTicketVC: UIViewController {
                                                  selector: #selector(handleTimer),
                                                  userInfo: nil,
                                                  repeats: true)
-                   // RunLoop.current.add(self.timer!, forMode: .common)
                 }
         
         viewAmountMain.isHidden = true
@@ -241,7 +240,7 @@ class SpinningMachineTicketVC: UIViewController {
     func configFadeTimer()
     {
         timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachineTicketVC.FedeinOut), userInfo: nil, repeats: true)
-       // RunLoop.current.add(self.timerfade, forMode: .common)
+        RunLoop.current.add(self.timerfade, forMode: .common)
     }
     func deconfigFadeTimer()
     {
@@ -249,13 +248,11 @@ class SpinningMachineTicketVC: UIViewController {
     }
     @objc func FedeinOut()
     {
-                DispatchQueue.main.async {
-                    self.fadevw.fadeIn()
-                    self.fadevw.fadeOut()
-                    self.itemarr.shuffle()
-            self.collection_original.reloadData()
-        }
-      //
+        fadevw.fadeIn()
+        fadevw.fadeOut()
+        
+        itemarr.shuffle()
+        collection_original.reloadData()
     }
     
     func setReminder() {
@@ -317,7 +314,6 @@ class SpinningMachineTicketVC: UIViewController {
                                           selector: #selector(handleStartTimer),
                                           userInfo: nil,
                                           repeats: true)
-      //  RunLoop.current.add(self.startTimer, forMode: .common)
     }
     
     @objc func handleStartTimer() {

@@ -12,7 +12,6 @@ class UserListVC: UIViewController {
     var dictContestData = [String: Any]()
     var dictTicketData = [String: Any]()
     
-    var isfromanytimegame = false
     
     
     //MARK: -  Default Method
@@ -44,20 +43,9 @@ class UserListVC: UIViewController {
 extension  UserListVC {
     func getUserListVC() {
         Loading().showLoading(viewController: self)
-        var parameter = [String: Any]()
-        if isfromanytimegame {
-           parameter = [
-               "contestPriceId": dictTicketData["contestPriceId"]!,
-            "GameNo":dictTicketData["game_no"]!
-           ]
-        }
-        else
-        {
-            parameter = [
-                "contestPriceId": dictTicketData["contestPriceId"]!
-            ]
-        }
-        
+        let parameter: [String: Any] = [
+            "contestPriceId": dictTicketData["contestPriceId"]!
+        ]
         
         let strURL = Define.APP_URL + Define.API_JOIN_USER_LIST
         print("Parameter: \(parameter)\nURL: \(strURL)")

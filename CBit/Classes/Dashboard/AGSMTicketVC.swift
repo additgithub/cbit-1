@@ -73,11 +73,8 @@ class AGSMTicketVC: UIViewController {
     
     private  let reuseidentifier = "slotspinningcell"
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var lblgamename: UILabel!
+    
     var AnyTimedictContest = [[String: Any]]()
-    var AnyTimeGameList = [[String: Any]]()
-    var totalgame = 0
-    var currentindex = 0
     
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -200,7 +197,7 @@ class AGSMTicketVC: UIViewController {
     func configFadeTimer()
     {
         timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachineTicketVC.FedeinOut), userInfo: nil, repeats: true)
-      //  RunLoop.current.add(self.timerfade, forMode: .common)
+        RunLoop.current.add(self.timerfade, forMode: .common)
     }
     func deconfigFadeTimer()
     {
@@ -320,11 +317,9 @@ class AGSMTicketVC: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
-            self.itemarr = [UIImage]()
             for dict in Define.Globalimagearr {
                 self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
                     }
-            
                     for _ in 1..<5
                     {
                         self.itemarr.append(contentsOf: self.itemarr)
@@ -347,23 +342,6 @@ class AGSMTicketVC: UIViewController {
     }
     
     //MARK: - Button Method
-    
-    @IBAction func left_click(_ sender: UIButton) {
-        if (currentindex > 0) {
-            currentindex = currentindex-1
-            self.lblgamename.text = self.AnyTimeGameList[currentindex]["name"] as? String
-            self.getContestDetail(index: currentindex)
-        }
-    }
-    @IBAction func right_click(_ sender: UIButton) {
-        if (currentindex < totalgame-1) {
-            currentindex = currentindex + 1
-            self.lblgamename.text = self.AnyTimeGameList[currentindex]["name"] as? String
-            self.getContestDetail(index: currentindex)
-           
-        }
-    }
-    
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
         self.navigationController?.popViewController(animated: true)
@@ -669,15 +647,9 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
         {
             let ticketCell = tableView.dequeueReusableCell(withIdentifier: "SpinningMachineCell") as! SpinningMachineCell
             self.view.layoutIfNeeded()
-            
-            let game_no = arrTicket[indexPath.row]["game_no"] as? Int ?? 0
-            
-            ticketCell.lblgameno.text = "Game No: \(game_no)"
-
-            
             let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
             
-            ticketCell.lblpending.text = "\(arrTicket[indexPath.row]["played"]!) Played /\(arrTicket[indexPath.row]["pending"]!) Pending"
+            ticketCell.lblpending.text = "\(AnyTimedictContest[indexPath.row]["players_played"]!) Played /\(AnyTimedictContest[indexPath.row]["pendingTickets"]!) Pending"
             
             ticketCell.lbllockstyle.text = "Lock Style : Basic"
             
@@ -707,7 +679,7 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
             //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
 //            let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
 //            ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-            ticketCell.labelTotalTickets.text = "\(arrTicket[indexPath.row]["no_of_players"]!)"
+            ticketCell.labelTotalTickets.text = "\(AnyTimedictContest[indexPath.row]["no_of_players"]!)"
 
             
      let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
@@ -990,7 +962,6 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
         let userVC = self.storyboard?.instantiateViewController(withIdentifier: "UserListVC") as! UserListVC
         userVC.dictContestData = dictContest
         userVC.dictTicketData = arrTicket[indexPath.row]
-        userVC.isfromanytimegame = true
         self.navigationController?.pushViewController(userVC, animated: true)
     }
     
@@ -1111,7 +1082,7 @@ extension AGSMTicketVC {
                 self.isGetContest = true
                 self.isJoinContest = false
                 //self.retry()
-             //   self.getContestDetail(index: )
+                self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
@@ -1120,7 +1091,7 @@ extension AGSMTicketVC {
                     let arr = result!["content"] as? [[String: Any]] ?? []
                     if arr.count > 0 {
                         self.AnyTimedictContest = arr
-                        self.getAnyTimeGameContestList()
+                        self.getContestDetail()
                     }
                    
                     print(self.dictContestDetail)
@@ -1137,57 +1108,9 @@ extension AGSMTicketVC {
         }
     }
     
-    func getAnyTimeGameContestList() {
+    func getContestDetail() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["isSpinningMachine":"1"]
-        let strURL = Define.APP_URL + Define.API_ANYTIMEGAMECONTESTLIST
-        print("Parameter: \(parameter)\nURL: \(strURL)")
-        
-        let jsonString = MyModel().getJSONString(object: parameter)
-        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
-        let strbase64 = encriptString.toBase64()
-        
-        SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: ["data":strbase64!],
-                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
-            if error != nil {
-                Loading().hideLoading(viewController: self)
-                print("Error: \(error!)")
-                self.isGetContest = true
-                self.isJoinContest = false
-                //self.retry()
-             //   self.getContestDetail(index: in)
-            } else {
-                Loading().hideLoading(viewController: self)
-                print("Result: \(result!)")
-                let status = result!["statusCode"] as? Int ?? 0
-                if status == 200 {
-                    let arr = result!["content"] as? [[String: Any]] ?? []
-                    if arr.count > 0 {
-                        self.AnyTimeGameList = arr
-                        self.getContestDetail(index: 0)
-                        self.lblgamename.text = self.AnyTimeGameList[0]["name"] as? String
-                        self.totalgame = self.AnyTimeGameList.count
-                    }
-                   
-                    print(self.dictContestDetail)
-                   
-                                    } else if status == 401 {
-                    Define.APPDELEGATE.handleLogout()
-                } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as?  String ?? "No Message.",
-                                      viewController: self)
-                }
-            }
-        }
-    }
-    
-    func getContestDetail(index:Int) {
-        Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contest_id": AnyTimeGameList[index]["contestID"] ?? "0"]
+        let parameter: [String: Any] = ["contest_id": AnyTimedictContest[0]["contestID"] ?? "0"]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
@@ -1206,7 +1129,7 @@ extension AGSMTicketVC {
                 self.isGetContest = true
                 self.isJoinContest = false
                 //self.retry()
-                self.getContestDetail(index: index)
+                self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
@@ -1432,7 +1355,7 @@ extension AGSMTicketVC {
                                         style: .default)
         { _ in
             if self.isGetContest {
-                self.getContestDetail(index: self.currentindex)
+                self.getContestDetail()
             } else if self.isJoinContest {
                 self.joinContest()
             }
