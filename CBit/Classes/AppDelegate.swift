@@ -51,13 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
                 //   how your app will use them.
                 OneSignal.promptForPushNotifications(userResponse: { accepted in
                     print("User accepted notifications: \(accepted)")
-                    
-                    
-        //            if #available(iOS 10.0, *) {
-        //                self.checkNotificationsAuthorizationStatus()
-        //            } else {
-        //                // Fallback on earlier versions
-        //            }
+                 
                    
                 })
                 

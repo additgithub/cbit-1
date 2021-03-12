@@ -29,6 +29,7 @@ target 'CBit' do
   pod 'DropDown', '2.3.13'
   pod 'ActionSheetPicker-3.0'
   pod 'M13Checkbox'
+  pod 'HSSearchable'
   
 end
 

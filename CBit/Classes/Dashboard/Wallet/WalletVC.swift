@@ -16,15 +16,50 @@ class WalletVC: UIViewController {
     
     @IBOutlet weak var btntranfertoaccnt: UIButton!
     
+    @IBOutlet weak var vw_jticketasset: UIView!
+    
     @IBOutlet weak var lblcc: UILabel!
+    
+    
+    @IBOutlet weak var lbl_redeem_cc: UILabel!
+    @IBOutlet weak var lbl_applied_cc: UILabel!
+    @IBOutlet weak var tbl_redeem: UITableView!
+    
+     private var isFirstTime = Bool()
+    private var arrjtickets = [[String: Any]]()
+    
+    
+    private var arrMyJTicket = [[String: Any]]()
+    
+    var MainarrMyJTicket = [[String: Any]]()
+    var MyJTicketDateArr = [[String: Any]]()
+    var MyJTicketNameArr = [[String: Any]]()
+    var arrApproachList = [[String:Any]]()
+    
+    var arrAssetList = [GetAppliedReedeemedList]()
+    
+    var isasc = true
+    private var id = 0
+    private var jticketid = 0
+    
+    var Start = 0
+    var Limit = 10
+    var ismoredata = false
+    
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
+        isFirstTime = true
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotification),
                                                name: .paymentUpdated,
                                                object: nil)
         UNUserNotificationCenter.current().delegate = self
+        
+        getUserJticket()
+        CallJAssetData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +124,39 @@ class WalletVC: UIViewController {
     @objc func handleNotification() {
         viewWillAppear(true)
     }
+    
+    @IBAction func btn_WALLATE_J_ASSET(_ sender: Any) {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.tag = 100
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        vw_jticketasset.center = view.center
+        vw_jticketasset.alpha = 1
+        vw_jticketasset.transform = CGAffineTransform(scaleX: 0.8, y: 1.2)
+        
+        self.view.addSubview(vw_jticketasset)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [],  animations: {
+            self.vw_jticketasset.transform = .identity
+        })
+    }
+    
+    @IBAction func btn_CLOSE(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: [], animations: {
+            //use if you wish to darken the background
+            //self.viewDim.alpha = 0
+            self.vw_jticketasset.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (success) in
+            for view in self.view.subviews {
+                if let viewWithTag = view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                }
+            }
+            self.vw_jticketasset.removeFromSuperview()
+        }
+    }
+    
     
     //MARK: - Button Method
     @IBAction func buttonMenu(_ sender: Any) {
@@ -223,5 +291,263 @@ extension WalletVC: KYCVerifycationDelegate {
 //        Alert().showAlert(title: "CBit",
 //                          message: "Your PAN card added successfully, Wait for the verification.",
 //                          viewController: self)
+    }
+}
+
+extension WalletVC
+{
+   
+    func getUserJticket()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getUserJTicket
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            "status":"0",
+            "start":Start,
+            "limit":"",
+            "filterAscDesc":"",
+            "filterTicketName":"",
+            "filterByDate":"",
+            "sortByApproch":""
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as? [String: Any] ?? [:]
+                    let apddict : NSDictionary = result!["content"] as! NSDictionary
+                    
+                    //  self.arrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    //  self.MainarrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    
+                    // self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
+                    
+                    //print(self.arrMyJTicket)
+                    print(content)
+                    
+                    
+                    let arr =  content["contest"] as! [[String : Any]]
+                    if arr.count > 0 {
+                        self.arrMyJTicket.append(contentsOf: arr)
+                        self.MainarrMyJTicket.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 10
+                        self.Limit =  10
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
+                    
+                    
+                    
+                    let APD = "\(apddict.value(forKey:"ADP") as? String ?? "0.00")"
+                    
+                    guard let amountPB = Double(APD) else {
+                        return
+                    }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func CallJAssetData()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getJAssets
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
+                        // here "jsonData" is the dictionary encoded in JSON data
+                        
+                        let allAssetListModel = try? JSONDecoder().decode(JAssetsListModel.self, from: jsonData)
+                        
+                        self.arrAssetList = (allAssetListModel?.content?.getAppliedReedeemedList)!
+                        let contact = allAssetListModel?.content!
+                        self.lbl_applied_cc.text = "CC \(contact!.appliedCC!)"
+                        self.lbl_redeem_cc.text = "CC \(contact!.redemedCC!)"
+                        
+                        self.tbl_redeem.reloadData()
+                       
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+}
+
+extension WalletVC : UITableViewDelegate , UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrAssetList.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
+        
+        cell.lbl_ticket_name.text = arrAssetList[indexPath.row].name ?? ""
+        cell.lbl_redeemcc.text = "CC \(arrAssetList[indexPath.row].redemedCC!)"
+        cell.lbl_appliedcc.text = "CC \(arrAssetList[indexPath.row].appliedCC!)"
+        
+        return cell
+        
+    }
+    
+    
+}
+
+//MARK: - Alert Contollert
+extension WalletVC {
+    func retry() {
+        let alertController = UIAlertController(title: Define.ERROR_TITLE,
+                                                message: Define.ERROR_SERVER,
+                                                preferredStyle: .alert)
+        let buttonRetry = UIAlertAction(title: "Retry",
+                                        style: .default)
+        { _ in
+            self.getUserJticket()
+        }
+        let cancel = UIAlertAction(title: "Cancel",
+                                   style: .cancel,
+                                   handler: nil)
+        alertController.addAction(cancel)
+        alertController.addAction(buttonRetry)
+        self.present(alertController,
+                     animated: true,
+                     completion: nil)
+    }
+    
+    
+    
+}
+
+
+class WalletCell : UITableViewCell
+{
+    
+    @IBOutlet weak var lbl_ticket_name: UILabel!
+    @IBOutlet weak var lbl_redeemcc: UILabel!
+    @IBOutlet weak var lbl_appliedcc: UILabel!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        
+    }
+}
+
+
+import Foundation
+
+// MARK: - JAssetsListModel
+struct JAssetsListModel: Codable {
+    let message: String?
+    let content: ContentData?
+    let statusCode: Int?
+}
+
+// MARK: - Content
+struct ContentData: Codable {
+    let appliedCC, redemedCC: Int?
+    let getAppliedReedeemedList: [GetAppliedReedeemedList]?
+
+    enum CodingKeys: String, CodingKey {
+        case appliedCC = "AppliedCC"
+        case redemedCC = "RedemedCC"
+        case getAppliedReedeemedList
+    }
+}
+
+// MARK: - GetAppliedReedeemedList
+struct GetAppliedReedeemedList: Codable {
+    let appliedCC, redemedCC, id: Int?
+    let name: String?
+
+    enum CodingKeys: String, CodingKey {
+        case appliedCC = "AppliedCC"
+        case redemedCC = "RedemedCC"
+        case id, name
     }
 }
