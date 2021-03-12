@@ -31,6 +31,7 @@ class CGGameResultVC: UIViewController {
     var arrSelectedTickets = [[String: Any]]()
     
     var dictContestDetail = [String: Any]()
+    var isfromhistory = false
     
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -39,7 +40,13 @@ class CGGameResultVC: UIViewController {
         tableResult.tableFooterView = UIView()
         UNUserNotificationCenter.current().delegate = self
         
-        getContestDetail()
+        if isfromhistory {
+            getContestDetailHistory()
+        }
+        else
+        {
+            getContestDetail()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,6 +156,11 @@ extension CGGameResultVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
         
+        let game_no = arrSelectedTickets[indexPath.row]["game_no"] as? Int ?? 0
+        
+        resultCell.lblgameno.text = "Game No: \(game_no)"
+        resultCell.lblplaypending.text = "\(arrSelectedTickets[indexPath.row]["played"]!) Played /\(arrSelectedTickets[indexPath.row]["pending"]!) Pending"
+        
         let strAmount = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
         //resultCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmount)!))"
         let test = Double(strAmount) ?? 0.00
@@ -226,8 +238,8 @@ extension CGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
             resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
-            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+//            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+//            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
         return resultCell
@@ -257,6 +269,53 @@ extension CGGameResultVC {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+//                Alert().showAlert(title: "Error",
+//                                  message: Define.ERROR_SERVER,
+//                                  viewController: self)
+                self.getContestDetail()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    self.dictContestDetail = result!["content"] as! [String: Any]
+
+
+                    print(self.dictContestDetail)
+                    self.setDetail()
+
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    func getContestDetailHistory()
+    {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
+                                        "GameNo": dictContest["game_no"]!,
+                                        "contest_price_id": dictContest["contestPriceID"]!
+        ]
+        let strURL = Define.APP_URL + Define.contestDetailsAnyTimeGame
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
         let jsonString = MyModel().getJSONString(object: parameter)
@@ -296,6 +355,7 @@ extension CGGameResultVC {
             }
         }
     }
+    
 }
 
 //MARK: - Notifcation Delegate Method

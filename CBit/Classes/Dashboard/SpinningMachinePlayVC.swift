@@ -1094,10 +1094,14 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
        // second = (dictGameData["duration"] as? Int)!
         
         let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-        for _ in 1..<200
+        for _ in 1..<300
         {
             for dict in arrSloats {
-                randomarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String))
+                let img = loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
+                if imageIsNullOrNot(imageName: img) {
+                    randomarr.append(img)
+                }
+                
             }
         }
    
@@ -1430,7 +1434,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                          
                                     
                                           
-                                                     Loading().hideLoading(viewController: self)
+            Loading().hideLoading(viewController: self)
            } else {
                
                print("--> No Data")
@@ -1640,7 +1644,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         if endGameSecond > 0 {
             endGameSecond = endGameSecond - 1
             if setSoundEffect == nil {
-                setSound()
+             //   setSound()
             }
         } else {
             

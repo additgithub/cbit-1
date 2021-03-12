@@ -118,6 +118,38 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == tbl_offer
+        
+        let userCell = tableView.dequeueReusableCell(withIdentifier: "MyJticketlisting") as! MyJticketlisting
+        
+        userCell.btnapply.addTarget(self, action: #selector(btnapply(_:event:)), for: .touchUpInside)
+        
+        userCell.lbldate.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        userCell.lbljticketno.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        
+        userCell.lbldatef.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        userCell.lbljticketnof.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        
+        userCell.imgjticketbackground.layer.shadowColor = UIColor.black.cgColor
+        userCell.imgjticketbackground.layer.shadowOffset = CGSize(width: 0, height: 1)
+        userCell.imgjticketbackground.layer.shadowOpacity = 4
+        userCell.imgjticketbackground.layer.shadowRadius = 8.0
+        userCell.imgjticketbackground.clipsToBounds = false
+        
+        
+        
+        
+        //         userCell.lblname.text! = arrMyJTicket[indexPath.row]["name"] as? String ?? ""
+        //
+        let price = arrMyJTicket[indexPath.row]["price"] as? Double ?? 0
+        
+        
+        userCell.lblprice.text! = "Redeemed @ CC \(price)"
+        
+        userCell.lbljticketno.text! = arrMyJTicket[indexPath.row]["ticket_number"] as? String ?? ""
+        // userCell.lblwaitingno.text! = "\(arrMyJTicket[indexPath.row]["waiting"] as? Int ??
+        
+        let date = arrMyJTicket[indexPath.row]["ApplyDate"] as? String ?? ""
+        if date != ""
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MyJticketCell
             
@@ -235,6 +267,28 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         }
         
         
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
+        if cell.isflip {
+            cell.vwflip.isHidden = false
+            cell.vwnormal.isHidden = true
+            cell.isflip = false
+            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
+                cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
+               }, completion: {(_ finished: Bool) -> Void in
+               })
+        }
+        else
+        {
+            cell.isflip = true
+            cell.vwflip.isHidden = true
+            cell.vwnormal.isHidden = false
+            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
+                cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
+                }, completion: {(_ finished: Bool) -> Void in
+                })
+        }
     }
     
     @objc func checkbox(sender: UIButton){
@@ -579,6 +633,16 @@ class MyJticketlisting: UITableViewCell {
     @IBOutlet weak var btn_exhange: UIButton!
     @IBOutlet weak var btn_waiting_no: UIButton!
     @IBOutlet weak var btn_cash_back: UIButton!
+    
+    @IBOutlet weak var vwflip: UIView!
+    @IBOutlet weak var vwnormal: UIView!
+    @IBOutlet weak var lbldatef: UILabel!
+    @IBOutlet weak var lbljticketnof: UILabel!
+    @IBOutlet weak var lblredeemon: UILabel!
+    @IBOutlet weak var lblappliedon: UILabel!
+    @IBOutlet weak var lblhiton: UILabel!
+    
+    var isflip = true
     
     override func awakeFromNib() {
         super.awakeFromNib()

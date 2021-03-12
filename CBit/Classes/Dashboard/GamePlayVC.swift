@@ -1871,7 +1871,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         if endGameSecond > 0 {
             endGameSecond = endGameSecond - 1
             if setSoundEffect == nil {
-                setSound()
+              //  setSound()
             }
         } else {
             

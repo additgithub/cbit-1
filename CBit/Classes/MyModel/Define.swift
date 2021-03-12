@@ -122,7 +122,8 @@ class Define {
     static let API_ALLJTICKETDATAS = "getAllJticketDatas"
     
     static let API_ANYTIMEGAMELIST = "getAnyTimeGameList"
-    
+    static let API_ANYTIMEGAMECONTESTLIST = "getAnyTimeGameContestList"
+    static let contestDetailsAnyTimeGame = "contestDetailsAnyTimeGame"
     //MARK: - Socket Event
     static let EVENT_LOGINT = "login"
     static let EVENT_CONTEST_DETAIL = "contestDetails"

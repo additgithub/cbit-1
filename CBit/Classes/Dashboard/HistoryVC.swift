@@ -6,8 +6,10 @@ class HistoryVC: UIViewController {
 
     @IBOutlet weak var tableHistory: UITableView!
     @IBOutlet weak var viewNoData: UIView!
+    @IBOutlet weak var segment: UISegmentedControl!
     
     private var arrHistory = [[String: Any]]()
+    private var MainarrHistory = [[String: Any]]()
     
     private var isFirstTime = Bool()
     
@@ -47,6 +49,23 @@ class HistoryVC: UIViewController {
         
         sideMenuController?.revealMenu()
     }
+    
+    @IBAction func segmentchanged(_ sender: UISegmentedControl) {
+    
+        
+        if segment.selectedSegmentIndex == 0 {
+                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
+                        tableHistory.reloadData()
+          //  status = "0"
+        }
+        else if segment.selectedSegmentIndex == 1 {
+                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
+                        tableHistory.reloadData()
+          //  status = "1"
+        }
+      
+        
+    }
 }
 
 //MARK: - TableView Delegate Method
@@ -59,28 +78,68 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTVC") as! HistoryTVC
         
-        cell.labelContestName.text = arrHistory[indexPath.row]["name"] as? String ?? "No Name"
-        cell.labelContestTime.text = arrHistory[indexPath.row]["contest_time"] as? String ?? "00:00"
-        cell.labelContestDate.text = arrHistory[indexPath.row]["contest_date"] as? String ?? "00:00:00"
+        cell.labelContestName.text = "\(arrHistory[indexPath.row]["name"] as? String ?? "No Name")"
+        
+        
+        cell.lblresultdate.text = "Result Date: \(arrHistory[indexPath.row]["game_date"] as? String ?? "00:00:00")"
+        cell.lblresulttime.text = "Result Time: \(arrHistory[indexPath.row]["game_time"] as? String ?? "00:00")"
+        
+        cell.lblplaydate.text = "Play Date: \(arrHistory[indexPath.row]["contest_date"] as? String ?? "00:00:00")"
+        cell.lblplaytime.text = "Play Time: \(arrHistory[indexPath.row]["contest_time"] as? String ?? "00:00")"
+        
+        let game  = arrHistory[indexPath.row]["game"] as! String
+        if game == "Anytime Game"
+        {
+            cell.lblatggameno.text = "ATG Game No.: \(arrHistory[indexPath.row]["gameNo"] as? String ?? "0")"
+            cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
+        }
+        else
+        {
+            cell.lblatggameno.text = "Live Game"
+            cell.lblatggameno.textColor = UIColor.red
+        }
+
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let game  = arrHistory[indexPath.row]["game"] as! String
         let gametype  = arrHistory[indexPath.row]["game_type"] as! String
-        if gametype == "spinning-machine" {
-            let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
-            SMResultVC.dictContest = arrHistory[indexPath.row]
-            self.navigationController?.pushViewController(SMResultVC, animated: true)
+        
+        if game == "Anytime Game" {
+            if gametype == "spinning-machine" {
+                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
+                AGSMResultVC.dictContest = arrHistory[indexPath.row]
+                AGSMResultVC.isfromhistory = true
+                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
 
+            }
+            else
+            {
+                let CGGameResultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
+                CGGameResultVC.dictContest = arrHistory[indexPath.row]
+                CGGameResultVC.isfromhistory = true
+                self.navigationController?.pushViewController(CGGameResultVC, animated: true)
+            }
         }
         else
         {
-            let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
-            resultVC.dictContest = arrHistory[indexPath.row]
-            self.navigationController?.pushViewController(resultVC, animated: true)
+            if gametype == "spinning-machine" {
+                let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
+                SMResultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(SMResultVC, animated: true)
+
+            }
+            else
+            {
+                let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
+                resultVC.dictContest = arrHistory[indexPath.row]
+                self.navigationController?.pushViewController(resultVC, animated: true)
+            }
         }
+ 
         
     }
     
@@ -116,13 +175,14 @@ extension HistoryVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     self.arrHistory = result!["content"] as! [[String: Any]]
+                    self.MainarrHistory = result!["content"] as! [[String: Any]]
                     if self.arrHistory.count == 0 {
                         
                         self.viewNoData.isHidden = false
                         self.tableHistory.reloadData()
                         
                     } else {
-                        
+                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
                         self.viewNoData.isHidden = true
                         self.tableHistory.reloadData()
                     }
@@ -193,8 +253,13 @@ extension HistoryVC {
 class HistoryTVC: UITableViewCell {
     
     @IBOutlet weak var labelContestName: UILabel!
-    @IBOutlet weak var labelContestTime: UILabel!
-    @IBOutlet weak var labelContestDate: UILabel!
+    @IBOutlet weak var lblatggameno: UILabel!
+    @IBOutlet weak var lblresultdate: UILabel!
+    @IBOutlet weak var lblplaydate: UILabel!
+    @IBOutlet weak var lblresulttime: UILabel!
+    @IBOutlet weak var lblplaytime: UILabel!
+    
+    
     
     override func awakeFromNib() {
          super.awakeFromNib()
