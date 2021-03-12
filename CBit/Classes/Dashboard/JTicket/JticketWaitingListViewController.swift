@@ -44,9 +44,6 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         super.viewDidLoad()
         isFirstTime = true
         getJticketWaitingList()
-        
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -141,7 +138,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                             let nagotiate =  tempArrApprochList[i]["negotiate"]! as! Int
                             if nagotiate > 0
                             {
-                                userCell.btn_offer_approch.setTitle("\(nagotiate)", for: .normal)
+                                userCell.btn_offer_approch.setTitle("\(nagotiate)%", for: .normal)
                                 userCell.btn_offer_approch.isUserInteractionEnabled = true
                                 break
                             }
@@ -223,8 +220,6 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                     break
                 }
             }
-            
-            
             
             PopupNagotiate()
         }
