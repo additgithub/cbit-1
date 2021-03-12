@@ -153,10 +153,21 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let game_type = arrMyContest[indexPath.row]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SMMyTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SMMyTicketVC") as! SMMyTicketVC
+            SMMyTicketVC.dictContest = arrMyContest[indexPath.row]
+            self.navigationController?.pushViewController(SMMyTicketVC, animated: true)
+        }
+        else
+        {
+            let myTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "MyTicketVC") as! MyTicketVC
+            myTicketVC.dictContest = arrMyContest[indexPath.row]
+            self.navigationController?.pushViewController(myTicketVC, animated: true)
+        }
     
-        let myTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "MyTicketVC") as! MyTicketVC
-        myTicketVC.dictContest = arrMyContest[indexPath.row]
-        self.navigationController?.pushViewController(myTicketVC, animated: true)
+      
     }
     
     //MARK: - TableView Button Method
@@ -222,9 +233,20 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
     
     @objc func buttonMyTickets(_ sender: UIButton) {
         let index = sender.tag
-        let myTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "MyTicketVC") as! MyTicketVC
-        myTicketVC.dictContest = arrMyContest[index]
-        self.navigationController?.pushViewController(myTicketVC, animated: true)
+        
+        let game_type = arrMyContest[index]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SMMyTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SMMyTicketVC") as! SMMyTicketVC
+            SMMyTicketVC.dictContest = arrMyContest[index]
+            self.navigationController?.pushViewController(SMMyTicketVC, animated: true)
+        }
+        else
+        {
+            let myTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "MyTicketVC") as! MyTicketVC
+            myTicketVC.dictContest = arrMyContest[index]
+            self.navigationController?.pushViewController(myTicketVC, animated: true)
+        }
+     
     }
 }
 
