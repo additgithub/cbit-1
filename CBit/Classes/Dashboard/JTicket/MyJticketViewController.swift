@@ -88,8 +88,14 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let userCell = tableView.dequeueReusableCell(withIdentifier: "MyJticketlisting") as! MyJticketlisting
+        
         userCell.btnapply.addTarget(self, action: #selector(btnapply(_:event:)), for: .touchUpInside)
+        
         userCell.lbldate.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        userCell.lbljticketno.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        
+        userCell.lbldatef.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        userCell.lbljticketnof.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
         
         userCell.imgjticketbackground.layer.shadowColor = UIColor.black.cgColor
         userCell.imgjticketbackground.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -98,7 +104,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         userCell.imgjticketbackground.clipsToBounds = false
         
         
-        userCell.lbljticketno.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        
         
         //         userCell.lblname.text! = arrMyJTicket[indexPath.row]["name"] as? String ?? ""
         //
@@ -187,6 +193,28 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         
         return userCell
         
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
+        if cell.isflip {
+            cell.vwflip.isHidden = false
+            cell.vwnormal.isHidden = true
+            cell.isflip = false
+            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
+                cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
+               }, completion: {(_ finished: Bool) -> Void in
+               })
+        }
+        else
+        {
+            cell.isflip = true
+            cell.vwflip.isHidden = true
+            cell.vwnormal.isHidden = false
+            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
+                cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
+                }, completion: {(_ finished: Bool) -> Void in
+                })
+        }
     }
     
     @objc func btnExchange(_ sender: Any, event: Any) {
@@ -480,7 +508,15 @@ class MyJticketlisting: UITableViewCell {
     @IBOutlet weak var stack_view: UIStackView!
     @IBOutlet weak var btn_exhange: UIButton!
     
+    @IBOutlet weak var vwflip: UIView!
+    @IBOutlet weak var vwnormal: UIView!
+    @IBOutlet weak var lbldatef: UILabel!
+    @IBOutlet weak var lbljticketnof: UILabel!
+    @IBOutlet weak var lblredeemon: UILabel!
+    @IBOutlet weak var lblappliedon: UILabel!
+    @IBOutlet weak var lblhiton: UILabel!
     
+    var isflip = true
     
     override func awakeFromNib() {
         super.awakeFromNib()
