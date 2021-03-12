@@ -15,12 +15,22 @@ class CreatePrivateGroupVC: UIViewController {
     @IBOutlet weak var chkeasy: M13Checkbox!
     @IBOutlet weak var chkmoderate: M13Checkbox!
     @IBOutlet weak var chkpro: M13Checkbox!
-    @IBOutlet weak var chk1: M13Checkbox!
-    @IBOutlet weak var chk2: M13Checkbox!
-    @IBOutlet weak var chk3: M13Checkbox!
+   
     
     @IBOutlet weak var chkClassic: M13Checkbox!
     @IBOutlet weak var chkSpinning: M13Checkbox!
+    
+    @IBOutlet weak var gameType1: M13Checkbox!
+    @IBOutlet weak var gameType2: M13Checkbox!
+    
+    @IBOutlet weak var nos1: M13Checkbox!
+    @IBOutlet weak var nos2: M13Checkbox!
+    @IBOutlet weak var nos3: M13Checkbox!
+    @IBOutlet weak var nos4: M13Checkbox!
+    
+    @IBOutlet weak var lockStyle1: M13Checkbox!
+    @IBOutlet weak var lockStyle2: M13Checkbox!
+    @IBOutlet weak var lockStyle3: M13Checkbox!
     
     private var arrUserGroupList = [AllUserListData]()
     
@@ -32,18 +42,24 @@ class CreatePrivateGroupVC: UIViewController {
     var timer: Timer?
     var seconds = Int()
     
+    @IBOutlet weak var const_1: NSLayoutConstraint!
+    @IBOutlet weak var const_2: NSLayoutConstraint!
+    @IBOutlet weak var const_3: NSLayoutConstraint!
+    
+    @IBOutlet weak var const_GametypeVw: NSLayoutConstraint!
+    @IBOutlet weak var const_NOSVw: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
         SetRandomNumber()
         setStartTimer()
         
         img_spinningmachine.isHidden = true
         collectionviewtickets.isHidden = true
         
-        let chkarr = [chk1,chk2,chk3,chkeasy,chkmoderate,chkpro,chkClassic,chkSpinning]
+        let chkarr = [chkeasy,chkmoderate,chkpro,chkClassic,chkSpinning,gameType1,gameType2,nos1,nos2,nos3,nos4,lockStyle1,lockStyle2,lockStyle3]
         
         for chk in chkarr {
             chk?.markType = .radio
@@ -53,11 +69,24 @@ class CreatePrivateGroupVC: UIViewController {
             chk?.stateChangeAnimation = .fill
         }
         
-        chk1.checkState = .checked
-        chkeasy.checkState = .checked
-        
         
         MyUserGroupList()
+        
+        
+        const_1.constant = 10.0
+        const_1.priority = UILayoutPriority(rawValue: 1000)
+        
+        const_2.constant = 10.0
+        const_2.priority = UILayoutPriority(rawValue: 500)
+        
+        const_3.constant = 10.0
+        const_3.priority = UILayoutPriority(rawValue: 500)
+        
+        const_GametypeVw.constant = 0.0
+        const_GametypeVw.priority = UILayoutPriority(rawValue: 1000)
+        
+        const_NOSVw.constant = 0.0
+        const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
         
     }
     private func setStartTimer() {
@@ -84,6 +113,20 @@ class CreatePrivateGroupVC: UIViewController {
             chkSpinning.checkState = .unchecked
             img_spinningmachine.isHidden = true
             collectionviewtickets.isHidden = false
+            
+            const_1.constant = 10.0
+            const_1.priority = UILayoutPriority(rawValue: 500)
+            
+            const_2.constant = 10.0
+            const_2.priority = UILayoutPriority(rawValue: 1000)
+            
+            const_3.constant = 10.0
+            const_3.priority = UILayoutPriority(rawValue: 500)
+            
+            
+            const_GametypeVw.constant = 80.0
+            const_GametypeVw.priority = UILayoutPriority(rawValue: 1000)
+            
         }
         else
         {
@@ -91,45 +134,128 @@ class CreatePrivateGroupVC: UIViewController {
             chkSpinning.checkState = .checked
             img_spinningmachine.isHidden = false
             collectionviewtickets.isHidden = true
+            
+            const_1.constant = 10.0
+            const_1.priority = UILayoutPriority(rawValue: 500)
+            
+            const_2.constant = 10.0
+            const_2.priority = UILayoutPriority(rawValue: 500)
+            
+            const_3.constant = 10.0
+            const_3.priority = UILayoutPriority(rawValue: 1000)
+            
+            const_GametypeVw.constant = 0.0
+            const_GametypeVw.priority = UILayoutPriority(rawValue: 1000)
+            
+            const_NOSVw.constant = 0.0
+            const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
+            
+            //Unchecked GameType
+            gameType1.checkState = .unchecked
+            gameType2.checkState = .unchecked
+            
         }
     }
     
-    @IBAction func easy_click(_ sender: M13Checkbox) {
-        chkeasy.checkState = .checked
-        chkmoderate.checkState = .unchecked
-        chkpro.checkState = .unchecked
-    }
-    @IBAction func moderate_click(_ sender: M13Checkbox) {
-        chkeasy.checkState = .unchecked
-        chkmoderate.checkState = .checked
-        chkpro.checkState = .unchecked
-    }
-    @IBAction func pro_click(_ sender: M13Checkbox) {
-        chkeasy.checkState = .unchecked
-        chkmoderate.checkState = .unchecked
-        chkpro.checkState = .checked
-    }
-    @IBAction func chk1_click(_ sender: M13Checkbox) {
-        chk1.checkState = .checked
-        chk2.checkState = .unchecked
-        chk3.checkState = .unchecked
-    }
-    @IBAction func chk2_click(_ sender: M13Checkbox) {
-        chk1.checkState = .unchecked
-        chk2.checkState = .checked
-        chk3.checkState = .unchecked
-    }
-    @IBAction func chk3_click(_ sender: M13Checkbox) {
-        chk1.checkState = .unchecked
-        chk2.checkState = .unchecked
-        chk3.checkState = .checked
+    @IBAction func btn_CHOOSE_GAME_LAVEL(_ sender: M13Checkbox) {
+        if sender.tag == 0
+        {
+            chkeasy.checkState = .checked
+            chkmoderate.checkState = .unchecked
+            chkpro.checkState = .unchecked
+        }
+        else if sender.tag == 1
+        {
+            chkeasy.checkState = .unchecked
+            chkmoderate.checkState = .checked
+            chkpro.checkState = .unchecked
+        }
+        else if sender.tag == 2
+        {
+            chkeasy.checkState = .unchecked
+            chkmoderate.checkState = .unchecked
+            chkpro.checkState = .checked
+        }
+        
     }
     
+    @IBAction func btn_CHOOSE_GAME_TYPE(_ sender: M13Checkbox) {
+        if sender.tag == 0
+        {
+            gameType1.checkState = .checked
+            gameType2.checkState = .unchecked
+            
+            const_NOSVw.constant = 0.0
+            const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
+        }
+        else if sender.tag == 1
+        {
+            gameType1.checkState = .unchecked
+            gameType2.checkState = .checked
+            
+            const_NOSVw.constant = 80.0
+            const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
+        }
+        
+    }
+    
+    @IBAction func btn_CHOOSE_NUMOFSLOT(_ sender: M13Checkbox) {
+        if sender.tag == 0
+        {
+            nos1.checkState = .checked
+            nos2.checkState = .unchecked
+            nos3.checkState = .unchecked
+            nos4.checkState = .unchecked
+        }
+        else if sender.tag == 1
+        {
+            nos1.checkState = .unchecked
+            nos2.checkState = .checked
+            nos3.checkState = .unchecked
+            nos4.checkState = .unchecked
+        }
+        else if sender.tag == 2
+        {
+            nos1.checkState = .unchecked
+            nos2.checkState = .unchecked
+            nos3.checkState = .checked
+            nos4.checkState = .unchecked
+        }
+        else if sender.tag == 3
+        {
+            nos1.checkState = .unchecked
+            nos2.checkState = .unchecked
+            nos3.checkState = .unchecked
+            nos4.checkState = .checked
+        }
+    }
+    
+    @IBAction func btn_CHOOSE_LOCKSTYLE(_ sender: M13Checkbox) {
+        if sender.tag == 0
+        {
+            lockStyle1.checkState = .checked
+            lockStyle2.checkState = .unchecked
+            lockStyle3.checkState = .unchecked
+        }
+        else if sender.tag == 1
+        {
+            lockStyle1.checkState = .unchecked
+            lockStyle2.checkState = .checked
+            lockStyle3.checkState = .unchecked
+        }
+        else if sender.tag == 2
+        {
+            lockStyle1.checkState = .unchecked
+            lockStyle2.checkState = .unchecked
+            lockStyle3.checkState = .checked
+        }
+    }
     
     
 
     @IBAction func back_click(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func choosegame_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()

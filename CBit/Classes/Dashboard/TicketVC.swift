@@ -412,10 +412,8 @@ class TicketVC: UIViewController {
 
 extension TicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       
 
         return arrRandomNumbers.count
-    
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -431,14 +429,12 @@ extension TicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        
         let cell1 = collectionView.dequeueReusableCell(withReuseIdentifier: "Bracketcv", for: indexPath) as! Bracketcv
         
             cell1.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
             cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
       
         return cell1
-        
     }
 }
 
