@@ -1,0 +1,6 @@
+framework module HSSearchable {
+  umbrella header "HSSearchable-umbrella.h"
+
+  export *
+  module * { export * }
+}
