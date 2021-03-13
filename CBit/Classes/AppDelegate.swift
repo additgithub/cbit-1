@@ -9,11 +9,6 @@ import EventKit
 import Fabric
 import Crashlytics
 import OneSignal
-
-
-
-
-
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSubscriptionObserver,UNUserNotificationCenterDelegate {
