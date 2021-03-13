@@ -12,47 +12,47 @@ import OneSignal
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSubscriptionObserver,UNUserNotificationCenterDelegate {
-   
     
-
+    
+    
     var window: UIWindow?
     var eventStore: EKEventStore?
-   
+    
     var gcmMessageIDKey = "gcm.message_id"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //ReachabilityManager.shared.startMonitoring()
-//        SocketIOManager.sharedInstance.socket.off("onContestLive")
-//        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")
+        //        SocketIOManager.sharedInstance.socket.off("onContestLive")
+        //        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
-         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
-                
-                // Replace 'YOUR_APP_ID' with your OneSignal App ID.
-                OneSignal.initWithLaunchOptions(launchOptions,
-                                      appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
-                                                handleNotificationAction: nil,
-                                                settings: onesignalInitSettings)
-                
-                OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
-           
-                let userId = OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
         
-                 UserDefaults.standard.set(userId,forKey:"OnesignalID")
-                 
-                
-                // Recommend moving the below line to prompt for push after informing the user about
-                //   how your app will use them.
-                OneSignal.promptForPushNotifications(userResponse: { accepted in
-                    print("User accepted notifications: \(accepted)")
-                 
-                   
-                })
-                
-             OneSignal.add(self as OSPermissionObserver)
-             
-            OneSignal.add(self as OSSubscriptionObserver)
+        // Replace 'YOUR_APP_ID' with your OneSignal App ID.
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
+        
+        let userId = OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
+        
+        UserDefaults.standard.set(userId,forKey:"OnesignalID")
+        
+        
+        // Recommend moving the below line to prompt for push after informing the user about
+        //   how your app will use them.
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+            
+            
+        })
+        
+        OneSignal.add(self as OSPermissionObserver)
+        
+        OneSignal.add(self as OSSubscriptionObserver)
         
         
         
@@ -67,12 +67,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
-
+            
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-
+            
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -80,10 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         }
         application.registerForRemoteNotifications()
         
-//        Messaging.messaging().delegate = self
-//        Messaging.messaging().isAutoInitEnabled = true
-//
-//        getFCMToken()
+        //        Messaging.messaging().delegate = self
+        //        Messaging.messaging().isAutoInitEnabled = true
+        //
+        //        getFCMToken()
         
         //Facebook
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
@@ -91,131 +91,131 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
     }
     
     func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
-           if !stateChanges.from.subscribed && stateChanges.to.subscribed {
-               print("Subscribed for OneSignal push notifications!")
-           }
-           
-           print("SubscriptionStateChange: \n\(String(describing: stateChanges))")
-           
-           //The player id is inside stateChanges. But be careful, this value can be nil if the user has not granted you permission to send notifications.
-           if let playerId = stateChanges.to.userId {
-               print("Current playerId \(playerId)")
-               UserDefaults.standard.set(playerId,forKey:"OnesignalID")
-               //kUserDefault.synchronize()
-           }
-       }
+        if !stateChanges.from.subscribed && stateChanges.to.subscribed {
+            print("Subscribed for OneSignal push notifications!")
+        }
+        
+        print("SubscriptionStateChange: \n\(String(describing: stateChanges))")
+        
+        //The player id is inside stateChanges. But be careful, this value can be nil if the user has not granted you permission to send notifications.
+        if let playerId = stateChanges.to.userId {
+            print("Current playerId \(playerId)")
+            UserDefaults.standard.set(playerId,forKey:"OnesignalID")
+            //kUserDefault.synchronize()
+        }
+    }
     
     func onOSPermissionChanged(_ stateChanges: OSPermissionStateChanges!) {
-           if stateChanges.from.status == OSNotificationPermission.notDetermined {
-               if stateChanges.to.status == OSNotificationPermission.authorized {
-                   print("Thanks for accepting notifications!")
-               } else if stateChanges.to.status == OSNotificationPermission.denied {
-                   print("Notifications not accepted. You can turn them on later under your iOS settings.")
-               }
-           }
-           // prints out all properties
-           print("PermissionStateChanges: \n\(String(describing: stateChanges))")
-       }
-    
-    //
-//    func applicationDidBecomeActive(_ application: UIApplication) {
-//           AppEvents.activateApp()
-//       }
-//
-//       private func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-//           return ApplicationDelegate.shared.application(application, open: url as URL, sourceApplication: sourceApplication, annotation: annotation)
-//       }
-//
-//
-//       public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-//
-//           return ApplicationDelegate.shared.application(
-//         app,
-//         open: (url as URL?)!,
-//         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-//         annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-//       )
-//       }
-//
-//       public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-//           return ApplicationDelegate.shared.application(
-//         application,
-//         open: (url as URL?)!,
-//         sourceApplication: sourceApplication,
-//         annotation: annotation)
-//       }
-    //
-    
-//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-//        //let appId: String = FBSDKSettings.appID()
-//
-//        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("www.cbit.com") == .orderedSame {
-//
-//            var parameters: [String: String] = [:]
-//            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-//                parameters[$0.name] = $0.value
-//            }
-//            print("Value: \(parameters)")
-//            if !MyModel().isLogedIn()  {
-//
-//            } else if !MyModel().isConnectedToInternet() {
-//
-//            } else {
-//                SocketIOManager.sharedInstance.establisConnection()
-//                presentViewController(parameter: parameters)
-//            }
-//
-//            return true
-//        } else {
-//            return FBSDKApplicationDelegate.sharedInstance().application(app,
-//                                                                         open: url ,
-//                                                                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-//                                                                         annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-//        }
-//    }
-    
-         public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-            //let appId: String = FBSDKSettings.appID()
-    
-            if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("www.cbit.com") == .orderedSame {
-    
-                var parameters: [String: String] = [:]
-                URLComponents(url: url as URL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                    parameters[$0.name] = $0.value
-                }
-                print("Value: \(parameters)")
-                if !MyModel().isLogedIn()  {
-    
-                } else if !MyModel().isConnectedToInternet() {
-    
-                } else {
-                    SocketIOManager.sharedInstance.establisConnection()
-                    
-                    presentViewController(parameter: parameters)
-                }
-    
-                return true
-            } else {
-                return ApplicationDelegate.shared.application(app, open: url ,
-                                                                             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-                
-                
+        if stateChanges.from.status == OSNotificationPermission.notDetermined {
+            if stateChanges.to.status == OSNotificationPermission.authorized {
+                print("Thanks for accepting notifications!")
+            } else if stateChanges.to.status == OSNotificationPermission.denied {
+                print("Notifications not accepted. You can turn them on later under your iOS settings.")
             }
         }
+        // prints out all properties
+        print("PermissionStateChanges: \n\(String(describing: stateChanges))")
+    }
     
-//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-//
-//            return SDKApplicationDelegate.shared.application(app, open: url, sourceApplication: (options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String), annotation: options[UIApplicationOpenURLOptionsKey.annotation] as Any)
-//    }
+    //
+    //    func applicationDidBecomeActive(_ application: UIApplication) {
+    //           AppEvents.activateApp()
+    //       }
+    //
+    //       private func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
+    //           return ApplicationDelegate.shared.application(application, open: url as URL, sourceApplication: sourceApplication, annotation: annotation)
+    //       }
+    //
+    //
+    //       public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    //
+    //           return ApplicationDelegate.shared.application(
+    //         app,
+    //         open: (url as URL?)!,
+    //         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+    //         annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+    //       )
+    //       }
+    //
+    //       public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    //           return ApplicationDelegate.shared.application(
+    //         application,
+    //         open: (url as URL?)!,
+    //         sourceApplication: sourceApplication,
+    //         annotation: annotation)
+    //       }
+    //
+    
+    //    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    //        //let appId: String = FBSDKSettings.appID()
+    //
+    //        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("www.cbit.com") == .orderedSame {
+    //
+    //            var parameters: [String: String] = [:]
+    //            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+    //                parameters[$0.name] = $0.value
+    //            }
+    //            print("Value: \(parameters)")
+    //            if !MyModel().isLogedIn()  {
+    //
+    //            } else if !MyModel().isConnectedToInternet() {
+    //
+    //            } else {
+    //                SocketIOManager.sharedInstance.establisConnection()
+    //                presentViewController(parameter: parameters)
+    //            }
+    //
+    //            return true
+    //        } else {
+    //            return FBSDKApplicationDelegate.sharedInstance().application(app,
+    //                                                                         open: url ,
+    //                                                                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+    //                                                                         annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+    //        }
+    //    }
+    
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        //let appId: String = FBSDKSettings.appID()
+        
+        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("www.cbit.com") == .orderedSame {
+            
+            var parameters: [String: String] = [:]
+            URLComponents(url: url as URL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            print("Value: \(parameters)")
+            if !MyModel().isLogedIn()  {
+                
+            } else if !MyModel().isConnectedToInternet() {
+                
+            } else {
+                SocketIOManager.sharedInstance.establisConnection()
+                
+                presentViewController(parameter: parameters)
+            }
+            
+            return true
+        } else {
+            return ApplicationDelegate.shared.application(app, open: url ,
+                                                          sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+            
+            
+        }
+    }
+    
+    //    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    //
+    //            return SDKApplicationDelegate.shared.application(app, open: url, sourceApplication: (options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String), annotation: options[UIApplicationOpenURLOptionsKey.annotation] as Any)
+    //    }
     
     
     func presentViewController(parameter: [String: String]) {
         
         let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
         guard
-//            let joinCodeVC = storyBoard.instantiateViewController(withIdentifier: "PrivateContestJoinVC") as? PrivateContestJoinVC,
+            //            let joinCodeVC = storyBoard.instantiateViewController(withIdentifier: "PrivateContestJoinVC") as? PrivateContestJoinVC,
             let navigation = storyBoard.instantiateViewController(withIdentifier: "JoinNC") as? UINavigationController
-            
+        
         else {
             return
         }
@@ -224,23 +224,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         if MyModel().isLogedIn() {
             SocketIOManager.sharedInstance.closeConnection()
         }
         
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         if MyModel().isLogedIn() {
             SocketIOManager.sharedInstance.establisConnection()
@@ -252,11 +252,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
             }
         }
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
     //MARK: - Set SideMenu
     func setSideMenu() {
         let screenSize = UIScreen.main.bounds
@@ -299,7 +299,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             let url = userActivity.webpageURL!
             print(url.absoluteString)
-
+            
             if MyModel().isLogedIn() {
                 var parameters: [String: String] = [:]
                 URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
@@ -315,9 +315,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
                     presentViewController(parameter: parameters)
                 }
             }
-
+            
         }
-
+        
         return true
     }
 }
