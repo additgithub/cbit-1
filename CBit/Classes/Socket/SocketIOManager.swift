@@ -8,7 +8,7 @@ class SocketIOManager: NSObject {
     var lastViewController: UIViewController?
   
     let manager = SocketManager(socketURL: URL(string: Define.SOCKET_URL)!,
-                                config:[.log(true),
+                                config:[.log(false),
                                         .reconnectWait(1),
                                         .compress,
                                         .forceWebsockets(true),
@@ -149,8 +149,8 @@ class SocketIOManager: NSObject {
         
         //TODO: Start game time
             socket.on("onContestLive") { (data, ack) in
-                print("➤ On Contest End")
-                print("Data: \(data)")
+//                print("➤ On Contest End")
+//                print("Data: \(data)")
                 
                 let strValue = data[0] as! String
                 

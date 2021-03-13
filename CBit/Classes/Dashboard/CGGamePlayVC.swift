@@ -599,26 +599,26 @@ class CGGamePlayVC: UIViewController  {
                    if status == 200 {
                        self.Lockall1?.removeFromSuperview()
                        
-                       var dictItemData1 = dictData!["content"] as! [[String: Any]]
+                    let dictItemData1 = dictData!["content"] as! [[String: Any]]
                        print(dictItemData1)
                        
-                       var i = 0
+                    let i = 0
                        
                        for i in i..<self.arrSelectedTicket.count {
                            
-                       var dictItemData = dictItemData1[i]
+                        let dictItemData = dictItemData1[i]
                        var dictTicket = self.arrSelectedTicket[i]
                        dictTicket["isLock"] = dictItemData["isLockAll"]
                        dictTicket["displayValue"] = dictItemData["DisplayValue"]
                     //   dictTicket["lockTime"] = dictItemData["isLockTime"]
                         dictTicket["lockTime"] = dictItemData["lockTime"]
                        self.arrSelectedTicket[i] = dictTicket
-                       
 //                       let indexPath = IndexPath(row:i, section: 0)
 //                       self.tableAnswer.reloadRows(at: [indexPath], with: .none)
-                        self.tableAnswer.reloadData()
-                        self.getContestDetail(isfromtimer: true, isStart: 0)
                        }
+                    self.tableAnswer.reloadData()
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                    self.setlockalldata(dictdata: dictItemData1[0])
                    }
                }
         
@@ -1133,83 +1133,83 @@ class CGGamePlayVC: UIViewController  {
            // second = second - 1
             setTimer()
             
-            if self.gametype == "rdb" {
-                btnlockall.isEnabled = true
-                                                btnlockall.alpha = 1.0
-                                                buttonAnsMinus.isEnabled = true
-                                                buttonAnsPlus.isEnabled = true
-                                                buttonAnsZero.isEnabled = true
-                          
-                          
-                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
-                                    if LockAllData.count > 0 {
-                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
-                                        
-                                        if isLockAll {
-                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
-                                             lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
-                                               btnlockall.isHidden = true
-                                                btnlock.isHidden = false
-                                              buttonAnsMinus.isEnabled = false
-                                            buttonAnsPlus.isEnabled = false
-                                            buttonAnsZero.isEnabled = false
-                                            lbllockedat.isHidden = false
-                                            if displayValue == "Red win" {
-                                                labelanswerselected.text! = displayValue
-                                                    // buttonAnsMinus.backgroundColor = UIColor.red
-                                                     buttonAnsMinus.backgroundColor = UIColor.white
-                                                      
-                                                     labelAnsMinus.textColor = UIColor.black
-                                                     labelAnsPlus.textColor = UIColor.white
-                                                     
-                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
-                                                     buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                                            }
-                                            else if displayValue == "Draw" {
-                                                
-                                                labelanswerselected.text! = displayValue
-                                                     
-                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
-                                                     buttonAnsMinus.backgroundColor = UIColor.red
-                                                     buttonAnsZero.backgroundColor = UIColor.white
-                                                     
-                                                     labelAnsPlus.textColor = UIColor.white
-                                                     labelAnsMinus.textColor = UIColor.white
-                                                
-                                            }
-                                            else if displayValue == "Blue win" {
-                                                labelanswerselected.text! = displayValue
-                                                       buttonAnsPlus.backgroundColor = UIColor.white
-                                                       labelAnsPlus.textColor = UIColor.black
-                                                       labelAnsMinus.textColor = UIColor.white
-                                                       buttonAnsMinus.backgroundColor = UIColor.red
-                                                       buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                                            }
-                                        }
-                                        else
-                                        {
-                                          btnlockall.alpha = 1.0
-                                          btnlockall.isEnabled = true
-                                          btnlockall.isHidden = false
-                                          btnlock.isHidden = true
-                                          lbllockedat.isHidden = true
-                                          buttonAnsMinus.isEnabled = true
-                                          buttonAnsPlus.isEnabled = true
-                                          buttonAnsZero.isEnabled = true
-                                        }
-                                    }
-                          else
-                                    {
-                                      btnlockall.alpha = 1.0
-                                      btnlockall.isEnabled = true
-                                      btnlockall.isHidden = false
-                                      btnlock.isHidden = true
-                                      lbllockedat.isHidden = true
-                                      buttonAnsMinus.isEnabled = true
-                                      buttonAnsPlus.isEnabled = true
-                                      buttonAnsZero.isEnabled = true
-                          }
-            }
+//            if self.gametype == "rdb" {
+//                btnlockall.isEnabled = true
+//                                                btnlockall.alpha = 1.0
+//                                                buttonAnsMinus.isEnabled = true
+//                                                buttonAnsPlus.isEnabled = true
+//                                                buttonAnsZero.isEnabled = true
+//
+//
+//                                   let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+//                                    if LockAllData.count > 0 {
+//                                        let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+//
+//                                        if isLockAll {
+//                                            let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
+//                                             lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
+//                                               btnlockall.isHidden = true
+//                                                btnlock.isHidden = false
+//                                              buttonAnsMinus.isEnabled = false
+//                                            buttonAnsPlus.isEnabled = false
+//                                            buttonAnsZero.isEnabled = false
+//                                            lbllockedat.isHidden = false
+//                                            if displayValue == "Red win" {
+//                                                labelanswerselected.text! = displayValue
+//                                                    // buttonAnsMinus.backgroundColor = UIColor.red
+//                                                     buttonAnsMinus.backgroundColor = UIColor.white
+//
+//                                                     labelAnsMinus.textColor = UIColor.black
+//                                                     labelAnsPlus.textColor = UIColor.white
+//
+//                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+//                                                     buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                            }
+//                                            else if displayValue == "Draw" {
+//
+//                                                labelanswerselected.text! = displayValue
+//
+//                                                     buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.2, blue: 1, alpha: 1)
+//                                                     buttonAnsMinus.backgroundColor = UIColor.red
+//                                                     buttonAnsZero.backgroundColor = UIColor.white
+//
+//                                                     labelAnsPlus.textColor = UIColor.white
+//                                                     labelAnsMinus.textColor = UIColor.white
+//
+//                                            }
+//                                            else if displayValue == "Blue win" {
+//                                                labelanswerselected.text! = displayValue
+//                                                       buttonAnsPlus.backgroundColor = UIColor.white
+//                                                       labelAnsPlus.textColor = UIColor.black
+//                                                       labelAnsMinus.textColor = UIColor.white
+//                                                       buttonAnsMinus.backgroundColor = UIColor.red
+//                                                       buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//                                            }
+//                                        }
+//                                        else
+//                                        {
+//                                          btnlockall.alpha = 1.0
+//                                          btnlockall.isEnabled = true
+//                                          btnlockall.isHidden = false
+//                                          btnlock.isHidden = true
+//                                          lbllockedat.isHidden = true
+//                                          buttonAnsMinus.isEnabled = true
+//                                          buttonAnsPlus.isEnabled = true
+//                                          buttonAnsZero.isEnabled = true
+//                                        }
+//                                    }
+//                          else
+//                                    {
+//                                      btnlockall.alpha = 1.0
+//                                      btnlockall.isEnabled = true
+//                                      btnlockall.isHidden = false
+//                                      btnlock.isHidden = true
+//                                      lbllockedat.isHidden = true
+//                                      buttonAnsMinus.isEnabled = true
+//                                      buttonAnsPlus.isEnabled = true
+//                                      buttonAnsZero.isEnabled = true
+//                          }
+//            }
 //            else
 //            { // 1 TO 9 NUMBER GAME
 //                                        btnlockallnumber.isEnabled = true
@@ -1470,14 +1470,14 @@ class CGGamePlayVC: UIViewController  {
     }
     
     func setlockalldata(dictdata:[String:Any])  {
-         let gameStatus = dictdata["gameStatus"] as? String ?? "notStart"
-                second = (dictdata["duration"] as? Int)!
-                print("secondsspre",second)
+//         let gameStatus = dictdata["gameStatus"] as? String ?? "notStart"
+//                second = (dictdata["duration"] as? Int)!
+//                print("secondsspre",second)
                 
            
                 
               
-                if (gameStatus == "start") {
+         //       if (gameStatus == "start") {
                    
                     if self.gametype == "rdb" {
                         btnlockall.isEnabled = true
@@ -1487,13 +1487,13 @@ class CGGamePlayVC: UIViewController  {
                                                         buttonAnsZero.isEnabled = true
                                   
                                   
-                                           let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
-                                            if LockAllData.count > 0 {
-                                                let isLockAll = LockAllData[0]["isLockAll"] as? Bool ?? false
+//                                           let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
+//                                            if LockAllData.count > 0 {
+                        let isLockAll = dictdata["isLockAll"] as? Bool ?? false
                                                 
                                                 if isLockAll {
-                                                    let displayValue = LockAllData[0]["displayValue"] as? String ?? "0"
-                                                     lbllockedat.text = "locked at: \(LockAllData[0]["lockAllTime"] as? String ?? "0")"
+                                                     let displayValue = dictdata["displayValue"] as? String ?? "0"
+                                                     lbllockedat.text = "locked at: \(dictdata["isLockTime"] as? String ?? "0")"
                                                        btnlockall.isHidden = true
                                                         btnlock.isHidden = false
                                                       buttonAnsMinus.isEnabled = false
@@ -1555,8 +1555,8 @@ class CGGamePlayVC: UIViewController  {
                                               buttonAnsPlus.isEnabled = true
                                               buttonAnsZero.isEnabled = true
                                   }
-                    }
-    }
+             //       }
+  //  }
     }
     
     func SetRandomNumber() {
@@ -1765,7 +1765,7 @@ class CGGamePlayVC: UIViewController  {
     }
     
     @objc func handleTimer(){
-        if second > 0 {
+        if second > 1 {
            // print("Second: \(second)")
             
 //            if msecond > 0 {
@@ -1996,7 +1996,6 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 flexiCell.labelLockTime.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-               // lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                 
                 return flexiCell
             } else {
@@ -2010,7 +2009,6 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     flexiCell.viewLocked.isHidden = false
                     flexiCell.labelLockedAnswer.text = "\(dictUserSelectData["startValue"]!) to \(dictUserSelectData["endValue"]!)"
                     flexiCell.labelLockedAt.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-                  //   lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                 } else {
                     flexiCell.viewUnLocked.isHidden = false
@@ -2090,7 +2088,7 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let isLock = arrSelectedTicket[indexPath.row]["isLock"] as? Bool ?? false
                 
-                if isLock {
+                if isLock && isGameStart {
      
                                     
                     
@@ -2136,7 +2134,6 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
 //                  labelAnsPlus.text = arrSloats[2]["displayValue"] as? String ?? "+"
                     
                     fixCell.labelLoackTime.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-                  //  lbllockedat.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     //Selection
                     let arrSloatsCheck = arrSelectedTicket[indexPath.row]["slotes"] as! [[String: Any]]
                     let isSelectedMinus = arrSloatsCheck[0]["isSelected"] as? Bool ?? false
@@ -2360,7 +2357,6 @@ extension CGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.arrData = arrSloats
                     
                     fixCell.labelLockTime.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-                 //   lbllockedat.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                     for item in arrSloats {
                         let isSelected = item["isSelected"] as? Bool ?? false
