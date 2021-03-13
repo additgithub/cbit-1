@@ -277,28 +277,28 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             
         }
     }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
-//        if cell.isflip {
-//            cell.vwflip.isHidden = false
-//            cell.vwnormal.isHidden = true
-//            cell.isflip = false
-//            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
-//                cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
-//               }, completion: {(_ finished: Bool) -> Void in
-//               })
-//        }
-//        else
-//        {
-//            cell.isflip = true
-//            cell.vwflip.isHidden = true
-//            cell.vwnormal.isHidden = false
-//            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
-//                cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
-//                }, completion: {(_ finished: Bool) -> Void in
-//                })
-//        }
-//    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
+    //        if cell.isflip {
+    //            cell.vwflip.isHidden = false
+    //            cell.vwnormal.isHidden = true
+    //            cell.isflip = false
+    //            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
+    //                cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
+    //               }, completion: {(_ finished: Bool) -> Void in
+    //               })
+    //        }
+    //        else
+    //        {
+    //            cell.isflip = true
+    //            cell.vwflip.isHidden = true
+    //            cell.vwnormal.isHidden = false
+    //            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
+    //                cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
+    //                }, completion: {(_ finished: Bool) -> Void in
+    //                })
+    //        }
+    //    }
     
     @objc func checkbox(sender: UIButton){
         let buttonTag = sender.tag
