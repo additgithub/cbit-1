@@ -27,6 +27,7 @@ class ThreeSloatTVC: UITableViewCell {
     @IBOutlet weak var buttonSelectTicket: UIButton!
     @IBOutlet weak var lblpending: UILabel!
     @IBOutlet weak var lbllockstyle: UILabel!
+    @IBOutlet weak var lblgameno: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

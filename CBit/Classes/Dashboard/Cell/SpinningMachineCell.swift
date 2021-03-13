@@ -26,6 +26,7 @@ class SpinningMachineCell: UITableViewCell {
     
     @IBOutlet weak var lblpending: UILabel!
     @IBOutlet weak var lbllockstyle: UILabel!
+    @IBOutlet weak var lblgameno: UILabel!
     
     var arrSloats = [[String: Any]]()
     
@@ -91,8 +92,10 @@ extension SpinningMachineCell: UICollectionViewDelegate, UICollectionViewDataSou
                 cell.labelDisplay.isHidden = true
                 cell.img.isHidden = false
                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
+              //  let scaledimg = localimg.scaleImage(toSize: CGSize(width: 50, height: 50))
 //                cell.img.image = makeTransparent(image: localimg)
                 cell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+              //  cell.img.sd_setImage(with: URL(string: arrSloats[indexPath.row]["ImageUrl"] as! String), completed: nil)
             }
 //            if indexPath.row == 1 {
 //                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
@@ -135,5 +138,25 @@ class SpinningMachineSlotCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+    }
+}
+
+
+extension UIImage {
+    func scaleImage(toSize newSize: CGSize) -> UIImage? {
+        var newImage: UIImage?
+        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        if let context = UIGraphicsGetCurrentContext(), let cgImage = self.cgImage {
+            context.interpolationQuality = .high
+            let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
+            context.concatenate(flipVertical)
+            context.draw(cgImage, in: newRect)
+            if let img = context.makeImage() {
+                newImage = UIImage(cgImage: img)
+            }
+            UIGraphicsEndImageContext()
+        }
+        return newImage
     }
 }

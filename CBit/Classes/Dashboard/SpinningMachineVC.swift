@@ -11,6 +11,7 @@ import UIKit
 class slotcell: UICollectionViewCell {
     @IBOutlet weak var imgImage: UIImageView!
     var timerfade=Timer()
+    @IBOutlet weak var lbldraw: UILabel!
     
     override class func awakeFromNib() {
         
@@ -297,7 +298,7 @@ extension UIView {
     func fadeIn() {
         // Move our fade out code from earlier
         UIView.animate(withDuration: 0.5, delay: 0.1, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.alpha = 1.0 // Instead of a specific instance of, say, birdTypeLabel, we simply set [thisInstance] (ie, self)'s alpha
+            self.alpha = 0.8 // Instead of a specific instance of, say, birdTypeLabel, we simply set [thisInstance] (ie, self)'s alpha
             }, completion: nil)
     }
 
@@ -358,7 +359,14 @@ extension UIView{
 extension UIImage {
     func imageByMakingWhiteBackgroundTransparent() -> UIImage? {
 
+        
         let image = UIImage(data: self.jpegData(compressionQuality: 1.0) ?? Data())
+        guard image?.imageAsset != nil else {
+            return UIImage()
+        }
+//        if images == nil {
+//            return UIImage()
+//        }
         let rawImageRef: CGImage = (image?.cgImage) ?? UIImage().cgImage!
 
         let colorMasking: [CGFloat] = [222, 255, 222, 255, 222, 255]
