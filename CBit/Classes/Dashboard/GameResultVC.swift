@@ -39,20 +39,20 @@ class GameResultVC: UIViewController {
         super.viewWillAppear(animated)
         labelContestName.text = dictContest["name"] as? String ?? "No Name"
     }
-
+    
     func setDetail() {
-     let gametype = "\(dictContestDetail["game_type"]!)"
+        let gametype = "\(dictContestDetail["game_type"]!)"
         
         
-    if gametype == "0-9"
-    {
-         labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
+        if gametype == "0-9"
+        {
+            labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
         }
-    else{
-        labelAnswer.isHidden = true
+        else{
+            labelAnswer.isHidden = true
         }
         
-       
+        
         
         totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
         totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
@@ -263,9 +263,9 @@ extension GameResultVC {
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!)")
-//                Alert().showAlert(title: "Error",
-//                                  message: Define.ERROR_SERVER,
-//                                  viewController: self)
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
                 self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
@@ -273,7 +273,7 @@ extension GameResultVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     self.dictContestDetail = result!["content"] as! [String: Any]
-                
+                    
                     
                     print(self.dictContestDetail)
                     self.setDetail()
@@ -365,27 +365,27 @@ class GameResultTVC: UITableViewCell {
     var arrSloats = [[String: Any]]()
     var strDisplayValue = String()
     
-//    var arrData:[[String: Any]]? {
-//        didSet {
-//            guard let arrList = arrData else { return }
-//            arrSloats = arrList
-//            collectionlist.reloadData()
-//        }
-//    }
+    //    var arrData:[[String: Any]]? {
+    //        didSet {
+    //            guard let arrList = arrData else { return }
+    //            arrSloats = arrList
+    //            collectionlist.reloadData()
+    //        }
+    //    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         buttonViewWinners.layer.cornerRadius = 5
         buttonViewWinners.layer.masksToBounds = true
-       
+        
         collectionlist?.delegate = self
         collectionlist?.dataSource = self
         
         
     }
     
-   
-
+    
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -424,21 +424,21 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         }
         
         let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
-      
-             if strDisplayValue == "Draw" {
-                 let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                lockcell.labelDisplayValue.text = strMainString
-                lockcell.labelDisplayValue.isHidden = false
-                lockcell.img.isHidden = true
-             }
-             else
-             {
-                lockcell.labelDisplayValue.isHidden = true
-                lockcell.img.isHidden = false
-                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
-                lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
-             }
-      
+        
+        if strDisplayValue == "Draw" {
+            let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+            lockcell.labelDisplayValue.text = strMainString
+            lockcell.labelDisplayValue.isHidden = false
+            lockcell.img.isHidden = true
+        }
+        else
+        {
+            lockcell.labelDisplayValue.isHidden = true
+            lockcell.img.isHidden = false
+            let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
+            lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+        }
+        
         return lockcell
     }
     
