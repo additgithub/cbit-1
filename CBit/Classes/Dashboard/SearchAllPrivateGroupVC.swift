@@ -42,7 +42,11 @@ class SearchAllPrivateGroupVC: UIViewController {
         }
         else
         {
-            self.search_bar.searchTextField.borderStyle = .none
+            if #available(iOS 13.0, *) {
+                self.search_bar.searchTextField.borderStyle = .none
+            } else {
+                // Fallback on earlier versions
+            }
             self.search_bar.backgroundImage = UIImage()
 
         }
