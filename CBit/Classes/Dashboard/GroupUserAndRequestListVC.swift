@@ -244,6 +244,7 @@ extension GroupUserAndRequestListVC : UITableViewDataSource , UITableViewDelegat
         if section == 0
         {
             let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
+            headerView.backgroundColor = .white
             
             let label = UILabel()
             label.frame = CGRect.init(x: 20, y: 10, width: headerView.frame.width-10, height: headerView.frame.height-10)
@@ -258,7 +259,7 @@ extension GroupUserAndRequestListVC : UITableViewDataSource , UITableViewDelegat
         else
         {
             let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
-            
+            headerView.backgroundColor = .white
             let label = UILabel()
             label.frame = CGRect.init(x: 20, y: 10, width: headerView.frame.width-10, height: headerView.frame.height-10)
             label.text = "Group Member"

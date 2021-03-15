@@ -379,29 +379,20 @@ class CreatePrivateGroupVC: UIViewController {
     }
     
     func SetRandomNumber() {
-            self.view.layoutIfNeeded()
-    //
-    //        let rangeMin = dictContestDetail["ansRangeMin"] as? Int ?? 0
-    //        let rangeMax = dictContestDetail["ansRangeMax"] as? Int ?? 0
-    //            arrRandomNumbers = MyModel().createRandomNumbers(number:8, minRange:rangeMin, maxRange:rangeMax)
-    //            arrBarcketColor = MyDataType().getArrayBrackets(index:8)
-    //          //  constrainCollectionViewHeight.constant = 50
-    //      //  collectionviewtickets.reloadData()
-    //        self.view.layoutIfNeeded()
-            
-           self.view.layoutIfNeeded()
-                let rangeMinNumber = 0
-                let rangeMaxNumber = 99
-                
-            let gamelevel = 1
-          
-                if gamelevel == 1 {
-                    arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
-                    arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
-                    //constraintCollectionViewHeight.constant = 50
-                }
-                self.view.layoutIfNeeded()
+        
+        self.view.layoutIfNeeded()
+        let rangeMinNumber = 0
+        let rangeMaxNumber = 99
+        
+        let gamelevel = 1
+        
+        if gamelevel == 1 {
+            arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+            arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
+            //constraintCollectionViewHeight.constant = 50
         }
+        self.view.layoutIfNeeded()
+    }
     
     func updateColors()
     {
@@ -411,11 +402,7 @@ class CreatePrivateGroupVC: UIViewController {
             arrBarcketColor.remove(at: arrBarcketColor.count - 1)
             arrBarcketColor.insert(lastColor, at: 0)
         }
-        
-       
-        
-        
-            arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: 0, maxRange: 99)
+        arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: 0, maxRange: 99)
         
     }
 
