@@ -161,7 +161,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             cln?.layer.borderWidth = 3
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
-            layout.itemSize = CGSize(width: width, height: width)
+            layout.itemSize = CGSize(width: width, height: width-10)
             // collheight.constant = (view.frame.width-20) /* 5*5 */
            // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
            // constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
@@ -178,13 +178,13 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             if gamelevel == 3 {
                 // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
              //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) - 30 /* 5*3 */
             } else if gamelevel == 4 {
                 // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
+                constrainCollectionViewHeight.constant = (view.frame.width) - width - 40  /* 5*4 */
                //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
             } else if gamelevel == 5 {
-                constrainCollectionViewHeight.constant = (view.frame.width) /* 5*5 */
+                constrainCollectionViewHeight.constant = (view.frame.width) - 50 /* 5*5 */
              //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
                //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
             }
@@ -897,6 +897,8 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 arrSelectedTicket.append(dictData)
             }
         }
+        
+     //   self.arrSelectedTicket = self.arrSelectedTicket.filter{($0["status"] as! Int) == 0}
         
 
         
@@ -1690,7 +1692,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
 //            }
            
                 let isLock = arrSelectedTicket[indexPath.row]["isLock"] as? Bool ?? false
-                if isLock {
+                if isLock && isGameStart {
 
                     let fixCell = tableView.dequeueReusableCell(withIdentifier: "SMGameAnswerThreeLockTVC") as! SMGameAnswerThreeLockTVC
                     

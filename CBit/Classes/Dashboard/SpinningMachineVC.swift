@@ -57,9 +57,9 @@ class SpinningMachineVC: UIViewController {
             cln?.layer.borderWidth = 3
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
-            layout.itemSize = CGSize(width: width, height: width)
+            layout.itemSize = CGSize(width: width, height: width-10)
             // collheight.constant = (view.frame.width-20) /* 5*5 */
-            collheight.constant = (view.frame.width-20) - width  /* 5*4 */
+            collheight.constant = (view.frame.width-20) - width - 40 /* 5*4 */
             // collheight.constant = (view.frame.width-20) - (width*2) /* 5*3 */
         }
         
