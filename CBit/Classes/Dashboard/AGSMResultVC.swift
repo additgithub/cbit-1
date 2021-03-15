@@ -12,15 +12,15 @@ import SDWebImage
 class AGSMResultVC: UIViewController {
     
     @IBOutlet weak var collection_original: UICollectionView!
-//    @IBOutlet weak var lblnowin: UILabel!
-//    @IBOutlet weak var ccwinning: UILabel!
-//    @IBOutlet weak var totalblue: UILabel!
-//    @IBOutlet weak var totalred: UILabel!
+    //    @IBOutlet weak var lblnowin: UILabel!
+    //    @IBOutlet weak var ccwinning: UILabel!
+    //    @IBOutlet weak var totalblue: UILabel!
+    //    @IBOutlet weak var totalred: UILabel!
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var collectionGameView: UICollectionView!
     @IBOutlet weak var labelAnswer: UILabel!
     @IBOutlet weak var tableResult: UITableView!
-   // @IBOutlet weak var labelWinningAmount: UILabel!
+    // @IBOutlet weak var labelWinningAmount: UILabel!
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imganswer: UIImageView!
@@ -37,7 +37,7 @@ class AGSMResultVC: UIViewController {
     
     var originalarr  = [UIImage]()
     var winning_options = [[String: Any]]()
-  var isfromhistory = false
+    var isfromhistory = false
     
     //MARK: - Default Method
     override func viewDidLoad() {
@@ -55,8 +55,8 @@ class AGSMResultVC: UIViewController {
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
             layout.itemSize = CGSize(width: width, height: width)
             // collheight.constant = (view.frame.width-20) /* 5*5 */
-           // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
-           // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+            // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
+            // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
         
         let layout = collectionitem?.collectionViewLayout as! UICollectionViewFlowLayout
@@ -80,34 +80,34 @@ class AGSMResultVC: UIViewController {
         super.viewWillAppear(animated)
         labelContestName.text = dictContest["name"] as? String ?? "No Name"
     }
-
+    
     func setDetail() {
-   //  let gametype = "\(dictContestDetail["game_type"]!)"
-    //    labelAnswer.text = "Win = \(dictContestDetail["answer"]!)"
+        //  let gametype = "\(dictContestDetail["game_type"]!)"
+        //    labelAnswer.text = "Win = \(dictContestDetail["answer"]!)"
         
-//    if gametype == "0-9"
-//    {
-//         labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
-//        }
-//    else{
-//        labelAnswer.isHidden = true
-//        }
-        
-       
-        
-//        totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
-//        totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
+        //    if gametype == "0-9"
+        //    {
+        //         labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
+        //        }
+        //    else{
+        //        labelAnswer.isHidden = true
+        //        }
         
         
-       // arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
+        
+        //        totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
+        //        totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
+        
+        
+        // arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
         arrTiclets = dictContestDetail["tickets"] as! [[String: Any]]
         let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
         let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
-//        labelWinningAmount.text = "You win ₹\(winAmount)"
-//        lblnowin.text = "No win ₹\(NowinAmount)"
-//
-//        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-//        ccwinning.text = "You win CC \(winCCAmount)"
+        //        labelWinningAmount.text = "You win ₹\(winAmount)"
+        //        lblnowin.text = "No win ₹\(NowinAmount)"
+        //
+        //        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
+        //        ccwinning.text = "You win CC \(winCCAmount)"
         
         
         
@@ -121,13 +121,13 @@ class AGSMResultVC: UIViewController {
         
         gamelevel = dictContestDetail["level"] as? Int ?? 1
         
-//        if gamelevel == 1 {
-//            constraintCollectionViewHeight.constant = 50
-//        } else if gamelevel == 2 {
-//            constraintCollectionViewHeight.constant = 100
-//        } else if gamelevel == 3 {
-//            constraintCollectionViewHeight.constant = 200
-//        }
+        //        if gamelevel == 1 {
+        //            constraintCollectionViewHeight.constant = 50
+        //        } else if gamelevel == 2 {
+        //            constraintCollectionViewHeight.constant = 100
+        //        } else if gamelevel == 3 {
+        //            constraintCollectionViewHeight.constant = 200
+        //        }
         
         tableResult.reloadData()
         collectionitem.reloadData()
@@ -156,16 +156,16 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.frame.width / 4, height: 25)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    //        return CGSize(width: view.frame.width / 4, height: 25)
+    //    }
+    //
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    //        return 0
+    //    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    //        return 0
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
@@ -190,8 +190,8 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
             cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
         }
         
-       return cell
-       
+        return cell
+        
         
     }
 }
@@ -227,25 +227,25 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
         
         let arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as! [[String: Any]]
-         if arrSloats.count == 3 {
-                let displayValue = "\(arrSloats[1]["displayValue"] as? String ?? "0")"
-                if displayValue == "Draw" {
-                    let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
-                   resultCell.btndraw.setTitle(strMainString, for: .normal)
-                   resultCell.img1.isHidden = true
-                }
-                else
-                {
-                   resultCell.img1.isHidden = false
-                    let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-                    resultCell.img1.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
-                }
+        if arrSloats.count == 3 {
+            let displayValue = "\(arrSloats[1]["displayValue"] as? String ?? "0")"
+            if displayValue == "Draw" {
+                let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
+                resultCell.btndraw.setTitle(strMainString, for: .normal)
+                resultCell.img1.isHidden = true
+            }
+            else
+            {
+                resultCell.img1.isHidden = false
+                let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
+                resultCell.img1.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
+            }
             let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
             let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
             resultCell.img0.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
             resultCell.img2.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
             
-           
+            
             
             
             
@@ -274,10 +274,10 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
                 resultCell.btnblue.layer.borderWidth = 0
             }
             
-         }
-
+        }
         
-    
+        
+        
         
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
@@ -318,14 +318,14 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
             resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-//            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
-//            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+            //            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+            //            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
-//        resultCell.collectionlist.delegate = self
-//        resultCell.collectionlist.dataSource = self
+        //        resultCell.collectionlist.delegate = self
+        //        resultCell.collectionlist.dataSource = self
         resultCell.strDisplayValue = strValue
-       // resultCell.arrData = nil
+        // resultCell.arrData = nil
         resultCell.arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as? [[String: Any]] ?? []
         
         return resultCell
@@ -347,11 +347,11 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         winnerVC.startDate = startDate
         winnerVC.dictContest = dictContest
         self.navigationController?.pushViewController(winnerVC, animated: true)
-       
+        
     }
     
     
-
+    
 }
 //MARK: - API
 extension AGSMResultVC {
@@ -360,11 +360,11 @@ extension AGSMResultVC {
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!]
         let strURL = Define.APP_URL + Define.API_CONTEST_DETAIL
         print("Parameter: \(parameter)\nURL: \(strURL)")
-
+        
         let jsonString = MyModel().getJSONString(object: parameter)
         let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
         let strbase64 = encriptString.toBase64()
-
+        
         SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: ["data":strbase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
@@ -373,9 +373,9 @@ extension AGSMResultVC {
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!)")
-//                Alert().showAlert(title: "Error",
-//                                  message: Define.ERROR_SERVER,
-//                                  viewController: self)
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
                 self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
@@ -383,26 +383,26 @@ extension AGSMResultVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     self.dictContestDetail = result!["content"] as! [String: Any]
-
+                    
                     let gamelevel = self.dictContestDetail["rows"] as? Int ?? 0
                     let width = (self.view.frame.width-20)/5
-                        if gamelevel == 3 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 4 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 5 {
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        }
-
+                    if gamelevel == 3 {
+                        // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                        //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                    } else if gamelevel == 4 {
+                        // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                        //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                    } else if gamelevel == 5 {
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                        //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                        //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                    }
+                    
                     self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
                     self.winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
-
+                    
                     for box in self.arrBrackets {
                         for option in self.winning_options {
                             let number = box["number"]!
@@ -410,8 +410,8 @@ extension AGSMResultVC {
                             if number as? NSObject == objectNo as? NSObject {
                                 self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
                             }
-                            if Int(self.dictContestDetail["answer"] as! String) ==  option["id"] as? Int {
-                              //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
+                            if Int(self.dictContestDetail["answer"] as! Int) ==  option["id"] as? Int {
+                                //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
                                 let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
                                 if self.imageIsNullOrNot(imageName: img) {
                                     self.imganswer.image = img
@@ -420,15 +420,15 @@ extension AGSMResultVC {
                                 {
                                     self.labelAnswer.text = "Win = \(option["Item"] as! String)"
                                 }
-
+                                
                             }
                         }
                     }
                     self.collection_original.reloadData()
-
+                    
                     print(self.dictContestDetail)
                     self.setDetail()
-
+                    
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
@@ -461,9 +461,9 @@ extension AGSMResultVC {
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!)")
-//                Alert().showAlert(title: "Error",
-//                                  message: Define.ERROR_SERVER,
-//                                  viewController: self)
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
                 self.getContestDetail()
             } else {
                 Loading().hideLoading(viewController: self)
@@ -474,20 +474,20 @@ extension AGSMResultVC {
                     
                     let gamelevel = self.dictContestDetail["rows"] as? Int ?? 0
                     let width = (self.view.frame.width-20)/5
-                        if gamelevel == 3 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 4 {
-                            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        } else if gamelevel == 5 {
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
-                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                           //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-                        }
-                
+                    if gamelevel == 3 {
+                        // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                        //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                    } else if gamelevel == 4 {
+                        // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                        //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                    } else if gamelevel == 5 {
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                        //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+                        //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+                    }
+                    
                     self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
                     self.winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
                     
@@ -499,7 +499,7 @@ extension AGSMResultVC {
                                 self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
                             }
                             if Int(self.dictContestDetail["answer"] as! String) ==  option["id"] as? Int {
-                              //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
+                                //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
                                 let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
                                 if self.imageIsNullOrNot(imageName: img) {
                                     self.imganswer.image = img
@@ -508,7 +508,7 @@ extension AGSMResultVC {
                                 {
                                     self.labelAnswer.text = "Win = \(option["Item"] as! String)"
                                 }
-                               
+                                
                             }
                         }
                     }
@@ -527,13 +527,13 @@ extension AGSMResultVC {
             }
         }
     }
-
+    
     
     func imageIsNullOrNot(imageName : UIImage)-> Bool
     {
-
-       let size = CGSize(width: 0, height: 0)
-       if (imageName.size.width == size.width)
+        
+        let size = CGSize(width: 0, height: 0)
+        if (imageName.size.width == size.width)
         {
             return false
         }
