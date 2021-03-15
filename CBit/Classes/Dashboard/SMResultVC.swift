@@ -48,7 +48,7 @@ class SMResultVC: UIViewController {
             cln?.layer.borderWidth = 3
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
-            layout.itemSize = CGSize(width: width, height: width)
+            layout.itemSize = CGSize(width: width, height: width-10)
             // collheight.constant = (view.frame.width-20) /* 5*5 */
            // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
            // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
@@ -333,13 +333,13 @@ extension SMResultVC {
                         if gamelevel == 3 {
                             // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
                          //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) - 30 /* 5*3 */
                         } else if gamelevel == 4 {
                             // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width - 40 /* 5*4 */
                            //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                         } else if gamelevel == 5 {
-                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                            self.constraintCollectionViewHeight.constant = (self.view.frame.width) - 50 /* 5*5 */
                          //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
                            //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                         }
