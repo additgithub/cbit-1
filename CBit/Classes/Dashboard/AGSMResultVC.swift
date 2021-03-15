@@ -53,7 +53,7 @@ class AGSMResultVC: UIViewController {
             cln?.layer.borderWidth = 3
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
-            layout.itemSize = CGSize(width: width, height: width)
+            layout.itemSize = CGSize(width: width, height: width-10)
             // collheight.constant = (view.frame.width-20) /* 5*5 */
             // constrainCollectionViewHeight.constant = (view.frame.width) - width  /* 5*4 */
             // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
@@ -173,7 +173,7 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
             cell.imgImage.sd_setImage(with: URL(string: winning_options[indexPath.row]["ImageUrl"] as! String), completed: nil)
             cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
             
-            if Int(self.dictContestDetail["answer"] as! String) ==  winning_options[indexPath.row]["id"] as? Int {
+            if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  winning_options[indexPath.row]["id"] as? Int {
                 cell.contentView.backgroundColor = UIColor.white
                 cell.contentView.layer.borderColor = UIColor.black.cgColor
                 cell.contentView.layer.borderWidth = 2
@@ -389,13 +389,13 @@ extension AGSMResultVC {
                     if gamelevel == 3 {
                         // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) - 30 /* 5*3 */
                     } else if gamelevel == 4 {
                         // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width - 40 /* 5*4 */
                         //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                     } else if gamelevel == 5 {
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - 50 /* 5*5 */
                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
                         //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                     }
@@ -410,7 +410,7 @@ extension AGSMResultVC {
                             if number as? NSObject == objectNo as? NSObject {
                                 self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
                             }
-                            if Int(self.dictContestDetail["answer"] as! Int) ==  option["id"] as? Int {
+                            if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  option["id"] as? Int {
                                 //  self.labelAnswer.text = "Win = \(option["Item"] as! String)"
                                 let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
                                 if self.imageIsNullOrNot(imageName: img) {
@@ -477,13 +477,13 @@ extension AGSMResultVC {
                     if gamelevel == 3 {
                         // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) /* 5*3 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - (width*2) - 30 /* 5*3 */
                     } else if gamelevel == 4 {
                         // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width  /* 5*4 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - width - 40  /* 5*4 */
                         //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                     } else if gamelevel == 5 {
-                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) /* 5*5 */
+                        self.constraintCollectionViewHeight.constant = (self.view.frame.width) - 50 /* 5*5 */
                         //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
                         //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
                     }
