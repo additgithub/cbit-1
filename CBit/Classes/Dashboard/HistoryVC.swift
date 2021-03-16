@@ -90,7 +90,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         let game  = arrHistory[indexPath.row]["game"] as! String
         if game == "Anytime Game"
         {
-            cell.lblatggameno.text = "ATG Game No.: \(arrHistory[indexPath.row]["gameNo"] as? String ?? "0")"
+            cell.lblatggameno.text = "ATG Game No.: \(arrHistory[indexPath.row]["game_no"] as? Int ?? 0)"
             cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
         }
         else

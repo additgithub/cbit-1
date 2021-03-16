@@ -673,6 +673,18 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
             let game_no = arrTicket[indexPath.row]["game_no"] as? Int ?? 0
             
             ticketCell.lblgameno.text = "Game No: \(game_no)"
+            
+            let startDate = dictContestDetail["startDate"] as? String ?? "No String"
+            let dateformat = DateFormatter()
+            dateformat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            
+            let dateformatset = DateFormatter()
+            dateformatset.dateFormat = "dd-MM-yyyy"
+            
+            let date = dateformat.date(from: startDate)!
+            let strdate = dateformatset.string(from: date)
+            
+            ticketCell.lbldate.text = "\(strdate)"
 
             
             let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
