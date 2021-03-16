@@ -686,7 +686,7 @@ class AGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     private var isJoinContest = Bool()
     
     func joinContest() {
-        Loading().showLoading(viewController: self)
+     //   Loading().showLoading(viewController: self)
         var arrSelected = [String]()
        
         for item in arrSelectedTikets {
