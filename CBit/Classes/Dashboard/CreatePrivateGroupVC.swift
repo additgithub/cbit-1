@@ -378,6 +378,69 @@ class CreatePrivateGroupVC: UIViewController {
         }
     }
     
+    func CallEditPrivateGame() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [
+            "contest_id":"",
+            "group_id":"",
+            "lock_style":"",
+            "cols":"",
+            "rows":"",
+            "game_type":"",
+            "ansRangeMin":"",
+            "ansRangeMax":"",
+            "no_of_items":"",
+            "categoryId":"",
+            "slots":"",
+            "Items_value":""
+        ]
+        let strURL = Define.APP_URL + Define.PrivateGroup_EditPrivateGroup
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
+                        // here "jsonData" is the dictionary encoded in JSON data
+
+                        let allUserListModel = try? JSONDecoder().decode(AllUserListModel.self, from: jsonData)
+                        
+                        self.arrUserGroupList = allUserListModel?.content ?? [AllUserListData]()
+                        
+                        
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                    
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
     func SetRandomNumber() {
         
         self.view.layoutIfNeeded()

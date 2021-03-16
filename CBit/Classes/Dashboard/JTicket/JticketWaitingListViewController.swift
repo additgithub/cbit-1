@@ -22,7 +22,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     private var arrJticketwaitinglist = [[String: Any]]()
     
     var Start = 0
-    var Limit = 30
+    var Limit = 10
     var ismoredata = false
     
     //APPROACH LIST Vars
@@ -442,12 +442,14 @@ extension JticketWaitingListViewController
     func getJticketWaitingList() {
         
         Loading().showLoading(viewController: self)
-        
+        let isbool = false
         let parameter: [String: Any] = [
             
             "id":id,
             "start": Start,
-            "limit":Limit
+            "limit":Limit,
+            "my_jticket": false,
+            "offer_accept":isbool
             
         ]
         let strURL = Define.APP_URL + Define.getWaitingroom
@@ -479,8 +481,8 @@ extension JticketWaitingListViewController
                     if arr.count > 0 {
                         self.arrJticketwaitinglist.append(contentsOf: arr)
                         self.ismoredata = true
-                        self.Start = self.Start + 30
-                        self.Limit =  30
+                        self.Start = self.Start + 10
+                        self.Limit =  10
                     }
                     else
                     {

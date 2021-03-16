@@ -180,6 +180,8 @@ class Define {
     static let ALL_Contest_Request = "allContestRequests"
     static let ALL_Private_Group_User_List = "PrivateGroupUserList"
     
+    static let PrivateGroup_EditPrivateGroup = "privateGroupjoinContest"
+    
     static let ALL_PRIVATE_GROUP_REQUEST_JOIN = "requestToJoinPrivateGroup"
     static let ALL_PRIVATE_GROUP_REQUEST_ACCEPT_DECLINE = "acceptDeclineRequest"
     
