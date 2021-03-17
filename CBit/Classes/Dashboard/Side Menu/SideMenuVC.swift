@@ -718,7 +718,7 @@ extension SideMenuVC {
                     self.lblapd.text = "₹\(String(describing: formatter.string(from: NSNumber(value: Double(adp)!))!))"
                     self.lblefm.text = "₹\(String(describing: formatter.string(from: NSNumber(value: efm))!))"
                     self.lblem.text = "₹\(String(describing: formatter.string(from: NSNumber(value: em))!))"
-                    self.lblbap.text = "CC - \(String(describing: formatter.string(from: NSNumber(value: Double(cc)!))!))"
+                    self.lblbap.text = "CC \(String(describing: formatter.string(from: NSNumber(value: Double(cc)!))!))"
                 } else if status == 401 {
                    
                     self.dismiss(animated: true, completion: nil)

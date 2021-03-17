@@ -281,6 +281,8 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return 1
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        
         if collectionView == self.collectionSpecialcontest
@@ -425,9 +427,23 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-        ticketVC.dictContest = arrSpecialContest[indexPath.row]
-        self.navigationController?.pushViewController(ticketVC, animated: true)
+        let game_type = arrSpecialContest[indexPath.row]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
+            SpinningMachineTicketVC.dictContest = arrSpecialContest[indexPath.row]
+           // SpinningMachineTicketVC.storeimage = storeimage
+            self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+        }
+        else
+        {
+            let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+            ticketVC.dictContest = arrSpecialContest[indexPath.row]
+            self.navigationController?.pushViewController(ticketVC, animated: true)
+        }
+        
+//        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+//        ticketVC.dictContest = arrSpecialContest[indexPath.row]
+//        self.navigationController?.pushViewController(ticketVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -470,12 +486,29 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     
     @objc func buttonPlayNow(_ sender: UIButton) {
-                  isVisible = false
-                  let index = sender.tag
-                  let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-                  ticketVC.dictContest = arrSpecialContest[index]
-                  ticketVC.isFromMyTickets = false
-                  self.navigationController?.pushViewController(ticketVC, animated: true)
+        isVisible = false
+        let index = sender.tag
+        
+        let game_type = arrSpecialContest[index]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
+            SpinningMachineTicketVC.dictContest = arrSpecialContest[index]
+           // SpinningMachineTicketVC.storeimage = storeimage
+            self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+        }
+        else
+        {
+            let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+            ticketVC.dictContest = arrSpecialContest[index]
+            self.navigationController?.pushViewController(ticketVC, animated: true)
+        }
+        
+//                  isVisible = false
+//                  let index = sender.tag
+//                  let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+//                  ticketVC.dictContest = arrSpecialContest[index]
+//                  ticketVC.isFromMyTickets = false
+//                  self.navigationController?.pushViewController(ticketVC, animated: true)
               }
 }
 

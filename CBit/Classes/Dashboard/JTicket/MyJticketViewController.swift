@@ -688,7 +688,7 @@ extension MyJticketViewController {
                     
                     self.lblApdrefresh.text = "Your APD Cycle refreshes on " + "\(apddict.value(forKey:"DayOfJoin") as? Int ?? 0)th" + " of every month"
                     print(self.lblapd.text!)
-                    self.lblbap.text = "CC - \(apddict["BAP"]!)"
+                    self.lblbap.text = "CC \(apddict["BAP"]!)"
                     self.lbltap.text = "CC - \(apddict["TAP"]!)"
                     self.tbllistingMyjticket.reloadData()
                     
