@@ -22,7 +22,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     private var arrJticketwaitinglist = [[String: Any]]()
     
     var Start = 0
-    var Limit = 10
+    var Limit = 30
     var ismoredata = false
     
     //APPROACH LIST Vars
@@ -90,7 +90,8 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             userCell.lbljticketno.text = arrJticketwaitinglist[indexPath.row]["ticket_number"] as? String ?? "Not Available"
             
             
-            userCell.jticketwaitingno.text! =  "\(arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 0)"
+            userCell.jticketwaitingno.text! =  "CWN :\(arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 0)"
+            userCell.lbl_cashback.text = "Cashback up-to: ₹\(arrJticketwaitinglist[indexPath.row]["WinningAmount"] as? Int ?? 0)"
             
             let date = arrJticketwaitinglist[indexPath.row]["ApplyDate"] as? String ?? ""
             
@@ -442,14 +443,12 @@ extension JticketWaitingListViewController
     func getJticketWaitingList() {
         
         Loading().showLoading(viewController: self)
-        let isbool = false
+        
         let parameter: [String: Any] = [
             
             "id":id,
             "start": Start,
-            "limit":Limit,
-            "my_jticket": false,
-            "offer_accept":isbool
+            "limit":Limit
             
         ]
         let strURL = Define.APP_URL + Define.getWaitingroom
@@ -481,8 +480,8 @@ extension JticketWaitingListViewController
                     if arr.count > 0 {
                         self.arrJticketwaitinglist.append(contentsOf: arr)
                         self.ismoredata = true
-                        self.Start = self.Start + 10
-                        self.Limit =  10
+                        self.Start = self.Start + 30
+                        self.Limit =  30
                     }
                     else
                     {
@@ -752,3 +751,4 @@ extension JticketWaitingListViewController {
                      completion: nil)
     }
 }
+
