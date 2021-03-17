@@ -23,16 +23,23 @@ class HistoryVC: UIViewController {
                                                selector: #selector(handleNotification),
                                                name: .updateHistory,
                                                object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         if !MyModel().isConnectedToInternet() {
             Alert().showTost(message: Define.ERROR_INTERNET,
                              viewController: self)
         } else {
             getHistoryListAPI()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        if !MyModel().isConnectedToInternet() {
+//            Alert().showTost(message: Define.ERROR_INTERNET,
+//                             viewController: self)
+//        } else {
+//            getHistoryListAPI()
+//        }
     }
     
     @objc func handleNotification() {
