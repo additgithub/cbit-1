@@ -359,6 +359,16 @@ extension SMResultVC {
                                 let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
                                 if self.imageIsNullOrNot(imageName: img) {
                                     self.imganswer.image = img
+                                    UIView.animate(withDuration: 1.0,
+                                        animations: {
+                                            self.imganswer.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                                        },
+                                        completion: { _ in
+                                            UIView.animate(withDuration: 1.0) {
+                                                self.imganswer.transform = CGAffineTransform.identity
+                                            }
+                                        })
+                                    
                                 }
                                 else
                                 {
