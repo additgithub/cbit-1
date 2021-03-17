@@ -177,6 +177,17 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
                 cell.contentView.backgroundColor = UIColor.white
                 cell.contentView.layer.borderColor = UIColor.black.cgColor
                 cell.contentView.layer.borderWidth = 2
+              //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                UIView.animate(withDuration: 1.0,
+                    animations: {
+                        cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                    },
+                    completion: { _ in
+                        UIView.animate(withDuration: 1.0) {
+                            cell.imgImage.transform = CGAffineTransform.identity
+                        }
+                    })
+
             }
             else
             {
