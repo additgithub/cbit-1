@@ -558,9 +558,10 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                        
 //                       let indexPath = IndexPath(row:i, section: 0)
 //                       self.tableAnswer.reloadRows(at: [indexPath], with: .none)
-                        self.tableAnswer.reloadData()
-                        self.getContestDetail(isfromtimer: true, isStart: 0)
+                     
                        }
+                    self.tableAnswer.reloadData()
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
                    }
                }
         
