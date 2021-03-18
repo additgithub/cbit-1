@@ -1094,7 +1094,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
        // second = (dictGameData["duration"] as? Int)!
         
         let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-        for _ in 1..<200
+        for _ in 1..<300
         {
             for dict in arrSloats {
                 randomarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String))

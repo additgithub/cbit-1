@@ -34,6 +34,8 @@ class SMResultVC: UIViewController {
     
     var originalarr  = [UIImage]()
     
+    var timerfade=Timer()
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +63,17 @@ class SMResultVC: UIViewController {
         UNUserNotificationCenter.current().delegate = self
         
         getContestDetail()
+    }
+    
+    func configFadeTimer()
+    {
+        timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachineVC.FedeinOut), userInfo: nil, repeats: true)
+        RunLoop.current.add(self.timerfade, forMode: .common)
+    }
+    
+    func deconfigFadeTimer()
+    {
+        timerfade.invalidate()
     }
     
     override func viewWillAppear(_ animated: Bool) {

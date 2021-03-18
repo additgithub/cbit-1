@@ -77,6 +77,16 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyContestTVC") as! MyContestTVC
+        
+        let game_type = arrMyContest[indexPath.row]["game_type"] as! String
+        if game_type == "spinning-machine" {
+            cell.imageLevel.image = #imageLiteral(resourceName: "slot_machine")
+        }
+        else
+        {
+            cell.imageLevel.image = #imageLiteral(resourceName: "classic_grid")
+        }
+        
         //Set Data
         cell.labelContestName.text = arrMyContest[indexPath.row]["name"] as? String ?? "No Name"
         
@@ -105,18 +115,18 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
 //                                                                            getFormate: "yyyy-MM-dd HH:mm:ss",
 //                                                                            returnFormat: "HH:mm:ss")
         
-        let gameLevel = arrMyContest[indexPath.row]["level"] as? Int ?? 1
-        
-        if gameLevel == 1 {
-            //Easy
-            cell.imageLevel.image = #imageLiteral(resourceName: "ic_e")
-        } else if gameLevel == 2 {
-            //Modred
-            cell.imageLevel.image = #imageLiteral(resourceName: "ic_m")
-        } else if gameLevel == 3 {
-            //Pro
-            cell.imageLevel.image = #imageLiteral(resourceName: "ic_p")
-        }
+//        let gameLevel = arrMyContest[indexPath.row]["level"] as? Int ?? 1
+//
+//        if gameLevel == 1 {
+//            //Easy
+//            cell.imageLevel.image = #imageLiteral(resourceName: "ic_e")
+//        } else if gameLevel == 2 {
+//            //Modred
+//            cell.imageLevel.image = #imageLiteral(resourceName: "ic_m")
+//        } else if gameLevel == 3 {
+//            //Pro
+//            cell.imageLevel.image = #imageLiteral(resourceName: "ic_p")
+//        }
         
         let gameMode = arrMyContest[indexPath.row]["type"] as? Int ?? 0
         
