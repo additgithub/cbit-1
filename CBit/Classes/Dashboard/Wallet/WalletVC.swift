@@ -530,7 +530,7 @@ struct JAssetsListModel: Codable {
 
 // MARK: - Content
 struct ContentData: Codable {
-    let appliedCC, redemedCC: Int?
+    let appliedCC, redemedCC: String?
     let getAppliedReedeemedList: [GetAppliedReedeemedList]?
 
     enum CodingKeys: String, CodingKey {
@@ -542,7 +542,8 @@ struct ContentData: Codable {
 
 // MARK: - GetAppliedReedeemedList
 struct GetAppliedReedeemedList: Codable {
-    let appliedCC, redemedCC, id: Int?
+    let appliedCC, redemedCC : String?
+    let id : Int?
     let name: String?
 
     enum CodingKeys: String, CodingKey {

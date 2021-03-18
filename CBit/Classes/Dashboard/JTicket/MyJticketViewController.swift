@@ -38,7 +38,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     var filterASC = "ASC"
     var filterticketname = ""
     var filterByDate = ""
-    var filterByExchange = "1"
+    var filterByExchange = "0"
     var isfromtab = false
     
     @IBOutlet weak var tbllistingMyjticket: UITableView!
@@ -159,146 +159,83 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             let date = arrMyJTicket[indexPath.row]["ApplyDate"] as? String ?? ""
             if date != ""
             {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MyJticketCell
+                userCell.lbldate.text! =   MyModel().convertStringDateToString(strDate:date,
+                                                                               getFormate: "dd-MM-yyyy HH:mm:ss a", returnFormat: "dd-MM-yyyy")
                 
-                cell.lbl_username.text = arrApproachList[indexPath.row]["userName"] as? String ?? ""
-                cell.lbl_offer.text = "\(arrApproachList[indexPath.row]["offer"] as? Int ?? 0) %"
-                cell.txt_offer.tag = indexPath.row
-                
-                cell.btn_confirm.tag = indexPath.row
-                cell.btn_confirm.addTarget(self, action: #selector(checkbox(sender:)), for: .touchUpInside)
-                
-                
-                return cell
             }
-            else
-            {
-                let userCell = tableView.dequeueReusableCell(withIdentifier: "MyJticketlisting") as! MyJticketlisting
-                userCell.btnapply.addTarget(self, action: #selector(btnapply(_:event:)), for: .touchUpInside)
-                userCell.lbldate.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+            else{
+                userCell.lbldate.text! =  ""
+            }
+            let status =  arrMyJTicket[indexPath.row]["status"] as! Int
+            print(status)
+            if status == 0 {
                 
-                userCell.imgjticketbackground.layer.shadowColor = UIColor.black.cgColor
-                userCell.imgjticketbackground.layer.shadowOffset = CGSize(width: 0, height: 1)
-                userCell.imgjticketbackground.layer.shadowOpacity = 4
-                userCell.imgjticketbackground.layer.shadowRadius = 8.0
-                userCell.imgjticketbackground.clipsToBounds = false
+                userCell.btnapply.setTitle("Apply Now", for: .normal)
+                userCell.btnapply.isUserInteractionEnabled = true
+                //   userCell.lblwon.isHidden = true
+                //    userCell.lblwinningprice.isHidden  = true
+                userCell.btnapply.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
+                userCell.vwhit.isHidden = true
+                userCell.lbldate.isHidden = true
+                userCell.stack_view.isHidden = true
+                userCell.btnapply.isHidden = false
+            }
+            else if status == 1 {
+                
+                let  waiting = arrMyJTicket[indexPath.row]["waiting"] as? Int ?? 0
+                let price = arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0.00
+                
+                userCell.btnapply.setTitle("Current Waiting : \(waiting)" , for: .normal)
+                userCell.btnapply.isUserInteractionEnabled = false
+                
+                userCell.btnapply.backgroundColor = #colorLiteral(red: 0.9670128226, green: 0.7354109883, blue: 0.1693300009, alpha: 1)
+                userCell.vwhit.isHidden = true
+                userCell.lbldate.isHidden = true
+                
+                userCell.stack_view.isHidden = false
+                
+                userCell.btn_exhange.tag = indexPath.row
+                userCell.btn_exhange.addTarget(self, action: #selector(btnExchange(sender:)), for: .touchUpInside)
+                
+                let tot = arrMyJTicket[indexPath.row]["ApproachList"] as? [[String:Any]] ?? []
+                userCell.btn_exhange.setTitle("Exchange Offer:\(tot.count)", for: .normal)
+                
+                userCell.btn_waiting_no.setTitle("Current Waiting\n No:\(waiting)", for: .normal)
+                userCell.btn_cash_back.setTitle("Cashback upto :\n ₹\(price)", for: .normal)
+                userCell.btn_waiting_no.titleLabel?.textAlignment = .center
+                userCell.btn_cash_back.titleLabel?.textAlignment = .center
+                
+            }
+            else if status == 2 {
+                
+                userCell.btnapply.setTitle("Cashback Received Rs.\(arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0)", for: .normal)
+                
+                userCell.btnapply.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                 
                 
-                userCell.lbljticketno.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-                
-                //         userCell.lblname.text! = arrMyJTicket[indexPath.row]["name"] as? String ?? ""
-                //
-                let price = arrMyJTicket[indexPath.row]["price"] as? Double ?? 0
-                
-                
-                userCell.lblprice.text! = "Redeemed @ CC \(price)"
-                
-                userCell.lbljticketno.text! = arrMyJTicket[indexPath.row]["ticket_number"] as? String ?? ""
-                // userCell.lblwaitingno.text! = "\(arrMyJTicket[indexPath.row]["waiting"] as? Int ??
-                
-                let date = arrMyJTicket[indexPath.row]["ApplyDate"] as? String ?? ""
-                if date != ""
-                {
-                    userCell.lbldate.text! =   MyModel().convertStringDateToString(strDate:date,
-                                                                                   getFormate: "dd-MM-yyyy HH:mm:ss a", returnFormat: "dd-MM-yyyy")
-                    
-                }
-                else{
-                    userCell.lbldate.text! =  ""
-                }
-                let status =  arrMyJTicket[indexPath.row]["status"] as! Int
-                print(status)
-                if status == 0 {
-                    
-                    userCell.btnapply.setTitle("Apply Now", for: .normal)
-                    userCell.btnapply.isUserInteractionEnabled = true
-                    //   userCell.lblwon.isHidden = true
-                    //    userCell.lblwinningprice.isHidden  = true
-                    userCell.btnapply.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
-                    userCell.vwhit.isHidden = true
-                    userCell.lbldate.isHidden = true
-                    userCell.stack_view.isHidden = true
-                    userCell.btnapply.isHidden = false
-                }
-                else if status == 1 {
-                    
-                    let  waiting = arrMyJTicket[indexPath.row]["waiting"] as? Int ?? 0
-                    let price = arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0.00
-                    
-                    userCell.btnapply.setTitle("Current Waiting : \(waiting)" , for: .normal)
-                    userCell.btnapply.isUserInteractionEnabled = false
-                    
-                    userCell.btnapply.backgroundColor = #colorLiteral(red: 0.9670128226, green: 0.7354109883, blue: 0.1693300009, alpha: 1)
-                    userCell.vwhit.isHidden = true
-                    userCell.lbldate.isHidden = true
-                    
-                    userCell.stack_view.isHidden = false
-                    
-                    userCell.btn_exhange.tag = indexPath.row
-                    userCell.btn_exhange.addTarget(self, action: #selector(btnExchange(sender:)), for: .touchUpInside)
-                    
-                    let tot = arrMyJTicket[indexPath.row]["ApproachList"] as? [[String:Any]] ?? []
-                    userCell.btn_exhange.setTitle("Exchange Offer:\(tot.count)", for: .normal)
-                    
-                    userCell.btn_waiting_no.setTitle("Current Waiting\n No:\(waiting)", for: .normal)
-                    userCell.btn_cash_back.setTitle("Cashback upto :\n ₹\(price)", for: .normal)
-                    userCell.btn_waiting_no.titleLabel?.textAlignment = .center
-                    userCell.btn_cash_back.titleLabel?.textAlignment = .center
-                    
-                }
-                else if status == 2 {
-                    
-                    userCell.btnapply.setTitle("Cashback Received Rs.\(arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0)", for: .normal)
-                    
-                    userCell.btnapply.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                    
-                    
-                    userCell.btnapply.isUserInteractionEnabled = false
-                    userCell.vwhit.isHidden = false
-                    userCell.lbldate.isHidden = false
-                    userCell.lbldt.text = userCell.lbldate.text!
-                    userCell.stack_view.isHidden = true
-                }
-                
-                let imageURL = URL(string: arrMyJTicket[indexPath.row]["image"] as? String ?? "")
-                userCell.imgjticket.sd_setImage(with: imageURL,placeholderImage:Define.PLACEHOLDER_PROFILE_IMAGE)
-                
-                if arrMyJTicket.count > 1 {
-                    let lastElement = arrMyJTicket.count - 1
-                    if indexPath.row == lastElement && ismoredata{
-                        //call get api for next page
-                        getUserJticket()
-                    }
-                    
-                }
-                return userCell
+                userCell.btnapply.isUserInteractionEnabled = false
+                userCell.vwhit.isHidden = false
+                userCell.lbldate.isHidden = false
+                userCell.lbldt.text = userCell.lbldate.text!
+                userCell.stack_view.isHidden = true
             }
             
+            let imageURL = URL(string: arrMyJTicket[indexPath.row]["image"] as? String ?? "")
+            userCell.imgjticket.sd_setImage(with: imageURL,placeholderImage:Define.PLACEHOLDER_PROFILE_IMAGE)
             
+            if arrMyJTicket.count > 1 {
+                let lastElement = arrMyJTicket.count - 1
+                if indexPath.row == lastElement && ismoredata{
+                    //call get api for next page
+                    getUserJticket()
+                }
+                
+            }
+            return userCell
         }
+        
+        
     }
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
-    //        if cell.isflip {
-    //            cell.vwflip.isHidden = false
-    //            cell.vwnormal.isHidden = true
-    //            cell.isflip = false
-    //            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
-    //                cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
-    //               }, completion: {(_ finished: Bool) -> Void in
-    //               })
-    //        }
-    //        else
-    //        {
-    //            cell.isflip = true
-    //            cell.vwflip.isHidden = true
-    //            cell.vwnormal.isHidden = false
-    //            UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
-    //                cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
-    //                }, completion: {(_ finished: Bool) -> Void in
-    //                })
-    //        }
-    //    }
     
     @objc func checkbox(sender: UIButton){
         let buttonTag = sender.tag
@@ -354,14 +291,14 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         
         if sender.tag == 0
         {
-            img_exchange.image = UIImage(named: "ic_send")
+            img_exchange.image = UIImage(named: "ic_checked")
             btn_sortbyexchange.tag = 1
             filterByExchange = "1"
         }
         else
         {
             
-            img_exchange.image = UIImage(named: "ic_recive")
+            img_exchange.image = UIImage(named: "ic_unchecked")
             btn_sortbyexchange.tag = 0
             filterByExchange = "0"
         }
@@ -568,9 +505,9 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         btnbydate.setTitle("By Date", for: .normal)
         btnbyjticket.setTitle("By JTicket", for: .normal)
         
-        img_exchange.image = UIImage(named: "ic_send")
-        filterByExchange = "1"
-        btn_sortbyexchange.tag = 1
+        img_exchange.image = UIImage(named: "ic_unchecked")
+        filterByExchange = "0"
+        btn_sortbyexchange.tag = 0
         
         isfromtab = true
         filterticketname = ""
@@ -601,6 +538,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 1}
             //            tbllistingMyjticket.reloadData()
             status = "1"
+            filterByExchange = "0"
         }
         else if segment.selectedSegmentIndex == 2 {
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 2}
@@ -657,16 +595,26 @@ extension MyJticketViewController {
     // Mark API For Getting ALLJticket
     func getUserJticket()  {
         
-        if status == "0"
+        /*if status == "0"
         {
             filterByExchange = "0"
-        }
+        }*/
         
         if isFirstTime {
             Loading().showLoading(viewController: self)
         }
         let strURL = Define.APP_URL + Define.getUserJTicket
         print("URL: \(strURL)")
+        
+       /* let parameter: [String: Any] = [
+            "status":status,
+            "start":Start,
+            "limit":Limit,
+            "filterAscDesc":filterASC,
+            "filterTicketName":filterticketname,
+            "filterByDate":filterByDate,
+            "sortByApproch":filterByExchange
+        ]*/
         
         let parameter: [String: Any] = [
             "status":status,
