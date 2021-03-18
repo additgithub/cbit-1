@@ -42,6 +42,9 @@ class CreatePrivateGroupVC: UIViewController {
     var timer: Timer?
     var seconds = Int()
     
+    var dictContest = [String: Any]()
+    var group_id : String?
+    
     @IBOutlet weak var const_1: NSLayoutConstraint!
     @IBOutlet weak var const_2: NSLayoutConstraint!
     @IBOutlet weak var const_3: NSLayoutConstraint!
@@ -58,6 +61,9 @@ class CreatePrivateGroupVC: UIViewController {
         
         img_spinningmachine.isHidden = true
         collectionviewtickets.isHidden = true
+        
+        print(dictContest)
+        
         
         let chkarr = [chkeasy,chkmoderate,chkpro,chkClassic,chkSpinning,gameType1,gameType2,nos1,nos2,nos3,nos4,lockStyle1,lockStyle2,lockStyle3]
         
@@ -260,7 +266,6 @@ class CreatePrivateGroupVC: UIViewController {
     @IBAction func choosegame_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
                 
-             // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
         let pgname = arrUserGroupList.map { $0.privateGroupName }
         
         dropDown1.dataSource = pgname as! [String]
@@ -270,6 +275,7 @@ class CreatePrivateGroupVC: UIViewController {
                   
                   [unowned self] (index: Int, item: String) in
                   print("Selected item: \(item) at index: \(index)")
+                    group_id = "\(arrUserGroupList[index].id ?? 0)"
                     sender.setTitle(item, for: .normal)
               }
               dropDown1.show()
@@ -323,6 +329,7 @@ class CreatePrivateGroupVC: UIViewController {
               dropDown1.show()
     }
     @IBAction func next_click(_ sender: UIButton) {
+        CallEditPrivateGame()
     }
     
     
@@ -379,10 +386,84 @@ class CreatePrivateGroupVC: UIViewController {
     }
     
     func CallEditPrivateGame() {
-        Loading().showLoading(viewController: self)
+        //Loading().showLoading(viewController: self)
+        var game_type = ""
+        var lock_style = ""
+        var game_lavel = ""
+        var col:Int?
+        var raw:Int?
+        
+        
+        if chkClassic.checkState.rawValue == "Checked"
+        {
+            game_type = "rdb"
+        }
+        else
+        {
+            game_type = "spinning-machine"
+        }
+        
+        if lockStyle1.checkState.rawValue == "Checked"
+        {
+            lock_style = "basic"
+        }
+        else if lockStyle2.checkState.rawValue == "Checked"
+        {
+            lock_style = "paper_chit"
+        }
+        else
+        {
+            lock_style = "catch_the_object"
+        }
+        
+        if chkeasy.checkState.rawValue == "Checked"
+        {
+            if chkSpinning.checkState.rawValue == "Checked"
+            {
+                raw = 3
+                col = 5
+            }
+            else
+            {
+                raw = 2
+                col = 4
+            }
+        }
+        else if chkmoderate.checkState.rawValue == "Checked"
+        {
+            if chkSpinning.checkState.rawValue == "Checked"
+            {
+                raw = 4
+                col = 5
+            }
+            else
+            {
+                raw = 4
+                col = 4
+            }
+        }
+        else
+        {
+            if chkSpinning.checkState.rawValue == "Checked"
+            {
+                raw = 5
+                col = 5
+            }
+            else
+            {
+                raw = 6
+                col = 4
+            }
+        }
+        
+        
+        
+        
+        
+        
         let parameter: [String: Any] = [
-            "contest_id":"",
-            "group_id":"",
+            "contest_id":dictContest["id"]!,
+            "group_id":group_id ?? "",
             "lock_style":"",
             "cols":"",
             "rows":"",
@@ -401,7 +482,7 @@ class CreatePrivateGroupVC: UIViewController {
         let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
         let strBase64 = encriptString.toBase64()
         
-        SwiftAPI().postMethodSecure(stringURL: strURL,
+     /*   SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: ["data": strBase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
@@ -438,7 +519,7 @@ class CreatePrivateGroupVC: UIViewController {
                                       viewController: self)
                 }
             }
-        }
+        }*/
     }
     
     func SetRandomNumber() {

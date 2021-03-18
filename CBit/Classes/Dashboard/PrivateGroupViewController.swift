@@ -159,6 +159,7 @@ class PrivateGroupViewController: UIViewController {
         
         let jticketwaitinglists = self.storyboard?.instantiateViewController(withIdentifier: "CreatePrivateGroupVC") as! CreatePrivateGroupVC
         jticketwaitinglists.modalPresentationStyle = .fullScreen
+        jticketwaitinglists.dictContest = dictContest
         self.present(jticketwaitinglists, animated: true, completion: nil)
         
     }

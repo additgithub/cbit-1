@@ -73,7 +73,11 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             }
             
             cell.lbl_jticketno.text = arrJticketuserwaitinglist[indexPath.row]["ticket_number"] as? String ?? "N/A"
-            cell.lbl_cashback.text = "₹ \(arrJticketuserwaitinglist[indexPath.row]["price"]!)"
+            
+            let price = Double("\(arrJticketuserwaitinglist[indexPath.row]["price"]!)")!
+            
+            let twoDecimalPlaces = String(format: "%.2f", price)
+            cell.lbl_cashback.text = "₹ \(twoDecimalPlaces)"
             cell.lbl_pos.text = "\(arrJticketuserwaitinglist[indexPath.row]["waiting"]!)"
             
             cell.btn_checkbox.tag = indexPath.row
@@ -145,7 +149,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                             }
                             else
                             {
-                                userCell.btn_offer_approch.setTitle("Approach", for: .normal)
+                                userCell.btn_offer_approch.setTitle("approached", for: .normal)
                                 userCell.btn_offer_approch.isUserInteractionEnabled = false
                             }
                         }
@@ -161,7 +165,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                 if ticketUserId == Int(UserId!)
                 {
                     userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
-                    userCell.btn_offer_approch.setTitle("Exchange Offer", for: .normal)
+                    userCell.btn_offer_approch.setTitle("Exchange Offers", for: .normal)
                     userCell.btn_offer_approch.isUserInteractionEnabled = false
                 }
                 else
