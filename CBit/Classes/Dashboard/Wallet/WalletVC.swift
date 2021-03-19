@@ -58,7 +58,7 @@ class WalletVC: UIViewController {
                                                object: nil)
         UNUserNotificationCenter.current().delegate = self
         
-        getUserJticket()
+        //getUserJticket()
         CallJAssetData()
     }
     
@@ -307,7 +307,7 @@ extension WalletVC
         let parameter: [String: Any] = [
             "status":"0",
             "start":Start,
-            "limit":"",
+            "limit":"10",
             "filterAscDesc":"",
             "filterTicketName":"",
             "filterByDate":"",

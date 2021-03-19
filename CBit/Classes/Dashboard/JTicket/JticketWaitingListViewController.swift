@@ -36,6 +36,14 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
     @IBOutlet weak var lbl_nagotiate_offer_id: UILabel!
     @IBOutlet weak var lbl_jticket_id: UILabel!
     
+    //Sort By Filter
+    @IBOutlet weak var vw_popup: UIView!
+    @IBOutlet weak var img_offerApproch: UIImageView!
+    @IBOutlet weak var img_myJticket: UIImageView!
+    var myJticket = 0
+    var offerAccept = 0
+    
+    
     
     var selectedIndexpath : IndexPath?
     private var arrJticketuserwaitinglist = [[String: Any]]()
@@ -44,7 +52,76 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
         super.viewDidLoad()
         isFirstTime = true
         getJticketWaitingList()
+        
+        vw_popup.isHidden = true
     }
+    
+    ////Sort By Filter
+    
+    @IBAction func btn_CLOSEORCLEAR_FILTER(_ sender: UIButton) {
+        //tag=0 close,1=clear,2=apply
+        if sender.tag == 0
+        {
+            vw_popup.isHidden = true
+        }
+        else if sender.tag == 1
+        {
+            vw_popup.isHidden = true
+            myJticket = 0
+            img_myJticket.image = UIImage(named: "ic_unchecked")
+            
+            offerAccept = 0
+            img_offerApproch.image = UIImage(named: "ic_unchecked")
+            
+            
+            self.arrJticketwaitinglist.removeAll()
+            Start = 0
+            getJticketWaitingList()
+            
+        }
+        else
+        {
+            vw_popup.isHidden = true
+            self.arrJticketwaitinglist.removeAll()
+            Start = 0
+            getJticketWaitingList()
+        }
+        
+    }
+    
+    @IBAction func btn_SORTBY(_ sender: UIButton) {
+        //tag =0 My ticket, 1=offer and approach
+        if sender.tag == 0
+        {
+            if myJticket == 0
+            {
+                myJticket = 1
+                img_myJticket.image = UIImage(named: "ic_checked")
+            }
+            else
+            {
+                myJticket = 0
+                img_myJticket.image = UIImage(named: "ic_unchecked")
+            }
+        }
+        else if sender.tag == 1
+        {
+            if offerAccept == 0
+            {
+                offerAccept = 1
+                img_offerApproch.image = UIImage(named: "ic_checked")
+            }
+            else
+            {
+                offerAccept = 0
+                img_offerApproch.image = UIImage(named: "ic_unchecked")
+            }
+        }
+    }
+    @IBAction func btn_SHOW_FILTER(_ sender: UIButton) {
+        vw_popup.isHidden = false
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tbl_approch
@@ -452,8 +529,9 @@ extension JticketWaitingListViewController
             
             "id":id,
             "start": Start,
-            "limit":Limit
-            
+            "limit":Limit,
+            "my_jticket":myJticket,
+            "offer_accept":offerAccept
         ]
         let strURL = Define.APP_URL + Define.getWaitingroom
         print("Parameter: \(parameter)\nURL: \(strURL)")
