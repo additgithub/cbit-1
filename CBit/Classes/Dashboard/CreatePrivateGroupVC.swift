@@ -10,6 +10,7 @@ import UIKit
 import M13Checkbox
 import DropDown
 
+
 class CreatePrivateGroupVC: UIViewController {
 
     @IBOutlet weak var chkeasy: M13Checkbox!
@@ -329,6 +330,33 @@ class CreatePrivateGroupVC: UIViewController {
               dropDown1.show()
     }
     @IBAction func next_click(_ sender: UIButton) {
+       
+        if group_id != ""
+        {
+            if chkClassic.checkState.rawValue == "Checked" ||  chkSpinning.checkState.rawValue == "Checked"
+            {
+                
+                
+                
+                if chkeasy.checkState.rawValue == "Checked" ||  chkmoderate.checkState.rawValue == "Checked" || chkpro.checkState.rawValue == "Checked"
+                {
+                    
+                }
+                else
+                {
+                    showToast(message: "Plese Choose Level.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                }
+            }
+            else
+            {
+                showToast(message: "Plese Choose Game.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+            }
+        }
+        else
+        {
+            showToast(message: "Plese Select Group.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+        }
+        
         CallEditPrivateGame()
     }
     
@@ -390,8 +418,8 @@ class CreatePrivateGroupVC: UIViewController {
         var game_type = ""
         var lock_style = ""
         var game_lavel = ""
-        var col:Int?
-        var raw:Int?
+        var col = 0
+        var raw = 0
         
         
         if chkClassic.checkState.rawValue == "Checked"
@@ -457,23 +485,93 @@ class CreatePrivateGroupVC: UIViewController {
         }
         
         
+        var slotesArrayList = [[String:Any]]()
+        var slotes = [String:Any]()
+        var ans_min = ""
+        var ans_max = ""
         
+        if gameType1.checkState.rawValue == "Checked"
+        {
+            slotes = ["display_Name":"Red Win",
+                      "start_value":"-100",
+                      "end_value":"-1"]
+            slotesArrayList.append(slotes)
+            
+            slotes.removeAll()
+            slotes = ["display_Name":"Draw",
+                      "start_value":"0",
+                      "end_value":"0"]
+            slotesArrayList.append(slotes)
+            
+            slotes.removeAll()
+            slotes = ["display_Name":"Blue Win",
+                      "start_value":"1",
+                      "end_value":"100"]
+            slotesArrayList.append(slotes)
+            ans_min = "-100"
+            ans_max = "100"
+        }
+        else
+        {
+            lock_style = "paper_chit"
+        }
         
+        if nos1.checkState.rawValue == "Checked"
+        {
+            ans_min = "0"
+            ans_max = "9"
+        }
+        else if nos2.checkState.rawValue == "Checked"
+        {
+            ans_min = "0"
+            ans_max = "9"
+        }
+        else if nos3.checkState.rawValue == "Checked"
+        {
+            ans_min = "0"
+            ans_max = "9"
+        }
+        else
+        {
+            ans_min = "0"
+            ans_max = "9"
+        }
         
+        var slotesArrayjsonString = [String:Any]()
+        
+        do {
+
+            //Convert to Data
+            let jsonData = try JSONSerialization.data(withJSONObject: slotesArrayList, options: JSONSerialization.WritingOptions.prettyPrinted)
+
+            //Convert back to string. Usually only do this for debugging
+            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+               print(JSONString)
+            }
+
+            //In production, you usually want to try and cast as the root data structure. Here we are casting as a dictionary. If the root object is an array cast as [Any].
+            slotesArrayjsonString = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] ?? [String: Any]()
+
+            
+        } catch {
+            print(error)
+        }
         
         let parameter: [String: Any] = [
             "contest_id":dictContest["id"]!,
             "group_id":group_id ?? "",
-            "lock_style":"",
-            "cols":"",
-            "rows":"",
-            "game_type":"",
-            "ansRangeMin":"",
-            "ansRangeMax":"",
-            "no_of_items":"",
-            "categoryId":"",
-            "slots":"",
-            "Items_value":""
+            "lock_style":lock_style,
+            "cols":col,
+            "rows":raw,
+            "game_type":game_type,
+            "ansRangeMin":ans_min,
+            "ansRangeMax":ans_max,
+            "no_of_items":"0",
+            "categoryId":"0",
+            "slots":slotesArrayjsonString,
+            "Items_value":"[]"
+            
+          
         ]
         let strURL = Define.APP_URL + Define.PrivateGroup_EditPrivateGroup
         print("Parameter: \(parameter)\nURL: \(strURL)")
