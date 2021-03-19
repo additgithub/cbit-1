@@ -41,6 +41,9 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     var filterByExchange = "0"
     var isfromtab = false
     
+    var isfliparr = [Bool]()
+    
+    
     @IBOutlet weak var tbllistingMyjticket: UITableView!
     
     @IBOutlet weak var segment: UISegmentedControl!
@@ -134,6 +137,29 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         else
         {
             let userCell = tableView.dequeueReusableCell(withIdentifier: "MyJticketlisting") as! MyJticketlisting
+            
+            userCell.lbldate.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+            userCell.lbljticketno.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+            
+            userCell.lbldatef.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+            userCell.lbljticketnof.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+            
+            userCell.lblredeemon.text = arrMyJTicket[indexPath.row]["created_at"] as? String ?? ""
+            userCell.lblappliedon.text = arrMyJTicket[indexPath.row]["ApplyDate"] as? String ?? ""
+            userCell.lblhiton.text = arrMyJTicket[indexPath.row]["HitDate"] as? String ?? ""
+            
+            userCell.lbldatef.text! = arrMyJTicket[indexPath.row]["ticket_number"] as? String ?? ""
+            
+            if isfliparr[indexPath.row] {
+                userCell.vwflip.isHidden = false
+                userCell.vwnormal.isHidden = true
+            }
+            else
+            {
+                userCell.vwflip.isHidden = true
+                userCell.vwnormal.isHidden = false
+            }
+                
             userCell.btnapply.addTarget(self, action: #selector(btnapply(_:event:)), for: .touchUpInside)
             userCell.lbldate.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
             
@@ -235,6 +261,34 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         }
         
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == tbllistingMyjticket {
+            let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
+            if isfliparr[indexPath.row] {
+                isfliparr[indexPath.row] = false
+                cell.vwflip.isHidden = true
+                cell.vwnormal.isHidden = false
+                UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
+                    cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
+                    }, completion: {(_ finished: Bool) -> Void in
+                    })
+            }
+            else
+            {
+        
+                
+                cell.vwflip.isHidden = false
+                cell.vwnormal.isHidden = true
+                isfliparr[indexPath.row] = true
+                UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
+                    cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
+                   }, completion: {(_ finished: Bool) -> Void in
+                   })
+            }
+        }
+  
     }
     
     @objc func checkbox(sender: UIButton){
@@ -484,6 +538,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         else if segment.selectedSegmentIndex == 2 {
             status = "2"
         }
+        isfliparr = [Bool]()
         arrMyJTicket = [[String:Any]]()
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
@@ -522,7 +577,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         //                           {
         //                              tbllistingMyjticket.isHidden = true
         //                           }
-        
+        isfliparr = [Bool]()
         arrMyJTicket = [[String:Any]]()
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
@@ -580,6 +635,16 @@ class MyJticketlisting: UITableViewCell {
     @IBOutlet weak var btn_exhange: UIButton!
     @IBOutlet weak var btn_waiting_no: UIButton!
     @IBOutlet weak var btn_cash_back: UIButton!
+    
+    @IBOutlet weak var vwflip: UIView!
+    @IBOutlet weak var vwnormal: UIView!
+    @IBOutlet weak var lbldatef: UILabel!
+    @IBOutlet weak var lbljticketnof: UILabel!
+    @IBOutlet weak var lblredeemon: UILabel!
+    @IBOutlet weak var lblappliedon: UILabel!
+    @IBOutlet weak var lblhiton: UILabel!
+    
+    var isflip = true
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -664,7 +729,11 @@ extension MyJticketViewController {
                     
                     let arr =  content["contest"] as! [[String : Any]]
                     if arr.count > 0 {
+                        
                         self.arrMyJTicket.append(contentsOf: arr)
+                        for _ in self.arrMyJTicket {
+                            self.isfliparr.append(false)
+                        }
                         self.MainarrMyJTicket.append(contentsOf: arr)
                         self.ismoredata = true
                         self.Start = self.Start + 10
