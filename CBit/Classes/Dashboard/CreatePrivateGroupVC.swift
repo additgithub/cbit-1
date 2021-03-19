@@ -331,21 +331,79 @@ class CreatePrivateGroupVC: UIViewController {
     }
     @IBAction func next_click(_ sender: UIButton) {
        
-        if group_id != ""
+        if group_id != nil
         {
             if chkClassic.checkState.rawValue == "Checked" ||  chkSpinning.checkState.rawValue == "Checked"
             {
-                
-                
-                
-                if chkeasy.checkState.rawValue == "Checked" ||  chkmoderate.checkState.rawValue == "Checked" || chkpro.checkState.rawValue == "Checked"
+                if chkClassic.checkState.rawValue == "Checked"
                 {
-                    
+                    if chkeasy.checkState.rawValue == "Checked" ||  chkmoderate.checkState.rawValue == "Checked" || chkpro.checkState.rawValue == "Checked"
+                    {
+                        if gameType1.checkState.rawValue == "Checked" || gameType2.checkState.rawValue == "Checked"
+                        {
+                            if gameType1.checkState.rawValue == "Checked"
+                            {//Color color selected
+                                
+                                if lockStyle1.checkState.rawValue == "Checked" || lockStyle2.checkState.rawValue == "Checked" || lockStyle3.checkState.rawValue == "Checked"
+                                {
+                                    //showToast(message: "All Condition DONE.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                                    CallEditPrivateGame()
+                                }
+                                else
+                                {
+                                    showToast(message: "Plese Select Number Of Items.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                                }
+                            }
+                            else
+                            {//Number Slot selected
+                                if nos1.checkState.rawValue == "Checked" || nos2.checkState.rawValue == "Checked" || nos3.checkState.rawValue == "Checked" || nos4.checkState.rawValue == "Checked"
+                                {
+                                    if lockStyle1.checkState.rawValue == "Checked" || lockStyle2.checkState.rawValue == "Checked" || lockStyle3.checkState.rawValue == "Checked"
+                                    {
+                                        //showToast(message: "All Condition DONE.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                                        CallEditPrivateGame()
+                                    }
+                                    else
+                                    {
+                                        showToast(message: "Plese Select Number Of Items.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                                    }
+                                }
+                                else
+                                {
+                                    showToast(message: "Plese Select Number of characters.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                                }
+                            }
+                        }
+                        else
+                        {
+                            showToast(message: "Plese Select Game type.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                        }
+                    }
+                    else
+                    {
+                        showToast(message: "Plese Choose Level.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                    }
                 }
                 else
                 {
-                    showToast(message: "Plese Choose Level.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                    if chkeasy.checkState.rawValue == "Checked" ||  chkmoderate.checkState.rawValue == "Checked" || chkpro.checkState.rawValue == "Checked"
+                    {
+                        if lockStyle1.checkState.rawValue == "Checked" || lockStyle2.checkState.rawValue == "Checked" || lockStyle3.checkState.rawValue == "Checked"
+                        {
+                            //showToast(message: "All Condition DONE.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                            CallEditPrivateGame()
+                        }
+                        else
+                        {
+                            showToast(message: "Plese Select Number Of Items.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                        }
+                    }
+                    else
+                    {
+                        showToast(message: "Plese Choose Level.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+                    }
                 }
+                
             }
             else
             {
@@ -357,7 +415,7 @@ class CreatePrivateGroupVC: UIViewController {
             showToast(message: "Plese Select Group.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
         }
         
-        CallEditPrivateGame()
+        //CallEditPrivateGame()
     }
     
     
