@@ -210,7 +210,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                         let accepted = tempArrApprochList[i]["accept"]! as! Int
                         if accepted == 1
                         {
-                            userCell.btn_offer_approch.setTitle("approached", for: .normal)
+                            userCell.btn_offer_approch.setTitle("Approached", for: .normal)
                             userCell.btn_offer_approch.isUserInteractionEnabled = false
                             break
                         }
@@ -248,7 +248,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                 else
                 {
                     userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
-                    userCell.btn_offer_approch.setTitle("Approch & Offer", for: .normal)
+                    userCell.btn_offer_approch.setTitle("Approach & offer", for: .normal)
                     userCell.btn_offer_approch.isUserInteractionEnabled = true
                 }
                 
