@@ -472,7 +472,7 @@ class CreatePrivateGroupVC: UIViewController {
     }
     
     func CallEditPrivateGame() {
-        //Loading().showLoading(viewController: self)
+        Loading().showLoading(viewController: self)
         var game_type = ""
         var lock_style = ""
         var game_lavel = ""
@@ -595,7 +595,7 @@ class CreatePrivateGroupVC: UIViewController {
             ans_max = "9"
         }
         
-        var slotesArrayjsonString = [String:Any]()
+        var slotesArrayjsonString :String?
         
         do {
 
@@ -605,10 +605,11 @@ class CreatePrivateGroupVC: UIViewController {
             //Convert back to string. Usually only do this for debugging
             if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
                print(JSONString)
+                slotesArrayjsonString = JSONString
             }
 
             //In production, you usually want to try and cast as the root data structure. Here we are casting as a dictionary. If the root object is an array cast as [Any].
-            slotesArrayjsonString = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] ?? [String: Any]()
+           // slotesArrayjsonString = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] ?? [String: Any]()
 
             
         } catch {
@@ -626,7 +627,7 @@ class CreatePrivateGroupVC: UIViewController {
             "ansRangeMax":ans_max,
             "no_of_items":"0",
             "categoryId":"0",
-            "slots":slotesArrayjsonString,
+            "slots":slotesArrayjsonString ?? "",
             "Items_value":"[]"
             
           
@@ -638,7 +639,7 @@ class CreatePrivateGroupVC: UIViewController {
         let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
         let strBase64 = encriptString.toBase64()
         
-     /*   SwiftAPI().postMethodSecure(stringURL: strURL,
+        SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: ["data": strBase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
@@ -646,7 +647,7 @@ class CreatePrivateGroupVC: UIViewController {
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!.localizedDescription)")
-                self.retry()
+                //self.retry()
             } else {
                 Loading().hideLoading(viewController: self)
                 print("Result: \(result!)")
@@ -675,7 +676,7 @@ class CreatePrivateGroupVC: UIViewController {
                                       viewController: self)
                 }
             }
-        }*/
+        }
     }
     
     func SetRandomNumber() {

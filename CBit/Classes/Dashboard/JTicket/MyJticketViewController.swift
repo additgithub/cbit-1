@@ -131,6 +131,10 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             cell.btn_confirm.tag = indexPath.row
             cell.btn_confirm.addTarget(self, action: #selector(checkbox(sender:)), for: .touchUpInside)
             
+            cell.btn_deal.tag = indexPath.row
+            cell.btn_deal.addTarget(self, action: #selector(btnDeal(sender:)), for: .touchUpInside)
+            
+            
             
             return cell
         }
@@ -289,6 +293,28 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             }
         }
   
+    }
+    
+    @objc func btnDeal(sender: UIButton){
+        let buttonTag = sender.tag
+        print(buttonTag)
+        let index = IndexPath(row: buttonTag, section: 0)
+        let cell: MyJticketCell = self.tbl_offer.cellForRow(at: index) as! MyJticketCell
+        let user_approch_j_ticket_id = arrApproachList[sender.tag]["j_ticket_user_approach_id"] as? Int
+        
+        getApplyJticketApproachConfirm(ticketApproachOd: "\(String(describing: user_approch_j_ticket_id!))")
+        
+        if cell.txt_offer.text?.count ?? 0 > 0
+        {
+            
+            let offerPrice = cell.txt_offer.text!
+            getApplyJticketApproachNagotiate(ticketApproachOd: "\(String(describing: user_approch_j_ticket_id!))", nagotiatePrice: offerPrice)
+        }
+        else
+        {
+            showToast(message: "Plese enter nagotiate.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
+        }
+        
     }
     
     @objc func checkbox(sender: UIButton){
@@ -1007,6 +1033,52 @@ extension MyJticketViewController {
         }
     }
     
+    func getApplyJticketApproachConfirm(ticketApproachOd:String) {
+        
+        Loading().showLoading(viewController: self)
+        
+        let parameter: [String: Any] = [
+            "j_ticket_user_approach_id":ticketApproachOd
+        ]
+        
+        let strURL = Define.APP_URL + Define.ApplyApproachComfirm
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as! [String: Any]
+                    //  self.arrJticketwaitinglist = content["contest"] as? [[String : Any]] ?? [[:]]
+                    let btn = UIButton()
+                    self.btn_CLOSE_POPUP(btn)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
     
 }
 
@@ -1014,6 +1086,8 @@ extension MyJticketViewController {
 //MARK: - TableCell Class
 class MyJticketCell :UITableViewCell
 {
+    
+    @IBOutlet weak var btn_deal: UIButton!
     @IBOutlet weak var btn_confirm: UIButton!
     @IBOutlet weak var txt_offer: UITextField!
     @IBOutlet weak var lbl_offer: UILabel!
