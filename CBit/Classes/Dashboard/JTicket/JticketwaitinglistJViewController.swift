@@ -41,12 +41,12 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
             let userCell = tableView.dequeueReusableCell(withIdentifier: "JticketwaitinglistJ") as! JticketwaitinglistJ
         
             userCell.lblticketno.text! = arrJticketwaitinglist[indexPath.row]["name"] as? String ?? "No Name"
-            userCell.lblwaitingno.text! = "Waiting : " + "\( arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 00)"
+            userCell.lblwaitingno.text! = "Current Waiting : " + "\( arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 00)"
             userCell.btnwaitingno.addTarget(self, action:#selector(btnWaitinglist(_:event:)), for: .touchUpInside)
             let imageURL = URL(string: arrJticketwaitinglist  [indexPath.row]["image"] as? String ?? "")
             userCell.imgjticket.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
             
-            userCell.lbl_appliy_count.text = "Apply : \(arrJticketwaitinglist[indexPath.row]["applyCount"] as? Int ?? 00)"
+            userCell.lbl_appliy_count.text = "My J Ticket : \(arrJticketwaitinglist[indexPath.row]["applyCount"] as? Int ?? 00)"
             
             return userCell
             

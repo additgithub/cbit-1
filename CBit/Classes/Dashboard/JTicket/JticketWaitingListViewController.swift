@@ -151,10 +151,10 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             
             cell.lbl_jticketno.text = arrJticketuserwaitinglist[indexPath.row]["ticket_number"] as? String ?? "N/A"
             
-            let price = Double("\(arrJticketuserwaitinglist[indexPath.row]["price"]!)")!
-            
-            let twoDecimalPlaces = String(format: "%.2f", price)
-            cell.lbl_cashback.text = "₹ \(twoDecimalPlaces)"
+            //let price = Double("\(arrJticketuserwaitinglist[indexPath.row]["price"]!)")!
+            let redemptionto = arrJticketuserwaitinglist[indexPath.row]["redenption_to"] as? Double ?? 0.00
+            let boldtext1 = "₹ " + "\(String(format: "%.2f", redemptionto))"
+            cell.lbl_cashback.text = "\(boldtext1)"
             cell.lbl_pos.text = "\(arrJticketuserwaitinglist[indexPath.row]["waiting"]!)"
             
             cell.btn_checkbox.tag = indexPath.row
@@ -172,7 +172,10 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
             
             
             userCell.jticketwaitingno.text! =  "CWN :\(arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 0)"
-            userCell.lbl_cashback.text = "Cashback up-to: ₹\(arrJticketwaitinglist[indexPath.row]["WinningAmount"] as? Int ?? 0)"
+            
+            let redemptionto = arrJticketwaitinglist[indexPath.row]["redenption_to"] as? Double ?? 0.00
+            let boldtext1 = "₹ " + "\(String(format: "%.2f", redemptionto))"
+            userCell.lbl_cashback.text = "Cashback up-to: \(boldtext1)"
             
             let date = arrJticketwaitinglist[indexPath.row]["ApplyDate"] as? String ?? ""
             
@@ -241,7 +244,7 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                 let UserId = Define.USERDEFAULT.value(forKey: "UserID") as? String
                 if ticketUserId == Int(UserId!)
                 {
-                    userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.3098039216, blue: 0.3647058824, alpha: 1)
+                    userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.9624845386, green: 0.7779061198, blue: 0.2076547742, alpha: 1)
                     userCell.btn_offer_approch.setTitle("Exchange Offers", for: .normal)
                     userCell.btn_offer_approch.isUserInteractionEnabled = false
                 }
@@ -635,6 +638,10 @@ extension JticketWaitingListViewController
                         self.arrJticketuserwaitinglist.removeAll()
                         self.arrJticketuserwaitinglist.append(contentsOf: arr)
                         self.PopupTicketList()
+                    }
+                    else
+                    {
+                        self.showToast(message:"You don't have any ticket for exchange.", font: UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.thin))
                     }
                     
                     
