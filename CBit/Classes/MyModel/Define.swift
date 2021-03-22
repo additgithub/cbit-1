@@ -171,6 +171,9 @@ class Define {
     static let CONTEST_DAYS = "contestDays"
     static let CONTEST_TIME = "contestTime"
     
+    static let referal_criteria_chart = "referal_criteria_chart"
+    static let referal_criteria = "referal_criteria"
+    
     
     static let ADD_PRIVATE_GROUP = "addPrivateGroup"
     static let ALL_REQUEST_PRIVATE_GROUP = "allRequestsPrivateGroup"
