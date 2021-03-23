@@ -16,6 +16,10 @@ class TicketSloteTVC: UITableViewCell {
     @IBOutlet weak var labelMaxWinner: LableWithLightBG!
     @IBOutlet weak var buttonSelectTicket: UIButton!
     
+    @IBOutlet weak var labelLoackedAt: UILabel!
+    @IBOutlet weak var labelAnswer: UILabel!
+    @IBOutlet weak var labelAmount: UILabel!
+    
     
     var arrSloats = [[String: Any]]()
     
@@ -84,6 +88,18 @@ extension TicketSloteTVC: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.labelDisplay.text = strMainString
         }
         
+        let isSelected = arrSloats[indexPath.row]["isSelected"] as? Bool ?? false
+        if isSelected {
+           // cell.viewSloats.backgroundColor = UIColor.white
+            cell.labelDisplay.layer.borderColor = UIColor.red.cgColor
+            cell.labelDisplay.layer.borderWidth = 3
+            
+        } else {
+          //  cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+            cell.labelDisplay.layer.borderColor = UIColor.red.cgColor
+            cell.labelDisplay.layer.borderWidth = 0
+        }
+
         return cell
     }
 }

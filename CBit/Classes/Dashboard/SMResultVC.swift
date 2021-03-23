@@ -23,6 +23,9 @@ class SMResultVC: UIViewController {
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imganswer: UIImageView!
+    @IBOutlet weak var collectionitem: UICollectionView!
+    
+    var winning_options = [[String: Any]]()
     var dictContest = [String: Any]()
     var gamelevel = Int()
     
@@ -56,7 +59,8 @@ class SMResultVC: UIViewController {
            // constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
         
-        
+        let layout = collectionitem?.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.itemSize = CGSize(width: 80, height: 100)
         
         tableResult.rowHeight = UITableView.automaticDimension
         tableResult.tableFooterView = UIView()
@@ -128,6 +132,7 @@ class SMResultVC: UIViewController {
 //        }
         
         tableResult.reloadData()
+        collectionitem.reloadData()
      //   collectionGameView.reloadData()
     }
     
@@ -140,7 +145,18 @@ class SMResultVC: UIViewController {
 //MAKR: - Collection View Delegate Mehtod
 extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //    return originalarr.count
+        if collectionView == collectionitem {
+            return winning_options.count
+        }
+        else if collectionView == collection_original
+        {
             return originalarr.count
+        }
+        else
+        {
+            return 0
+        }
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -155,11 +171,50 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
 //    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
+//
+//
+//            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+//            return cell
         
-       
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+        
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
+            if collectionView == collectionitem {
+                cell.imgImage.sd_setImage(with: URL(string: winning_options[indexPath.row]["ImageUrl"] as! String), completed: nil)
+                cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
+                
+                if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  winning_options[indexPath.row]["id"] as? Int {
+                    cell.contentView.backgroundColor = UIColor.white
+                    cell.contentView.layer.borderColor = UIColor.black.cgColor
+                    cell.contentView.layer.borderWidth = 2
+                  //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                    UIView.animate(withDuration: 1.0,
+                        animations: {
+                            cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                        },
+                        completion: { _ in
+                            UIView.animate(withDuration: 1.0) {
+                                cell.imgImage.transform = CGAffineTransform.identity
+                            }
+                        })
+
+                }
+                else
+                {
+                    cell.contentView.backgroundColor = UIColor.white
+                    cell.contentView.layer.borderColor = UIColor.black.cgColor
+                    cell.contentView.layer.borderWidth = 0
+                }
+            }
+            else if collectionView == collection_original
+            {
+                cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            }
+            
             return cell
+            
+            
+        
         
     }
 }
@@ -358,10 +413,10 @@ extension SMResultVC {
                         }
                 
                     self.arrBrackets = self.dictContestDetail["boxJson"] as! [[String: Any]]
-                    let winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
+                    self.winning_options = self.dictContestDetail["winning_options"] as! [[String: Any]]
                     
                     for box in self.arrBrackets {
-                        for option in winning_options {
+                        for option in self.winning_options {
                             let number = box["number"]!
                             let objectNo = option["objectNo"]!
                             if number as? NSObject == objectNo as? NSObject {

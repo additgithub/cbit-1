@@ -450,7 +450,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         let index = sender.tag
         if index == 1 {
             selectedIndex = index
-            arrSideMenu[1].isExpande = false
+           // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
             arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
@@ -460,7 +460,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         else if index == 2 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
-            arrSideMenu[2].isExpande = false
+        //    arrSideMenu[2].isExpande = false
             arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
@@ -470,7 +470,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[11].isExpande = false
+           // arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()

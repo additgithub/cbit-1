@@ -139,91 +139,334 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
-        
-        let strAmount = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
-        //resultCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmount)!))"
-        let test = Double(strAmount) ?? 0.00
-        resultCell.labelEntryFees.text = String(format: "₹ %.02f", test)
-        
-        let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"]!)"
-        resultCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-        let strWinnings = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
-        resultCell.labelTotalWinnings.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
-        let strWinners = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-        resultCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))"
-        
-        let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
-        print("Data: \(dictSelectedData)")
-        let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
-        
-        if strValue == "Red win"
-        {
-            resultCell.btnred.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 2
-            resultCell.btndraw.layer.borderWidth = 0
-            resultCell.btnblue.layer.borderWidth = 0
-        }
-        else if strValue == "Blue win"
-        {
-            resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 0
-            resultCell.btndraw.layer.borderWidth = 0
-            resultCell.btnblue.layer.borderWidth = 2
-        }
-        else
-        {
-            resultCell.btndraw.layer.borderColor = UIColor.black.cgColor
-            resultCell.btnred.layer.borderWidth = 0
-            resultCell.btndraw.layer.borderWidth = 2
-            resultCell.btnblue.layer.borderWidth = 0
-        }
-        
-        let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
-        
-        if isLock {
-            resultCell.labelAnswer.text = "Your Selection  \(strValue)"
-            resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+        let gameMode = dictContest["type"] as? Int ?? 0
+        if gameMode == 0 {
+            let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketTVC") as! TicketTVC
+            
+            let isAlreadyPurchase = arrSelectedTickets[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
+            
+            
+            
+            let strAmonut = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
+            //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+            
+            let test = Double(strAmonut) ?? 0.00
+            ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+            //print(String(format: "%.02f", test))
+            
+            
+            let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0)"
+            ticketCell.labelTotalTicket.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+            
+            let range = arrSelectedTickets[indexPath.row]["bracketSize"] as? Int ?? 0
+            let rangeMin = dictContestDetail["ansRangeMin"] as? Int ?? 0
+            let rangeMax = dictContestDetail["ansRangeMax"] as? Int ?? 0
+            
+            ticketCell.imageBar.image = MyModel().getImageForRange(range: range, rangeMaxValue: abs(rangeMin - rangeMax))
+            ticketCell.labelBar.text = "\(range)"
+            
+            let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
+            
+            if MyModel().isSetNA(totalTickets: totalTicket) {
+                ticketCell.labelWinningAmount.text = "N/A"
+                ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+            } else {
+                let strWinning = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
+                ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+                let strWinners = "\(arrSelectedTickets[indexPath.row]["maxWinners"] as? Int ?? 0)"
+                ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                
+                
+            }
+            
+            
+            ticketCell.labelMinRange.text = "\(dictContestDetail["ansRangeMin"] as? Int ?? 0)"
+            ticketCell.labelMaxRange.text = "\(dictContestDetail["ansRangeMax"] as? Int ?? 0)"
+            
+            return ticketCell
         } else {
-            resultCell.labelAnswer.text = "\(strValue)"
-            resultCell.labelLoackedAt.text = ""
+            let arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as! [[String: Any]]
+            if arrSloats.count == 3 {
+                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "ThreeSloatTVC") as! ThreeSloatTVC
+                
+                let isAlreadyPurchase = arrSelectedTickets[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
+                
+                let strAmonut = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
+                let test = Double(strAmonut) ?? 0.00
+                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+                
+                
+                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+                let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0)"
+                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                
+                let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
+                
+                if MyModel().isSetNA(totalTickets: totalTicket) {
+                    ticketCell.labelWinningAmount.text = "N/A"
+                    
+                    ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                    
+                } else {
+                    
+                    let strWinning = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
+                    ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+                    
+                    let strWinners = "\(arrSelectedTickets[indexPath.row]["maxWinners"] as? Int ?? 0)"
+                    ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                    
+                    let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+                    ticketCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+                    
+                }
+                
+                ticketCell.labelAnsMinus.text = arrSloats[0]["displayValue"] as? String ?? "-"
+                ticketCell.labelAnsZero.text = arrSloats[1]["displayValue"] as? String ?? "0"
+                ticketCell.labelAnsPlus.text = arrSloats[2]["displayValue"] as? String ?? "+"
+                
+                let string1 = arrSloats[0]["displayValue"] as? String ?? "-"
+                let string2 = arrSloats[2]["displayValue"] as? String ?? "-"
+                
+                if string1.localizedCaseInsensitiveContains("red win")
+                {
+                    ticketCell.viewRange.backgroundColor = #colorLiteral(red: 0.9019607843, green: 0.8862745098, blue: 0.8862745098, alpha: 1)
+                    // ticketCell.labelAnsMinus.backgroundColor = UIColor.red
+                    ticketCell.labelAnsMinus.textColor = UIColor.white
+                    ticketCell.labelAnsMinus.layer.cornerRadius = 5
+                    ticketCell.btnAnsMinus.backgroundColor = UIColor.red
+                }
+                if string2.localizedCaseInsensitiveContains("blue win")
+                {
+                    //  ticketCell.labelAnsPlus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+                    ticketCell.labelAnsPlus.textColor = UIColor.white
+                    ticketCell.labelAnsPlus.layer.cornerRadius = 5
+                    ticketCell.btnAnsplus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+                }
+                
+                
+                let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
+                let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
+                
+                        if strValue == "Red win"
+                        {
+                            ticketCell.labelAnsMinus.layer.borderColor = UIColor.black.cgColor
+                            ticketCell.labelAnsMinus.layer.borderWidth = 3
+                            ticketCell.labelAnsZero.layer.borderWidth = 0
+                            ticketCell.labelAnsPlus.layer.borderWidth = 0
+                        }
+                        else if strValue == "Blue win"
+                        {
+                            ticketCell.labelAnsPlus.layer.borderColor = UIColor.black.cgColor
+                            ticketCell.labelAnsMinus.layer.borderWidth = 0
+                            ticketCell.labelAnsZero.layer.borderWidth = 0
+                            ticketCell.labelAnsPlus.layer.borderWidth = 3
+                        }
+                        else if strValue == "Draw"
+                        {
+                            ticketCell.labelAnsZero.layer.borderColor = UIColor.black.cgColor
+                            ticketCell.labelAnsMinus.layer.borderWidth = 0
+                            ticketCell.labelAnsZero.layer.borderWidth = 3
+                            ticketCell.labelAnsPlus.layer.borderWidth = 0
+                        }
+                
+                let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
+                
+                if isLock {
+                    ticketCell.labelAnswer.text = "Your Selection  \(strValue)"
+                    ticketCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+                } else {
+                    ticketCell.labelAnswer.text = "\(strValue)"
+                    ticketCell.labelLoackedAt.text = ""
+                    
+                }
+                
+                let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false
+                
+                if isCancel {
+                    ticketCell.buttonSelectTicket.backgroundColor = UIColor.red
+                    ticketCell.buttonSelectTicket.setTitleColor(UIColor.white, for: .normal)
+                    ticketCell.buttonSelectTicket.setTitle("Cancelled", for: .normal)
+                    ticketCell.buttonSelectTicket.removeTarget(self, action: nil, for: .touchUpInside)
+                    ticketCell.labelAnswer.text = ""
+                    ticketCell.labelLoackedAt.text = ""
+                    
+                } else {
+                    ticketCell.buttonSelectTicket.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                    ticketCell.buttonSelectTicket.setTitleColor( #colorLiteral(red: 0, green: 0.4, blue: 0.5725490196, alpha: 1), for: .normal)
+                    ticketCell.buttonSelectTicket.setTitle("View Winners", for: .normal)
+                    ticketCell.buttonSelectTicket.addTarget(self,
+                                                            action: #selector(buttonViewWinners(_:)),
+                                                            for: .touchUpInside)
+                    ticketCell.buttonSelectTicket.tag = indexPath.row
+                }
+                
+                
+          
+                
+                
+                return ticketCell
+            } else {
+                let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketSloteTVC") as! TicketSloteTVC
+                self.view.layoutIfNeeded()
+                
+                
+                let strAmonut = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
+                let test = Double(strAmonut) ?? 0.00
+                ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+                //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
+                let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0)"
+                ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+                
+                let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
+                
+                
+                if MyModel().isSetNA(totalTickets: totalTicket) {
+                    ticketCell.labelWinningAmount.text = "N/A"
+                    
+                    ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                    
+                } else {
+                    
+                    let strWinning = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
+                    ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+                    
+                    let strWinners = "\(arrSelectedTickets[indexPath.row]["maxWinners"] as? Int ?? 0)"
+                    ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                    
+                    let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+                    ticketCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+                }
+                ticketCell.arrData = nil
+                ticketCell.arrData = arrSelectedTickets[indexPath.row]["slotes"] as? [[String: Any]]
+                self.view.layoutIfNeeded()
+                
+                
+                let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
+                let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
+                let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
+                
+                if isLock {
+                    ticketCell.labelAnswer.text = "Your Selection  \(strValue)"
+                    ticketCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+                } else {
+                    ticketCell.labelAnswer.text = "\(strValue)"
+                    ticketCell.labelLoackedAt.text = ""
+                    
+                }
+                
+                let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false
+                
+                if isCancel {
+                    ticketCell.buttonSelectTicket.backgroundColor = UIColor.red
+                    ticketCell.buttonSelectTicket.setTitleColor(UIColor.white, for: .normal)
+                    ticketCell.buttonSelectTicket.setTitle("Cancelled", for: .normal)
+                    ticketCell.buttonSelectTicket.removeTarget(self, action: nil, for: .touchUpInside)
+                    ticketCell.labelAnswer.text = ""
+                    ticketCell.labelLoackedAt.text = ""
+                    
+                } else {
+                    ticketCell.buttonSelectTicket.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                    ticketCell.buttonSelectTicket.setTitleColor( #colorLiteral(red: 0, green: 0.4, blue: 0.5725490196, alpha: 1), for: .normal)
+                    ticketCell.buttonSelectTicket.setTitle("View Winners", for: .normal)
+                    ticketCell.buttonSelectTicket.addTarget(self,
+                                                            action: #selector(buttonViewWinners(_:)),
+                                                            for: .touchUpInside)
+                    ticketCell.buttonSelectTicket.tag = indexPath.row
+                }
+                
+                
+                return ticketCell
+            }
             
         }
-        
-        let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false
-        
-        if isCancel {
-            resultCell.buttonViewWinners.backgroundColor = UIColor.red
-            resultCell.labelViewWinners.textColor = UIColor.white
-            resultCell.labelViewWinners.text = "Cancelled"
-            resultCell.buttonViewWinners.removeTarget(self, action: nil, for: .touchUpInside)
-            resultCell.labelAnswer.text = ""
-            resultCell.labelLoackedAt.text = ""
-            
-        } else {
-            resultCell.buttonViewWinners.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-            resultCell.labelViewWinners.textColor = #colorLiteral(red: 0, green: 0.4, blue: 0.5725490196, alpha: 1)
-            resultCell.labelViewWinners.text = "View Winners"
-            resultCell.buttonViewWinners.addTarget(self,
-                                                   action: #selector(buttonViewWinners(_:)),
-                                                   for: .touchUpInside)
-            resultCell.buttonViewWinners.tag = indexPath.row
-        }
-        
-        let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
-        
-        if MyModel().isSetNA(totalTickets: totalTicket) {
-            resultCell.labelTotalWinnings.text = "N/A"
-            resultCell.labelMaxWinner.text = "N/A"
-        } else {
-            resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
-            resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
-            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
-        }
-        
-        return resultCell
     }
+    
+    //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //        let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
+    //
+    //        let strAmount = "\(arrSelectedTickets[indexPath.row]["amount"] as? Double ?? 0.0)"
+    //        //resultCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmount)!))"
+    //        let test = Double(strAmount) ?? 0.00
+    //        resultCell.labelEntryFees.text = String(format: "₹ %.02f", test)
+    //
+    //        let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"]!)"
+    //        resultCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
+    //        let strWinnings = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
+    //        resultCell.labelTotalWinnings.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
+    //        let strWinners = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
+    //        resultCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))"
+    //
+    //        let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
+    //        print("Data: \(dictSelectedData)")
+    //        let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
+    //
+    //        if strValue == "Red win"
+    //        {
+    //            resultCell.btnred.layer.borderColor = UIColor.black.cgColor
+    //            resultCell.btnred.layer.borderWidth = 2
+    //            resultCell.btndraw.layer.borderWidth = 0
+    //            resultCell.btnblue.layer.borderWidth = 0
+    //        }
+    //        else if strValue == "Blue win"
+    //        {
+    //            resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
+    //            resultCell.btnred.layer.borderWidth = 0
+    //            resultCell.btndraw.layer.borderWidth = 0
+    //            resultCell.btnblue.layer.borderWidth = 2
+    //        }
+    //        else
+    //        {
+    //            resultCell.btndraw.layer.borderColor = UIColor.black.cgColor
+    //            resultCell.btnred.layer.borderWidth = 0
+    //            resultCell.btndraw.layer.borderWidth = 2
+    //            resultCell.btnblue.layer.borderWidth = 0
+    //        }
+    //
+    //        let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
+    //
+    //        if isLock {
+    //            resultCell.labelAnswer.text = "Your Selection  \(strValue)"
+    //            resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+    //        } else {
+    //            resultCell.labelAnswer.text = "\(strValue)"
+    //            resultCell.labelLoackedAt.text = ""
+    //
+    //        }
+    //
+    //        let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false
+    //
+    //        if isCancel {
+    //            resultCell.buttonViewWinners.backgroundColor = UIColor.red
+    //            resultCell.labelViewWinners.textColor = UIColor.white
+    //            resultCell.labelViewWinners.text = "Cancelled"
+    //            resultCell.buttonViewWinners.removeTarget(self, action: nil, for: .touchUpInside)
+    //            resultCell.labelAnswer.text = ""
+    //            resultCell.labelLoackedAt.text = ""
+    //
+    //        } else {
+    //            resultCell.buttonViewWinners.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+    //            resultCell.labelViewWinners.textColor = #colorLiteral(red: 0, green: 0.4, blue: 0.5725490196, alpha: 1)
+    //            resultCell.labelViewWinners.text = "View Winners"
+    //            resultCell.buttonViewWinners.addTarget(self,
+    //                                                   action: #selector(buttonViewWinners(_:)),
+    //                                                   for: .touchUpInside)
+    //            resultCell.buttonViewWinners.tag = indexPath.row
+    //        }
+    //
+    //        let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
+    //
+    //        if MyModel().isSetNA(totalTickets: totalTicket) {
+    //            resultCell.labelTotalWinnings.text = "N/A"
+    //            resultCell.labelMaxWinner.text = "N/A"
+    //        } else {
+    //            resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
+    //            resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
+    //            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+    //            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+    //        }
+    //
+    //        return resultCell
+    //    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

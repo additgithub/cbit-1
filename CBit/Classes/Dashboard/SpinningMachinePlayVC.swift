@@ -1097,10 +1097,13 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         for _ in 1..<300
         {
             for dict in arrSloats {
-                randomarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String))
+                let img = loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
+                if imageIsNullOrNot(imageName: img) {
+                    randomarr.append(img)
+                }
+                
             }
         }
-   
         //  labelTimer.text = ""
         if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
             self.configFadeTimer()
