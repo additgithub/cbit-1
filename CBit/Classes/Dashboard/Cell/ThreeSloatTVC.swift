@@ -8,6 +8,7 @@ class ThreeSloatTVC: UITableViewCell {
     @IBOutlet weak var btnAnsplus: ButtonWithRadius!
     
     @IBOutlet weak var btnAnsMinus: ButtonWithRadius!
+    @IBOutlet weak var btnAnsZero: ButtonWithRadius!
     
     @IBOutlet weak var jticketwinning: UILabel!
     @IBOutlet weak var jticketholder: UILabel!
@@ -29,6 +30,10 @@ class ThreeSloatTVC: UITableViewCell {
     @IBOutlet weak var lbllockstyle: UILabel!
     @IBOutlet weak var lblgameno: UILabel!
     @IBOutlet weak var lbldate: UILabel!
+    
+    @IBOutlet weak var labelLoackedAt: UILabel!
+    @IBOutlet weak var labelAnswer: UILabel!
+    @IBOutlet weak var labelAmount: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -15,6 +15,12 @@ class TicketTVC: UITableViewCell {
     @IBOutlet weak var labelBar: UILabel!
     @IBOutlet weak var buttonSelectTicket: UIButton!
     
+    @IBOutlet weak var labelLoackedAt: UILabel!
+    @IBOutlet weak var labelAnswer: UILabel!
+    @IBOutlet weak var labelAmount: UILabel!
+//    @IBOutlet weak var buttonViewWinners: UIButton!
+//    @IBOutlet weak var labelViewWinners: UILabel!
+    
     var longPress = UILongPressGestureRecognizer()
     
     override func awakeFromNib() {

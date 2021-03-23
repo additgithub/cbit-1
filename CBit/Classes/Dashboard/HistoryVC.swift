@@ -189,7 +189,8 @@ extension HistoryVC {
                         self.tableHistory.reloadData()
                         
                     } else {
-                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
+                       // self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
+                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
                         self.viewNoData.isHidden = true
                         self.tableHistory.reloadData()
                     }

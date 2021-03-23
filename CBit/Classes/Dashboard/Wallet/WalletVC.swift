@@ -462,8 +462,8 @@ extension WalletVC : UITableViewDelegate , UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! WalletCell
         
         cell.lbl_ticket_name.text = arrAssetList[indexPath.row].name ?? ""
-        cell.lbl_redeemcc.text = "CC \(arrAssetList[indexPath.row].redemedCC!)"
-        cell.lbl_appliedcc.text = "CC \(arrAssetList[indexPath.row].appliedCC!)"
+        cell.lbl_redeemcc.text = "\(arrAssetList[indexPath.row].redemedCC!)"
+        cell.lbl_appliedcc.text = "\(arrAssetList[indexPath.row].appliedCC!)"
         
         return cell
         
