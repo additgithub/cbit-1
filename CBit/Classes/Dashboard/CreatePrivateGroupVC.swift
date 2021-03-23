@@ -12,11 +12,11 @@ import DropDown
 
 
 class CreatePrivateGroupVC: UIViewController {
-
+    
     @IBOutlet weak var chkeasy: M13Checkbox!
     @IBOutlet weak var chkmoderate: M13Checkbox!
     @IBOutlet weak var chkpro: M13Checkbox!
-   
+    
     
     @IBOutlet weak var chkClassic: M13Checkbox!
     @IBOutlet weak var chkSpinning: M13Checkbox!
@@ -55,7 +55,7 @@ class CreatePrivateGroupVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         SetRandomNumber()
         setStartTimer()
@@ -97,7 +97,7 @@ class CreatePrivateGroupVC: UIViewController {
         
     }
     private func setStartTimer() {
-      
+        
         startTimer = Timer.scheduledTimer(timeInterval:0.5,
                                           target: self,
                                           selector: #selector(handleStartTimer),
@@ -106,11 +106,11 @@ class CreatePrivateGroupVC: UIViewController {
     }
     
     @objc func handleStartTimer() {
-      
-                updateColors()
-              SetRandomNumber()
+        
+        updateColors()
+        SetRandomNumber()
         collectionviewtickets.reloadData()
-
+        
     }
     
     @IBAction func btn_CHOOSE_GAME(_ sender: M13Checkbox) {
@@ -259,78 +259,78 @@ class CreatePrivateGroupVC: UIViewController {
     }
     
     
-
+    
     @IBAction func back_click(_ sender: UIButton) {
         //self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func choosegame_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
-                
+        
         let pgname = arrUserGroupList.map { $0.privateGroupName }
         
         dropDown1.dataSource = pgname as! [String]
         dropDown1.anchorView =  sender
-              
-                dropDown1.selectionAction = {
-                  
-                  [unowned self] (index: Int, item: String) in
-                  print("Selected item: \(item) at index: \(index)")
-                    group_id = "\(arrUserGroupList[index].id ?? 0)"
-                    sender.setTitle(item, for: .normal)
-              }
-              dropDown1.show()
+        
+        dropDown1.selectionAction = {
+            
+            [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            group_id = "\(arrUserGroupList[index].id ?? 0)"
+            sender.setTitle(item, for: .normal)
+        }
+        dropDown1.show()
     }
     @IBAction func numberofoption_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
-                
-             // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
+        
+        // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
         
         dropDown1.dataSource = ["Game","Classic Grids","Spinning Machine"]
         dropDown1.anchorView =  sender
-              
-                dropDown1.selectionAction = {
-                  
-                  [unowned self] (index: Int, item: String) in
-                  print("Selected item: \(item) at index: \(index)")
-                    sender.setTitle(item, for: .normal)
-              }
-              dropDown1.show()
+        
+        dropDown1.selectionAction = {
+            
+            [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            sender.setTitle(item, for: .normal)
+        }
+        dropDown1.show()
     }
     @IBAction func numberofitem_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
-                
-             // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
+        
+        // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
         
         dropDown1.dataSource = ["1","2","3","4","5","6","7","8"]
         dropDown1.anchorView =  sender
-              
-                dropDown1.selectionAction = {
-                  
-                  [unowned self] (index: Int, item: String) in
-                  print("Selected item: \(item) at index: \(index)")
-                    sender.setTitle(item, for: .normal)
-              }
-              dropDown1.show()
+        
+        dropDown1.selectionAction = {
+            
+            [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            sender.setTitle(item, for: .normal)
+        }
+        dropDown1.show()
     }
     @IBAction func numberof_click(_ sender: UIButton) {
         let  dropDown1 = DropDown()
-                
-             // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
+        
+        // dropDown1.dataSource = self.TimeList.compactMap{$0["StartTime"] as? String}
         
         dropDown1.dataSource = ["Win,draw,win","Win,win,win","Win,win,win,win","Win,win,win,win,win"]
         dropDown1.anchorView =  sender
-              
-                dropDown1.selectionAction = {
-                  
-                  [unowned self] (index: Int, item: String) in
-                  print("Selected item: \(item) at index: \(index)")
-                    sender.setTitle(item, for: .normal)
-              }
-              dropDown1.show()
+        
+        dropDown1.selectionAction = {
+            
+            [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            sender.setTitle(item, for: .normal)
+        }
+        dropDown1.show()
     }
     @IBAction func next_click(_ sender: UIButton) {
-       
+        
         if group_id != nil
         {
             if chkClassic.checkState.rawValue == "Checked" ||  chkSpinning.checkState.rawValue == "Checked"
@@ -448,7 +448,7 @@ class CreatePrivateGroupVC: UIViewController {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
                         // here "jsonData" is the dictionary encoded in JSON data
-
+                        
                         let allUserListModel = try? JSONDecoder().decode(AllUserListModel.self, from: jsonData)
                         
                         self.arrUserGroupList = allUserListModel?.content ?? [AllUserListData]()
@@ -550,19 +550,19 @@ class CreatePrivateGroupVC: UIViewController {
         
         if gameType1.checkState.rawValue == "Checked"
         {
-            slotes = ["display_Name":"Red Win",
+            slotes = ["Display_Name":"Red Win",
                       "start_value":"-100",
                       "end_value":"-1"]
             slotesArrayList.append(slotes)
             
             slotes.removeAll()
-            slotes = ["display_Name":"Draw",
+            slotes = ["Display_Name":"Draw",
                       "start_value":"0",
                       "end_value":"0"]
             slotesArrayList.append(slotes)
             
             slotes.removeAll()
-            slotes = ["display_Name":"Blue Win",
+            slotes = ["Display_Name":"Blue Win",
                       "start_value":"1",
                       "end_value":"100"]
             slotesArrayList.append(slotes)
@@ -595,27 +595,7 @@ class CreatePrivateGroupVC: UIViewController {
             ans_max = "9"
         }
         
-        var slotesArrayjsonString :String?
-        
-        do {
-
-            //Convert to Data
-            let jsonData = try JSONSerialization.data(withJSONObject: slotesArrayList, options: JSONSerialization.WritingOptions.prettyPrinted)
-
-            //Convert back to string. Usually only do this for debugging
-            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
-               print(JSONString)
-                slotesArrayjsonString = JSONString
-            }
-
-            //In production, you usually want to try and cast as the root data structure. Here we are casting as a dictionary. If the root object is an array cast as [Any].
-           // slotesArrayjsonString = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] ?? [String: Any]()
-
-            
-        } catch {
-            print(error)
-        }
-        
+      
         let parameter: [String: Any] = [
             "contest_id":dictContest["id"]!,
             "group_id":group_id ?? "",
@@ -627,10 +607,10 @@ class CreatePrivateGroupVC: UIViewController {
             "ansRangeMax":ans_max,
             "no_of_items":"0",
             "categoryId":"0",
-            "slots":slotesArrayjsonString ?? "",
+            "slots": try! toJSON(array: slotesArrayList),
             "Items_value":"[]"
             
-          
+            
         ]
         let strURL = Define.APP_URL + Define.PrivateGroup_EditPrivateGroup
         print("Parameter: \(parameter)\nURL: \(strURL)")
@@ -656,7 +636,7 @@ class CreatePrivateGroupVC: UIViewController {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
                         // here "jsonData" is the dictionary encoded in JSON data
-
+                        
                         let allUserListModel = try? JSONDecoder().decode(AllUserListModel.self, from: jsonData)
                         
                         self.arrUserGroupList = allUserListModel?.content ?? [AllUserListData]()
@@ -706,15 +686,15 @@ class CreatePrivateGroupVC: UIViewController {
         arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: 0, maxRange: 99)
         
     }
-
+    
 }
 
 extension CreatePrivateGroupVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       
-
+        
+        
         return arrRandomNumbers.count
-    
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -733,11 +713,24 @@ extension CreatePrivateGroupVC: UICollectionViewDelegate, UICollectionViewDataSo
         
         let cell1 = collectionView.dequeueReusableCell(withReuseIdentifier: "Bracketcv", for: indexPath) as! Bracketcv
         
-            cell1.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
-            cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
-      
+        cell1.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
+        cell1.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
+        
         return cell1
         
+    }
+    
+    func toJSON(array: [[String: Any]]) throws -> String {
+        let data = try JSONSerialization.data(withJSONObject: array, options: [])
+        return String(data: data, encoding: .utf8)!
+    }
+
+    func fromJSON(string: String) throws -> [[String: Any]] {
+        let data = string.data(using: .utf8)!
+        guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject] else {
+            throw NSError(domain: NSCocoaErrorDomain, code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON"])
+        }
+        return jsonObject.map { $0 as! [String: Any] }
     }
 }
 
@@ -761,5 +754,11 @@ extension CreatePrivateGroupVC {
                      completion: nil)
     }
     
-  
+    
+    
 }
+
+
+
+//Arry to json//https://stackoverflow.com/questions/45269962/how-to-convert-string-to-array-of-array-of-dictionaries
+

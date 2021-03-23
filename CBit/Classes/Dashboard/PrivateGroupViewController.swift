@@ -51,7 +51,7 @@ class PrivateGroupViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         //GroupList = ["Happy family","Cousion","Friends Forever","Top 20","Land On moon","Old is Gold"]
-        //MyGroupList()
+        MyGroupList()
         
         
         let sDate1 = dictContest["startDate"]  as! String
