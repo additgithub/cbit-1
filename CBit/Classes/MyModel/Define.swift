@@ -173,6 +173,7 @@ class Define {
     
     static let referal_criteria_chart = "referal_criteria_chart"
     static let referal_criteria = "referal_criteria"
+    static let getReferralPopup = "getReferralPopup"
     
     
     static let ADD_PRIVATE_GROUP = "addPrivateGroup"

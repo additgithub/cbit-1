@@ -247,21 +247,21 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
                 let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
                 let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
                 
-                        if strValue == "Red win"
+                        if strValue == "Red win" || strValue == "0 To 3"
                         {
                             ticketCell.labelAnsMinus.layer.borderColor = UIColor.black.cgColor
                             ticketCell.labelAnsMinus.layer.borderWidth = 3
                             ticketCell.labelAnsZero.layer.borderWidth = 0
                             ticketCell.labelAnsPlus.layer.borderWidth = 0
                         }
-                        else if strValue == "Blue win"
+                        else if strValue == "Blue win" || strValue == "7 To 9"
                         {
                             ticketCell.labelAnsPlus.layer.borderColor = UIColor.black.cgColor
                             ticketCell.labelAnsMinus.layer.borderWidth = 0
                             ticketCell.labelAnsZero.layer.borderWidth = 0
                             ticketCell.labelAnsPlus.layer.borderWidth = 3
                         }
-                        else if strValue == "Draw"
+                        else if strValue == "Draw" || strValue == "4 To 6"
                         {
                             ticketCell.labelAnsZero.layer.borderColor = UIColor.black.cgColor
                             ticketCell.labelAnsMinus.layer.borderWidth = 0

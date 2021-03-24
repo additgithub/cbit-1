@@ -340,6 +340,10 @@ extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
             resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
+        resultCell.strDisplayValue = strValue
+        // resultCell.arrData = nil
+        resultCell.arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as? [[String: Any]] ?? []
+        
         return resultCell
     }
     

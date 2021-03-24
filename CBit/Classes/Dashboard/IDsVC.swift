@@ -8,6 +8,7 @@
 
 import UIKit
 import DropDown
+import ActionSheetPicker_3_0
 
 class CriteriaCell: UITableViewCell {
     @IBOutlet weak var lblidname: UILabel!
@@ -44,8 +45,18 @@ class IDsVC: UIViewController {
     @IBOutlet weak var vwpopup: UIView!
     @IBOutlet weak var btnclose: UIButton!
     @IBOutlet weak var tblcriteria: UITableView!
+    
+    @IBOutlet weak var vwpopuplevel: UIView!
+    @IBOutlet weak var tbllevel: UITableView!
+    @IBOutlet weak var lbllevel: UILabel!
+    
+    @IBOutlet weak var btnfromdate: UIButton!
+    @IBOutlet weak var btntodate: UIButton!
+    
+    
     var referalcriteriaarr = [[String:Any]]()
     var referallistarr = [[String:Any]]()
+    var levellistarr = [[String:Any]]()
     var sortbydatestr = ""
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +78,10 @@ class IDsVC: UIViewController {
     }
     @IBAction func close_click(_ sender: Any) {
         vwpopup.isHidden = true
+        vwpopuplevel.isHidden = true
     }
     @IBAction func viewcriteria_click(_ sender: ButtonWithBlueColor) {
+        self.view.bringSubviewToFront(vwpopup)
         vwpopup.isHidden = false
     }
     @IBAction func invitefrnd_click(_ sender: ButtonWithBlueColor) {
@@ -134,7 +147,7 @@ class IDsVC: UIViewController {
         let  dropDown1 = DropDown()
         
         //  dropDown1.dataSource = self.MainarrMyJTicket.compactMap{$0["FilterDate"] as? String}.removeDuplicates()
-        dropDown1.dataSource = ["Till Date","Daily","Weekly","Monthly"]
+        dropDown1.dataSource = ["Till Date","Daily","Weekly","Monthly","Custom Date"]
         dropDown1.anchorView =  sender
         
         dropDown1.selectionAction = {
@@ -154,11 +167,86 @@ class IDsVC: UIViewController {
             else if item == "Monthly" {
                 sortbydatestr = "M"
             }
+            else if item == "Custom Date" {
+                sortbydatestr = "C"
+            }
+            
+            if item == "Custom Date" {
+                btnfromdate.isEnabled = true
+                btntodate.isEnabled = true
+            }
+            else
+            {
+                btnfromdate.isEnabled = false
+                btntodate.isEnabled = false
+            }
+            
             getReferalCriteriaChart()
             
         }
         dropDown1.show()
     }
+    
+    @IBAction func fromdate_click(_ sender: UIButton) {
+        // example of date picker with min and max values set (as a week in past and week in future from today)
+        let datePicker = ActionSheetDatePicker(title: "Select From Date",
+                                               datePickerMode: UIDatePicker.Mode.date,
+                                               selectedDate: Date(),
+                                               doneBlock: { picker, date, origin in
+                                                    print("picker = \(String(describing: picker))")
+                                                    print("date = \(String(describing: date))")
+                                                    print("origin = \(String(describing: origin))")
+                                                let dateFormater: DateFormatter = DateFormatter()
+                                                dateFormater.dateFormat = "dd-MM-yyyy"
+                                                let stringFromDate: String = dateFormater.string(from: date as! Date) as String
+                                                sender.setTitle(stringFromDate, for: .normal)
+                                                    return
+                                                },
+                                               cancel: { picker in
+                                                    return
+                                               },
+                                               origin: sender.superview!.superview)
+//        let secondsInWeek: TimeInterval = 7 * 24 * 60 * 60;
+//        datePicker?.minimumDate = Date(timeInterval: -secondsInWeek, since: Date())
+//        datePicker?.maximumDate = Date(timeInterval: secondsInWeek, since: Date())
+        if #available(iOS 14.0, *) {
+          //  datePicker?.datePickerStyle = .inline
+        }
+
+        datePicker?.show()
+    }
+    @IBAction func todate_click(_ sender: UIButton) {
+        // example of date picker with min and max values set (as a week in past and week in future from today)
+        let datePicker = ActionSheetDatePicker(title: "Select To Date",
+                                               datePickerMode: UIDatePicker.Mode.date,
+                                               selectedDate: Date(),
+                                               doneBlock: { picker, date, origin in
+                                                    print("picker = \(String(describing: picker))")
+                                                    print("date = \(String(describing: date))")
+                                                    print("origin = \(String(describing: origin))")
+                                                
+                                                let dateFormater: DateFormatter = DateFormatter()
+                                                dateFormater.dateFormat = "dd-MM-yyyy"
+                                                let stringFromDate: String = dateFormater.string(from: date as! Date) as String
+                                                sender.setTitle(stringFromDate, for: .normal)
+                                                
+                                                    return
+                                                },
+                                               cancel: { picker in
+                                                    return
+                                               },
+                                               origin: sender.superview!.superview)
+//        let secondsInWeek: TimeInterval = 7 * 24 * 60 * 60;
+//        datePicker?.minimumDate = Date(timeInterval: -secondsInWeek, since: Date())
+//        datePicker?.maximumDate = Date(timeInterval: secondsInWeek, since: Date())
+        if #available(iOS 14.0, *) {
+         //   datePicker?.datePickerStyle = .inline
+        }
+
+        datePicker?.show()
+    }
+    
+    
     
     func setdata(dict:[String:Any])  {
         
@@ -169,9 +257,9 @@ class IDsVC: UIViewController {
         var TDS:Double = 0
         
         for item in referallistarr {
-            EM = EM + Double(item["EM"] as! Double)
-            RefComm = RefComm + Double(item["RefComm"] as! Double)
-            TDS = TDS + Double(item["TDS"] as! Double)
+            EM = EM + Double(item["EM"] as! String)!
+            RefComm = RefComm + Double(item["RefComm"] as! String)!
+            TDS = TDS + Double(item["TDS"] as! String)!
         }
         
         lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2))"
@@ -189,7 +277,9 @@ extension IDsVC
 {
     func getReferalCriteriaChart() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["sortType": sortbydatestr
+        let parameter: [String: Any] = ["sortType": sortbydatestr,
+                                        "StartDate":btnfromdate.titleLabel?.text ?? "",
+                                        "EndDate":btntodate.titleLabel?.text ?? ""
         ]
         let strURL = Define.APP_URL + Define.referal_criteria_chart
         print("Parameter: \(parameter)\nURL: \(strURL)")
@@ -274,9 +364,54 @@ extension IDsVC
     }
     
     
+    func getReferralPopup(level:Int) {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = ["Level": level
+        ]
+        let strURL = Define.APP_URL + Define.getReferralPopup
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
+                self.getReferralPopup(level: level)
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                  
+                    self.levellistarr = result!["content"] as? [[String : Any]] ?? []
+                    self.tbllevel.reloadData()
+                  //  self.setdata(dict: content)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    
 }
 
-extension IDsVC: UITableViewDelegate, UITableViewDataSource
+extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tbllist
@@ -286,6 +421,10 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource
         else if tableView == tblcriteria
         {
             return referalcriteriaarr.count
+        }
+        else if tableView == tbllevel
+        {
+            return levellistarr.count
         }
         return 0
     }
@@ -297,12 +436,16 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource
             
             cell.lbllevel.text = "L \(referallistarr[indexPath.row]["Level"]!)"
             cell.lblreferal.text = "\(referallistarr[indexPath.row]["Refferel"]!)"
-            cell.lblem.text = "₹ \((referallistarr[indexPath.row]["EM"] as! Double).rounded(toPlaces: 2))"
-            cell.lblrefcom.text = "₹ \((referallistarr[indexPath.row]["RefComm"]as! Double).rounded(toPlaces: 2))"
-            cell.lbltds.text = "\((referallistarr[indexPath.row]["TDS"]as! Double).rounded(toPlaces: 2))%"
+            cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
+            cell.lblrefcom.text = "₹ \((Double(referallistarr[indexPath.row]["RefComm"]as! String))!.rounded(toPlaces: 2))"
+            cell.lbltds.text = "\((Double(referallistarr[indexPath.row]["TDS"]as! String))!.rounded(toPlaces: 2))%"
             
-            //            cell.btn_deal.tag = indexPath.row
-            //            cell.btn_deal.addTarget(self, action: #selector(btnDeal(sender:)), for: .touchUpInside)
+            let tapGesture : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblClick(tapGesture:)))
+            tapGesture.delegate = self
+            tapGesture.numberOfTapsRequired = 1
+            cell.lbllevel.isUserInteractionEnabled = true
+            cell.lbllevel.tag = indexPath.row
+            cell.lbllevel.addGestureRecognizer(tapGesture)
             return cell
         }
         else if tableView == tblcriteria
@@ -314,7 +457,23 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource
             cell.lblcriteria.text = "\(referalcriteriaarr[indexPath.row]["TotalReferal"]!) referrals"
             return cell
         }
+        else if tableView == tbllevel
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CriteriaCell") as! CriteriaCell
+            
+            cell.lblidname.text = "\(levellistarr[indexPath.row]["User"]!)"
+            
+            return cell
+        }
         return UITableViewCell()
+    }
+    
+    @objc func lblClick(tapGesture:UITapGestureRecognizer){
+       print("Lable tag is:\(tapGesture.view!.tag)")
+        self.view.bringSubviewToFront(vwpopuplevel)
+        vwpopuplevel.isHidden = false
+        lbllevel.text = "Level \(referallistarr[tapGesture.view!.tag]["Level"]!)"
+        getReferralPopup(level: referallistarr[tapGesture.view!.tag]["Level"] as! Int)
     }
 }
 

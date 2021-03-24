@@ -49,7 +49,15 @@ class SpinningMachineCell: UITableViewCell {
         super.awakeFromNib()
         collectionSloat.delegate = self
         collectionSloat.dataSource = self
+        self.viewDidLayoutSubviews()
     }
+    
+    func viewDidLayoutSubviews() {
+           let section = 0
+       let lastItemIndex = self.collectionSloat.numberOfItems(inSection: section) - 1
+       let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+       self.collectionSloat.scrollToItem(at: indexPath as IndexPath, at: .right, animated: false)
+       }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

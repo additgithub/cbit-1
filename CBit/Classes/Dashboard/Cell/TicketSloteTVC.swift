@@ -48,14 +48,6 @@ class TicketSloteTVC: UITableViewCell {
 
         
     }
-    
-     func viewDidLayoutSubviews() {
-            let section = 0
-        let lastItemIndex = self.collectionSloat.numberOfItems(inSection: section) - 1
-        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
-        self.collectionSloat.scrollToItem(at: indexPath as IndexPath, at: .right, animated: false)
-        }
-
 }
 
 //MARK: - Collection Delegate Method
