@@ -96,6 +96,7 @@ class SMGameAnswerThreeTVC: UITableViewCell {
             guard let arrList = arrData else { return }
             arrSloats = arrList
             collectionSloat.reloadData()
+            self.viewDidLayoutSubviews()
         }
     }
     var isGameStart = Bool()
@@ -107,11 +108,22 @@ class SMGameAnswerThreeTVC: UITableViewCell {
         }
     }
     
+     func viewDidLayoutSubviews() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let section = 0
+        let lastItemIndex = self.collectionSloat.numberOfItems(inSection: section) - 1
+        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+        self.collectionSloat.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+        }
+       }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         collectionSloat.delegate = self
         collectionSloat.dataSource = self
+        collectionSloat.layer.cornerRadius = 10
+        collectionSloat.layer.borderWidth = 2
+        collectionSloat.layer.borderColor = UIColor.black.cgColor
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -38,7 +38,7 @@ class SMResultVC: UIViewController {
     var originalarr  = [UIImage]()
     
     var timerfade=Timer()
-    
+    var isfirst = true
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +67,21 @@ class SMResultVC: UIViewController {
         UNUserNotificationCenter.current().delegate = self
         
         getContestDetail()
+        
+        collectionitem.layer.cornerRadius = 10
+        collectionitem.layer.borderWidth = 2
+        collectionitem.layer.borderColor = UIColor.black.cgColor
     }
+    
+    override func viewDidLayoutSubviews() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let section = 0
+        let lastItemIndex = self.collectionitem.numberOfItems(inSection: section) - 1
+        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+        self.collectionitem.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+        }
+       }
+    
     
     func configFadeTimer()
     {
@@ -169,7 +183,7 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
 //        return 0
 //    }
-    
+   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
 //
@@ -183,21 +197,30 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
                 cell.imgImage.sd_setImage(with: URL(string: winning_options[indexPath.row]["ImageUrl"] as! String), completed: nil)
                 cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
                 
-                if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  winning_options[indexPath.row]["id"] as? Int {
-                    cell.contentView.backgroundColor = UIColor.white
-                    cell.contentView.layer.borderColor = UIColor.black.cgColor
-                    cell.contentView.layer.borderWidth = 2
-                  //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-                    UIView.animate(withDuration: 1.0,
-                        animations: {
-                            cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-                        },
-                        completion: { _ in
-                            UIView.animate(withDuration: 1.0) {
-                                cell.imgImage.transform = CGAffineTransform.identity
-                            }
-                        })
+                if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  winning_options[indexPath.row]["id"] as? Int && isfirst {
+                    isfirst = false
+                    func anotherFuncname() {
+                            //statements of inner function
+                        cell.contentView.backgroundColor = UIColor.white
+                        cell.contentView.layer.borderColor = UIColor.black.cgColor
+                        cell.contentView.layer.borderWidth = 2
+                      //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                        UIView.animate(withDuration: 1.0,
+                            animations: {
+                                cell.imgImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                            },
+                            completion: { _ in
+                                UIView.animate(withDuration: 1.0) {
+                                    cell.imgImage.transform = CGAffineTransform.identity
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        anotherFuncname()
+                                    }
+                                    
+                                }
+                            })
 
+                        }
+                   anotherFuncname()
                 }
                 else
                 {
@@ -217,6 +240,37 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
         
         
     }
+    
+    func animatecell(sender:UIImageView)   {
+//        let indexPath = IndexPath(item: index, section: 0)
+//            let cell = self.collectionitem?.cellForItem(at: indexPath) as! slotcell
+        
+        print("tickedOffPressed !")
+        if let button = sender as? UIImageView {
+            let point: CGPoint = button.convert(.zero, to: collectionitem)
+            if let indexPath = collectionitem!.indexPathForItem(at: point) {
+                let cell = collectionitem!.cellForItem(at: indexPath) as! slotcell
+                //cell?.backgroundColor = UIColor.blue
+                cell.contentView.backgroundColor = UIColor.white
+                cell.contentView.layer.borderColor = UIColor.black.cgColor
+                cell.contentView.layer.borderWidth = 2
+              //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                UIView.animate(withDuration: 1.0,
+                    animations: {
+                        cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+                    },
+                    completion: { _ in
+                        UIView.animate(withDuration: 1.0) {
+                            cell.imgImage.transform = CGAffineTransform.identity
+                            self.animatecell(sender: sender)
+                        }
+                    })
+            }
+            }
+        }
+
+        
+       
 }
 
 //MAKR: - TableView Delegate Method
