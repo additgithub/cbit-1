@@ -213,8 +213,14 @@ class JticketWaitingListViewController: UIViewController,UITableViewDataSource,U
                         let accepted = tempArrApprochList[i]["accept"]! as! Int
                         if accepted == 1
                         {
-                            userCell.btn_offer_approch.setTitle("Approached", for: .normal)
+                            userCell.btn_offer_approch.setTitle("Exchange offer", for: .normal)
                             userCell.btn_offer_approch.isUserInteractionEnabled = false
+                            userCell.btn_offer_approch.backgroundColor = #colorLiteral(red: 0.9624845386, green: 0.7779061198, blue: 0.2076547742, alpha: 1)
+                            
+                            let redemptionto = tempArrApprochList[i]["cashback"] as? Double ?? 0.00
+                            let boldtext1 = "₹ " + "\(String(format: "%.2f", redemptionto))"
+                            userCell.lbl_cashback.text = "Cashback up-to: \(boldtext1)"
+                            
                             break
                         }
                         
