@@ -623,10 +623,22 @@ class GameResultTVC: UITableViewCell {
         
         collectionlist?.delegate = self
         collectionlist?.dataSource = self
+        self.viewDidLayoutSubviews()
+        collectionlist.layer.cornerRadius = 10
+        collectionlist.layer.borderWidth = 2
+        collectionlist.layer.borderColor = UIColor.black.cgColor
         
         
     }
     
+    func viewDidLayoutSubviews() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let section = 0
+        let lastItemIndex = self.collectionlist.numberOfItems(inSection: section) - 1
+        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+        self.collectionlist.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+        }
+       }
     
     
     

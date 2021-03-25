@@ -137,6 +137,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collection_lockall.layer.cornerRadius = 10
+        collection_lockall.layer.borderWidth = 2
+        collection_lockall.layer.borderColor = UIColor.black.cgColor
         let width = (view.frame.width-20)/5
         
         let coln = [collection_slot,collection_original]
@@ -254,6 +257,19 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         getContestDetail(isfromtimer: true, isStart: 0)
         
     }
+    var isfirst = true
+    override func viewDidLayoutSubviews() {
+        if isfirst {
+            isfirst = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                let section = 0
+            let lastItemIndex = self.collection_lockall.numberOfItems(inSection: section) - 1
+            let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+            self.collection_lockall.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+            }
+
+        }
+       }
     
     
     func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
@@ -1125,7 +1141,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //                                                buttonAnsPlus.isEnabled = true
 //                                                buttonAnsZero.isEnabled = true
                 collection_lockall.isUserInteractionEnabled = true
-                          
+                collection_lockall.allowsSelection = true
                           
                                    let  LockAllData = dictGameData["LockAllData"] as? [[String: Any]] ?? []
                                     if LockAllData.count > 0 {
@@ -1223,7 +1239,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //            buttonAnsMinus.isEnabled = false
 //            buttonAnsPlus.isEnabled = false
 //            buttonAnsZero.isEnabled = false
-            collection_lockall.isUserInteractionEnabled = false
+            collection_lockall.isUserInteractionEnabled = true
+            collection_lockall.allowsSelection = false
 //                                        btnlockallnumber.isEnabled = false
 //                                        btnlockallnumber.alpha = 0.5
                                      
