@@ -205,8 +205,6 @@ class PrivateGroupViewController: UIViewController {
             }
         }
     }
-    
-    
 }
 
 
@@ -221,8 +219,6 @@ extension PrivateGroupViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "privategroupcell") as! privategroupcell
         
         //Set Data
-       
-        
         //Set Button
         cell.btnjoincontest.tag = indexPath.row
         cell.btnjoincontest.addTarget(self, action: #selector(buttonJoinContest(_:)), for: .touchUpInside)

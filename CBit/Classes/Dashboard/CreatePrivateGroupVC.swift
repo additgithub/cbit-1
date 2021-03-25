@@ -96,6 +96,14 @@ class CreatePrivateGroupVC: UIViewController {
         const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
         
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+
+        
+        
+       }
+    
     private func setStartTimer() {
         
         startTimer = Timer.scheduledTimer(timeInterval:0.5,
@@ -489,6 +497,7 @@ class CreatePrivateGroupVC: UIViewController {
             game_type = "spinning-machine"
         }
         
+        
         if lockStyle1.checkState.rawValue == "Checked"
         {
             lock_style = "basic"
@@ -569,7 +578,7 @@ class CreatePrivateGroupVC: UIViewController {
             ans_min = "-100"
             ans_max = "100"
         }
-        else
+        else if gameType2.checkState.rawValue == "Checked"
         {
             lock_style = "paper_chit"
         }
@@ -637,9 +646,14 @@ class CreatePrivateGroupVC: UIViewController {
                         let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
                         // here "jsonData" is the dictionary encoded in JSON data
                         
-                        let allUserListModel = try? JSONDecoder().decode(AllUserListModel.self, from: jsonData)
+                        //let allUserListModel = try? JSONDecoder().decode(AllUserListModel.self, from: jsonData)
                         
-                        self.arrUserGroupList = allUserListModel?.content ?? [AllUserListData]()
+                        //self.arrUserGroupList = allUserListModel?.content ?? [AllUserListData]()
+                        
+                        self.dismiss(animated: true, completion: {
+                            let firstVC = PrivateGroupViewController()
+                            firstVC.MyGroupList()
+                        })
                         
                         
                     } catch {
