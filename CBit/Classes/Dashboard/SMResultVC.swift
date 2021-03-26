@@ -60,7 +60,7 @@ class SMResultVC: UIViewController {
         }
         
         let layout = collectionitem?.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: 80, height: 100)
+        layout.itemSize = CGSize(width: width, height: width)
         
         tableResult.rowHeight = UITableView.automaticDimension
         tableResult.tableFooterView = UIView()
@@ -68,9 +68,9 @@ class SMResultVC: UIViewController {
         
         getContestDetail()
         
-        collectionitem.layer.cornerRadius = 10
-        collectionitem.layer.borderWidth = 2
-        collectionitem.layer.borderColor = UIColor.black.cgColor
+//        collectionitem.layer.cornerRadius = 10
+//        collectionitem.layer.borderWidth = 2
+//        collectionitem.layer.borderColor = UIColor.black.cgColor
     }
     
     override func viewDidLayoutSubviews() {
@@ -235,39 +235,44 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
             }
             
             return cell
-            
-            
-        
         
     }
     
-    func animatecell(sender:UIImageView)   {
-//        let indexPath = IndexPath(item: index, section: 0)
-//            let cell = self.collectionitem?.cellForItem(at: indexPath) as! slotcell
-        
-        print("tickedOffPressed !")
-        if let button = sender as? UIImageView {
-            let point: CGPoint = button.convert(.zero, to: collectionitem)
-            if let indexPath = collectionitem!.indexPathForItem(at: point) {
-                let cell = collectionitem!.cellForItem(at: indexPath) as! slotcell
-                //cell?.backgroundColor = UIColor.blue
-                cell.contentView.backgroundColor = UIColor.white
-                cell.contentView.layer.borderColor = UIColor.black.cgColor
-                cell.contentView.layer.borderWidth = 2
-              //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-                UIView.animate(withDuration: 1.0,
-                    animations: {
-                        cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-                    },
-                    completion: { _ in
-                        UIView.animate(withDuration: 1.0) {
-                            cell.imgImage.transform = CGAffineTransform.identity
-                            self.animatecell(sender: sender)
-                        }
-                    })
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        //Where elements_count is the count of all your items in that
+        //Collection view...
+        if collectionView == collectionitem {
+            let cellCount = CGFloat(winning_options.count)
+
+            //If the cell count is zero, there is no point in calculating anything.
+            if cellCount <= 4 {
+                let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+                let cellWidth = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing
+
+                //20.00 was just extra spacing I wanted to add to my cell.
+                let totalCellWidth = cellWidth*cellCount + 20.00 * (cellCount-1)
+                let contentWidth = collectionView.frame.size.width - collectionView.contentInset.left - collectionView.contentInset.right
+
+                if (totalCellWidth < contentWidth) {
+                    //If the number of cells that exists take up less room than the
+                    //collection view width... then there is an actual point to centering them.
+
+                    //Calculate the right amount of padding to center the cells.
+                    let padding = (contentWidth - totalCellWidth) / 2.0
+                    return UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+                } else {
+                    //Pretty much if the number of cells that exist take up
+                    //more room than the actual collectionView width, there is no
+                    // point in trying to center them. So we leave the default behavior.
+                    return UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
+                }
             }
-            }
+
         }
+        return UIEdgeInsets.zero
+    }
+    
 
         
        

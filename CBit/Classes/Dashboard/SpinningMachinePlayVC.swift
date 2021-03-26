@@ -16,6 +16,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //    @IBOutlet weak var imgzero: UIImageView!
 //    @IBOutlet weak var imgplus: UIImageView!
     
+    @IBOutlet weak var collectionlockallheight: NSLayoutConstraint!
     @IBOutlet weak var collection_lockall: UICollectionView!
     @IBOutlet var collection_slot: UICollectionView!
     @IBOutlet weak var collection_original: UICollectionView!
@@ -137,9 +138,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collection_lockall.layer.cornerRadius = 10
-        collection_lockall.layer.borderWidth = 2
-        collection_lockall.layer.borderColor = UIColor.black.cgColor
+//        collection_lockall.layer.cornerRadius = 10
+//        collection_lockall.layer.borderWidth = 2
+//        collection_lockall.layer.borderColor = UIColor.black.cgColor
         let width = (view.frame.width-20)/5
         
         let coln = [collection_slot,collection_original]
@@ -156,8 +157,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
            // constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
         
+        let widthlockall = (collection_lockall.frame.width)/5
         let layout = collection_lockall?.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: 50, height: 50)
+        layout.itemSize = CGSize(width: widthlockall, height: widthlockall)
         
          gamelevel = dictContest["rows"] as? Int ?? 0
       
@@ -259,16 +261,18 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     }
     var isfirst = true
     override func viewDidLayoutSubviews() {
-        if isfirst {
-            isfirst = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                let section = 0
-            let lastItemIndex = self.collection_lockall.numberOfItems(inSection: section) - 1
-            let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
-            self.collection_lockall.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
-            }
-
-        }
+        let height = collection_lockall.collectionViewLayout.collectionViewContentSize.height
+          collectionlockallheight.constant = height
+          self.view.layoutIfNeeded()
+//        if isfirst {
+//            isfirst = false
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                let section = 0
+//            let lastItemIndex = self.collection_lockall.numberOfItems(inSection: section) - 1
+//            let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+//            self.collection_lockall.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+//            }
+//        }
        }
     
     
@@ -1770,6 +1774,95 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
             collection_lockall.reloadData()
     }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        //Where elements_count is the count of all your items in that
+        //Collection view...
+        if collectionView == collection_lockall {
+            let cellCount = CGFloat(arrSloat.count)
+
+            //If the cell count is zero, there is no point in calculating anything.
+            if cellCount <= 4 {
+                let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+                let cellWidth = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing
+
+                //20.00 was just extra spacing I wanted to add to my cell.
+                let totalCellWidth = cellWidth*cellCount + 20.00 * (cellCount-1)
+                let contentWidth = collectionView.frame.size.width - collectionView.contentInset.left - collectionView.contentInset.right
+
+                if (totalCellWidth < contentWidth) {
+                    //If the number of cells that exists take up less room than the
+                    //collection view width... then there is an actual point to centering them.
+
+                    //Calculate the right amount of padding to center the cells.
+                    let padding = (contentWidth - totalCellWidth) / 2.0
+                    return UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+                } else {
+                    //Pretty much if the number of cells that exist take up
+                    //more room than the actual collectionView width, there is no
+                    // point in trying to center them. So we leave the default behavior.
+                    return UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
+                }
+            }
+
+        }
+        return UIEdgeInsets.zero
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        let cellWidth : CGFloat = (collection_lockall.frame.width)/5
+//        let totalCellWidth = 80 * collectionView.numberOfItems(inSection: 0)
+//        let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
+//
+//        let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+//        let rightInset = leftInset
+//
+//        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+//
+//    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//            let cellWidth : CGFloat = (collection_lockall.frame.width)/5
+//            let numberOfCells = floor(collectionView.frame.size.width / cellWidth)
+//            let edgeInsets = (collectionView.frame.size.width - (numberOfCells * cellWidth)) / (numberOfCells + 1)
+//
+//        return UIEdgeInsets(top: 15, left: edgeInsets, bottom: 0, right: edgeInsets)
+//        }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        if collectionView == collection_lockall {
+//            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+//            let cellWidth: CGFloat = flowLayout.itemSize.width
+//            let cellHieght: CGFloat = flowLayout.itemSize.height
+//            let cellSpacing: CGFloat = flowLayout.minimumInteritemSpacing
+//            let cellCount = CGFloat(collectionView.numberOfItems(inSection: section))
+//            var collectionWidth = collectionView.frame.size.width
+//            var collectionHeight = collectionView.frame.size.height
+//            if #available(iOS 11.0, *) {
+//                collectionWidth -= collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right
+//                collectionHeight -= collectionView.safeAreaInsets.top + collectionView.safeAreaInsets.bottom
+//            }
+//            let totalWidth = cellWidth * cellCount + cellSpacing * (cellCount - 1)
+//            let totalHieght = cellHieght * cellCount + cellSpacing * (cellCount - 1)
+//            if totalWidth <= collectionWidth {
+//                let edgeInsetWidth = (collectionWidth - totalWidth) / 2
+//
+//                print(edgeInsetWidth, edgeInsetWidth)
+//                return UIEdgeInsets(top: 5, left: edgeInsetWidth, bottom: flowLayout.sectionInset.top, right: edgeInsetWidth)
+//            } else {
+//                let edgeInsetHieght = (collectionHeight - totalHieght) / 2
+//                print(edgeInsetHieght, edgeInsetHieght)
+//                return UIEdgeInsets(top: edgeInsetHieght, left: flowLayout.sectionInset.top, bottom: edgeInsetHieght, right: flowLayout.sectionInset.top)
+//
+//            }
+//        }
+//        else
+//        {
+//            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        }
+//
+//    }
     
 }
 

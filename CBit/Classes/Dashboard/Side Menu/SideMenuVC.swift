@@ -52,7 +52,7 @@ class SideMenuVC: UIViewController {
             "Join Group",
             "My Group"
             ], isExpand: false),
-        SideMenu(title: "Ids", subMenus: nil, isExpand: false),
+        SideMenu(title: "Referral commission", subMenus: nil, isExpand: false),
         //SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "Horoscope", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
