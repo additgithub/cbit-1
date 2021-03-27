@@ -462,6 +462,7 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
             let cell = tableView.dequeueReusableCell(withIdentifier: "CriteriaCell") as! CriteriaCell
             
             cell.lblidname.text = "\(levellistarr[indexPath.row]["User"]!)"
+            cell.lblbenifits.text = "(\(levellistarr[indexPath.row]["ReffralList"]!))"
             
             return cell
         }
