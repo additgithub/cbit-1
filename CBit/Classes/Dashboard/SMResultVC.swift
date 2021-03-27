@@ -197,7 +197,7 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
                 cell.imgImage.sd_setImage(with: URL(string: winning_options[indexPath.row]["ImageUrl"] as! String), completed: nil)
                 cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
                 
-                if Int(self.dictContestDetail["answer"] as? String ?? "0") ==  winning_options[indexPath.row]["id"] as? Int && isfirst {
+                if Int(self.dictContestDetail["answer"] as! String) ==  Int(winning_options[indexPath.row]["id"] as! Int) && isfirst {
                     isfirst = false
                     func anotherFuncname() {
                             //statements of inner function

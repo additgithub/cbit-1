@@ -42,7 +42,7 @@ class SpinningMachineCell: UITableViewCell {
 //                                           width: collectionSloat.contentSize.width,
 //                                           height: collectionSloat.frame.height)
           //  collectionSloat.reloadData()
-            self.viewDidLayoutSubviews()
+           // self.viewDidLayoutSubviews()
         }
     }
     
@@ -53,64 +53,127 @@ class SpinningMachineCell: UITableViewCell {
 //        collectionSloat.layer.cornerRadius = 10
 //        collectionSloat.layer.borderWidth = 2
 //        collectionSloat.layer.borderColor = UIColor.black.cgColor
+      //  configAutoscrollTimer()
+    }
+    
+//    func viewDidLayoutSubviews() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            let section = 0
+//        let lastItemIndex = self.collectionSloat.numberOfItems(inSection: section) - 1
+//        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+//        //    self.scrollToIndexPath(path: indexPath)
+//        self.collectionSloat.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+////            self.collectionSloat.layoutSubviews()
+//        //    self.autoScroll()
+//        }
+//
+//
+//       }
+    
+    var timer:Timer?
+    var w:CGFloat=0.0
+    
+//     func viewDidAppear(_ animated: Bool) {
+//        configAutoscrollTimer()
+//    }
+    
+     func viewDidDisappear(_ animated: Bool) {
+        deconfigAutoscrollTimer()
+    }
+    
+    func configAutoscrollTimer()
+    {
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 0.01,
+                                         target: self,
+                                         selector: #selector(autoScrollView),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
+
+//        timr=Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(SpinningMachineCell.autoScrollView), userInfo: nil, repeats: true)
+     //   RunLoop.current.add(self.timr, forMode: .common)
+    }
+    
+    func deconfigAutoscrollTimer()
+    {
+        timer?.invalidate()
         
     }
     
-    func viewDidLayoutSubviews() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let section = 0
-        let lastItemIndex = self.collectionSloat.numberOfItems(inSection: section) - 1
-        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
-        //    self.scrollToIndexPath(path: indexPath)
-        self.collectionSloat.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
-//            self.collectionSloat.layoutSubviews()
-        //    self.autoScroll()
-        }
-
-
-       }
-    
-    func autoScroll () {
-        let co = collectionSloat.contentOffset.x
-        let no = co + 1
-
-        UIView.animate(withDuration: 0.001, delay: 0, options: .curveEaseInOut, animations: { [weak self]() -> Void in
-            self?.collectionSloat.contentOffset = CGPoint(x: no, y: 0)
-            }) { [weak self](finished) -> Void in
-                self?.autoScroll()
-        }
+    func onTimer()
+    {
+        autoScrollView()
     }
     
-    var scrollPoint: CGPoint?
-    var endPoint: CGPoint?
-    var scrollTimer: Timer?
-    var scrollingUp = false
-
-    func scrollToIndexPath(path: NSIndexPath) {
-        let atts = self.collectionSloat!.layoutAttributesForItem(at: path as IndexPath)
-        self.endPoint = CGPoint(x: 0, y: atts!.frame.origin.y - self.collectionSloat!.contentInset.top)
-        self.scrollPoint = self.collectionSloat!.contentOffset
-        self.scrollingUp = self.collectionSloat!.contentOffset.y > self.endPoint!.y
-
-        self.scrollTimer?.invalidate()
-        self.scrollTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(scrollTimerTriggered(timer:)), userInfo: nil, repeats: true)
-    }
-
-    @objc func scrollTimerTriggered(timer: Timer) {
-        let dif = abs(self.scrollPoint!.y - self.endPoint!.y) / 1000.0
-        let modifier: CGFloat = self.scrollingUp ? -30 : 30
-
-        self.scrollPoint = CGPoint(x: self.scrollPoint!.x, y: self.scrollPoint!.y + (modifier * dif))
-        self.collectionSloat?.contentOffset = self.scrollPoint!
-
-        if self.scrollingUp && self.collectionSloat!.contentOffset.y <= self.endPoint!.y {
-            self.collectionSloat!.contentOffset = self.endPoint!
-            timer.invalidate()
-        } else if !self.scrollingUp && self.collectionSloat!.contentOffset.y >= self.endPoint!.y {
-            self.collectionSloat!.contentOffset = self.endPoint!
-            timer.invalidate()
+    @objc func autoScrollView()
+    {
+        print("timer running...")
+        let initailPoint = CGPoint(x: w,y :0)
+        
+        if __CGPointEqualToPoint(initailPoint, collectionSloat.contentOffset)
+        {
+            if w<collectionSloat.contentSize.width
+            {
+                w += 1.0
+            }
+            else
+            {
+                w = -self.collectionSloat.frame.size.width
+            }
+            
+            let offsetPoint = CGPoint(x: w,y :0)
+            
+            collectionSloat.contentOffset=offsetPoint
+            
+        }
+        else
+        {
+            w=collectionSloat.contentOffset.x
         }
     }
+    
+//    func autoScroll () {
+//        let co = collectionSloat.contentOffset.x
+//        let no = co + 1
+//
+//        UIView.animate(withDuration: 0.001, delay: 0, options: .curveEaseInOut, animations: { [weak self]() -> Void in
+//            self?.collectionSloat.contentOffset = CGPoint(x: no, y: 0)
+//            }) { [weak self](finished) -> Void in
+//                self?.autoScroll()
+//        }
+//    }
+//
+//    var scrollPoint: CGPoint?
+//    var endPoint: CGPoint?
+//    var scrollTimer: Timer?
+//    var scrollingUp = false
+//
+//    func scrollToIndexPath(path: NSIndexPath) {
+//        let atts = self.collectionSloat!.layoutAttributesForItem(at: path as IndexPath)
+//        self.endPoint = CGPoint(x: 0, y: atts!.frame.origin.y - self.collectionSloat!.contentInset.top)
+//        self.scrollPoint = self.collectionSloat!.contentOffset
+//        self.scrollingUp = self.collectionSloat!.contentOffset.y > self.endPoint!.y
+//
+//        self.scrollTimer?.invalidate()
+//        self.scrollTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(scrollTimerTriggered(timer:)), userInfo: nil, repeats: true)
+//    }
+//
+//    @objc func scrollTimerTriggered(timer: Timer) {
+//        let dif = abs(self.scrollPoint!.y - self.endPoint!.y) / 1000.0
+//        let modifier: CGFloat = self.scrollingUp ? -30 : 30
+//
+//        self.scrollPoint = CGPoint(x: self.scrollPoint!.x, y: self.scrollPoint!.y + (modifier * dif))
+//        self.collectionSloat?.contentOffset = self.scrollPoint!
+//
+//        if self.scrollingUp && self.collectionSloat!.contentOffset.y <= self.endPoint!.y {
+//            self.collectionSloat!.contentOffset = self.endPoint!
+//            timer.invalidate()
+//        } else if !self.scrollingUp && self.collectionSloat!.contentOffset.y >= self.endPoint!.y {
+//            self.collectionSloat!.contentOffset = self.endPoint!
+//            timer.invalidate()
+//        }
+//    }
 
 
     override func setSelected(_ selected: Bool, animated: Bool) {
