@@ -105,9 +105,41 @@ class SideMenuVC: UIViewController {
         super.viewWillAppear(animated)
         labelUserName.text = Define.USERDEFAULT.value(forKey: "UserName") as? String ?? "No Name"
         
-        let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
-        imageProfile.sd_setImage(with: imageURL,
-                                 placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+        //let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
+        //imageProfile.sd_setImage(with: imageURL,
+                                 //placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+        
+       let userType = Define.USERDEFAULT.value(forKey: "UserCriteriaID") as? String
+        
+        if userType == "Master"
+        {
+            imageProfile.image = #imageLiteral(resourceName: "master")
+        }
+        else if userType == "Super Master"
+        {
+            imageProfile.image = #imageLiteral(resourceName: "s_master")
+        }
+        else if userType == "Top Master"
+        {
+            imageProfile.image = #imageLiteral(resourceName: "tm")
+        }
+        else if userType == "VIP"
+        {
+            imageProfile.image = #imageLiteral(resourceName: "vip")
+        }
+        else if userType == "RD"
+        {
+            imageProfile.image = #imageLiteral(resourceName: "rd")
+        }
+        else
+        {
+            let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
+            imageProfile.sd_setImage(with: imageURL,
+                                     placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+        }
+        
+        
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -127,7 +159,7 @@ class SideMenuVC: UIViewController {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
         else if arrSideMenu[10].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[11].arrSubMenu!.count * 60))
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[10].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -270,9 +302,9 @@ class SideMenuVC: UIViewController {
             self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
         }, with: "8")
         
-        sideMenuController?.cache(viewControllerGenerator: {
+       /* sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
-        }, with: "9")
+        }, with: "9")*/
         
         
         
@@ -364,7 +396,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 11{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 10{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -453,7 +485,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[11].isExpande = false
+            arrSideMenu[10].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
