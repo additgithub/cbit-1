@@ -503,7 +503,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-           // arrSideMenu[11].isExpande = false
+           // arrSideMenu[10].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -854,3 +854,10 @@ class SideMenuHeaderTVC: UITableViewCell {
     }
 }
 
+extension Int {
+    func withCommas() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value:self))!
+    }
+}

@@ -246,12 +246,20 @@ class IDsVC: UIViewController {
         datePicker?.show()
     }
     
+    var EMShow:Double = 0
+    
+    @IBAction func em_click(_ sender: UIButton) {
+        let alert = UIAlertController(title: "", message: "₹ \(EMShow)", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     func setdata(dict:[String:Any])  {
         
         lblyourid.text = "\(dict["UserCriteriaID"]!)"
         lblnetwork.text = "\(dict["UserRefferalNetwork"]!) Players"
+        lblleveltotal.text = "Total (\(referallistarr.count))"
         var EM:Double = 0
         var RefComm:Double = 0
         var TDS:Double = 0
@@ -262,12 +270,33 @@ class IDsVC: UIViewController {
             TDS = TDS + Double(item["TDS"] as! String)!
         }
         
-        lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2))"
+      EMShow = EM
+        
+        if (EM >= 10000000) {
+            EM = EM / 10000000;
+            lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) Cr"
+              } else if (EM >= 100000) {
+                EM = EM / 100000;
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
+              } else if (EM >= 10000) {
+                EM = EM / 10000;
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) K"
+              }
+        else
+              {
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2))"
+              }
+        
+       
         lblrefcomtotal.text = "₹ \(RefComm.rounded(toPlaces: 2))"
-        lbltdstotal.text = "\(TDS.rounded(toPlaces: 2))%"
+        lbltdstotal.text = "₹ \(TDS.rounded(toPlaces: 2))"
         
         lblreferaltotal.text = "\(dict["UserRefferalNetwork"]!)"
         self.tbllist.reloadData()
+    }
+    
+    func RoundAmt(amount:Double)  {
+      
     }
     
     
@@ -436,9 +465,32 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
             
             cell.lbllevel.text = "L \(referallistarr[indexPath.row]["Level"]!)"
             cell.lblreferal.text = "\(referallistarr[indexPath.row]["Refferel"]!)"
-            cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
+           // cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
+            var EM = (Double(referallistarr[indexPath.row]["EM"] as! String))!
+            if (EM >= 10000000) {
+                EM = EM / 10000000;
+                cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) Cr"
+                  } else if (EM >= 100000) {
+                    EM = EM / 100000;
+                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
+                  } else if (EM >= 10000) {
+                    EM = EM / 10000;
+                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) K"
+                  }
+            else
+                  {
+                    cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
+                  }
+            
             cell.lblrefcom.text = "₹ \((Double(referallistarr[indexPath.row]["RefComm"]as! String))!.rounded(toPlaces: 2))"
-            cell.lbltds.text = "\((Double(referallistarr[indexPath.row]["TDS"]as! String))!.rounded(toPlaces: 2))%"
+            cell.lbltds.text = "₹ \((Double(referallistarr[indexPath.row]["TDS"]as! String))!.rounded(toPlaces: 2))"
+            
+            let tapGestureem : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblemClick(tapGesture:)))
+            tapGestureem.delegate = self
+            tapGestureem.numberOfTapsRequired = 1
+            cell.lblem.isUserInteractionEnabled = true
+            cell.lblem.tag = indexPath.row
+            cell.lblem.addGestureRecognizer(tapGestureem)
             
             let tapGesture : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblClick(tapGesture:)))
             tapGesture.delegate = self
@@ -475,6 +527,14 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         vwpopuplevel.isHidden = false
         lbllevel.text = "Level \(referallistarr[tapGesture.view!.tag]["Level"]!)"
         getReferralPopup(level: referallistarr[tapGesture.view!.tag]["Level"] as! Int)
+    }
+    
+    @objc func lblemClick(tapGesture:UITapGestureRecognizer){
+       print("Lable tag is:\(tapGesture.view!.tag)")
+        let alert = UIAlertController(title: "", message: "₹ \(Double(referallistarr[tapGesture.view!.tag]["EM"] as! String) ?? 0)", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+       
     }
 }
 
