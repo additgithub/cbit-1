@@ -157,7 +157,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
            // constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
         }
         
-        let widthlockall = (collection_lockall.frame.width)/5
+        let widthlockall = (collection_lockall.frame.width)/5-10
         let layout = collection_lockall?.collectionViewLayout as! UICollectionViewFlowLayout
         layout.itemSize = CGSize(width: widthlockall, height: widthlockall)
         
@@ -1084,17 +1084,21 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
       
        // second = (dictGameData["duration"] as? Int)!
         
-        let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-        for _ in 1..<500
-        {
-            for dict in arrSloats {
-                let img = loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
-                if imageIsNullOrNot(imageName: img) {
-                    randomarr.append(img)
+        DispatchQueue.global(qos: .background).async {
+            let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+            for _ in 1..<500
+            {
+                for dict in arrSloats {
+                    let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
+                    if self.imageIsNullOrNot(imageName: img) {
+                        self.randomarr.append(img)
+                    }
+                    
                 }
-                
             }
+
         }
+        
         //  labelTimer.text = ""
         if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
             self.configFadeTimer()

@@ -53,7 +53,7 @@ class SpinningMachineCell: UITableViewCell {
 //        collectionSloat.layer.cornerRadius = 10
 //        collectionSloat.layer.borderWidth = 2
 //        collectionSloat.layer.borderColor = UIColor.black.cgColor
-      //  configAutoscrollTimer()
+       // configAutoscrollTimer()
     }
     
 //    func viewDidLayoutSubviews() {
@@ -109,28 +109,66 @@ class SpinningMachineCell: UITableViewCell {
     @objc func autoScrollView()
     {
         print("timer running...")
-        let initailPoint = CGPoint(x: w,y :0)
+       
         
-        if __CGPointEqualToPoint(initailPoint, collectionSloat.contentOffset)
-        {
-            if w<collectionSloat.contentSize.width
+        let scrollViewWidth = collectionSloat.frame.size.width
+            let scrollContentSizeWidth = collectionSloat.contentSize.width
+             let scrollOffset = collectionSloat.contentOffset.x
+
+            if (scrollOffset == 0)
             {
-                w += 1.0
+                // then we are at the top
+                print("then we are at the top")
+                let initailPoint = CGPoint(x: w,y :0)
+                if __CGPointEqualToPoint(initailPoint, collectionSloat.contentOffset)
+                {
+                    if w<collectionSloat.contentSize.width
+                    {
+                        w += 1.0
+                    }
+                    else
+                    {
+                        w = -self.collectionSloat.frame.size.width
+                    }
+                    
+                    let offsetPoint = CGPoint(x: w,y :0)
+                    
+                    collectionSloat.contentOffset=offsetPoint
+                    
+                }
+                else
+                {
+                    w=collectionSloat.contentOffset.x
+                }
             }
-            else
+            else if (scrollOffset + scrollViewWidth == scrollContentSizeWidth)
             {
-                w = -self.collectionSloat.frame.size.width
+                print("then we are at the end")
+                // then we are at the end
+                let initailPoint = CGPoint(x: w,y :0)
+                if __CGPointEqualToPoint(initailPoint, collectionSloat.contentOffset)
+                {
+                    if w<collectionSloat.contentSize.width
+                    {
+                        w -= 1.0
+                    }
+                    else
+                    {
+                        w = self.collectionSloat.frame.size.width
+                    }
+                    
+                    let offsetPoint = CGPoint(x: w,y :0)
+                    
+                    collectionSloat.contentOffset=offsetPoint
+                    
+                }
+                else
+                {
+                    w=collectionSloat.contentOffset.x
+                }
             }
-            
-            let offsetPoint = CGPoint(x: w,y :0)
-            
-            collectionSloat.contentOffset=offsetPoint
-            
-        }
-        else
-        {
-            w=collectionSloat.contentOffset.x
-        }
+        
+  
     }
     
 //    func autoScroll () {
