@@ -259,7 +259,7 @@ class IDsVC: UIViewController {
         
         lblyourid.text = "\(dict["UserCriteriaID"]!)"
         lblnetwork.text = "\(dict["UserRefferalNetwork"]!) Players"
-        lblleveltotal.text = "Total (\(referallistarr.count))"
+       // lblleveltotal.text = "Total (\(referallistarr.count))"
         var EM:Double = 0
         var RefComm:Double = 0
         var TDS:Double = 0

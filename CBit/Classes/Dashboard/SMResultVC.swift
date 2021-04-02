@@ -10,6 +10,7 @@ import UIKit
 
 class SMResultVC: UIViewController {
     
+    @IBOutlet weak var tblresultheight: NSLayoutConstraint!
     @IBOutlet weak var collection_original: UICollectionView!
     @IBOutlet weak var lblnowin: UILabel!
     @IBOutlet weak var ccwinning: UILabel!
@@ -80,6 +81,8 @@ class SMResultVC: UIViewController {
         let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
         self.collectionitem.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
         }
+        tblresultheight.constant = tableResult.contentSize.height
+        self.view.layoutSubviews()
        }
     
     
