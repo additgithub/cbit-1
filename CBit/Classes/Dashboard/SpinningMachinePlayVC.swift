@@ -16,6 +16,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //    @IBOutlet weak var imgzero: UIImageView!
 //    @IBOutlet weak var imgplus: UIImageView!
     
+    @IBOutlet weak var tblanswerheight: NSLayoutConstraint!
     @IBOutlet weak var collectionlockallheight: NSLayoutConstraint!
     @IBOutlet weak var collection_lockall: UICollectionView!
     @IBOutlet var collection_slot: UICollectionView!
@@ -179,13 +180,13 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 
         
         //collection_slot.semanticContentAttribute = .forceRightToLeft
-        storeimage = Define.Globalimagearr
-        for _ in 1..<20
-        {
-            for dict in storeimage {
-                itemarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
-            }
-        }
+//        storeimage = Define.Globalimagearr
+//        for _ in 1..<20
+//        {
+//            for dict in storeimage {
+//                itemarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+//            }
+//        }
         
         
         
@@ -201,7 +202,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //            originalarr.append(UIImage(named: "cherry")!)
 //        }
         
-       slotarr = itemarr
+      
         
         
         
@@ -263,6 +264,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     override func viewDidLayoutSubviews() {
         let height = collection_lockall.collectionViewLayout.collectionViewContentSize.height
           collectionlockallheight.constant = height
+        tblanswerheight.constant = tableAnswer.contentSize.height
           self.view.layoutIfNeeded()
 //        if isfirst {
 //            isfirst = false
@@ -1035,6 +1037,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 
     }
     
+    var isfirstload = true
+    
     func   setData(isfromtime:Bool) {
         
         arrTickets = dictGameData["tickets"] as! [[String: Any]]
@@ -1081,23 +1085,52 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         print("secondsspre",second)
         
         //
-      
+        self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+        let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
+
        // second = (dictGameData["duration"] as? Int)!
-        
-        DispatchQueue.global(qos: .background).async {
-            let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-            for _ in 1..<500
-            {
-                for dict in arrSloats {
-                    let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
-                    if self.imageIsNullOrNot(imageName: img) {
-                        self.randomarr.append(img)
+        if isfirstload {
+            isfirstload = false
+            
+            self.originalarr = [UIImage]()
+            for box in self.arrBrackets {
+                for option in winning_options {
+                    let number = box["number"]!
+                    let objectNo = option["objectNo"]!
+                    if number as? NSObject == objectNo as? NSObject{
+                        self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
                     }
-                    
+                }
+            }
+            
+            for _ in 1..<20
+            {
+                for option in winning_options {
+                    let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
+                    if self.imageIsNullOrNot(imageName: img) {
+                        self.itemarr.append(img)
+                    }
                 }
             }
 
+            slotarr = itemarr
+            
+            DispatchQueue.global(qos: .background).async {
+                let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+                for _ in 1..<500
+                {
+                    for dict in arrSloats {
+                        let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
+                        if self.imageIsNullOrNot(imageName: img) {
+                            self.randomarr.append(img)
+                        }
+                        
+                    }
+                }
+
+            }
         }
+       
         
         //  labelTimer.text = ""
         if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
@@ -1114,21 +1147,11 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             self.fadevw.isHidden = true
         }
         
-        self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-        let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
-        self.originalarr = [UIImage]()
-        for box in self.arrBrackets {
-            for option in winning_options {
-                let number = box["number"]!
-                let objectNo = option["objectNo"]!
-                if number as? NSObject == objectNo as? NSObject{
-                    self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-                }
-            }
-        }
+  
 //                        if self.originalarr.count > 0 {
 //                            self.slotarr = self.originalarr
 //                        }
+        collection_slot.reloadData()
         self.collection_original.reloadData()
 
   //      self.slotarr = self.itemarr
@@ -1647,7 +1670,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         if endGameSecond > 0 {
             endGameSecond = endGameSecond - 1
             if setSoundEffect == nil {
-                setSound()
+               // setSound()
             }
         } else {
             
