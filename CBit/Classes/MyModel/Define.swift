@@ -189,6 +189,8 @@ class Define {
     static let ALL_PRIVATE_GROUP_REQUEST_JOIN = "requestToJoinPrivateGroup"
     static let ALL_PRIVATE_GROUP_REQUEST_ACCEPT_DECLINE = "acceptDeclineRequest"
     
+    static let ALL_Category_list = "selectCategoryImages"
+    
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
      static let PLACEHOLDER_PROFILE_SIDE_IMAGE = #imageLiteral(resourceName: "sidemenuicon")

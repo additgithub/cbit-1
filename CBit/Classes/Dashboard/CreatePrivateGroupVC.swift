@@ -34,6 +34,8 @@ class CreatePrivateGroupVC: UIViewController {
     @IBOutlet weak var lockStyle3: M13Checkbox!
     
     private var arrUserGroupList = [AllUserListData]()
+    private var arrMainCategoryList = [CategoryListData]()
+    private var arrSubCategoryList = [CategoryListData]()
     
     @IBOutlet weak var img_spinningmachine: UIImageView!
     @IBOutlet weak var collectionviewtickets: UICollectionView!
@@ -94,6 +96,8 @@ class CreatePrivateGroupVC: UIViewController {
         
         const_NOSVw.constant = 0.0
         const_NOSVw.priority = UILayoutPriority(rawValue: 1000)
+        
+        CallCategoryList()
         
     }
     
@@ -479,6 +483,59 @@ class CreatePrivateGroupVC: UIViewController {
         }
     }
     
+    func CallCategoryList() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [
+            "":""
+        ]
+        let strURL = Define.APP_URL + Define.ALL_Category_list
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strBase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data": strBase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { [self] (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.retry()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
+                        
+                        let categoryListModel = try? JSONDecoder().decode(CategoryListModel.self, from: jsonData)
+                        
+                        let arrCategoryList = categoryListModel!.content!
+                        
+                        
+                       
+                        
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                    
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Alert",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
     func CallEditPrivateGame() {
         Loading().showLoading(viewController: self)
         var game_type = ""
@@ -770,6 +827,35 @@ extension CreatePrivateGroupVC {
     
     
     
+}
+
+
+
+//   let categoryListModel = try? newJSONDecoder().decode(CategoryListModel.self, from: jsonData)
+
+import Foundation
+
+// MARK: - CategoryListModel
+struct CategoryListModel: Codable {
+    let statusCode: Int?
+    let content: [CategoryListData]?
+    let message: String?
+}
+
+// MARK: - Content
+struct CategoryListData: Codable {
+    let categoryID: Int?
+    let categoryName, createdAt: String?
+    let id: Int?
+    let image: String?
+    let name: String?
+    let status: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case categoryID, categoryName
+        case createdAt = "created_at"
+        case id, image, name, status
+    }
 }
 
 
