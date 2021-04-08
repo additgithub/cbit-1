@@ -55,6 +55,9 @@ class CreatePrivateGroupVC: UIViewController {
     @IBOutlet weak var const_GametypeVw: NSLayoutConstraint!
     @IBOutlet weak var const_NOSVw: NSLayoutConstraint!
     
+    @IBOutlet weak var lbl_group_name: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -270,7 +273,11 @@ class CreatePrivateGroupVC: UIViewController {
         }
     }
     
-    
+    @IBAction func btn_GROUP_LEFT_RIGHT(_ sender: UIButton) {
+        //0=left key , 1=right key
+        
+        
+    }
     
     @IBAction func back_click(_ sender: UIButton) {
         //self.navigationController?.popViewController(animated: true)
@@ -516,7 +523,14 @@ class CreatePrivateGroupVC: UIViewController {
                         
                         let arrCategoryList = categoryListModel!.content!
                         
+                        let arrMainCategory = [CategoryListData]()
                         
+                        for item in arrCategoryList
+                        {
+                            
+                            
+                            
+                        }
                        
                         
                     } catch {
