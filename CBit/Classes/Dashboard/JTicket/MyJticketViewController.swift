@@ -186,7 +186,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             userCell.lbljticketno.text! = arrMyJTicket[indexPath.row]["ticket_number"] as? String ?? ""
             // userCell.lblwaitingno.text! = "\(arrMyJTicket[indexPath.row]["waiting"] as? Int ??
             
-            let date = arrMyJTicket[indexPath.row]["ApplyDate"] as? String ?? ""
+            let date = arrMyJTicket[indexPath.row]["HitDate"] as? String ?? ""
             if date != ""
             {
                 userCell.lbldate.text! =   MyModel().convertStringDateToString(strDate:date,
@@ -772,12 +772,7 @@ extension MyJticketViewController {
                     
                     
                     
-                    let APD = "\(apddict.value(forKey:"ADP") as? String ?? "0.00")"
-                    
-                    guard let amountPB = Double(APD) else {
-                        return
-                    }
-                    self.lblapd.text = MyModel().getCurrncy(value: amountPB)
+                 
                     
                     // self.lblapd.text! = "₹" + "\(Double(APD)!.rounded(toPlaces:2))"
                     
@@ -800,6 +795,14 @@ extension MyJticketViewController {
                         self.tbllistingMyjticket.setContentOffset(.zero, animated: true)
                         self.tbllistingMyjticket.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
                     }
+                    
+                    let APD = "\(content["ADP"] as? String ?? "0")"
+               
+//                    guard let amountPB = APD.toDouble() else {
+//                        return
+//                    }
+                   // self.lblapd.text = MyModel().getCurrncy(value: amountPB)
+                    self.lblapd.text = APD
                     
                     
                 } else if status == 401 {
@@ -1118,4 +1121,10 @@ extension MyJticketViewController {
     
     
     
+}
+
+extension String {
+    func toDouble() -> Double? {
+        return NumberFormatter().number(from: self)?.doubleValue
+    }
 }

@@ -305,9 +305,11 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     func configAutoscrollTimer()
     {
+        if timerautoscroll == nil {
+            timerautoscroll=Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(SpinningMachinePlayVC.autoScrollView), userInfo: nil, repeats: true)
+            RunLoop.current.add(self.timerautoscroll!, forMode: .common)
+           }
         
-        timerautoscroll=Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(SpinningMachinePlayVC.autoScrollView), userInfo: nil, repeats: true)
-        RunLoop.current.add(self.timerautoscroll!, forMode: .common)
     }
     
     func configFadeTimer()
@@ -347,31 +349,31 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     @objc func autoScrollView()
     {
         let initailPoint = CGPoint(x: 0,y :w)
-        if(LoadSpeed > 0.70 || speed < 10){
-            speed = 10
-        }else if(LoadSpeed > 0.50){
-            LoadSpeed = (LoadSpeed * 1.005)
-        }else{
-        LoadSpeed = (LoadSpeed * 1.09)
-        }
-        speed = speed-LoadSpeed
-        if(speed <= 0){
-            speed = 0
-            deconfigAutoscrollTimer()
-        }
-        var LessSpeed = speed-(speed*2)
-        if(speed >= 47){
-            LessSpeed = 60
-        }
+//        if(LoadSpeed > 0.70 || speed < 10){
+//            speed = 10
+//        }else if(LoadSpeed > 0.50){
+//            LoadSpeed = (LoadSpeed * 1.005)
+//        }else{
+//        LoadSpeed = (LoadSpeed * 1.09)
+//        }
+//        speed = speed-LoadSpeed
+//        if(speed <= 0){
+//            speed = 0
+//            deconfigAutoscrollTimer()
+//        }
+//        var LessSpeed = speed-(speed*2)
+//        if(speed >= 47){
+//            LessSpeed = 60
+//        }
 //        LessSpeed = -5
-        print("LOADSPPED",LoadSpeed)
-        print("LessSpeed",LessSpeed)
-        print("SPPED",speed)
+//        print("LOADSPPED",LoadSpeed)
+//        print("LessSpeed",LessSpeed)
+       // print("SPPED",speed)
         if __CGPointEqualToPoint(initailPoint, collection_slot.contentOffset)
         {
             if w<collection_slot.contentSize.height
             {
-                w += CGFloat(LessSpeed)
+                w += CGFloat(08)
             }
             else
             {
@@ -1092,40 +1094,47 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         if isfirstload {
             isfirstload = false
             
-            self.originalarr = [UIImage]()
-            for box in self.arrBrackets {
-                for option in winning_options {
-                    let number = box["number"]!
-                    let objectNo = option["objectNo"]!
-                    if number as? NSObject == objectNo as? NSObject{
-                        self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-                    }
-                }
-            }
-            
-            for _ in 1..<20
-            {
-                for option in winning_options {
-                    let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
-                    if self.imageIsNullOrNot(imageName: img) {
-                        self.itemarr.append(img)
-                    }
-                }
-            }
-
-            slotarr = itemarr
+          
             
             DispatchQueue.global(qos: .background).async {
+                
+//                self.originalarr = [UIImage]()
+//                for box in self.arrBrackets {
+//                    for option in winning_options {
+//                        let number = box["number"]!
+//                        let objectNo = option["objectNo"]!
+//                        if number as? NSObject == objectNo as? NSObject{
+//                            self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
+//                        }
+//                    }
+//                    print("Bracketlooprunning")
+//                }
+                
+//                for _ in 1..<20
+//                {
+//                    for option in winning_options {
+//                        let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
+//                        if self.imageIsNullOrNot(imageName: img) {
+//                            self.itemarr.append(img)
+//                        }
+//                    }
+//                    print("WinningOptionlooprunning")
+//                }
+
+               // self.slotarr = self.itemarr
+                
                 let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-                for _ in 1..<500
+                for _ in 1..<200
                 {
                     for dict in arrSloats {
                         let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
                         if self.imageIsNullOrNot(imageName: img) {
-                            self.randomarr.append(img)
+                            self.slotarr.append(img)
                         }
                         
                     }
+                    print("Randomarrcount:",self.slotarr.count)
+                    print("Slotlooprunning")
                 }
 
             }
@@ -1138,7 +1147,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         }
         else
         {
-            self.slotarr = self.randomarr
+            //self.slotarr = self.randomarr
             self.deconfigFadeTimer()
             if self.timerautoscroll == nil {
                 self.configAutoscrollTimer()
@@ -1430,7 +1439,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             
             if  (Int(gameTime)! == 40 )  //&& Int(gameTime)! >= 30 &&  Int(gameTime)! >= 0{
             {
-                slotarr = randomarr
+               // slotarr = randomarr
                 deconfigFadeTimer()
                 configAutoscrollTimer()
             }
@@ -1737,6 +1746,7 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == collection_slot {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
             cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            print("SLOTARR:",slotarr.count)
             return cell
         }
         if collectionView == collection_original {

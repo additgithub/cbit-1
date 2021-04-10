@@ -126,6 +126,7 @@ class WalletVC: UIViewController {
     }
     
     @IBAction func btn_WALLATE_J_ASSET(_ sender: Any) {
+        CallJAssetData()
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
