@@ -118,17 +118,17 @@ class SpinningMachineTicketVC: UIViewController {
             }
 
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
-           // Code you want to be delayed
-            for dict in Define.Globalimagearr {
-                self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
-                    }
-                    for _ in 1..<5
-                    {
-                        self.itemarr.append(contentsOf: self.itemarr)
-                    }
-       //     self.collection_original.reloadData()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
+//           // Code you want to be delayed
+//            for dict in Define.Globalimagearr {
+//                self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+//                    }
+//                    for _ in 1..<5
+//                    {
+//                        self.itemarr.append(contentsOf: self.itemarr)
+//                    }
+//       //     self.collection_original.reloadData()
+//        }
                
 
         
@@ -337,6 +337,34 @@ class SpinningMachineTicketVC: UIViewController {
         tableTickets.reloadData()
         isDataLoaded = true
         
+        let winning_options = dictContestDetail["winning_options"] as! [[String: Any]]
+        for _ in 1..<10
+        {
+            for option in winning_options {
+                let img = self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String)
+                if self.imageIsNullOrNot(imageName: img) {
+                    self.itemarr.append(img)
+                }
+            }
+        }
+
+        self.collection_original.reloadData()
+
+        
+    }
+    
+    func imageIsNullOrNot(imageName : UIImage)-> Bool
+    {
+        
+        let size = CGSize(width: 0, height: 0)
+        if (imageName.size.width == size.width)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
     }
     
     //MARK: - Button Method
