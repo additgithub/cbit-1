@@ -134,10 +134,12 @@
 		2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */; };
 		2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */; };
 		2F6FDC9625D64C5200555712 /* SpinningMachinePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */; };
+		2F7C3C872621CEBE0019578F /* waiting_timer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */; };
 		2F7D448525D69EFB00554F40 /* SMGameAnswerOneTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */; };
 		2F804F8025D3DC610025C138 /* SpinningMachineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */; };
 		2F804F8325D3EFB80025C138 /* SpinningMachineTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */; };
 		2F8FBDC925D7B36600603A48 /* SMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FBDC825D7B36600603A48 /* SMResultVC.swift */; };
+		2FA9D5CD2621E086008EC7FD /* message_tone_lg_no1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */; };
 		2FC1FB8C25E51F6800A556BF /* AGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */; };
 		2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */; };
 		2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */; };
@@ -347,10 +349,12 @@
 		2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMResultVC.swift; sourceTree = "<group>"; };
 		2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineCell.swift; sourceTree = "<group>"; };
 		2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachinePlayVC.swift; sourceTree = "<group>"; };
+		2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = waiting_timer.mp3; sourceTree = "<group>"; };
 		2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMGameAnswerOneTVC.swift; sourceTree = "<group>"; };
 		2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineVC.swift; sourceTree = "<group>"; };
 		2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineTicketVC.swift; sourceTree = "<group>"; };
 		2F8FBDC825D7B36600603A48 /* SMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMResultVC.swift; sourceTree = "<group>"; };
+		2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no1.mp3; sourceTree = "<group>"; };
 		2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMTicketVC.swift; sourceTree = "<group>"; };
 		2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMPlayVC.swift; sourceTree = "<group>"; };
 		2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGameResultVC.swift; sourceTree = "<group>"; };
@@ -503,6 +507,8 @@
 				1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */,
 				1F29B485250A767B00989E3A /* notify.wav */,
 				1F4F2DA3227ACC5B009C4F9D /* Tick Tock.mp3 */,
+				2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */,
+				2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -943,6 +949,7 @@
 				1F3FA2722269984400D8E4BC /* ViewAcitvityIndicator.xib in Resources */,
 				04468450243C8B6D00E80800 /* LockAll.xib in Resources */,
 				1F5DB44E222FECF200EF5FD5 /* ViewFilter.xib in Resources */,
+				2F7C3C872621CEBE0019578F /* waiting_timer.mp3 in Resources */,
 				1FA38B0322857F8D00258D9E /* Ubuntu-M.ttf in Resources */,
 				01ED758223476BC00049F7CF /* GoogleService-Info.plist in Resources */,
 				1FA38B0222857F8D00258D9E /* Ubuntu-R.ttf in Resources */,
@@ -953,6 +960,7 @@
 				1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */,
 				1F5DB44C222FECB000EF5FD5 /* ViewShorting.xib in Resources */,
 				1F4F2DA4227ACC5B009C4F9D /* Tick Tock.mp3 in Resources */,
+				2FA9D5CD2621E086008EC7FD /* message_tone_lg_no1.mp3 in Resources */,
 				B0C152D122C745CB00B6B801 /* Montserrat-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

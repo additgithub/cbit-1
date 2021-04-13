@@ -995,6 +995,7 @@ extension TicketVC {
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     
                     self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+                    self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
                     paymentVC.isFromLink = self.isFromLink
@@ -1109,10 +1110,47 @@ extension TicketVC {
                content.categoryIdentifier = "alarm"
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]
-               content.sound = UNNotificationSound.default
-           // content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "123.mp3"))
+             //  content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
             
                let reminderDate = MyModel().getDateForRemiderbeforetensecond(contestDate: strDate)
+                let timeInterval = reminderDate.timeIntervalSinceNow
+               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+
+               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+               center.add(request)
+            
+        }
+    }
+    
+    func createReminderbeforethirtysecond(strTitle: String, strDate: String) {
+        var isRemiderSet = Bool()
+        
+        for item in arrTicket {
+            let isPrc = item["isAlreadyPurchase"] as? Bool ?? false
+            if isPrc {
+                isRemiderSet = true
+                break
+            } else {
+                isRemiderSet = false
+            }
+        }
+        if isRemiderSet {
+            return
+        } else {
+            
+            let center = UNUserNotificationCenter.current()
+
+            let content = UNMutableNotificationContent()
+               content.title = strTitle
+               content.body = "Your game starts soon, Hurry!!!!"
+               content.categoryIdentifier = "alarm"
+         //   content.categoryIdentifier = Define.PLAYGAME
+             //  content.userInfo = ["customData": "fizzbuzz"]
+          //     content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no1.mp3"))
+            
+               let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
                 let timeInterval = reminderDate.timeIntervalSinceNow
                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
 
