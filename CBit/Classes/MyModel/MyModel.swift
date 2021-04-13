@@ -142,7 +142,21 @@ class MyModel {
         let startDate = dateFormater.date(from: contestDate)
         
         let calendar = NSCalendar.current
-        let minusDate = calendar.date(byAdding: .second, value: -10, to: startDate!)
+        let minusDate = calendar.date(byAdding: .second, value: -15, to: startDate!)
+        
+        return minusDate!
+        
+    }
+    
+    func getDateForRemiderbeforethirtysecond(contestDate: String) -> Date {
+        
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let startDate = dateFormater.date(from: contestDate)
+        
+        let calendar = NSCalendar.current
+        let minusDate = calendar.date(byAdding: .second, value: -30, to: startDate!)
         
         return minusDate!
         

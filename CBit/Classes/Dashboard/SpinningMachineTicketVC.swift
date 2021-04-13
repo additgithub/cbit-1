@@ -1199,6 +1199,8 @@ extension SpinningMachineTicketVC {
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     
                     self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+                    self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+                    self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
                     paymentVC.isFromLink = self.isFromLink
                     self.navigationController?.pushViewController(paymentVC, animated: true)
@@ -1271,6 +1273,97 @@ extension SpinningMachineTicketVC {
             
         }
     }
+    
+    func createReminderbeforetensecond(strTitle: String, strDate: String) {
+        var isRemiderSet = Bool()
+        
+        for item in arrTicket {
+            let isPrc = item["isAlreadyPurchase"] as? Bool ?? false
+            if isPrc {
+                isRemiderSet = true
+                break
+            } else {
+                isRemiderSet = false
+            }
+        }
+        if isRemiderSet {
+            return
+        } else {
+//            let reminder = EKReminder(eventStore: Define.APPDELEGATE.eventStore!)
+//
+//            reminder.title = strTitle
+//            reminder.calendar = Define.APPDELEGATE.eventStore?.defaultCalendarForNewReminders()
+//            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
+//            print("Date: \(reminderDate)")
+//            let alarm = EKAlarm(absoluteDate: reminderDate)
+//            reminder.addAlarm(alarm)
+//            do {
+//
+//                try Define.APPDELEGATE.eventStore?.save(reminder, commit: true)
+//                print("Timer Set")
+//            } catch {
+//                print("Reminder failed with error \(error.localizedDescription)")
+//            }
+            
+            let center = UNUserNotificationCenter.current()
+
+            let content = UNMutableNotificationContent()
+               content.title = strTitle
+               content.body = "Your game starts soon, Hurry!!!!"
+               content.categoryIdentifier = "alarm"
+          //  content.categoryIdentifier = Define.PLAYGAME
+             //  content.userInfo = ["customData": "fizzbuzz"]
+           //    content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
+            
+               let reminderDate = MyModel().getDateForRemiderbeforetensecond(contestDate: strDate)
+                let timeInterval = reminderDate.timeIntervalSinceNow
+               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+
+               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+               center.add(request)
+            
+        }
+    }
+    
+    func createReminderbeforethirtysecond(strTitle: String, strDate: String) {
+        var isRemiderSet = Bool()
+        
+        for item in arrTicket {
+            let isPrc = item["isAlreadyPurchase"] as? Bool ?? false
+            if isPrc {
+                isRemiderSet = true
+                break
+            } else {
+                isRemiderSet = false
+            }
+        }
+        if isRemiderSet {
+            return
+        } else {
+            
+            let center = UNUserNotificationCenter.current()
+
+            let content = UNMutableNotificationContent()
+               content.title = strTitle
+               content.body = "Your game starts soon, Hurry!!!!"
+               content.categoryIdentifier = "alarm"
+          //  content.categoryIdentifier = Define.PLAYGAME
+             //  content.userInfo = ["customData": "fizzbuzz"]
+           // content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no1.mp3"))
+            
+               let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
+                let timeInterval = reminderDate.timeIntervalSinceNow
+               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+
+               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+               center.add(request)
+            
+        }
+    }
+
+
     
 }
 

@@ -393,7 +393,7 @@ extension IDsVC
     }
     
     
-    func getReferralPopup(level:Int) {
+    func getReferralPopup(level:String) {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = ["Level": level
         ]
@@ -463,7 +463,7 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "IDCell") as! IDCell
             
-            cell.lbllevel.text = "L \(referallistarr[indexPath.row]["Level"]!)"
+            cell.lbllevel.text = "\(referallistarr[indexPath.row]["Level"]!)"
             cell.lblreferal.text = "\(referallistarr[indexPath.row]["Refferel"]!)"
            // cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
             var EM = (Double(referallistarr[indexPath.row]["EM"] as! String))!
@@ -526,7 +526,7 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         self.view.bringSubviewToFront(vwpopuplevel)
         vwpopuplevel.isHidden = false
         lbllevel.text = "Level \(referallistarr[tapGesture.view!.tag]["Level"]!)"
-        getReferralPopup(level: referallistarr[tapGesture.view!.tag]["Level"] as! Int)
+        getReferralPopup(level: referallistarr[tapGesture.view!.tag]["Level"] as! String)
     }
     
     @objc func lblemClick(tapGesture:UITapGestureRecognizer){

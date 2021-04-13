@@ -373,7 +373,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         {
             if w<collection_slot.contentSize.height
             {
-                w += CGFloat(08)
+                w += CGFloat(05)
             }
             else
             {
@@ -908,6 +908,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //                                           buttonAnsPlus.isEnabled = true
 //                                           buttonAnsZero.isEnabled = true
                     collection_lockall.isUserInteractionEnabled = true
+                    collection_lockall.allowsSelection = true
                     self.getContestDetail(isfromtimer: true, isStart: 0)
                 }
                 
