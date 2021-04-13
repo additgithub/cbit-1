@@ -47,7 +47,8 @@ class ViewWithShadowAndBorder: UIView {
     }
     
     private func setView() {
-        backgroundColor = UIColor.white
+        backgroundColor = #colorLiteral(red: 0, green: 0.2549019608, blue: 0, alpha: 1)
+        //backgroundColor = UIColor.white
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -100,7 +101,7 @@ class ViewWithYellowBG: UIView {
     
     private func setView() {
        // backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.7764705882, blue: 0.09803921569, alpha: 1)
-        backgroundColor = #colorLiteral(red: 0, green: 0.2535815537, blue: 0, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0, green: 0.2549019608, blue: 0, alpha: 1)
     }
 }
 
