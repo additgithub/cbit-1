@@ -90,19 +90,19 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         let UserCriteriaID = arrWinners[indexPath.row]["UserCriteriaID"] as? String ?? ""
         
         if UserCriteriaID == "Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "master")
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "Level Master")
         }
         else if UserCriteriaID == "Super Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "s_master")
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "sm_new")
         }
         else if UserCriteriaID == "Top Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "tm")
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "tm_new")
         }
         else if UserCriteriaID == "VIP" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "vip")
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "vip_new")
         }
         else if UserCriteriaID == "RD" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "rd")
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "LevelRD")
         }
         else
         {

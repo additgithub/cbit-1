@@ -52,7 +52,7 @@ class SideMenuVC: UIViewController {
            // "Join Group",
            // "My Group"
            // ], isExpand: false),
-        SideMenu(title: "Referral commission", subMenus: nil, isExpand: false),
+        SideMenu(title: "Referral Network", subMenus: nil, isExpand: false),
         //SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "Horoscope", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
@@ -113,23 +113,23 @@ class SideMenuVC: UIViewController {
         
         if userType == "Master"
         {
-            imageProfile.image = #imageLiteral(resourceName: "master")
+            imageProfile.image = #imageLiteral(resourceName: "Level Master")
         }
         else if userType == "Super Master"
         {
-            imageProfile.image = #imageLiteral(resourceName: "s_master")
+            imageProfile.image = #imageLiteral(resourceName: "sm_new")
         }
         else if userType == "Top Master"
         {
-            imageProfile.image = #imageLiteral(resourceName: "tm")
+            imageProfile.image = #imageLiteral(resourceName: "tm_new")
         }
         else if userType == "VIP"
         {
-            imageProfile.image = #imageLiteral(resourceName: "vip")
+            imageProfile.image = #imageLiteral(resourceName: "vip_new")
         }
         else if userType == "RD"
         {
-            imageProfile.image = #imageLiteral(resourceName: "rd")
+            imageProfile.image = #imageLiteral(resourceName: "LevelRD")
         }
         else
         {

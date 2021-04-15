@@ -35,6 +35,9 @@ class ThreeSloatTVC: UITableViewCell {
     @IBOutlet weak var labelAnswer: UILabel!
     @IBOutlet weak var labelAmount: UILabel!
     
+    
+   
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

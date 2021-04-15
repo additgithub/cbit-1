@@ -1897,6 +1897,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             setSoundEffect = try AVAudioPlayer(contentsOf: soundURL!)
             setSoundEffect!.numberOfLoops = 4
             setSoundEffect!.play()
+            viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
         } catch {
             print("Error In Sound PLay")
         }

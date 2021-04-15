@@ -11,6 +11,7 @@ import DropDown
 import ActionSheetPicker_3_0
 
 class CriteriaCell: UITableViewCell {
+    @IBOutlet weak var imglevelname: UIImageView!
     @IBOutlet weak var lblidname: UILabel!
     @IBOutlet weak var lblbenifits: UILabel!
     @IBOutlet weak var lblcriteria: UILabel!
@@ -279,7 +280,7 @@ class IDsVC: UIViewController {
                 EM = EM / 100000;
                 lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
               } else if (EM >= 10000) {
-                EM = EM / 10000;
+                EM = EM / 1000;
                 lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) K"
               }
         else
@@ -474,7 +475,7 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
                     EM = EM / 100000;
                     cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
                   } else if (EM >= 10000) {
-                    EM = EM / 10000;
+                    EM = EM / 1000;
                     cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) K"
                   }
             else
@@ -503,6 +504,30 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         else if tableView == tblcriteria
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CriteriaCell") as! CriteriaCell
+            
+            let UserCriteriaID = referalcriteriaarr[indexPath.row]["ReferalLevelName"] as? String ?? ""
+            
+            if UserCriteriaID == "Master" {
+                cell.imglevelname.image = #imageLiteral(resourceName: "Level Master")
+            }
+            else if UserCriteriaID == "Super Master" {
+                cell.imglevelname.image = #imageLiteral(resourceName: "sm_new")
+            }
+            else if UserCriteriaID == "Top Master" {
+                cell.imglevelname.image = #imageLiteral(resourceName: "tm_new")
+            }
+            else if UserCriteriaID == "VIP" {
+                cell.imglevelname.image = #imageLiteral(resourceName: "vip_new")
+            }
+            else if UserCriteriaID == "RD" {
+                cell.imglevelname.image = #imageLiteral(resourceName: "LevelRD")
+            }
+            else
+            {
+                let imageURL = URL(string: referalcriteriaarr[indexPath.row]["profile_image"] as? String ?? "")
+                cell.imglevelname.sd_setImage(with: imageURL,
+                                         placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+            }
             
             cell.lblidname.text = "\(referalcriteriaarr[indexPath.row]["ReferalLevelName"]!)"
             cell.lblbenifits.text = "Random Commission UpTo \(referalcriteriaarr[indexPath.row]["CommissionLevel"]!) Levels"

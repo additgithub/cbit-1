@@ -1,5 +1,6 @@
 import UIKit
 import IGRPhotoTweaks
+import ActionSheetPicker_3_0
 
 public protocol KYCVerifycationDelegate {
     func processAdded()
@@ -117,35 +118,85 @@ class KYCVerifycationVC: UIViewController {
     }
 
     @IBAction func buttonDateOfBirth(_ sender: Any) {
-        let calendar = Calendar(identifier: .gregorian)
-        let currentDate = Date()
-        var dateComponent = DateComponents()
-        dateComponent.calendar = calendar
-        dateComponent.year = -18
-        let minimumDate = calendar.date(byAdding: dateComponent, to: currentDate)
         
-        datePicker!.show("Select Date",
-                         doneButtonTitle: "Select",
-                         cancelButtonTitle: "Cancel",
-                         defaultDate: Date(),
-                         minimumDate: nil,
-                         maximumDate: Date(),
-                         datePickerMode: .date)
-        { (date) in
-            if let selectedDate = date {
-                if selectedDate <= minimumDate! {
-                    let dateFormater = DateFormatter()
-                    dateFormater.dateFormat = "dd-MM-yyyy"
-                    print("Date: ", dateFormater.string(from: selectedDate))
-                    self.textDateOfBirth.text = dateFormater.string(from: selectedDate)
-                    self.selectedDate = selectedDate
-                } else {
-                    Alert().showAlert(title: "CBit",
-                                      message: "You must be 18 years and above to play this game.",
-                                      viewController: self)
-                }
-            }
+                let calendar = Calendar(identifier: .gregorian)
+                let currentDate = Date()
+                var dateComponent = DateComponents()
+                dateComponent.calendar = calendar
+                dateComponent.year = -18
+                let minimumDate = calendar.date(byAdding: dateComponent, to: currentDate)
+        
+        let datePicker = ActionSheetDatePicker(title: "Select Date",
+                                               datePickerMode: UIDatePicker.Mode.date,
+                                               
+                                               selectedDate: Date(),
+                                               doneBlock: { picker, date, origin in
+                                                    print("picker = \(String(describing: picker))")
+                                                    print("date = \(String(describing: date))")
+                                                    print("origin = \(String(describing: origin))")
+//                                                let dateFormater: DateFormatter = DateFormatter()
+//                                                dateFormater.dateFormat = "dd-MM-yyyy"
+//                                                let stringFromDate: String = dateFormater.string(from: date as! Date) as String
+//                                                sender.setTitle(stringFromDate, for: .normal)
+                                                
+                                                if let selectedDate = date {
+                                                    if (selectedDate as! Date) <= minimumDate! {
+                                                                let dateFormater = DateFormatter()
+                                                                dateFormater.dateFormat = "dd-MM-yyyy"
+                                                        print("Date: ", dateFormater.string(from: selectedDate as! Date))
+                                                        self.textDateOfBirth.text = dateFormater.string(from: selectedDate as! Date)
+                                                        self.selectedDate = selectedDate as! Date
+                                                            } else {
+                                                                Alert().showAlert(title: "CBit",
+                                                                                  message: "You must be 18 years and above to play this game.",
+                                                                                  viewController: self)
+                                                            }
+                                                        }
+                                                
+                                                    return
+                                                },
+                                               cancel: { picker in
+                                                    return
+                                               },
+                                               origin: (sender as AnyObject).superview!.superview)
+//        let secondsInWeek: TimeInterval = 7 * 24 * 60 * 60;
+//        datePicker?.minimumDate = Date(timeInterval: -secondsInWeek, since: Date())
+//        datePicker?.maximumDate = Date(timeInterval: secondsInWeek, since: Date())
+        if #available(iOS 14.0, *) {
+          //  datePicker?.datePickerStyle = .inline
         }
+        datePicker?.maximumDate =  Date()
+        datePicker?.show()
+        
+//        let calendar = Calendar(identifier: .gregorian)
+//        let currentDate = Date()
+//        var dateComponent = DateComponents()
+//        dateComponent.calendar = calendar
+//        dateComponent.year = -18
+//        let minimumDate = calendar.date(byAdding: dateComponent, to: currentDate)
+//
+//        datePicker!.show("Select Date",
+//                         doneButtonTitle: "Select",
+//                         cancelButtonTitle: "Cancel",
+//                         defaultDate: Date(),
+//                         minimumDate: nil,
+//                         maximumDate: Date(),
+//                         datePickerMode: .date)
+//        { (date) in
+//            if let selectedDate = date {
+//                if selectedDate <= minimumDate! {
+//                    let dateFormater = DateFormatter()
+//                    dateFormater.dateFormat = "dd-MM-yyyy"
+//                    print("Date: ", dateFormater.string(from: selectedDate))
+//                    self.textDateOfBirth.text = dateFormater.string(from: selectedDate)
+//                    self.selectedDate = selectedDate
+//                } else {
+//                    Alert().showAlert(title: "CBit",
+//                                      message: "You must be 18 years and above to play this game.",
+//                                      viewController: self)
+//                }
+//            }
+//        }
     }
 }
 

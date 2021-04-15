@@ -1351,7 +1351,7 @@ extension SpinningMachineTicketVC {
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]
            // content.sound = UNNotificationSound.default
-            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no1.mp3"))
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no.mp3"))
             
                let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
                 let timeInterval = reminderDate.timeIntervalSinceNow

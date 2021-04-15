@@ -16,7 +16,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //    @IBOutlet weak var imgzero: UIImageView!
 //    @IBOutlet weak var imgplus: UIImageView!
     
-    @IBOutlet weak var tblanswerheight: NSLayoutConstraint!
+ //   @IBOutlet weak var tblanswerheight: NSLayoutConstraint!
     @IBOutlet weak var collectionlockallheight: NSLayoutConstraint!
     @IBOutlet weak var collection_lockall: UICollectionView!
     @IBOutlet var collection_slot: UICollectionView!
@@ -264,7 +264,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     override func viewDidLayoutSubviews() {
         let height = collection_lockall.collectionViewLayout.collectionViewContentSize.height
           collectionlockallheight.constant = height
-        tblanswerheight.constant = tableAnswer.contentSize.height
+      //  tblanswerheight.constant = tableAnswer.contentSize.height
           self.view.layoutIfNeeded()
 //        if isfirst {
 //            isfirst = false
@@ -1665,6 +1665,15 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             if viewAnimation == nil {
                 viewAnimation = ViewAnimation.instanceFromNib() as? ViewAnimation
                 viewAnimation!.frame = view.bounds
+               // viewAnimation?.btnaudio.addTarget(self,action: #selector(viewAnimation?.pressed(sender: setSoundEffect)),for: .touchUpInside)
+               // viewAnimation?.pressed(sender: setSoundEffect)
+                viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
+//                let button = viewAnimation!.btnaudio
+//                 button?.actionHandle(controlEvents: .touchUpInside,
+//                 ForAction:{() -> Void in
+//                     print("Touch")
+//                 })
+
                 view.addSubview(viewAnimation!)
             }
             
@@ -1675,6 +1684,11 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                                 repeats: true)
         }
     }
+    
+//    @objc func pressed(sender: UIButton!) {
+//
+//
+//    }
     
     @objc func handleEndTimer () {
         if endGameSecond > 0 {
@@ -1705,6 +1719,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             setSoundEffect = try AVAudioPlayer(contentsOf: soundURL!)
             setSoundEffect!.numberOfLoops = 4
             setSoundEffect!.play()
+            viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
         } catch {
             print("Error In Sound PLay")
         }

@@ -456,7 +456,7 @@ class MyContestTVC: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        labelClosingTime.textColor = UIColor.red
+        labelClosingTime.textColor = #colorLiteral(red: 0.9921568627, green: 0.7764705882, blue: 0.09803921569, alpha: 1)
         
     }
     
