@@ -415,7 +415,7 @@ class UpcominContestTVC: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        labelEntryCloseTime.textColor = UIColor.red
+        labelEntryCloseTime.textColor = #colorLiteral(red: 0.9921568627, green: 0.7764705882, blue: 0.09803921569, alpha: 1)
         
     }
     override func setSelected(_ selected: Bool, animated: Bool) {

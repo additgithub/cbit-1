@@ -358,27 +358,69 @@ extension UIView{
 
 extension UIImage {
     func imageByMakingWhiteBackgroundTransparent() -> UIImage? {
-
+//        let image = UIImage(data: self.jpegData(compressionQuality: 0.8) ?? Data())
+//        guard let rawImage = image?.cgImage else { return nil}
+//          let colorMasking: [CGFloat] = [255, 255, 255, 255, 255, 255]
+//        UIGraphicsBeginImageContext(image?.size ?? CGSize.zero)
+//
+//          if let maskedImage = rawImage.copy(maskingColorComponents: colorMasking),
+//              let context = UIGraphicsGetCurrentContext() {
+//            context.translateBy(x: 0.0, y: image?.size.height ?? CGFloat.zero)
+//              context.scaleBy(x: 1.0, y: -1.0)
+//            context.draw(maskedImage, in: CGRect(x: 0, y: 0, width: image?.size.width ?? CGFloat.zero, height: image?.size.height ?? CGFloat.zero))
+//              let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+//              UIGraphicsEndImageContext()
+//              return finalImage
+//          }
+//
+//          return nil
         
-        let image = UIImage(data: self.jpegData(compressionQuality: 1.0) ?? Data())
-        guard image?.imageAsset != nil else {
-            return UIImage()
-        }
-//        if images == nil {
+        let cgColor = UIColor.white.cgColor
+           let components = cgColor.components
+        var r = CGFloat(1)
+        var g = CGFloat(1)
+        var b = CGFloat(1)
+
+           r = r * 255.0
+           g = g * 255.0
+           b = b * 255.0
+
+           let colorMasking: [CGFloat] = [r, r, g, g, b, b]
+
+           let image = UIImage(data: self.jpegData(compressionQuality: 1.0)!)!
+           let rawImageRef: CGImage = image.cgImage!
+
+           UIGraphicsBeginImageContext(image.size);
+
+           let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
+           UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image.size.height)
+           UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
+           UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image.size.width, height: image.size.height))
+           let result = UIGraphicsGetImageFromCurrentImageContext();
+           UIGraphicsEndImageContext();
+
+           return result
+        
+        
+//        let image = UIImage(data: self.jpegData(compressionQuality: 1.0) ?? Data())
+//        guard image?.imageAsset != nil else {
 //            return UIImage()
 //        }
-        let rawImageRef: CGImage = (image?.cgImage) ?? UIImage().cgImage!
-
-        let colorMasking: [CGFloat] = [222, 255, 222, 255, 222, 255]
-        UIGraphicsBeginImageContext(image?.size ?? CGSize.zero);
-
-        let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
-        UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image?.size.height ?? 0)
-        UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
-        UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image?.size.width ?? 0, height: image?.size.height ?? 0))
-        let result = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        return result
+////        if images == nil {
+////            return UIImage()
+////        }
+//        let rawImageRef: CGImage = (image?.cgImage) ?? UIImage().cgImage!
+//
+//        let colorMasking: [CGFloat] = [222, 255, 222, 255, 222, 255]
+//        UIGraphicsBeginImageContext(image?.size ?? CGSize.zero);
+//
+//        let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
+//        UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image?.size.height ?? 0)
+//        UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
+//        UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image?.size.width ?? 0, height: image?.size.height ?? 0))
+//        let result = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        return result
 
     }
 

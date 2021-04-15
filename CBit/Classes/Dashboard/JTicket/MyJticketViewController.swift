@@ -948,7 +948,7 @@ extension MyJticketViewController {
                     self.present(alertController, animated: true, completion: nil)
                     
                     print(self.arrMyJTicket)
-                    
+                    self.getUserJticket()
                     
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
