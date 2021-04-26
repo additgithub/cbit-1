@@ -12,6 +12,7 @@ class slotcell: UICollectionViewCell {
     @IBOutlet weak var imgImage: UIImageView!
     var timerfade=Timer()
     @IBOutlet weak var lbldraw: UILabel!
+    @IBOutlet weak var lblwin: UILabel!
     
     override class func awakeFromNib() {
         
@@ -281,11 +282,11 @@ extension SpinningMachineVC:UICollectionViewDataSource,UICollectionViewDelegate 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
         
         if collectionView == collection_slot {
-            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_original {
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         } else {
             return cell
@@ -375,52 +376,52 @@ extension UIImage {
 //
 //          return nil
         
-        let cgColor = UIColor.white.cgColor
-           let components = cgColor.components
-        var r = CGFloat(1)
-        var g = CGFloat(1)
-        var b = CGFloat(1)
-
-           r = r * 255.0
-           g = g * 255.0
-           b = b * 255.0
-
-           let colorMasking: [CGFloat] = [r, r, g, g, b, b]
-
-           let image = UIImage(data: self.jpegData(compressionQuality: 1.0)!)!
-           let rawImageRef: CGImage = image.cgImage!
-
-           UIGraphicsBeginImageContext(image.size);
-
-           let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
-           UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image.size.height)
-           UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
-           UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image.size.width, height: image.size.height))
-           let result = UIGraphicsGetImageFromCurrentImageContext();
-           UIGraphicsEndImageContext();
-
-           return result
+//        let cgColor = UIColor.white.cgColor
+//           let components = cgColor.components
+//        var r = CGFloat(1)
+//        var g = CGFloat(1)
+//        var b = CGFloat(1)
+//
+//           r = r * 255.0
+//           g = g * 255.0
+//           b = b * 255.0
+//
+//           let colorMasking: [CGFloat] = [r, r, g, g, b, b]
+//
+//           let image = UIImage(data: self.jpegData(compressionQuality: 1.0)!)!
+//           let rawImageRef: CGImage = image.cgImage!
+//
+//           UIGraphicsBeginImageContext(image.size);
+//
+//           let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
+//           UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image.size.height)
+//           UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
+//           UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image.size.width, height: image.size.height))
+//           let result = UIGraphicsGetImageFromCurrentImageContext();
+//           UIGraphicsEndImageContext();
+//
+//           return result
         
         
-//        let image = UIImage(data: self.jpegData(compressionQuality: 1.0) ?? Data())
-//        guard image?.imageAsset != nil else {
+        let image = UIImage(data: self.jpegData(compressionQuality: 1.0) ?? Data())
+        guard image?.imageAsset != nil else {
+            return UIImage()
+        }
+//        if images == nil {
 //            return UIImage()
 //        }
-////        if images == nil {
-////            return UIImage()
-////        }
-//        let rawImageRef: CGImage = (image?.cgImage) ?? UIImage().cgImage!
-//
-//        let colorMasking: [CGFloat] = [222, 255, 222, 255, 222, 255]
-//        UIGraphicsBeginImageContext(image?.size ?? CGSize.zero);
-//
-//        let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
-//        UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image?.size.height ?? 0)
-//        UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
-//        UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image?.size.width ?? 0, height: image?.size.height ?? 0))
-//        let result = UIGraphicsGetImageFromCurrentImageContext();
-//        UIGraphicsEndImageContext();
-//        return result
+        let rawImageRef: CGImage = (image?.cgImage) ?? UIImage().cgImage!
+
+        let colorMasking: [CGFloat] = [222, 255, 222, 255, 222, 255]
+        UIGraphicsBeginImageContext(image?.size ?? CGSize.zero);
+
+        let maskedImageRef = rawImageRef.copy(maskingColorComponents: colorMasking)
+        UIGraphicsGetCurrentContext()?.translateBy(x: 0.0,y: image?.size.height ?? 0)
+        UIGraphicsGetCurrentContext()?.scaleBy(x: 1.0, y: -1.0)
+        UIGraphicsGetCurrentContext()?.draw(maskedImageRef!, in: CGRect.init(x: 0, y: 0, width: image?.size.width ?? 0, height: image?.size.height ?? 0))
+        let result = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return result
 
     }
 

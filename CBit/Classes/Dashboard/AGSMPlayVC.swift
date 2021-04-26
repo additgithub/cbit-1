@@ -1413,12 +1413,12 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         if collectionView == collection_slot {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_original {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_lockall {
@@ -1447,7 +1447,7 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
                     lockcell.labelDisplayValue.isHidden = true
                     lockcell.img.isHidden = false
                      let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
-                    lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                    lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                  }
           
             return lockcell
@@ -1474,7 +1474,7 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             {
                 labelanswerselected.isHidden = true
                 imgselected.isHidden = false
-                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
+                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")//.imageByMakingWhiteBackgroundTransparent()
             }
             collection_lockall.reloadData()
     }
@@ -1722,7 +1722,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                           //  fixCell.labelAnsSelected.text = item["displayValue"] as? String ?? "0"
                             let localimg = loadImageFromDocumentDirectory(nameOfImage: item["displayValue"] as? String ?? "0")
                             if imageIsNullOrNot(imageName: localimg) {
-                                fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                                fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                                 fixCell.imgselected.isHidden = false
                                 fixCell.labelAnsSelected.isHidden = true
                             }
@@ -1744,7 +1744,7 @@ extension AGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
 //                            fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
 //                        }
                         if imageIsNullOrNot(imageName: localimg) {
-                            fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                            fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                             fixCell.imgselected.isHidden = false
                             fixCell.labelAnsSelected.isHidden = true
                         }
@@ -2073,7 +2073,7 @@ extension AGSMPlayVC: SMGameAnswerThreeDelegate, GameAnsRangeDelegate {
 //                    cell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
 //                }
                 if imageIsNullOrNot(imageName: localimg) {
-                    cell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                    cell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                     cell.imgselected.isHidden = false
                     cell.labelAnsSelected.isHidden = true
                 }

@@ -184,7 +184,21 @@ extension LogInWithMobileNumberViewController {
                             
                            // self.textOTP.text = "\(dictData["otp"]!)";
                             
-                        } else {
+                        }
+                        else if status == 410
+                        {
+                            let alertController = UIAlertController(title:"Error", message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
+
+                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                               { action -> Void in
+                                let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
+                                signUpVC.isSocialLogin = false
+                                signUpVC.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(signUpVC, animated: true)
+                               })
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                        else {
                             Alert().showAlert(title: "Error",
                                               message: result!["message"] as! String,
                                               viewController: self)

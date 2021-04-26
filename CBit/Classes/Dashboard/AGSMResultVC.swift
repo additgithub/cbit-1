@@ -198,7 +198,7 @@ extension AGSMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
         }
         else if collectionView == collection_original
         {
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
         }
         
         return cell
@@ -249,12 +249,12 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
             {
                 resultCell.img1.isHidden = false
                 let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-                resultCell.img1.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
+                resultCell.img1.image =  localimg1//.imageByMakingWhiteBackgroundTransparent()
             }
             let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
             let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
-            resultCell.img0.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
-            resultCell.img2.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
+            resultCell.img0.image =  localimg0//.imageByMakingWhiteBackgroundTransparent()
+            resultCell.img2.image =  localimg2//.imageByMakingWhiteBackgroundTransparent()
             
             
             

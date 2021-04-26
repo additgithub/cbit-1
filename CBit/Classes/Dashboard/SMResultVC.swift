@@ -201,12 +201,13 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
                 cell.lbldraw.text = String(winning_options[indexPath.row]["count"] as? Int ?? 0)
                 
                 if Int(self.dictContestDetail["answer"] as! String) ==  Int(winning_options[indexPath.row]["id"] as! Int) && isfirst {
+                    cell.lblwin.isHidden = false
                     isfirst = false
                     func anotherFuncname() {
                             //statements of inner function
-                        cell.contentView.backgroundColor = UIColor.white
-                        cell.contentView.layer.borderColor = UIColor.black.cgColor
-                        cell.contentView.layer.borderWidth = 2
+//                        cell.contentView.backgroundColor = UIColor.white
+//                        cell.contentView.layer.borderColor = UIColor.black.cgColor
+//                        cell.contentView.layer.borderWidth = 2
                       //  cell.imgImage.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
                         UIView.animate(withDuration: 1.0,
                             animations: {
@@ -230,11 +231,12 @@ extension SMResultVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
                     cell.contentView.backgroundColor = UIColor.white
                     cell.contentView.layer.borderColor = UIColor.black.cgColor
                     cell.contentView.layer.borderWidth = 0
+                    cell.lblwin.isHidden = true
                 }
             }
             else if collectionView == collection_original
             {
-                cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+                cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             }
             
             return cell
@@ -318,12 +320,12 @@ extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
                 {
                    resultCell.img1.isHidden = false
                     let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
-                    resultCell.img1.image =  localimg1.imageByMakingWhiteBackgroundTransparent()
+                    resultCell.img1.image =  localimg1//.imageByMakingWhiteBackgroundTransparent()
                 }
             let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
             let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
-            resultCell.img0.image =  localimg0.imageByMakingWhiteBackgroundTransparent()
-            resultCell.img2.image =  localimg2.imageByMakingWhiteBackgroundTransparent()
+            resultCell.img0.image =  localimg0//.imageByMakingWhiteBackgroundTransparent()
+            resultCell.img2.image =  localimg2//.imageByMakingWhiteBackgroundTransparent()
             
            
             
@@ -362,10 +364,13 @@ extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
         if isLock {
-            resultCell.labelAnswer.text = "Your Selection  \(strValue)"
+            let localimg1 = loadImageFromDocumentDirectory(nameOfImage: strValue)
+            resultCell.imgselectedans.image =  localimg1
+          //  resultCell.labelAnswer.text = "Your Selection  \(strValue)"
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
         } else {
-            resultCell.labelAnswer.text = "\(strValue)"
+           // resultCell.labelAnswer.text = "\(strValue)"
+            resultCell.imgselectedans.image =  UIImage()
             resultCell.labelLoackedAt.text = ""
             
         }
@@ -377,7 +382,7 @@ extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
             resultCell.labelViewWinners.textColor = UIColor.white
             resultCell.labelViewWinners.text = "Cancelled"
             resultCell.buttonViewWinners.removeTarget(self, action: nil, for: .touchUpInside)
-            resultCell.labelAnswer.text = ""
+           // resultCell.labelAnswer.text = ""
             resultCell.labelLoackedAt.text = ""
             
         } else {

@@ -48,8 +48,8 @@ class ImageViewProfile: UIImageView {
         setImageView()
     }
     func setImageView() {
-        backgroundColor = UIColor.white
-        layer.cornerRadius = frame.height / 2
-        layer.masksToBounds = true
+        backgroundColor = UIColor.clear
+//        layer.cornerRadius = frame.height / 2
+//        layer.masksToBounds = true
     }
 }

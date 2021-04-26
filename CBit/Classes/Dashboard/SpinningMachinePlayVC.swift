@@ -112,7 +112,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     var isShowLoading = Bool()
     //Sound
     var setSoundEffect: AVAudioPlayer?
+    var setSoundEffectTenSecond: AVAudioPlayer?
     var soundURL: URL?
+    var TenSecondsoundURL: URL?
     
     var viewAnimation: ViewAnimation?
     var Lockall1: LockAll?
@@ -255,6 +257,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         let path = Bundle.main.path(forResource: "Tick Tock.mp3", ofType: nil)!
         soundURL = URL(fileURLWithPath: path)
         
+        let path1 = Bundle.main.path(forResource: "waiting_timer.mp3", ofType: nil)!
+        TenSecondsoundURL = URL(fileURLWithPath: path1)
+        
         
         isShowLoading = true
         getContestDetail(isfromtimer: true, isStart: 0)
@@ -291,9 +296,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      //  configAutoscrollTimer()
-      //  configFadeTimer()
-     //   configStartTimer()
+     
         
     }
     
@@ -575,8 +578,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     @IBAction func btn_lockall(_ sender: Any) {
         
-
-        print("selection",strDisplayValuelockall)
+        islockallpressed = true
+        print("selection",strDisplayValuelockall ?? "")
         if strDisplayValuelockall == nil
         {
            
@@ -589,6 +592,17 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     func locakall()
     {
+        lockallmili = currentTodayTimeInMilliSeconds()
+        let total = lockallmili - 100//+ startdatemilisec
+        let dt = total.dateFromMilliseconds()
+        
+     //   let d = Date()
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
+
+       let datenew = df.string(from: dt)
+        print("newdate",datenew)
+        
         if Lockall1 == nil {
                Lockall1 = LockAll.instanceFromNib() as? LockAll
                Lockall1!.frame = view.bounds
@@ -611,7 +625,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         
                let parameter:[String: Any] = ["userId": Define.USERDEFAULT.value(forKey: "UserID")!,
                                               "contestId": dictContest["id"]!,
-                                              "DisplayValue":strDisplayValuelockall ?? ""
+                                              "DisplayValue":strDisplayValuelockall ?? "",
+                                              "lock_time":datenew
                                               
                ]
         
@@ -810,6 +825,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                }
     }
     var gamestart = true
+    var startdatemilisec = Int()
+    var lockmili = 0
     func setnewData()  {
             
       //  arrTickets = dictGameData["tickets"] as? [[String: Any]] ?? []
@@ -828,47 +845,67 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 gamelevel = dictContest["level"] as? Int ?? 1
                 
             }
+        
+        if  Int(self.gameTime) ?? 0 == 45 {
+          print("TENSECOND")
+              setTenSecSound()
+          }
             
             
-            if arrBarcketColor.count <= 0 {
-              //  SetRandomNumber()
-            }
+//            if arrBarcketColor.count <= 0 {
+//              //  SetRandomNumber()
+//            }
             
 
             
             print("Set Data",dictGameData)
             let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
+        
+//        if Int(gameTime) == 30 {
+//
+////            second = 30
+////            setTimer()
+//        }
 
             if (gameStatus == "start") {
                 
                 isGameStart = true
                
                 print("secondss",second)
+                
+        
 
                 self.labelTimer.text = "\(gameTime)"
         
                 if gamestart {
                     
+                    let date = dictGameData["startDate"] as! String
+                    let startDate = MyModel().converStringToDate(strDate: date, getFormate: "yyyy-MM-dd HH:mm:ss")
+                    startdatemilisec =  Int(startDate.millisecondsSince1970)
+                    
                     collection_original.isHidden = false
                     collection_slot.isHidden = true
                     deconfigAutoscrollTimer()
                     
-                    self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-                    let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
-                    self.originalarr = [UIImage]()
-                    for box in self.arrBrackets {
-                        for option in winning_options {
-                            let number = box["number"]!
-                            let objectNo = option["objectNo"]!
-                            if number as? NSObject == objectNo as? NSObject{
-                                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
-                            }
-                        }
-                    }
-
-                    self.collection_original.reloadData()
+                    btnlockall.alpha = 1.0
+                       btnlockall.isEnabled = true
+                       btnlockall.isHidden = false
+                       btnlock.isHidden = true
+                       lbllockedat.isHidden = true
                     
+                  
                     
+                    // buttonAnsMinus.isEnabled = true
+                    // buttonAnsPlus.isEnabled = true
+                    // buttonAnsZero.isEnabled = true
+                    collection_lockall.isUserInteractionEnabled = true
+                    collection_lockall.allowsSelection = true
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                    
+                
+                    
+//                    strDisplayValuelockall = arrSloat[0]["displayValue"] as? String ?? ""
+//                    btn_lockall(btnlockall)
                     
                     tableAnswer.reloadData()
                     gamestart = false
@@ -899,17 +936,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //                              btnnine.isEnabled = true
 //                              btnzero.isEnabled = true
                     
-                                        btnlockall.alpha = 1.0
-                                           btnlockall.isEnabled = true
-                                           btnlockall.isHidden = false
-                                           btnlock.isHidden = true
-                                           lbllockedat.isHidden = true
-//                                           buttonAnsMinus.isEnabled = true
-//                                           buttonAnsPlus.isEnabled = true
-//                                           buttonAnsZero.isEnabled = true
-                    collection_lockall.isUserInteractionEnabled = true
-                    collection_lockall.allowsSelection = true
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                             
                 }
                 
             
@@ -934,7 +961,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
                 startSecond = dateComponent.second! - differenceSecond
                 //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-                print("Seconds: \(startSecond)")
+            //    print("Seconds: \(startSecond)")
                 labelTimer.text = "Game starts in 00:\(time)"
 
                
@@ -950,7 +977,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         }
         
         
-        let parameter:[String: Any] = [ "contest_id": dictContest["id"]!, "userId":Define.USERDEFAULT.value(forKey: "UserID")!,"isStart":isStart]
+        let parameter:[String: Any] = [ "contest_id": dictContest["id"]!, "userId":Define.USERDEFAULT.value(forKey: "UserID")!,"isStart":0]
         print("Parameter: \(parameter)")
         
         let jsonString = MyModel().getJSONString(object: parameter)
@@ -1123,6 +1150,21 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //                }
 
                // self.slotarr = self.itemarr
+                
+                self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+                let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
+                self.originalarr = [UIImage]()
+                for box in self.arrBrackets {
+                    for option in winning_options {
+                        let number = box["number"]!
+                        let objectNo = option["objectNo"]!
+                        if number as? NSObject == objectNo as? NSObject{
+                            self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: option["Item"] as! String))
+                        }
+                    }
+                }
+
+                self.collection_original.reloadData()
                 
                 let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
                 for _ in 1..<200
@@ -1305,20 +1347,20 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             let dateComponent = calender.dateComponents(unitFlags, from: self.currentDate, to: startDate)
             startSecond = dateComponent.second! - differenceSecond
             //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
-            print("Seconds: \(startSecond)")
+          //  print("Seconds: \(startSecond)")
             
-            if isfromtime {
-                 if startTimer == nil {
-                               startSecond = startSecond - 1
-                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-                               setStartTimer()
-                    
-                           }
-                else
-                 {
-            
-                }
-            }
+//            if isfromtime {
+//                 if startTimer == nil {
+//                               startSecond = startSecond - 1
+//                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+//                               setStartTimer()
+//                    
+//                           }
+//                else
+//                 {
+//            
+//                }
+//            }
            
         }
 
@@ -1561,7 +1603,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                      //   collectionGame.reloadData()
                     } else if miliSecondValue == 1 {
                         miliSecondValue = 0
-                        print("STARTSECOND:",startSecond)
+                     //   print("STARTSECOND:",startSecond)
                         
                         if startSecond == 1 {
 
@@ -1638,20 +1680,35 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
      
     }
     
+    var islockallpressed = false
+    var lockallmili = Int()
+    
     @objc func handleTimer(){
         if second > 0 {
 
             
-            self.labelTimer.text = String(format: "%02i", self.second)
+         //   self.labelTimer.text = String(format: "%02i", self.second)
             //print(labelTimer.text!)
-            second = second - 1
-            msecond = 999
+           // second = second - 1
+           // msecond = 999
             
+//            for var z in 0..<1000 {
+//                if islockallpressed {
+//                    islockallpressed = false
+//                    let minsec = (30-second) * 1000
+//                     lockallmili = Double(minsec + (z/1000))
+//                     print("lockallmili:",lockallmili,z)
+//                     locakall()
+//                }
+//                print("looptime:",z)
+//
+//            }
+            second = second - 1
             
         } else {
             //print("Timer Not Start")
             if timer != nil {
-                self.labelTimer.text = "00"
+            //    self.labelTimer.text = "00"
                 timer!.invalidate()
                 timer = nil
             }
@@ -1694,7 +1751,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         if endGameSecond > 0 {
             endGameSecond = endGameSecond - 1
             if setSoundEffect == nil {
-               // setSound()
+                setSound()
             }
         } else {
             
@@ -1720,6 +1777,16 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             setSoundEffect!.numberOfLoops = 4
             setSoundEffect!.play()
             viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
+        } catch {
+            print("Error In Sound PLay")
+        }
+    }
+    
+    func setTenSecSound() {
+        do{
+            setSoundEffectTenSecond = try AVAudioPlayer(contentsOf: TenSecondsoundURL!)
+            //setSoundEffect!.numberOfLoops = 4
+            setSoundEffectTenSecond!.play()
         } catch {
             print("Error In Sound PLay")
         }
@@ -1761,13 +1828,13 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
         
         if collectionView == collection_slot {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = slotarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
-            print("SLOTARR:",slotarr.count)
+            cell.imgImage.image = slotarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
+        //    print("SLOTARR:",slotarr.count)
             return cell
         }
         if collectionView == collection_original {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-            cell.imgImage.image = originalarr[indexPath.row].imageByMakingWhiteBackgroundTransparent()
+            cell.imgImage.image = originalarr[indexPath.row]//.imageByMakingWhiteBackgroundTransparent()
             return cell
         }
         if collectionView == collection_lockall {
@@ -1796,7 +1863,7 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
                     lockcell.labelDisplayValue.isHidden = true
                     lockcell.img.isHidden = false
                      let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
-                    lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                    lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                  }
           
             return lockcell
@@ -1822,7 +1889,7 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
             {
                 labelanswerselected.isHidden = true
                 imgselected.isHidden = false
-                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "").imageByMakingWhiteBackgroundTransparent()
+                imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")//.imageByMakingWhiteBackgroundTransparent()
             }
             collection_lockall.reloadData()
     }
@@ -2171,7 +2238,7 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
                           //  fixCell.labelAnsSelected.text = item["displayValue"] as? String ?? "0"
                             let localimg = loadImageFromDocumentDirectory(nameOfImage: item["displayValue"] as? String ?? "0")
                             if imageIsNullOrNot(imageName: localimg) {
-                                fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                                fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                                 fixCell.imgselected.isHidden = false
                                 fixCell.labelAnsSelected.isHidden = true
                             }
@@ -2193,7 +2260,7 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
 //                            fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
 //                        }
                         if imageIsNullOrNot(imageName: localimg) {
-                            fixCell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                            fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                             fixCell.imgselected.isHidden = false
                             fixCell.labelAnsSelected.isHidden = true
                         }
@@ -2347,6 +2414,17 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        lockallmili = currentTodayTimeInMilliSeconds()
+        let total = lockallmili - 100//+ startdatemilisec
+        let dt = total.dateFromMilliseconds()
+        
+     //   let d = Date()
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
+
+       let datenew = df.string(from: dt)
+        print("newdate",datenew)
+        
         if startValue == nil && endValue == nil {
             //Alert().showTost(message: "Select Answer", viewController: self)
         } else {
@@ -2358,6 +2436,7 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
                                            "isLock": 1,
                                            "position": index,
                                            "displayValue": strDisplayValue!,
+                                           "lock_time":datenew
                                            ]
             print("Parameter: \(parameter)")
             
@@ -2523,7 +2602,7 @@ extension SpinningMachinePlayVC: SMGameAnswerThreeDelegate, GameAnsRangeDelegate
 //                    cell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
 //                }
                 if imageIsNullOrNot(imageName: localimg) {
-                    cell.imgselected.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                    cell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
                     cell.imgselected.isHidden = false
                     cell.labelAnsSelected.isHidden = true
                 }
@@ -2537,5 +2616,27 @@ extension SpinningMachinePlayVC: SMGameAnswerThreeDelegate, GameAnsRangeDelegate
                 
             }
         }
+    }
+}
+
+
+extension TimeInterval {
+    var hourMinuteSecondMS: String {
+        String(format:"%d:%02d:%02d.%03d", hour, minute, second, millisecond)
+    }
+    var minuteSecondMS: String {
+        String(format:"%d:%02d.%03d", minute, second, millisecond)
+    }
+    var hour: Int {
+        Int((self/3600).truncatingRemainder(dividingBy: 3600))
+    }
+    var minute: Int {
+        Int((self/60).truncatingRemainder(dividingBy: 60))
+    }
+    var second: Int {
+        Int(truncatingRemainder(dividingBy: 60))
+    }
+    var millisecond: Int {
+        Int((self*1000).truncatingRemainder(dividingBy: 1000))
     }
 }

@@ -1,16 +1,21 @@
 import UIKit
 import UserNotifications
+import M13Checkbox
 
 
-
-
+class PopUpCell: UITableViewCell {
+    
+    @IBOutlet var chkvw: M13Checkbox?
+    @IBOutlet var lbltitle: UILabel!
+}
 
 
 class PassBookVC: UIViewController {
     //MARK: - Properties
   
     
-   
+    @IBOutlet var popupvw: UIView!
+    @IBOutlet var tblpopup: UITableView!
     
     @IBOutlet weak var tablePassBook: UITableView!
     @IBOutlet weak var labelbalance: LabelComman!
@@ -18,6 +23,9 @@ class PassBookVC: UIViewController {
     @IBOutlet weak var viewNoData: UIView!
     
     private var arrPassbook = [[String: Any]]()
+    
+    var filterarr = [String]()
+    var SavedIndex = [String]()
     
     lazy  var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -82,15 +90,41 @@ class PassBookVC: UIViewController {
     @IBAction func buttonBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func filter_click(_ sender: UIButton) {
+        popupvw.isHidden = false
+    }
+    @IBAction func closepopup_click(_ sender: UIButton) {
+        popupvw.isHidden = true
+    }
+    @IBAction func applyfilter_click(_ sender: UIButton) {
+        popupvw.isHidden = true
+        getPassbookData()
+    }
+    @IBAction func clearfilter_click(_ sender: UIButton) {
+        popupvw.isHidden = true
+        SavedIndex = [String]()
+        getPassbookData()
+    }
     
 }
 //MARK: - TableView Delegate
 extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrPassbook.count
+      
+        
+        if tableView == tablePassBook {
+            return arrPassbook.count
+        }
+        else if tableView == tblpopup {
+            return filterarr.count
+        }
+        
+        return 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-   
+        if tableView == tablePassBook {
+            
+        
         let passBookCell = tableView.dequeueReusableCell(withIdentifier: "PassBookTVC") as! PassBookTVC
         
         passBookCell.labelTransactionName.text = arrPassbook[indexPath.row]["title"] as? String ?? "No Name"
@@ -128,6 +162,52 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         return passBookCell
+        }
+        else if tableView == tblpopup {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PopUpCell", for: indexPath) as! PopUpCell
+//                    cell.chkvw?.markType = .checkmark
+                    cell.chkvw?.boxType = .square
+                    cell.chkvw?.tintColor = #colorLiteral(red: 0, green: 0.2535815537, blue: 0, alpha: 1)
+                    cell.chkvw?.secondaryTintColor = #colorLiteral(red: 0.2176683843, green: 0.8194433451, blue: 0.2584097683, alpha: 1)
+                    cell.chkvw?.tag = indexPath.row + 1
+                    cell.chkvw?.addTarget(self, action: #selector(PassBookVC.checkboxValueChangedPopUp(_:)), for: .valueChanged)
+            
+            cell.lbltitle.text = "\(filterarr[indexPath.row])"
+     
+                if SavedIndex.contains(String(indexPath.row+1)) {
+                    cell.chkvw?.checkState = .checked
+                }
+                else
+                {
+                    cell.chkvw?.checkState = .unchecked
+                }
+            
+            
+             cell.selectionStyle = .none
+            return cell
+                      }
+        return UITableViewCell()
+    }
+    
+    @IBAction func checkboxValueChangedPopUp(_ sender: M13Checkbox) {
+        print("TAG:",sender.tag)
+        switch sender.checkState {
+                 case .unchecked:
+                    print("UnChecked")
+                        if SavedIndex.contains((String(sender.tag))) {
+                            let index = SavedIndex.firstIndex(of: (String(sender.tag)))!
+                            SavedIndex.remove(at: index)
+                        }
+                     break
+                 case .checked:
+                     print("Checked")
+                    SavedIndex.append(String(sender.tag))
+                     break
+                 case .mixed:
+                     print("Mixed")
+                     
+                     break
+                 }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -144,9 +224,27 @@ extension PassBookVC {
         let strURL = Define.APP_URL + Define.API_PASSBOOK
         
         print("URL: \(strURL)")
+        var descr = [String]()
+        if SavedIndex.count > 0 {
+            
+            for i in SavedIndex {
+                let WeekID = filterarr[Int(i)!-1]
+                
+                descr.append("\(WeekID)")
+            }
+          
+          //  descr.removeLast(1)
+        }
+        
+        let parameter: [String: Any] = [
+            "filter":descr
+        ]
+        
+        print("parameter: \(parameter)")
+        
         
         SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: nil,
+                                    parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
         { (result, error) in
@@ -171,12 +269,14 @@ extension PassBookVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                     self.arrPassbook = result!["content"] as! [[String: Any]]
+                    self.filterarr = result!["DropDown"] as? [String] ?? []
                     if self.arrPassbook.count == 0 {
                         self.viewNoData.isHidden = false
                     } else {
                         self.viewNoData.isHidden = true
                     }
                     self.tablePassBook.reloadData()
+                    self.tblpopup.reloadData()
                     
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()

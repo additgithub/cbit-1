@@ -106,9 +106,9 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         }
         else
         {
-            let imageURL = URL(string: arrWinners[indexPath.row]["profile_image"] as? String ?? "")
-            winnerCell.imageUser.sd_setImage(with: imageURL,
-                                     placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+            winnerCell.imageUser.image = #imageLiteral(resourceName: "default")
+//            let imageURL = URL(string: arrWinners[indexPath.row]["profile_image"] as? String ?? "")
+//            winnerCell.imageUser.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         }
         
         return winnerCell

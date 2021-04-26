@@ -22,10 +22,10 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCW-8f-nDr">
-                    <rect key="frame" x="162.5" y="133.5" width="50" height="50"/>
+                    <rect key="frame" x="162.5" y="483.5" width="50" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="50" id="AYf-kZ-ynh"/>
-                        <constraint firstAttribute="height" constant="50" id="Xam-4N-etO"/>
+                        <constraint firstAttribute="width" constant="50" id="Dx5-z1-gfA"/>
+                        <constraint firstAttribute="height" constant="50" id="x0k-Oy-MX5"/>
                     </constraints>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" image="audio-speaker-on"/>
@@ -33,22 +33,14 @@
                         <action selector="audio_click:" destination="iN0-l3-epB" eventType="touchUpInside" id="Pqe-hJ-blz"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap icon to mute or unmute audio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pd6-1d-AH2">
-                    <rect key="frame" x="60" y="102.5" width="255" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.50032106164383561" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="pd6-1d-AH2" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DCS-PA-hdW"/>
-                <constraint firstItem="cCW-8f-nDr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Hb2-RP-SgK"/>
-                <constraint firstItem="qBy-7R-83d" firstAttribute="top" secondItem="cCW-8f-nDr" secondAttribute="bottom" constant="30" id="Jeu-Ik-Svf"/>
+                <constraint firstItem="cCW-8f-nDr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Aqc-mu-7hr"/>
                 <constraint firstItem="qBy-7R-83d" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="f31-X1-ax6"/>
+                <constraint firstItem="cCW-8f-nDr" firstAttribute="top" secondItem="qBy-7R-83d" secondAttribute="bottom" constant="30" id="hDo-w1-3Em"/>
                 <constraint firstItem="qBy-7R-83d" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="k6H-3G-aJ8"/>
-                <constraint firstItem="cCW-8f-nDr" firstAttribute="top" secondItem="pd6-1d-AH2" secondAttribute="bottom" constant="10" id="kEY-oL-hEl"/>
             </constraints>
             <connections>
                 <outlet property="btnaudio" destination="cCW-8f-nDr" id="HGV-8I-RFD"/>
