@@ -43,6 +43,36 @@ class ProfileVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let userType = Define.USERDEFAULT.value(forKey: "UserCriteriaID") as? String
+         
+         if userType == "Master"
+         {
+             imageProfile.image = #imageLiteral(resourceName: "Level Master")
+         }
+         else if userType == "Super Master"
+         {
+             imageProfile.image = #imageLiteral(resourceName: "sm_new")
+         }
+         else if userType == "Top Master"
+         {
+             imageProfile.image = #imageLiteral(resourceName: "tm_new")
+         }
+         else if userType == "VIP"
+         {
+             imageProfile.image = #imageLiteral(resourceName: "vip_new")
+         }
+         else if userType == "RD"
+         {
+             imageProfile.image = #imageLiteral(resourceName: "LevelRD")
+         }
+         else
+         {
+             imageProfile.image = #imageLiteral(resourceName: "default")
+           
+ //            let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
+ //            imageProfile.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+         }
     }
     
     //MARK: - Set Data
@@ -73,8 +103,9 @@ class ProfileVC: UIViewController {
         }
         
         
-        let imageURL = URL(string: "\(dictProfileData["profile_image"] as? String ?? "")")
-        imageProfile.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+        
+//        let imageURL = URL(string: "\(dictProfileData["profile_image"] as? String ?? "")")
+//        imageProfile.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         
         arrBanks = dictProfileData["bank_account"] as! [[String: Any]]
         

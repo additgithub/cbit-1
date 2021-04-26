@@ -144,6 +144,10 @@ class RegisterVC: UIViewController {
         }
     }
     
+    @IBAction func buttonBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func buttonPolicy(_ sender: Any) {
         if isPolicySelected {
             isPolicySelected = false

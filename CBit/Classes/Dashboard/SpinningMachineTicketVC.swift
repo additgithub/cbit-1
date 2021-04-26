@@ -570,7 +570,7 @@ extension SpinningMachineTicketVC: UICollectionViewDelegate, UICollectionViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
         //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
       //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
-        cell.imgImage.image = (itemarr[indexPath.row]).imageByMakingWhiteBackgroundTransparent()
+        cell.imgImage.image = (itemarr[indexPath.row])//.imageByMakingWhiteBackgroundTransparent()
         return cell
     }
 }
@@ -1198,7 +1198,7 @@ extension SpinningMachineTicketVC {
                     
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     
-                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+               //     self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC

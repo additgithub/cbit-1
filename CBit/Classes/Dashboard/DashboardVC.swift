@@ -660,7 +660,7 @@ extension DashboardVC {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let fileName = name // name of the image to be saved
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        if let data = image.jpegData(compressionQuality: 0.8),!FileManager.default.fileExists(atPath: fileURL.path){
+        if let data = image.pngData(),!FileManager.default.fileExists(atPath: fileURL.path){
             do {
                 try data.write(to: fileURL)
                 print("file saved")

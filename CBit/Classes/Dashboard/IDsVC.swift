@@ -275,22 +275,22 @@ class IDsVC: UIViewController {
         
         if (EM >= 10000000) {
             EM = EM / 10000000;
-            lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) Cr"
+            lblemtotal.text = "₹ \(EM.rounded(toPlaces: 1)) Cr"
               } else if (EM >= 100000) {
                 EM = EM / 100000;
-                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 1)) Lac"
               } else if (EM >= 10000) {
                 EM = EM / 1000;
-                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2)) K"
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 1)) K"
               }
         else
               {
-                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 2))"
+                lblemtotal.text = "₹ \(EM.rounded(toPlaces: 1))"
               }
         
        
-        lblrefcomtotal.text = "₹ \(RefComm.rounded(toPlaces: 2))"
-        lbltdstotal.text = "₹ \(TDS.rounded(toPlaces: 2))"
+        lblrefcomtotal.text = "₹ \(RefComm.rounded(toPlaces: 1))"
+        lbltdstotal.text = "₹ \(TDS.rounded(toPlaces: 1))"
         
         lblreferaltotal.text = "\(dict["UserRefferalNetwork"]!)"
         self.tbllist.reloadData()
@@ -458,7 +458,12 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         }
         return 0
     }
-    
+    func currentTimeInMilliSeconds()-> Int
+        {
+            let currentDate = Date()
+            let since1970 = currentDate.timeIntervalSince1970
+            return Int(since1970 * 1000)
+        }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == tbllist
         {
@@ -470,21 +475,21 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
             var EM = (Double(referallistarr[indexPath.row]["EM"] as! String))!
             if (EM >= 10000000) {
                 EM = EM / 10000000;
-                cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) Cr"
+                cell.lblem.text = "₹ \(EM.rounded(toPlaces: 1)) Cr"
                   } else if (EM >= 100000) {
                     EM = EM / 100000;
-                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) Lac"
+                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 1)) Lac"
                   } else if (EM >= 10000) {
                     EM = EM / 1000;
-                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 2)) K"
+                    cell.lblem.text = "₹ \(EM.rounded(toPlaces: 1)) K"
                   }
             else
                   {
-                    cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 2))"
+                    cell.lblem.text = "₹ \((Double(referallistarr[indexPath.row]["EM"] as! String))!.rounded(toPlaces: 1))"
                   }
             
-            cell.lblrefcom.text = "₹ \((Double(referallistarr[indexPath.row]["RefComm"]as! String))!.rounded(toPlaces: 2))"
-            cell.lbltds.text = "₹ \((Double(referallistarr[indexPath.row]["TDS"]as! String))!.rounded(toPlaces: 2))"
+            cell.lblrefcom.text = "₹ \((Double(referallistarr[indexPath.row]["RefComm"]as! String))!.rounded(toPlaces: 1))"
+            cell.lbltds.text = "₹ \((Double(referallistarr[indexPath.row]["TDS"]as! String))!.rounded(toPlaces: 1))"
             
             let tapGestureem : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblemClick(tapGesture:)))
             tapGestureem.delegate = self
@@ -524,9 +529,10 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
             }
             else
             {
-                let imageURL = URL(string: referalcriteriaarr[indexPath.row]["profile_image"] as? String ?? "")
-                cell.imglevelname.sd_setImage(with: imageURL,
-                                         placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+                cell.imglevelname.image = #imageLiteral(resourceName: "default")
+                
+//                let imageURL = URL(string: referalcriteriaarr[indexPath.row]["profile_image"] as? String ?? "")
+//                cell.imglevelname.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
             }
             
             cell.lblidname.text = "\(referalcriteriaarr[indexPath.row]["ReferalLevelName"]!)"

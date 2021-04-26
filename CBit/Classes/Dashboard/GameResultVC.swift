@@ -671,6 +671,7 @@ class GameResultTVC: UITableViewCell {
     @IBOutlet weak var img2: UIImageView!
     @IBOutlet weak var lblplaypending: UILabel!
     @IBOutlet weak var lblgameno: UILabel!
+    @IBOutlet weak var imgselectedans: UIImageView!
     
     
     @IBOutlet weak var collectionlist: UICollectionView!
@@ -739,13 +740,13 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
         
         if strDisplayValue == arrSloats[indexPath.row]["displayValue"] as? String ?? "" {
-            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-            lockcell.contentView.layer.borderWidth = 2
+//            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+//            lockcell.contentView.layer.borderWidth = 2
         }
         else
         {
-            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-            lockcell.contentView.layer.borderWidth = 0
+//            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+//            lockcell.contentView.layer.borderWidth = 0
         }
         
         let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
@@ -761,7 +762,7 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             lockcell.labelDisplayValue.isHidden = true
             lockcell.img.isHidden = false
             let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
-            lockcell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+            lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
         }
         
         return lockcell

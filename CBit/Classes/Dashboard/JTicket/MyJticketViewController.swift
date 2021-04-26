@@ -213,7 +213,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
             else if status == 1 {
                 
                 let  waiting = arrMyJTicket[indexPath.row]["waiting"] as? Int ?? 0
-                let price = arrMyJTicket[indexPath.row]["WinningAmount"] as? Double ?? 0.00
+                let price = arrMyJTicket[indexPath.row]["redenption_to"] as? Double ?? 0.00
                 
                 userCell.btnapply.setTitle("Current Waiting : \(waiting)" , for: .normal)
                 userCell.btnapply.isUserInteractionEnabled = false
@@ -268,6 +268,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         if tableView == tbllistingMyjticket {
             let cell = tableView.cellForRow(at: indexPath) as! MyJticketlisting
             if isfliparr[indexPath.row] {

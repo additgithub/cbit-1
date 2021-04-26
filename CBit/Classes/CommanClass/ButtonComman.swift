@@ -72,7 +72,7 @@ class ButtonWithBlueColor: UIButton {
         layer.cornerRadius = 5
         layer.cornerRadius = 5
         layer.masksToBounds = true
-        backgroundColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0, green: 0.2535815537, blue: 0, alpha: 1)
         setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
     }
     

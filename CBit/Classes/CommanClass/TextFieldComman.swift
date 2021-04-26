@@ -11,7 +11,7 @@ class TextFieldwithBorder: UITextField {
     }
     func setTextField() {
         
-        textColor = UIColor.black
+        textColor = UIColor.white
         
     }
 }

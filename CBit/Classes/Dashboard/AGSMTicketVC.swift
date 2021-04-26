@@ -578,7 +578,7 @@ extension AGSMTicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
         //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
       //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
-        cell.imgImage.image = (itemarr[indexPath.row]).imageByMakingWhiteBackgroundTransparent()
+        cell.imgImage.image = (itemarr[indexPath.row])//.imageByMakingWhiteBackgroundTransparent()
         return cell
     }
 }

@@ -12,7 +12,7 @@ struct SideMenu {
         self.isExpande = isExpand
     }
 }
-class SideMenuVC: UIViewController {
+class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
     //MARK: - Propertires
     @IBOutlet weak var viewProfile: UIView!
     @IBOutlet weak var imageProfile: UIImageView!
@@ -83,6 +83,10 @@ class SideMenuVC: UIViewController {
     ]
     
     var selectedIndex: Int = 0
+    var adp = String()
+    var efm = String()
+    var em = String()
+    var cc = String()
     
     //MARK: - Default Method.
     override func viewDidLoad() {
@@ -99,6 +103,76 @@ class SideMenuVC: UIViewController {
                                                name: .userUnauthorized,
                                                object: nil)
         setData()
+        
+        let tapGesture1 : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblapdClick(tapGesture:)))
+        tapGesture1.delegate = self
+        tapGesture1.numberOfTapsRequired = 1
+        lblapd.tag = 1
+        lblapd.isUserInteractionEnabled = true
+        lblapd.addGestureRecognizer(tapGesture1)
+        
+        let tapGesture2 : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblapdClick(tapGesture:)))
+        tapGesture2.delegate = self
+        tapGesture2.numberOfTapsRequired = 1
+        lblefm.tag = 2
+        lblefm.isUserInteractionEnabled = true
+        lblefm.addGestureRecognizer(tapGesture2)
+        
+        let tapGesture3 : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblapdClick(tapGesture:)))
+        tapGesture3.delegate = self
+        tapGesture3.numberOfTapsRequired = 1
+        lblem.tag = 3
+        lblem.isUserInteractionEnabled = true
+        lblem.addGestureRecognizer(tapGesture3)
+        
+        let tapGesture4 : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(lblapdClick(tapGesture:)))
+        tapGesture4.delegate = self
+        tapGesture4.numberOfTapsRequired = 1
+        lblbap.tag = 4
+        lblbap.isUserInteractionEnabled = true
+        lblbap.addGestureRecognizer(tapGesture4)
+    }
+    
+    @objc func lblapdClick(tapGesture:UITapGestureRecognizer){
+        let tagindex = tapGesture.view!.tag
+       print("Lable tag is:\(tagindex)")
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 1
+
+        let myString1 = formatter.string(from: NSNumber(value: Double(adp)!))
+        let myString2 = formatter.string(from: NSNumber(value: Double(efm)!))
+        let myString3 = formatter.string(from: NSNumber(value: Double(em)!))
+        let myString4 = formatter.string(from: NSNumber(value: Double(cc)!))
+        
+        
+        if tagindex == 1 {
+            let alert = UIAlertController(title: "", message: "₹ \(myString1 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else if tagindex == 2
+        {
+            let alert = UIAlertController(title: "", message: "₹ \(myString2 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else if tagindex == 3
+        {
+            let alert = UIAlertController(title: "", message: "₹ \(myString3 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else if tagindex == 4
+        {
+            let alert = UIAlertController(title: "", message: "CC \(myString4 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+       
+       
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,9 +207,10 @@ class SideMenuVC: UIViewController {
         }
         else
         {
-            let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
-            imageProfile.sd_setImage(with: imageURL,
-                                     placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+            imageProfile.image = #imageLiteral(resourceName: "default")
+          
+//            let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
+//            imageProfile.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
         }
         
         
@@ -733,10 +808,10 @@ extension SideMenuVC {
                 if status == 200 {
                     let dictData = result!["content"] as! [String: Any]
                     
-                    let adp = dictData["ADP"]! as? String ?? "0.0"
-                    let efm = dictData["TotalEntry"]! as! Int
-                    let em = dictData["TotalEarning"]! as! Double
-                    let cc = dictData["BAP"]! as? String ?? "0.0"
+                    self.adp = dictData["ADP"]! as? String ?? "0.0"
+                    self.efm = "\(dictData["TotalEntry"]! as! Int)"
+                    self.em = "\(dictData["TotalEarning"]! as! Double)"
+                    self.cc = dictData["BAP"]! as? String ?? "0.0"
                     
                     let formatter = NumberFormatter()              // Cache this, NumberFormatter creation is expensive.
                     formatter.locale = Locale(identifier: "en_IN") // Here indian locale with english language is used
@@ -748,10 +823,16 @@ extension SideMenuVC {
                     //let asd = formatter.string(for: <#T##Any?#>)
                     
                     
-                    self.lblapd.text = "₹\(String(describing: formatter.string(from: NSNumber(value: Double(adp)!))!))"
-                    self.lblefm.text = "₹\(String(describing: formatter.string(from: NSNumber(value: efm))!))"
-                    self.lblem.text = "₹\(String(describing: formatter.string(from: NSNumber(value: em))!))"
-                    self.lblbap.text = "CC \(String(describing: formatter.string(from: NSNumber(value: Double(cc)!))!))"
+//                    self.lblapd.text = "₹\(String(describing: formatter.string(from: NSNumber(value: Double(adp)!))!))"
+//                    self.lblefm.text = "₹\(String(describing: formatter.string(from: NSNumber(value: efm))!))"
+//                    self.lblem.text = "₹\(String(describing: formatter.string(from: NSNumber(value: em))!))"
+//                    self.lblbap.text = "CC \(String(describing: formatter.string(from: NSNumber(value: Double(cc)!))!))"
+                    
+                    self.lblapd.text = "₹\(Double(self.adp)?.shorted() ?? "0")"
+                    self.lblefm.text = "₹\(Double(self.efm)?.shorted() ?? "0" )"
+                    self.lblem.text = "₹\(Double(self.em)?.shorted() ?? "0" )"
+                    self.lblbap.text = "CC \(Double(self.cc)?.shorted() ?? "0")"
+                    
                 } else if status == 401 {
                    
                     self.dismiss(animated: true, completion: nil)
@@ -859,5 +940,72 @@ extension Int {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         return numberFormatter.string(from: NSNumber(value:self))!
+    }
+}
+
+extension Double {
+     func shorted() -> String {
+        if self >= 1000 && self < 100000 {
+             return String(format: "%.1fK", Double(self/100)/10).replacingOccurrences(of: ".0", with: "")
+         }
+
+//         if self >= 10000 && self < 100000 {
+//             return "\(self/1000)k"
+//         }
+
+         if self >= 100000 && self < 1000000 {
+             return String(format: "%.1fL", Double(self/10000)/10).replacingOccurrences(of: ".0", with: "")
+         }
+
+         if self >= 1000000 && self < 10000000 {
+             return String(format: "%.1fM", Double(self/100000)/10).replacingOccurrences(of: ".0", with: "")
+         }
+
+         if self >= 10000000 {
+             return "\(self/1000000)M"
+         }
+
+         return String(self)
+    }
+  //  var shortStringRepresentation: String {
+        
+        
+ 
+        
+        
+//        if self.isNaN {
+//            return "NaN"
+//        }
+//        if self.isInfinite {
+//            return "\(self < 0.0 ? "-" : "+")Infinity"
+//        }
+//        let units = ["", "k", "M"]
+//        var interval = self
+//        var i = 0
+//        while i < units.count - 1 {
+//            if abs(interval) < 1000.0 {
+//                break
+//            }
+//            i += 1
+//            interval /= 1000.0
+//        }
+//        // + 2 to have one digit after the comma, + 1 to not have any.
+//        // Remove the * and the number of digits argument to display all the digits after the comma.
+//        return "\(String(format: "%0.*g", Int(log10(abs(interval))) + 2, interval))\(units[i])"
+ //   }
+}
+
+
+struct Number {
+    static let withSeparator: NumberFormatter = {
+        let formatter = NumberFormatter()
+      //  formatter.groupingSeparator = " " // or possibly "." / ","
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+}
+extension Double {
+    var stringWithSepator: String {
+        return Number.withSeparator.string(from: NSNumber(value: hashValue)) ?? ""
     }
 }

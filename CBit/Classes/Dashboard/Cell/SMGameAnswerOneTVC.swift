@@ -172,7 +172,7 @@ extension SMGameAnswerThreeTVC: UICollectionViewDelegate, UICollectionViewDataSo
                  cell.img.isHidden = false
                  let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
  //                cell.img.image = makeTransparent(image: localimg)
-                 cell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                 cell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
              }
          
         
@@ -353,7 +353,7 @@ extension SMGameAnswerThreeLockTVC: UICollectionViewDelegate, UICollectionViewDa
                 cell.img.isHidden = false
                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
 //                cell.img.image = makeTransparent(image: localimg)
-                cell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
+                cell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
             }
         
        
