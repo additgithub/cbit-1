@@ -87,29 +87,8 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         winnerCell.labelTime.text = arrWinners[indexPath.row]["lockTime"] as? String ?? "00:00:00"
       
         
-        let UserCriteriaID = arrWinners[indexPath.row]["UserCriteriaID"] as? String ?? ""
-        
-        if UserCriteriaID == "Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "Level Master")
-        }
-        else if UserCriteriaID == "Super Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "sm_new")
-        }
-        else if UserCriteriaID == "Top Master" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "tm_new")
-        }
-        else if UserCriteriaID == "VIP" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "vip_new")
-        }
-        else if UserCriteriaID == "RD" {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "LevelRD")
-        }
-        else
-        {
-            winnerCell.imageUser.image = #imageLiteral(resourceName: "default")
-//            let imageURL = URL(string: arrWinners[indexPath.row]["profile_image"] as? String ?? "")
-//            winnerCell.imageUser.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
-        }
+                    let imageURL = URL(string: arrWinners[indexPath.row]["referral_image"] as? String ?? "")
+                    winnerCell.imageUser.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         
         return winnerCell
     }

@@ -58,7 +58,9 @@ class CCPassBookViewController: UIViewController {
     private var isRefresh = Bool()
     private var isShowLoading = Bool()
     
-    
+    var Start = 0
+    var Limit = 10
+    var ismoredata = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +99,9 @@ class CCPassBookViewController: UIViewController {
             isRefresh = true
             isShowLoading = false
             refreshControl.beginRefreshing()
+            Start = 0
+           arrPassbook = [[String:Any]]()
+           tablePassBook.reloadData()
             self.getccPassbookData()
         }
     }
@@ -162,6 +167,16 @@ extension CCPassBookViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         
+        if arrPassbook.count > 1 {
+            let lastElement = arrPassbook.count - 1
+            if indexPath.row == lastElement && ismoredata{
+                //call get api for next page
+                getccPassbookData()
+            }
+
+        }
+
+        
         return passBookCell
     }
     
@@ -184,9 +199,9 @@ extension CCPassBookViewController {
         let strURL = Define.APP_URL + Define.API_getCCPassbook
         
         print("URL: \(strURL)")
-        
+        let parameter: [String: Any] = ["start": Start,"limit":Limit]
         SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: nil,
+                                    parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
         { (result, error) in
@@ -210,7 +225,19 @@ extension CCPassBookViewController {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    self.arrPassbook = result!["content"] as! [[String: Any]]
+                   // self.arrPassbook = result!["content"] as! [[String: Any]]
+                    let arr =  result!["content"] as! [[String : Any]]
+                    
+                    if arr.count > 0 {
+                        self.arrPassbook.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 10
+                        self.Limit =  10
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
                     if self.arrPassbook.count == 0 {
                         self.viewNoData.isHidden = false
                     } else {

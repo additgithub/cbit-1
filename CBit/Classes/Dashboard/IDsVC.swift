@@ -87,6 +87,12 @@ class IDsVC: UIViewController {
     }
     @IBAction func invitefrnd_click(_ sender: ButtonWithBlueColor) {
         
+                    let Referral = self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController") as! ReferralViewController
+                    Referral.modalPresentationStyle = .fullScreen
+                    present(Referral, animated: true) {
+                    }
+//        let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController") as! ReferralViewController
+//        self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
         //        Install the ‘Cbit Original’ Gaming App with my referral code - *DHANIK*
         //
         //    • Worlds first Win-Win gaming concept
@@ -100,48 +106,48 @@ class IDsVC: UIViewController {
         //        Hurry! Join now!
                 
                 
-              
-                            if let urlStr = NSURL(string:"https://cbitoriginal.com/")
-                               
-                            {
-                               
-                              
-                        let url1 =  "Hey there! \n\n"
-         
-
-                        let url2 = UserDefaults.standard.value(forKey:"Referralcode")! as? String
-                               
-                        let url4 = "Install the ‘CBIT Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
-                              
-                                
-                        let url3 = "\n\n• Worlds first Win-Win gaming concept \n• Worlds shortest and easiest games \n• Responsible Gaming \n• Digital Money Market \n• Minimum entry fee ₹5/- only \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Join now!"
-
-                    
-                        
-                                
-                
-                        var appendString  = "\(url1)\(url4)\(url3)"
-                                
-                                
-                       // let objectsToShare = [appendString,urlStr] as [Any]
-                         
-                         let objectsToShare = [appendString] as [Any]
-                                
-                                
-                                
-                        let activityVC = UIActivityViewController(activityItems: objectsToShare as [Any], applicationActivities: nil)
-                
-                        if UI_USER_INTERFACE_IDIOM() == .pad
-                        {
-                                    if let popup = activityVC.popoverPresentationController {
-                                        popup.sourceView = self.view
-                                        popup.sourceRect = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 4, width: 0, height: 0)
-                                    }
-                                }
-                
-                                self.present(activityVC, animated: true, completion: nil)
-                
-                 }
+//              
+//                            if let urlStr = NSURL(string:"https://cbitoriginal.com/")
+//                               
+//                            {
+//                               
+//                              
+//                        let url1 =  "Hey there! \n\n"
+//         
+//
+//                        let url2 = UserDefaults.standard.value(forKey:"Referralcode")! as? String
+//                               
+//                        let url4 = "Install the ‘CBIT Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
+//                              
+//                                
+//                        let url3 = "\n\n• Worlds first Win-Win gaming concept \n• Worlds shortest and easiest games \n• Responsible Gaming \n• Digital Money Market \n• Minimum entry fee ₹5/- only \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Join now!"
+//
+//                    
+//                        
+//                                
+//                
+//                        var appendString  = "\(url1)\(url4)\(url3)"
+//                                
+//                                
+//                       // let objectsToShare = [appendString,urlStr] as [Any]
+//                         
+//                         let objectsToShare = [appendString] as [Any]
+//                                
+//                                
+//                                
+//                        let activityVC = UIActivityViewController(activityItems: objectsToShare as [Any], applicationActivities: nil)
+//                
+//                        if UI_USER_INTERFACE_IDIOM() == .pad
+//                        {
+//                                    if let popup = activityVC.popoverPresentationController {
+//                                        popup.sourceView = self.view
+//                                        popup.sourceRect = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 4, width: 0, height: 0)
+//                                    }
+//                                }
+//                
+//                                self.present(activityVC, animated: true, completion: nil)
+//                
+//                 }
                 
             }
     @IBAction func sortby_click(_ sender: UIButton) {
@@ -230,7 +236,7 @@ class IDsVC: UIViewController {
                                                 dateFormater.dateFormat = "dd-MM-yyyy"
                                                 let stringFromDate: String = dateFormater.string(from: date as! Date) as String
                                                 sender.setTitle(stringFromDate, for: .normal)
-                                                
+                                                self.getReferalCriteriaChart()
                                                     return
                                                 },
                                                cancel: { picker in
@@ -510,30 +516,8 @@ extension IDsVC: UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerD
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CriteriaCell") as! CriteriaCell
             
-            let UserCriteriaID = referalcriteriaarr[indexPath.row]["ReferalLevelName"] as? String ?? ""
-            
-            if UserCriteriaID == "Master" {
-                cell.imglevelname.image = #imageLiteral(resourceName: "Level Master")
-            }
-            else if UserCriteriaID == "Super Master" {
-                cell.imglevelname.image = #imageLiteral(resourceName: "sm_new")
-            }
-            else if UserCriteriaID == "Top Master" {
-                cell.imglevelname.image = #imageLiteral(resourceName: "tm_new")
-            }
-            else if UserCriteriaID == "VIP" {
-                cell.imglevelname.image = #imageLiteral(resourceName: "vip_new")
-            }
-            else if UserCriteriaID == "RD" {
-                cell.imglevelname.image = #imageLiteral(resourceName: "LevelRD")
-            }
-            else
-            {
-                cell.imglevelname.image = #imageLiteral(resourceName: "default")
-                
-//                let imageURL = URL(string: referalcriteriaarr[indexPath.row]["profile_image"] as? String ?? "")
-//                cell.imglevelname.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
-            }
+                            let imageURL = URL(string: referalcriteriaarr[indexPath.row]["image"] as? String ?? "")
+                            cell.imglevelname.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
             
             cell.lblidname.text = "\(referalcriteriaarr[indexPath.row]["ReferalLevelName"]!)"
             cell.lblbenifits.text = "Random Commission UpTo \(referalcriteriaarr[indexPath.row]["CommissionLevel"]!) Levels"

@@ -184,10 +184,10 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                                selector: #selector(handleEndGameNotication(_:)),
                                                name: .endGame,
                                                object: nil)
-        let path = Bundle.main.path(forResource: "Tick Tock.mp3", ofType: nil)!
+        let path = Bundle.main.path(forResource: "heartbeat.mp3", ofType: nil)!
         soundURL = URL(fileURLWithPath: path)
         
-        let path1 = Bundle.main.path(forResource: "waiting_timer.mp3", ofType: nil)!
+        let path1 = Bundle.main.path(forResource: "Countdown_timer.mp3", ofType: nil)!
         TenSecondsoundURL = URL(fileURLWithPath: path1)
         
         
@@ -278,7 +278,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !isFromNotification {
-            labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+           // labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
         }
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
@@ -289,6 +289,11 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         SocketIOManager.sharedInstance.lastViewController = nil
         SwiftPingPong.shared.stopPingPong()
         startTimer?.invalidate()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+      //  startTimer?.invalidate()
+        timermili?.invalidate()
     }
     
     
@@ -480,8 +485,9 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
     func locakall()
     {
-        lockallmili = currentTodayTimeInMilliSeconds()
-        let total = lockallmili - 100 //+ startdatemilisec
+//        lockallmili = currentTodayTimeInMilliSeconds()
+//        let total = lockallmili - 100 //+ startdatemilisec
+        let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
        // let d = Date()
@@ -744,7 +750,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         
        
             
-        if  Int(self.gameTime) ?? 0 == 45 {
+        if  Int(self.gameTime) ?? 0 == 40 {
           print("TENSECOND")
               setTenSecSound()
           }
@@ -776,11 +782,18 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
            // second = (dictGameData["duration"] as? Int)!
            // print("secondsspre",second)
             
-//        if Int(gameTime) == 30 {
-//
-////            second = 30
-////            setTimer()
-//        }
+        if Int(gameTime)! <= 30 {
+            startTimemili = (30 - Int(gameTime)!) * 100
+//            if Int(gameTime)! == 30  {
+//                startTimemili = 99
+//            }
+//            else
+//            {
+//                startTimemili = (30 - Int(gameTime)!) * 100
+//            }
+            
+            startmilitimer()
+        }
             
             //  labelTimer.text = ""
             if (gameStatus == "start") {
@@ -895,6 +908,56 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             self.collectionGame.reloadData()
 //            tableAnswer.reloadData()
         }
+    
+    weak var timermili: Timer?
+     var startTimemili = Int()
+     var timemili = Int()
+    
+    func startmilitimer()  {
+        
+//        if timermili != nil {
+//            timermili!.invalidate()
+//            timermili = nil
+//        }
+        if timermili == nil {
+            
+            timermili = Timer.scheduledTimer(timeInterval: 0.01,
+                                             target: self,
+                                             selector: #selector(advanceTimer(timer:)),
+                                             userInfo: nil,
+                                             repeats: true)
+            
+             RunLoop.current.add(timermili!, forMode: .common)
+          //  RunLoop.current.add(self.startTimer!, forMode: RunLoop.Mode.common)
+            
+        }
+    
+      //  startTimemili = Date().timeIntervalSinceReferenceDate
+  
+     }
+
+     //When the view controller is about to disappear, invalidate the timer
+//     override func viewWillDisappear(_ animated: Bool) {
+//       timermili?.invalidate()
+//     }
+
+
+    @objc func advanceTimer(timer: Timer) {
+       
+       //Total time since timer started, in seconds
+        
+        lockallmili = startTimemili * 10
+     //  timemili = Date().timeIntervalSinceReferenceDate - startTimemili
+
+       //The rest of your code goes here
+
+       //Convert the time to a string with 2 decimal places
+    //   let timeString = String(format: "%.3f", startTimemili)
+        print("MILITIMER:",startTimemili)
+        startTimemili = startTimemili + 1
+       //Display the time string to a label in our view controller
+     //  timeValueLabel.text = timeString
+     }
     
     
     func getContestDetail(isfromtimer:Bool,isStart:Int) {
@@ -1416,18 +1479,18 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             //startSecond = MyModel().getSecound(currentTime: self.currentDate, startDate: startDate)
             print("Seconds: \(startSecond)")
             
-//            if isfromtime {
-//                 if startTimer == nil {
-//                               startSecond = startSecond - 1
-//                               labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
-//                               setStartTimer()
-//
-//                           }
-//                else
-//                 {
-//               //     labelTimer.text = ""
-//                }
-//            }
+            if isfromtime {
+                 if startTimer == nil {
+                               startSecond = startSecond - 1
+                          //     labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+                               setStartTimer()
+
+                           }
+                else
+                 {
+               //     labelTimer.text = ""
+                }
+            }
            
         }
 //           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -1442,21 +1505,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 second = (dictdata["duration"] as? Int)!
                 print("secondsspre",second)
                 
-           
-                
-                //  labelTimer.text = ""
                 if (gameStatus == "start") {
-                   
-                    
-        //            isGameStart = true
-        //
-        //            print("secondss",second)
-        //           // print(dictGameData["duration"] as? Int)
-        //            second = ((dictGameData["duration"] as? Int ?? 30) - differenceSecond - 4)
-        //           // second = 30
-        //            self.labelTimer.text = "\(self.second)"
-        //            second = second - 1
-        //            setTimer()
                     
                     if self.gametype == "rdb" {
                         btnlockall.isEnabled = true
@@ -1768,7 +1817,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                             if startTimer != nil {
                                 startTimer!.invalidate()
                                 startTimer = nil
-                                 labelTimer.text = ""
+                              //   labelTimer.text = ""
             //                    let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
             //                          //  labelTimer.text = ""
             //                           if gameStatus == "start" {
@@ -2245,7 +2294,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                         
                       //  fixCell.buttonAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         
-                        fixCell.buttonAnsMinus.backgroundColor = UIColor.red
+                        fixCell.buttonAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         fixCell.labelAnsMinus.textColor = UIColor.white
                     }
                     
@@ -2263,7 +2312,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                         fixCell.labelAnsPlus.textColor = UIColor.black
                     } else {
                        // fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                        fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+                        fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         fixCell.labelAnsPlus.textColor = UIColor.white
                         
                     }
@@ -2347,7 +2396,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     } else {
                        // fixCell.buttonAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         
-                        fixCell.buttonAnsMinus.backgroundColor = UIColor.red
+                        fixCell.buttonAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         fixCell.labelAnsMinus.textColor = UIColor.white
                         
                     }
@@ -2367,7 +2416,7 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     } else {
                    //     fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         
-                        fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 0.01085097995, green: 0.3226040006, blue: 1, alpha: 1)
+                        fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         fixCell.labelAnsPlus.textColor = UIColor.white
                         
                     }
@@ -2596,8 +2645,9 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        lockallmili = currentTodayTimeInMilliSeconds()
-        let total = lockallmili - 100//+ startdatemilisec
+//        lockallmili = currentTodayTimeInMilliSeconds()
+//        let total = lockallmili - 100//+ startdatemilisec
+        let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
      //   let d = Date()

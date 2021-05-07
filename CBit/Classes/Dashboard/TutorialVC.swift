@@ -23,7 +23,7 @@ class TutorialVC: UIViewController {
         UIImage(named: "11.png"),
         UIImage(named: "12.png"),
         UIImage(named: "13.png"),
-        UIImage(named: "14.png"),
+     //   UIImage(named: "14.png"),
         UIImage(named: "15.png"),
         UIImage(named: "16.png")
        

@@ -1111,7 +1111,7 @@ extension TicketVC {
           //  content.categoryIdentifier = Define.PLAYGAME
              //  content.userInfo = ["customData": "fizzbuzz"]
              //  content.sound = UNNotificationSound.default
-            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
+          //  content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
             
                let reminderDate = MyModel().getDateForRemiderbeforetensecond(contestDate: strDate)
                 let timeInterval = reminderDate.timeIntervalSinceNow

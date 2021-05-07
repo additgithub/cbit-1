@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -670,7 +669,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sEu-pP-ZIb"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sEu-pP-ZIb" firstAttribute="trailing" secondItem="x21-BX-SrH" secondAttribute="trailing" id="W91-TI-R3c"/>
                             <constraint firstItem="x21-BX-SrH" firstAttribute="top" secondItem="sEu-pP-ZIb" secondAttribute="top" id="a2Q-5W-Yl6"/>
@@ -977,7 +976,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dBX-Xr-Dxu"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jp1-UB-3QZ" firstAttribute="leading" secondItem="dBX-Xr-Dxu" secondAttribute="leading" id="4fU-aI-mfv"/>
                             <constraint firstItem="jp1-UB-3QZ" firstAttribute="top" secondItem="dBX-Xr-Dxu" secondAttribute="top" id="5FN-Iu-g1D"/>
@@ -1782,7 +1781,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="unD-PO-Clz"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="unD-PO-Clz" firstAttribute="bottom" secondItem="CvO-Ra-vQ1" secondAttribute="bottom" id="3yN-gt-aHw"/>
                             <constraint firstItem="unD-PO-Clz" firstAttribute="trailing" secondItem="CvO-Ra-vQ1" secondAttribute="trailing" id="DYb-XD-Sp9"/>
@@ -2406,7 +2405,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cwB-n5-lIM"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1JW-Yb-Lgq" firstAttribute="trailing" secondItem="cwB-n5-lIM" secondAttribute="trailing" id="3Fr-Mp-Jx8"/>
                             <constraint firstItem="1JW-Yb-Lgq" firstAttribute="top" secondItem="cwB-n5-lIM" secondAttribute="top" id="4u6-JE-aIj"/>
@@ -2994,8 +2993,5 @@
         <image name="ic_unchecked" width="42.5" height="42.5"/>
         <image name="new_logo" width="1732" height="1732"/>
         <image name="splash_bg_new" width="750" height="1334"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

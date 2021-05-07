@@ -28,7 +28,11 @@ class SplashVC: UIViewController {
 //                })
                 if isMobileOtpLogin {
                     
-                    self.CheckVersion()
+                   // self.CheckVersion()
+                    let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+                    let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+                    menuVC.modalPresentationStyle = .fullScreen
+                    self.present(menuVC, animated: true,completion:{})
                     
                 }
                 else{

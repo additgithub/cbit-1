@@ -58,7 +58,7 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
         SideMenu(title: "Notification", subMenus: nil, isExpand: false),
         SideMenu(title: "History", subMenus: nil, isExpand: false),
-        SideMenu(title: "Invite Friends", subMenus: nil, isExpand: false),
+     //   SideMenu(title: "Invite Friends", subMenus: nil, isExpand: false),
         SideMenu(title: "Settings", subMenus: nil, isExpand: false),
   //      SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "TERMS & CONDITION", subMenus: nil, isExpand: false),
@@ -182,39 +182,6 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         //let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
         //imageProfile.sd_setImage(with: imageURL,
                                  //placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
-        
-       let userType = Define.USERDEFAULT.value(forKey: "UserCriteriaID") as? String
-        
-        if userType == "Master"
-        {
-            imageProfile.image = #imageLiteral(resourceName: "Level Master")
-        }
-        else if userType == "Super Master"
-        {
-            imageProfile.image = #imageLiteral(resourceName: "sm_new")
-        }
-        else if userType == "Top Master"
-        {
-            imageProfile.image = #imageLiteral(resourceName: "tm_new")
-        }
-        else if userType == "VIP"
-        {
-            imageProfile.image = #imageLiteral(resourceName: "vip_new")
-        }
-        else if userType == "RD"
-        {
-            imageProfile.image = #imageLiteral(resourceName: "LevelRD")
-        }
-        else
-        {
-            imageProfile.image = #imageLiteral(resourceName: "default")
-          
-//            let imageURL = URL(string: Define.USERDEFAULT.value(forKey: "ProfileImage") as? String ?? "")
-//            imageProfile.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
-        }
-        
-        
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -233,8 +200,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         /*else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
-        else if arrSideMenu[10].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[10].arrSubMenu!.count * 60))
+        else if arrSideMenu[9].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[9].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -365,17 +332,17 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
             self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
         }, with: "5")
         
-        sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
-        }, with: "6")
+//        sideMenuController?.cache(viewControllerGenerator: {
+//            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
+//        }, with: "6")
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
-        }, with: "7")
+        }, with: "6")
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-        }, with: "8")
+        }, with: "7")
         
        /* sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
@@ -444,7 +411,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 10 //|| section == 2
+        if section == 1 || section == 9 //|| section == 2
         {
             headerCell.imageMenuArrow.isHidden = false
         } else {
@@ -471,7 +438,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 10{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 9{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -529,7 +496,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }*/
-     else if indexPath.section == 10 {
+     else if indexPath.section == 9 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -560,7 +527,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[10].isExpande = false
+            arrSideMenu[9].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -574,11 +541,11 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             setSideMenuHeight()
             tableMenu.reloadData()
         }*/
-        else if index == 10 {
+        else if index == 9 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-           // arrSideMenu[10].isExpande = false
+           // arrSideMenu[9].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -613,7 +580,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 9 {
+        else if index == 8 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC
@@ -623,7 +590,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
         }
             
-//            else if index == 10 {
+//            else if index == 9 {
 //
 //                        let PackegaListVC = self.storyboard?.instantiateViewController(withIdentifier: "PackegaListVC") as! PackegaListVC
 //                       PackegaListVC.modalPresentationStyle = .fullScreen
@@ -808,6 +775,9 @@ extension SideMenuVC {
                 if status == 200 {
                     let dictData = result!["content"] as! [String: Any]
                     
+                    let imageURL = URL(string:dictData["referral_image"] as! String)
+                    self.imageProfile.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_SIDE_IMAGE)
+                    
                     self.adp = dictData["ADP"]! as? String ?? "0.0"
                     self.efm = "\(dictData["TotalEntry"]! as! Int)"
                     self.em = "\(dictData["TotalEarning"]! as! Double)"
@@ -945,13 +915,14 @@ extension Int {
 
 extension Double {
      func shorted() -> String {
-        if self >= 1000 && self < 100000 {
+        if self >= 1000 && self < 10000 {
              return String(format: "%.1fK", Double(self/100)/10).replacingOccurrences(of: ".0", with: "")
          }
 
-//         if self >= 10000 && self < 100000 {
-//             return "\(self/1000)k"
-//         }
+         if self >= 10000 && self < 100000 {
+            return String(format: "%.1fK", Double(self/1000)).replacingOccurrences(of: ".0", with: "")
+          //   return "\(self/1000)k"
+         }
 
          if self >= 100000 && self < 1000000 {
              return String(format: "%.1fL", Double(self/10000)/10).replacingOccurrences(of: ".0", with: "")
