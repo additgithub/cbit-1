@@ -81,7 +81,7 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
         
         
       
-                    if let urlStr = NSURL(string:"https://cbitoriginal.com/")
+        if NSURL(string:"https://cbitoriginal.com/") != nil
                        
                     {
                        
@@ -94,13 +94,13 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
                 let url4 = "Install the ‘CBIT Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
                       
                         
-                let url3 = "\n\n• Worlds first Win-Win gaming concept \n• Worlds shortest and easiest games \n• Responsible Gaming \n• Digital Money Market \n• Minimum entry fee ₹5/- only \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Join now!"
+                let url3 = "\n\n• Worlds shortest,easiest and original games! \n• Auto apply Cashback on loosing! \n• Refer & Earn Random commission upto 9 levels! \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Download it now!"
 
             
                 
                         
         
-                var appendString  = "\(url1)\(url4)\(url3)"
+            let appendString  = "\(url1)\(url4)\(url3)"
                         
                         
                // let objectsToShare = [appendString,urlStr] as [Any]
@@ -145,8 +145,8 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
     
     @IBAction func btn_back(_ sender: UIButton) {
 
-        // self.dismiss(animated:true)
-         sideMenuController?.revealMenu()
+         self.dismiss(animated:true)
+        // sideMenuController?.revealMenu()
 }
     
     

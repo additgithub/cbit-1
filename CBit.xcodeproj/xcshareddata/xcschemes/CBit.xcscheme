@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1FBD3389222914CE00B74578"
-               BuildableName = "CBIT OG.app"
+               BuildableName = "Cbit Original.app"
                BlueprintName = "CBit"
                ReferencedContainer = "container:CBit.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FBD3389222914CE00B74578"
-            BuildableName = "CBIT OG.app"
+            BuildableName = "Cbit Original.app"
             BlueprintName = "CBit"
             ReferencedContainer = "container:CBit.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FBD3389222914CE00B74578"
-            BuildableName = "CBIT OG.app"
+            BuildableName = "Cbit Original.app"
             BlueprintName = "CBit"
             ReferencedContainer = "container:CBit.xcodeproj">
          </BuildableReference>

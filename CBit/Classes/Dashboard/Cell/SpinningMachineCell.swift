@@ -255,11 +255,11 @@ extension SpinningMachineCell: UICollectionViewDelegate, UICollectionViewDataSou
             {
                 cell.labelDisplay.isHidden = true
                 cell.img.isHidden = false
-               // let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
+                let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
               //  let scaledimg = localimg.scaleImage(toSize: CGSize(width: 50, height: 50))
-//                cell.img.image = makeTransparent(image: localimg)
+                cell.img.image = localimg
                // cell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
-                cell.img.sd_setImage(with: URL(string: arrSloats[indexPath.row]["ImageUrl"] as! String), completed: nil)
+             //   cell.img.sd_setImage(with: URL(string: arrSloats[indexPath.row]["ImageUrl"] as! String), completed: nil)
             }
 //            if indexPath.row == 1 {
 //                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")

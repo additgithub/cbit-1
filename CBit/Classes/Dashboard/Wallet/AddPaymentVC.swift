@@ -84,14 +84,17 @@ class AddPaymentVC: UIViewController {
 //                                   orderNo: orderId,
 //                                   amount: "\(addAmount)",
 //                                   viewController: self)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                
+                self.paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey:"FirstName") as? String ?? "CBit User",
+                                       customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
+                                       customerMobile: Define.USERDEFAULT.value(forKey: "UserMobile") as! String,
+                                       productName: "Credentia Games LLP Cbit Original",
+                                       orderNo: orderId,
+                                       amount: "\(addAmount)",
+                                       viewController: self)
+            }
             
-            paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey:"FirstName") as? String ?? "CBit User",
-                                   customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
-                                   customerMobile: Define.USERDEFAULT.value(forKey: "UserMobile") as! String,
-                                   productName: "CBit",
-                                   orderNo: orderId,
-                                   amount: "\(addAmount)",
-                viewController: self)
 
         }
     }

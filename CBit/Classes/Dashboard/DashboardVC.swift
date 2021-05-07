@@ -47,6 +47,7 @@ class DashboardVC: UIViewController {
 //          return refreshControl
 //      }()
     var socket: SocketIOClient!
+    var myGroup = DispatchGroup()
     override func viewDidLoad() {
         super.viewDidLoad()
         UNUserNotificationCenter.current().delegate = self
@@ -310,7 +311,14 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SpecialContestTVC", for: indexPath) as! SpecialContestTVC
 
-            
+            let game_type = arrSpecialContest[indexPath.row]["game_type"] as! String
+            if game_type == "spinning-machine" {
+                cell.imageLevel.image = #imageLiteral(resourceName: "slot_machine")
+            }
+            else
+            {
+                cell.imageLevel.image = #imageLiteral(resourceName: "classic_grid")
+            }
             //Set Data
                  cell.labelContestName.text = arrSpecialContest[indexPath.row]["name"] as? String ?? "No Name"
                  
@@ -576,18 +584,21 @@ extension DashboardVC {
             }
         }
     }
+   
     
     func SavedImageToLocal()  {
-        
+        Loading().showLoading(viewController: self)
         for dict in storeimage {
-            
+            myGroup.enter()
             SDWebImageManager.shared().loadImage(
                     with: URL(string: dict["image"] as! String),
                     options: .highPriority,
                     progress: nil) { (image, data, error, cacheType, isFinished, imageUrl) in
                       print(isFinished)
+                self.myGroup.leave()
                 if image != nil {
                     self.saveImageToDocumentDirectory(image: image!, name: dict["name"] as! String)
+                   
                      }
                 
                   }
@@ -638,6 +649,11 @@ extension DashboardVC {
             
             
         }
+        myGroup.notify(queue: .main) {
+                print("Finished all requests.")
+            Loading().hideLoading(viewController: self)
+            }
+       
     }
     
     func downloadImage(from url: URL,name:String) {

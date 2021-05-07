@@ -28,9 +28,7 @@
 		1F18383D2293DF580043D61C /* ImageCropVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F18383C2293DF580043D61C /* ImageCropVC.swift */; };
 		1F21C4D222896AA100F5A789 /* LinkBankAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */; };
 		1F21C4D422896AD800F5A789 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F21C4D322896AD800F5A789 /* ProfileVC.swift */; };
-		1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */; };
 		1F258423255563E100324564 /* PrivateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F258422255563E100324564 /* PrivateGroupViewController.swift */; };
-		1F29B486250A767B00989E3A /* notify.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1F29B485250A767B00989E3A /* notify.wav */; };
 		1F3081B6224748450067B037 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3081B5224748450067B037 /* SplashVC.swift */; };
 		1F33F4BF22687A6100883616 /* TransferToWalletVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */; };
 		1F33F4C1226882AB00883616 /* OTPVarificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F33F4C0226882AB00883616 /* OTPVarificationVC.swift */; };
@@ -131,16 +129,16 @@
 		1FFB3E51225C6A7600DC1AFA /* PrivateContestResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */; };
 		1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */; };
 		2F18554625FC974C00366758 /* SMMyTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F18554525FC974C00366758 /* SMMyTicketVC.swift */; };
+		2F56E2082644049900E86852 /* message_tone_lg_no.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */; };
+		2F56E20B26441CB500E86852 /* heartbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F56E20A26441CB500E86852 /* heartbeat.mp3 */; };
 		2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */; };
 		2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */; };
 		2F6FDC9625D64C5200555712 /* SpinningMachinePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */; };
-		2F7C3C872621CEBE0019578F /* waiting_timer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */; };
+		2F7D31542642AA2B000A4B10 /* Countdown_timer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */; };
 		2F7D448525D69EFB00554F40 /* SMGameAnswerOneTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */; };
 		2F804F8025D3DC610025C138 /* SpinningMachineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */; };
 		2F804F8325D3EFB80025C138 /* SpinningMachineTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */; };
-		2F81A4742627027A00EB8572 /* message_tone_lg_no.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F81A4732627027A00EB8572 /* message_tone_lg_no.mp3 */; };
 		2F8FBDC925D7B36600603A48 /* SMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FBDC825D7B36600603A48 /* SMResultVC.swift */; };
-		2FA9D5CD2621E086008EC7FD /* message_tone_lg_no1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */; };
 		2FC1FB8C25E51F6800A556BF /* AGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */; };
 		2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */; };
 		2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */; };
@@ -240,9 +238,7 @@
 		1F18383C2293DF580043D61C /* ImageCropVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropVC.swift; sourceTree = "<group>"; };
 		1F21C4D122896AA100F5A789 /* LinkBankAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankAccountVC.swift; sourceTree = "<group>"; };
 		1F21C4D322896AD800F5A789 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
-		1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = new_alarm_clock.mp3; sourceTree = "<group>"; };
 		1F258422255563E100324564 /* PrivateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateGroupViewController.swift; sourceTree = "<group>"; };
-		1F29B485250A767B00989E3A /* notify.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notify.wav; sourceTree = "<group>"; };
 		1F3081B5224748450067B037 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		1F33F4BE22687A6100883616 /* TransferToWalletVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferToWalletVC.swift; sourceTree = "<group>"; };
 		1F33F4C0226882AB00883616 /* OTPVarificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVarificationVC.swift; sourceTree = "<group>"; };
@@ -252,7 +248,6 @@
 		1F36F3AF22562B5100B62AFC /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		1F36F3B222562B7A00B62AFC /* SelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionView.xib; sourceTree = "<group>"; };
 		1F3997262240E85400FF9B59 /* ThreeSloatTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeSloatTVC.swift; sourceTree = "<group>"; };
-		1F3BE11A22670DF30005D843 /* CBit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CBit.entitlements; sourceTree = "<group>"; };
 		1F3FA26F2269983600D8E4BC /* ViewAcitvityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAcitvityIndicator.swift; sourceTree = "<group>"; };
 		1F3FA2712269984400D8E4BC /* ViewAcitvityIndicator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewAcitvityIndicator.xib; sourceTree = "<group>"; };
 		1F4789E0227075FA006748DD /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -317,7 +312,7 @@
 		1FA9C098224751C200A60AF7 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		1FA9C09A2247AB2600A60AF7 /* GameAnsRangeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAnsRangeTVC.swift; sourceTree = "<group>"; };
 		1FB9ABAD23C0639F00A581A5 /* CCPassBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPassBookViewController.swift; sourceTree = "<group>"; };
-		1FBD338A222914CE00B74578 /* CBIT OG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CBIT OG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FBD338A222914CE00B74578 /* Cbit Original.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cbit Original.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FBD338D222914CE00B74578 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FBD338F222914CE00B74578 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1FBD3397222914D100B74578 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -347,16 +342,17 @@
 		1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContestResultVC.swift; sourceTree = "<group>"; };
 		1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContesrWinnerVC.swift; sourceTree = "<group>"; };
 		2F18554525FC974C00366758 /* SMMyTicketVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMyTicketVC.swift; sourceTree = "<group>"; };
+		2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no.mp3; sourceTree = "<group>"; };
+		2F56E20A26441CB500E86852 /* heartbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heartbeat.mp3; sourceTree = "<group>"; };
 		2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMResultVC.swift; sourceTree = "<group>"; };
 		2F67E71C25D53117009F22ED /* SpinningMachineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineCell.swift; sourceTree = "<group>"; };
 		2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachinePlayVC.swift; sourceTree = "<group>"; };
-		2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = waiting_timer.mp3; sourceTree = "<group>"; };
+		2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Countdown_timer.mp3; sourceTree = "<group>"; };
 		2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMGameAnswerOneTVC.swift; sourceTree = "<group>"; };
 		2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineVC.swift; sourceTree = "<group>"; };
 		2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineTicketVC.swift; sourceTree = "<group>"; };
-		2F81A4732627027A00EB8572 /* message_tone_lg_no.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no.mp3; sourceTree = "<group>"; };
 		2F8FBDC825D7B36600603A48 /* SMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMResultVC.swift; sourceTree = "<group>"; };
-		2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no1.mp3; sourceTree = "<group>"; };
+		2FAF31612640101F001E0982 /* CBIT OG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBIT OG.entitlements"; sourceTree = "<group>"; };
 		2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMTicketVC.swift; sourceTree = "<group>"; };
 		2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMPlayVC.swift; sourceTree = "<group>"; };
 		2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGameResultVC.swift; sourceTree = "<group>"; };
@@ -506,12 +502,10 @@
 		1F4F2DA2227ACC3C009C4F9D /* Sound */ = {
 			isa = PBXGroup;
 			children = (
-				1F2522B3254418A900B81A59 /* new_alarm_clock.mp3 */,
-				1F29B485250A767B00989E3A /* notify.wav */,
+				2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */,
+				2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */,
 				1F4F2DA3227ACC5B009C4F9D /* Tick Tock.mp3 */,
-				2F7C3C862621CEBE0019578F /* waiting_timer.mp3 */,
-				2FA9D5CC2621E086008EC7FD /* message_tone_lg_no1.mp3 */,
-				2F81A4732627027A00EB8572 /* message_tone_lg_no.mp3 */,
+				2F56E20A26441CB500E86852 /* heartbeat.mp3 */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -636,7 +630,7 @@
 		1FBD338B222914CE00B74578 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1FBD338A222914CE00B74578 /* CBIT OG.app */,
+				1FBD338A222914CE00B74578 /* Cbit Original.app */,
 				04648F6A246A6DF5008CBDC3 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -645,7 +639,7 @@
 		1FBD338C222914CE00B74578 /* CBit */ = {
 			isa = PBXGroup;
 			children = (
-				1F3BE11A22670DF30005D843 /* CBit.entitlements */,
+				2FAF31612640101F001E0982 /* CBIT OG.entitlements */,
 				B0D7A07C22E1C5A3002229B5 /* Payment */,
 				1F94A64D22AF7E9C002E1960 /* GIF */,
 				1FA38AFF22857F7800258D9E /* Font */,
@@ -876,7 +870,7 @@
 			);
 			name = CBit;
 			productName = CBit;
-			productReference = 1FBD338A222914CE00B74578 /* CBIT OG.app */;
+			productReference = 1FBD338A222914CE00B74578 /* Cbit Original.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -943,17 +937,16 @@
 				1FBD33A82229189200B74578 /* Dashboard.storyboard in Resources */,
 				B0C152D322C745CB00B6B801 /* Montserrat-Regular.otf in Resources */,
 				1FBD3398222914D100B74578 /* LaunchScreen.storyboard in Resources */,
-				1F29B486250A767B00989E3A /* notify.wav in Resources */,
 				1FA38B0522857FAE00258D9E /* digital-7.ttf in Resources */,
 				1F94A64F22AF7EBB002E1960 /* cbit_briefcase_animation.gif in Resources */,
+				2F56E20B26441CB500E86852 /* heartbeat.mp3 in Resources */,
 				1F36F3B322562B7A00B62AFC /* SelectionView.xib in Resources */,
 				1F94A64C22AF7CA7002E1960 /* ViewAnimation.xib in Resources */,
 				B0C152D022C745CB00B6B801 /* Montserrat-Medium.otf in Resources */,
+				2F7D31542642AA2B000A4B10 /* Countdown_timer.mp3 in Resources */,
 				1F3FA2722269984400D8E4BC /* ViewAcitvityIndicator.xib in Resources */,
 				04468450243C8B6D00E80800 /* LockAll.xib in Resources */,
 				1F5DB44E222FECF200EF5FD5 /* ViewFilter.xib in Resources */,
-				2F81A4742627027A00EB8572 /* message_tone_lg_no.mp3 in Resources */,
-				2F7C3C872621CEBE0019578F /* waiting_timer.mp3 in Resources */,
 				1FA38B0322857F8D00258D9E /* Ubuntu-M.ttf in Resources */,
 				01ED758223476BC00049F7CF /* GoogleService-Info.plist in Resources */,
 				1FA38B0222857F8D00258D9E /* Ubuntu-R.ttf in Resources */,
@@ -961,10 +954,9 @@
 				1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */,
 				B0C152D422C745CB00B6B801 /* Montserrat-SemiBold.otf in Resources */,
 				1F7A268B2261A521000FEAD5 /* Assets.xcassets in Resources */,
-				1F2522B4254418A900B81A59 /* new_alarm_clock.mp3 in Resources */,
+				2F56E2082644049900E86852 /* message_tone_lg_no.mp3 in Resources */,
 				1F5DB44C222FECB000EF5FD5 /* ViewShorting.xib in Resources */,
 				1F4F2DA4227ACC5B009C4F9D /* Tick Tock.mp3 in Resources */,
-				2FA9D5CD2621E086008EC7FD /* message_tone_lg_no1.mp3 in Resources */,
 				B0C152D122C745CB00B6B801 /* Montserrat-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1236,10 +1228,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 59869B58E2F8EEF55A0CB157 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = V75Q56T22B;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H2FT55ZBT3;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1247,12 +1239,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.31;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfb.cbitt.OneSignalNotificationServiceExtension;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1260,10 +1253,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0C1A04267BFD41E9673D60AB /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = V75Q56T22B;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H2FT55ZBT3;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1271,12 +1264,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.31;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfb.cbitt.OneSignalNotificationServiceExtension;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1313,7 +1307,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development: sagar@credentiagames.com (HPF5P28V45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1336,6 +1330,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1375,7 +1370,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development: sagar@credentiagames.com (HPF5P28V45)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1391,6 +1386,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1406,11 +1402,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CBit/CBit.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "CBit/CBIT OG.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = V75Q56T22B;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H2FT55ZBT3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1423,9 +1419,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.31;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfb.cbitt;
-				PRODUCT_NAME = "CBIT OG";
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
+				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CBit/Classes/Library/EncryptDecrypt/CBit-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1443,11 +1439,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CBit/CBit.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "CBit/CBIT OG.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = V75Q56T22B;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H2FT55ZBT3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1460,9 +1456,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.31;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfb.cbitt;
-				PRODUCT_NAME = "CBIT OG";
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
+				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CBit/Classes/Library/EncryptDecrypt/CBit-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;

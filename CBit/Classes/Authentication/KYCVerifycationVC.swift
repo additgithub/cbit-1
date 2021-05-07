@@ -147,7 +147,7 @@ class KYCVerifycationVC: UIViewController {
                                                         self.textDateOfBirth.text = dateFormater.string(from: selectedDate as! Date)
                                                         self.selectedDate = selectedDate as! Date
                                                             } else {
-                                                                Alert().showAlert(title: "CBit",
+                                                                Alert().showAlert(title: "",
                                                                                   message: "You must be 18 years and above to play this game.",
                                                                                   viewController: self)
                                                             }

@@ -13,9 +13,35 @@ class HistoryVC: UIViewController {
     
     private var isFirstTime = Bool()
     
+    private var isRefresh = Bool()
+    lazy  var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: .valueChanged)
+        refreshControl.tintColor = Define.APPCOLOR
+        return refreshControl
+    }()
+    
+    var Start = 0
+    var Limit = 10
+    var ismoredata = false
+    
+    @objc func handleRefresh(_ refreshController: UIRefreshControl) {
+        if !MyModel().isLogedIn() {
+            Alert().showTost(message: Define.ERROR_INTERNET, viewController: self)
+        } else {
+            isRefresh = true
+            refreshControl.beginRefreshing()
+             Start = 0
+            arrHistory = [[String:Any]]()
+            tableHistory.reloadData()
+            self.getHistoryListAPI()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableHistory.rowHeight = UITableView.automaticDimension
+        tableHistory.addSubview(refreshControl)
         isFirstTime = true
         UNUserNotificationCenter.current().delegate = self
         //Set Notification
@@ -106,6 +132,15 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             cell.lblatggameno.textColor = UIColor.red
         }
 
+        if arrHistory.count > 1 {
+            let lastElement = arrHistory.count - 1
+            if indexPath.row == lastElement && ismoredata{
+                //call get api for next page
+                getHistoryListAPI()
+            }
+
+        }
+
         
         return cell
     }
@@ -160,9 +195,10 @@ extension HistoryVC {
         }
         let strURL = Define.APP_URL + Define.API_CONTEST_HISTORY
         print("URL: \(strURL)")
+        let parameter: [String: Any] = ["start": Start,"limit":Limit]
         
         SwiftAPI().postMethodSecure(stringURL: strURL,
-                                    parameters: nil,
+                                    parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
         { (result, error) in
@@ -171,9 +207,18 @@ extension HistoryVC {
                     self.isFirstTime = false
                     Loading().hideLoading(viewController: self)
                 }
+                if self.isRefresh {
+                    self.isRefresh = true
+                    self.refreshControl.endRefreshing()
+                }
                 print("Error: \(error!)")
                 self.getHistoryListAPI()
             } else {
+                if self.isRefresh {
+                    self.isRefresh = true
+                    self.refreshControl.endRefreshing()
+                }
+                
                 if self.isFirstTime {
                     self.isFirstTime = false
                     Loading().hideLoading(viewController: self)
@@ -181,8 +226,20 @@ extension HistoryVC {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    self.arrHistory = result!["content"] as! [[String: Any]]
+                   // self.arrHistory = result!["content"] as! [[String: Any]]
                     self.MainarrHistory = result!["content"] as! [[String: Any]]
+                    let arr =  result!["content"] as! [[String : Any]]
+                    
+                    if arr.count > 0 {
+                        self.arrHistory.append(contentsOf: arr)
+                        self.ismoredata = true
+                        self.Start = self.Start + 10
+                        self.Limit =  10
+                    }
+                    else
+                    {
+                        self.ismoredata = false
+                    }
                     if self.arrHistory.count == 0 {
                         
                         self.viewNoData.isHidden = false
@@ -190,7 +247,7 @@ extension HistoryVC {
                         
                     } else {
                        // self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
-                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
+                     //   self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
                         self.viewNoData.isHidden = true
                         self.tableHistory.reloadData()
                     }

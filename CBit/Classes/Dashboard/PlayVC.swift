@@ -23,7 +23,7 @@ class PlayVC: UIViewController {
     private var currentData = Date()
     
     var Start = 0
-    var Limit = 30
+    var Limit = 10
     var ismoredata = false
     
    // var storeimage = [[String: Any]]()
@@ -65,6 +65,10 @@ class PlayVC: UIViewController {
             isRefresh = true
             isShowLoading = false
             refreshControl.beginRefreshing()
+            Start = 0
+          
+           arrContest = [[String:Any]]()
+           tablePlay.reloadData()
             self.getAllContest()
         }
     }
@@ -72,8 +76,9 @@ class PlayVC: UIViewController {
     @objc func handleNotitication(_ notification: Notification) {
         isShowLoading = false
          Start = 0
-         Limit = 30
+        
         arrContest = [[String:Any]]()
+        tablePlay.reloadData()
         self.getAllContest()
     }
 }
@@ -229,12 +234,11 @@ extension PlayVC {
                 
                 
                 print("Error: \(error!)")
-//                if self.isVisible {
-//                    self.retry()
-//                } else {
-//                    self.getAllContest()
-//                }
-                self.getAllContest()
+                if self.isVisible {
+                    self.retry()
+                } else {
+                    self.getAllContest()
+                }
             } else {
                 if self.isRefresh {
                     self.isRefresh = true
@@ -255,8 +259,7 @@ extension PlayVC {
                     if arr.count > 0 {
                         self.arrContest.append(contentsOf: arr)
                         self.ismoredata = true
-                        self.Start = self.Start + 30
-                        self.Limit =  30
+                        self.Start = self.Start + 10
                     }
                     else
                     {
@@ -276,7 +279,7 @@ extension PlayVC {
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
-                    self.arrContest.removeAll()
+                  //  self.arrContest.removeAll()
                     self.viewNoData.isHidden = false
                     self.tablePlay.reloadData()
                     if self.isVisible {

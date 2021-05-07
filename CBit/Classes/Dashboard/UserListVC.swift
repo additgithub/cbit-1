@@ -111,7 +111,7 @@ extension UserListVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.labelUserName.text = arrUserList[indexPath.row]["name"] as? String ?? "No Name"
         
-        let imageURL = URL(string: arrUserList[indexPath.row]["profile_image"] as? String ?? "")
+        let imageURL = URL(string: arrUserList[indexPath.row]["referral_image"] as? String ?? "")
         cell.imageUser.sd_setImage(with: imageURL,
                                    placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         

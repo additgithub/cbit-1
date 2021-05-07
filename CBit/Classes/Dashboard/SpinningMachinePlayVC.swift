@@ -254,10 +254,10 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                                selector: #selector(handleEndGameNotication(_:)),
                                                name: .endGame,
                                                object: nil)
-        let path = Bundle.main.path(forResource: "Tick Tock.mp3", ofType: nil)!
+        let path = Bundle.main.path(forResource: "heartbeat.mp3", ofType: nil)!
         soundURL = URL(fileURLWithPath: path)
         
-        let path1 = Bundle.main.path(forResource: "waiting_timer.mp3", ofType: nil)!
+        let path1 = Bundle.main.path(forResource: "Countdown_timer.mp3", ofType: nil)!
         TenSecondsoundURL = URL(fileURLWithPath: path1)
         
         
@@ -304,6 +304,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         deconfigAutoscrollTimer()
         deconfigFadeTimer()
       //  startTimer?.invalidate()
+        timermili?.invalidate()
     }
     
     func configAutoscrollTimer()
@@ -398,7 +399,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !isFromNotification {
-            labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
+          //  labelTimer.text = "Game starts in \(timeString(time: TimeInterval(startSecond)))"
         }
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
@@ -592,8 +593,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     func locakall()
     {
-        lockallmili = currentTodayTimeInMilliSeconds()
-        let total = lockallmili - 100//+ startdatemilisec
+       // lockallmili = currentTodayTimeInMilliSeconds()
+    //    let total = lockallmili - 100//+ startdatemilisec
+        let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
      //   let d = Date()
@@ -846,7 +848,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 
             }
         
-        if  Int(self.gameTime) ?? 0 == 45 {
+        if  Int(self.gameTime) ?? 0 == 40 {
           print("TENSECOND")
               setTenSecSound()
           }
@@ -861,11 +863,18 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             print("Set Data",dictGameData)
             let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
         
-//        if Int(gameTime) == 30 {
-//
-////            second = 30
-////            setTimer()
-//        }
+        if Int(gameTime)! <= 30 {
+            startTimemili = (30 - Int(gameTime)!) * 100
+//            if Int(gameTime)! == 30  {
+//                startTimemili = 99
+//            }
+//            else
+//            {
+//                startTimemili = (30 - Int(gameTime)!) * 100
+//            }
+            
+            startmilitimer()
+        }
 
             if (gameStatus == "start") {
                 
@@ -968,6 +977,61 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             }
 
         }
+    
+    weak var timermili: Timer?
+     var startTimemili = Int()
+     var timemili = Int()
+
+    
+
+     /*
+     When the view controller first appears, record the time and start a timer
+     */
+    func startmilitimer()  {
+        
+//        if timermili != nil {
+//            timermili!.invalidate()
+//            timermili = nil
+//        }
+        if timermili == nil {
+            
+            timermili = Timer.scheduledTimer(timeInterval: 0.01,
+                                             target: self,
+                                             selector: #selector(advanceTimer(timer:)),
+                                             userInfo: nil,
+                                             repeats: true)
+            
+             RunLoop.current.add(timermili!, forMode: .common)
+          //  RunLoop.current.add(self.startTimer!, forMode: RunLoop.Mode.common)
+            
+        }
+    
+      //  startTimemili = Date().timeIntervalSinceReferenceDate
+  
+     }
+
+     //When the view controller is about to disappear, invalidate the timer
+//     override func viewWillDisappear(_ animated: Bool) {
+//       timermili?.invalidate()
+//     }
+
+
+    @objc func advanceTimer(timer: Timer) {
+        
+       //Total time since timer started, in seconds
+        
+        lockallmili = startTimemili * 10
+     //  timemili = Date().timeIntervalSinceReferenceDate - startTimemili
+
+       //The rest of your code goes here
+
+       //Convert the time to a string with 2 decimal places
+     //  let timeString = String(format: "%.3f", startTimemili)
+        print("MILITIMER:",startTimemili)
+        startTimemili = startTimemili + 1
+       //Display the time string to a label in our view controller
+     //  timeValueLabel.text = timeString
+     }
     
     
     func getContestDetail(isfromtimer:Bool,isStart:Int) {
@@ -1164,7 +1228,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     }
                 }
 
-                self.collection_original.reloadData()
+              
                 
                 let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
                 for _ in 1..<200
@@ -1181,6 +1245,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 }
 
             }
+            
+            self.collection_original.reloadData()
         }
        
         
@@ -1372,13 +1438,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 second = (dictdata["duration"] as? Int)!
                 print("secondsspre",second)
                 
-           
-                
-                //  labelTimer.text = ""
                 if (gameStatus == "start") {
-                   
-                    
-
                     
                     if self.gametype == "spinning-machine" {
                         btnlockall.isEnabled = true
@@ -1631,7 +1691,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                             if startTimer != nil {
                                 startTimer!.invalidate()
                                 startTimer = nil
-                                 labelTimer.text = ""
+                              //   labelTimer.text = ""
     
                                
                             }
@@ -2414,8 +2474,9 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        lockallmili = currentTodayTimeInMilliSeconds()
-        let total = lockallmili - 100//+ startdatemilisec
+//        lockallmili = currentTodayTimeInMilliSeconds()
+//        let total = lockallmili - 100//+ startdatemilisec
+        let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
      //   let d = Date()

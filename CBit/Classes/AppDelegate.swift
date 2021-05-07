@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        ArgAppUpdater.getSingleton().showUpdateWithForce()
+//        VersionCheck.shared.isUpdateAvailable() { hasUpdates in
+//          print("is update available: \(hasUpdates)")
+//        }
         //ReachabilityManager.shared.startMonitoring()
         //        SocketIOManager.sharedInstance.socket.off("onContestLive")
         //        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")

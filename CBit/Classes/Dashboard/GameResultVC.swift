@@ -251,93 +251,93 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
                 let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
                 let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
                 
-                if (strValue == "Red win" || strValue == "0 To 3") && isfirstarr[indexPath.row] == true
-                        {
-                            isfirstarr[indexPath.row] = false
-//                            ticketCell.labelAnsMinus.layer.borderColor = UIColor.black.cgColor
-//                            ticketCell.labelAnsMinus.layer.borderWidth = 3
-//                            ticketCell.labelAnsZero.layer.borderWidth = 0
-//                            ticketCell.labelAnsPlus.layer.borderWidth = 0
-                            
-                            func anotherFuncname() {
-                                    //statements of inner function
-                                ticketCell.contentView.backgroundColor = UIColor.white
-                                UIView.animate(withDuration: 1.0,
-                                    animations: {
-                                        ticketCell.labelAnsMinus.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                                    },
-                                    completion: { _ in
-                                        UIView.animate(withDuration: 1.0) {
-                                            ticketCell.labelAnsMinus.transform = CGAffineTransform.identity
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                anotherFuncname()
-                                            }
-                                            
-                                        }
-                                    })
-
-                                }
-                            anotherFuncname()
-                        }
-                        else if (strValue == "Blue win" || strValue == "7 To 9") && isfirstarr[indexPath.row] == true
-                        {
-                            isfirstarr[indexPath.row] = false
-//                            ticketCell.labelAnsPlus.layer.borderColor = UIColor.black.cgColor
-//                            ticketCell.labelAnsMinus.layer.borderWidth = 0
-//                            ticketCell.labelAnsZero.layer.borderWidth = 0
-//                            ticketCell.labelAnsPlus.layer.borderWidth = 3
-                            
-                            func anotherFuncname() {
-                                UIView.animate(withDuration: 1.0,
-                                    animations: {
-                                        ticketCell.labelAnsPlus.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                                    },
-                                    completion: { _ in
-                                        UIView.animate(withDuration: 1.0) {
-                                            ticketCell.labelAnsPlus.transform = CGAffineTransform.identity
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                anotherFuncname()
-                                            }
-                                            
-                                        }
-                                    })
-
-                                }
-                            anotherFuncname()
-                        }
-                        else if (strValue == "Draw" || strValue == "4 To 6")  && isfirstarr[indexPath.row] == true
-                        {
-                            isfirstarr[indexPath.row] = false
-//                            ticketCell.labelAnsZero.layer.borderColor = UIColor.black.cgColor
-//                            ticketCell.labelAnsMinus.layer.borderWidth = 0
-//                            ticketCell.labelAnsZero.layer.borderWidth = 3
-//                            ticketCell.labelAnsPlus.layer.borderWidth = 0
-                            
-                            func anotherFuncname() {
-                                UIView.animate(withDuration: 1.0,
-                                    animations: {
-                                        ticketCell.labelAnsZero.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                                    },
-                                    completion: { _ in
-                                        UIView.animate(withDuration: 1.0) {
-                                            ticketCell.labelAnsZero.transform = CGAffineTransform.identity
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                anotherFuncname()
-                                            }
-                                            
-                                        }
-                                    })
-
-                                }
-                            anotherFuncname()
-                        }
-                        else
-                        {
-//                            ticketCell.labelAnsMinus.layer.borderWidth = 0
-//                            ticketCell.labelAnsZero.layer.borderWidth = 0
-//                            ticketCell.labelAnsPlus.layer.borderWidth = 0
-
-                        }
+//                if (strValue == "Red win" || strValue == "0 To 3") && isfirstarr[indexPath.row] == true
+//                        {
+//                            isfirstarr[indexPath.row] = false
+////                            ticketCell.labelAnsMinus.layer.borderColor = UIColor.black.cgColor
+////                            ticketCell.labelAnsMinus.layer.borderWidth = 3
+////                            ticketCell.labelAnsZero.layer.borderWidth = 0
+////                            ticketCell.labelAnsPlus.layer.borderWidth = 0
+//                            
+//                            func anotherFuncname() {
+//                                    //statements of inner function
+//                                ticketCell.contentView.backgroundColor = UIColor.white
+//                                UIView.animate(withDuration: 1.0,
+//                                    animations: {
+//                                        ticketCell.labelAnsMinus.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//                                    },
+//                                    completion: { _ in
+//                                        UIView.animate(withDuration: 1.0) {
+//                                            ticketCell.labelAnsMinus.transform = CGAffineTransform.identity
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                                anotherFuncname()
+//                                            }
+//                                            
+//                                        }
+//                                    })
+//
+//                                }
+//                            anotherFuncname()
+//                        }
+//                        else if (strValue == "Blue win" || strValue == "7 To 9") && isfirstarr[indexPath.row] == true
+//                        {
+//                            isfirstarr[indexPath.row] = false
+////                            ticketCell.labelAnsPlus.layer.borderColor = UIColor.black.cgColor
+////                            ticketCell.labelAnsMinus.layer.borderWidth = 0
+////                            ticketCell.labelAnsZero.layer.borderWidth = 0
+////                            ticketCell.labelAnsPlus.layer.borderWidth = 3
+//                            
+//                            func anotherFuncname() {
+//                                UIView.animate(withDuration: 1.0,
+//                                    animations: {
+//                                        ticketCell.labelAnsPlus.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//                                    },
+//                                    completion: { _ in
+//                                        UIView.animate(withDuration: 1.0) {
+//                                            ticketCell.labelAnsPlus.transform = CGAffineTransform.identity
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                                anotherFuncname()
+//                                            }
+//                                            
+//                                        }
+//                                    })
+//
+//                                }
+//                            anotherFuncname()
+//                        }
+//                        else if (strValue == "Draw" || strValue == "4 To 6")  && isfirstarr[indexPath.row] == true
+//                        {
+//                            isfirstarr[indexPath.row] = false
+////                            ticketCell.labelAnsZero.layer.borderColor = UIColor.black.cgColor
+////                            ticketCell.labelAnsMinus.layer.borderWidth = 0
+////                            ticketCell.labelAnsZero.layer.borderWidth = 3
+////                            ticketCell.labelAnsPlus.layer.borderWidth = 0
+//                            
+//                            func anotherFuncname() {
+//                                UIView.animate(withDuration: 1.0,
+//                                    animations: {
+//                                        ticketCell.labelAnsZero.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//                                    },
+//                                    completion: { _ in
+//                                        UIView.animate(withDuration: 1.0) {
+//                                            ticketCell.labelAnsZero.transform = CGAffineTransform.identity
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                                anotherFuncname()
+//                                            }
+//                                            
+//                                        }
+//                                    })
+//
+//                                }
+//                            anotherFuncname()
+//                        }
+//                        else
+//                        {
+////                            ticketCell.labelAnsMinus.layer.borderWidth = 0
+////                            ticketCell.labelAnsZero.layer.borderWidth = 0
+////                            ticketCell.labelAnsPlus.layer.borderWidth = 0
+//
+//                        }
                 
                 let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
                 
