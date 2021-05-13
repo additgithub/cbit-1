@@ -67,9 +67,13 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected")
         if self.imageIsNullOrNot(imageName: img) {
             winnerCell.imgselected.image = img
+            winnerCell.imgselected.isHidden = false
+            winnerCell.lblslotselected.isHidden = true
         }
         else
         {
+            winnerCell.imgselected.isHidden = true
+            winnerCell.lblslotselected.isHidden = false
             winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
         }
         

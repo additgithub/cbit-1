@@ -17,6 +17,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //    @IBOutlet weak var imgplus: UIImageView!
     
  //   @IBOutlet weak var tblanswerheight: NSLayoutConstraint!
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var collectionlockallheight: NSLayoutConstraint!
     @IBOutlet weak var collection_lockall: UICollectionView!
     @IBOutlet var collection_slot: UICollectionView!
@@ -1134,7 +1135,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     var isfirstload = true
     
     func   setData(isfromtime:Bool) {
-        
+        lbltitle.text = dictGameData["title"] as? String
         arrTickets = dictGameData["tickets"] as! [[String: Any]]
         arrBrackets = dictGameData["boxJson"] as! [[String: Any]]
         gameMode = dictGameData["gameMode"] as? String ?? "public"

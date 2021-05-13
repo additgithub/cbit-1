@@ -146,7 +146,8 @@ extension MyTicketVC: UITableViewDelegate, UITableViewDataSource {
             
             let totalTicket = arrSelectedTikets[indexPath.row]["totalTickets"] as? Int ?? 0
             
-            if MyModel().isSetNA(totalTickets: totalTicket) {
+            let minJoin = arrSelectedTikets[indexPath.row]["minJoin"] as? Int ?? 0
+            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                 ticketCell.labelWinningAmount.text = "N/A"
                 ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTikets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
             } else {
@@ -184,7 +185,8 @@ extension MyTicketVC: UITableViewDelegate, UITableViewDataSource {
                 let totalTicket = arrSelectedTikets[indexPath.row]["totalTickets"] as? Int ?? 0
                 
                               
-                              if MyModel().isSetNA(totalTickets: totalTicket) {
+                let minJoin = arrSelectedTikets[indexPath.row]["minJoin"] as? Int ?? 0
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                                   ticketCell.labelWinningAmount.text = "N/A"
                                   
                                   ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTikets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
@@ -305,7 +307,8 @@ extension MyTicketVC: UITableViewDelegate, UITableViewDataSource {
                 let totalTicket = arrSelectedTikets[indexPath.row]["totalTickets"] as? Int ?? 0
                                
                                              
-                                             if MyModel().isSetNA(totalTickets: totalTicket) {
+                let minJoin = arrSelectedTikets[indexPath.row]["minJoin"] as? Int ?? 0
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                                                  ticketCell.labelWinningAmount.text = "N/A"
                                                  
                                                  ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTikets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"

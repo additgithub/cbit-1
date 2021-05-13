@@ -9,7 +9,7 @@
 import UIKit
 
 class SMResultVC: UIViewController {
-    
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var tblresultheight: NSLayoutConstraint!
     @IBOutlet weak var collection_original: UICollectionView!
     @IBOutlet weak var lblnowin: UILabel!
@@ -114,7 +114,7 @@ class SMResultVC: UIViewController {
 //        labelAnswer.isHidden = true
 //        }
         
-       
+        lbltitle.text = dictContestDetail["title"] as? String
         
         totalred.text = "Blue Total : \(dictContestDetail["blue"]!)"
         totalblue.text = "Red Total : \(dictContestDetail["red"]!)"
@@ -397,7 +397,8 @@ extension SMResultVC: UITableViewDelegate, UITableViewDataSource {
         
         let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
         
-        if MyModel().isSetNA(totalTickets: totalTicket) {
+        let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+        if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
             resultCell.labelTotalWinnings.text = "N/A"
             resultCell.labelMaxWinner.text = "N/A"
         } else {

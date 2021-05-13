@@ -19,6 +19,10 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var buttonRegister: UIButton!
     @IBOutlet weak var buttonPolicy: UIButton!
     @IBOutlet weak var lebelAccept: UILabel!
+    
+    @IBOutlet weak var btnage: UIButton!
+    @IBOutlet weak var btnstate: UIButton!
+    
     private var dropDown: MyDropDown?
     private var buttonSelecteDropDown = UIButton()
     
@@ -44,6 +48,8 @@ class RegisterVC: UIViewController {
     var isSocialLogin = Bool()
     
     var isPolicySelected = Bool()
+    var isAgeSelected = Bool()
+    var isStateSelected = Bool()
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,9 +140,17 @@ class RegisterVC: UIViewController {
         
         else if !MyModel().isValidMobileNumber(value: textMobileNumber.text!) || textMobileNumber.text!.isEmpty {
             Alert().showTost(message: "Enter Proper Mobile Number", viewController: self)
-        } else if !isPolicySelected {
+        }
+        else if !isAgeSelected {
+            Alert().showTost(message: "Accept Min Age Limit", viewController: self)
+        }
+        else if !isPolicySelected {
             Alert().showTost(message: "Accept Terms and Condition And Privacy Policy", viewController: self)
-        } else if !MyModel().isConnectedToInternet() {
+        }
+        else if !isStateSelected {
+            Alert().showTost(message: "Accept State Limit", viewController: self)
+        }
+        else if !MyModel().isConnectedToInternet() {
             Alert().showTost(message: Define.ERROR_INTERNET,
                              viewController: self)
         }else {
@@ -155,6 +169,24 @@ class RegisterVC: UIViewController {
         } else {
             isPolicySelected = true
             buttonPolicy.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+        }
+    }
+    @IBAction func btnage_click(_ sender: UIButton) {
+        if isAgeSelected {
+            isAgeSelected = false
+            btnage.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+        } else {
+            isAgeSelected = true
+            btnage.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+        }
+    }
+    @IBAction func btnstateclick(_ sender: UIButton) {
+        if isStateSelected {
+            isStateSelected = false
+            btnstate.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+        } else {
+            isStateSelected = true
+            btnstate.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
         }
     }
     
@@ -332,6 +364,7 @@ extension RegisterVC {
                         "userName": self.textUserName.text!,
                         "ReferralCode" : self.textRefferalcode.text!,
                         "version" : appVersion,
+                        "plateform" : "IOS",
                         "deviceType": "ios",
                         "deviceId": Define.USERDEFAULT.value(forKey: "FCMToken") as? String ?? "123",
                         "otp": "\(dictData["otp"]!)",

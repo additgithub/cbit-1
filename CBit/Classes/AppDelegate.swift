@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         ArgAppUpdater.getSingleton().showUpdateWithForce()
+     //   ArgAppUpdater.getSingleton().showUpdateWithConfirmation()
 //        VersionCheck.shared.isUpdateAvailable() { hasUpdates in
 //          print("is update available: \(hasUpdates)")
 //        }

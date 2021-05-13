@@ -108,7 +108,7 @@ class DashboardVC: UIViewController {
         print("Font Name: \(labelTitle!.font.fontName)")
         //Ubuntu-Medium
         pagingViewController.textColor = #colorLiteral(red: 0.6470588235, green: 0.6470588235, blue: 0.6470588235, alpha: 1)
-        pagingViewController.selectedTextColor = #colorLiteral(red: 0.1019607843, green: 0.3137254902, blue: 0.3725490196, alpha: 1)
+        pagingViewController.selectedTextColor = #colorLiteral(red: 0, green: 0.2535815537, blue: 0, alpha: 1)
         pagingViewController.indicatorColor = #colorLiteral(red: 1, green: 0.831372549, blue: 0.3215686275, alpha: 1)
         pagingViewController.font = UIFont(name: labelTitle!.font.fontName, size: 13)!
         pagingViewController.selectedFont = UIFont(name: labelTitle.font.fontName, size: 13)!

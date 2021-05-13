@@ -88,36 +88,36 @@ class SocketIOManager: NSObject {
         }
         
         //TODO: VersionUpdate
-        socket.on(Define.VERSION_UPDATE) { (data, ack) in
-                   print("➤ VersionUpdate",data)
-                //   Define.APPDELEGATE.handleversionupdate()
-            print("Data: \(data)")
-            let strValue = data[0] as! String
-            
-            let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
-            let dictData = MyModel().convertToDictionary(text: strJSON)
-            
-            //let strContestId = "\(dictData!["contestId"]!)"
-            //self.createNotification(strContestID: strContestId, strMessage: "Contest Start")
-            
-           // NotificationCenter.default.post(name: .startGame, object: nil, userInfo: dictData)
-            
-         //   let appVersion =
-            let current = Define.APP_VERSION
-           // let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
-            let appStore = dictData!["Version"] as! String
-            let versionCompare = current.compare(appStore, options: .numeric)
-            if versionCompare == .orderedSame {
-                print("same version")
-            } else if versionCompare == .orderedAscending {
-                // will execute the code here
-                print("ask user to update")
-                 Define.APPDELEGATE.handleLogout()
-            } else if versionCompare == .orderedDescending {
-                // execute if current > appStore
-                print("don't expect happen...")
-            }
-        }
+//        socket.on(Define.VERSION_UPDATE) { (data, ack) in
+//                   print("➤ VersionUpdate",data)
+//                //   Define.APPDELEGATE.handleversionupdate()
+//            print("Data: \(data)")
+//            let strValue = data[0] as! String
+//
+//            let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
+//            let dictData = MyModel().convertToDictionary(text: strJSON)
+//
+//            //let strContestId = "\(dictData!["contestId"]!)"
+//            //self.createNotification(strContestID: strContestId, strMessage: "Contest Start")
+//
+//           // NotificationCenter.default.post(name: .startGame, object: nil, userInfo: dictData)
+//
+//         //   let appVersion =
+//            let current = Define.APP_VERSION
+//           // let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+//            let appStore = dictData!["Version"] as! String
+//            let versionCompare = current?.compare(appStore, options: .numeric)
+//            if versionCompare == .orderedSame {
+//                print("same version")
+//            } else if versionCompare == .orderedAscending {
+//                // will execute the code here
+//                print("ask user to update")
+//                 Define.APPDELEGATE.handleLogout()
+//            } else if versionCompare == .orderedDescending {
+//                // execute if current > appStore
+//                print("don't expect happen...")
+//            }
+//        }
         //TODO: Game Start
         socket.on(Define.EVENT_ON_CONTEST_START) { (data, ack) in
             print("➤ On Contest Start")

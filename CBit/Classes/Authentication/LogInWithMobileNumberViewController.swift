@@ -137,7 +137,7 @@ extension LogInWithMobileNumberViewController {
         
        
         
-        let parameters:[String: Any] = ["mobile_no": txtmobilenumber.text!,"version":appVersion]
+        let parameters:[String: Any] = ["mobile_no": txtmobilenumber.text!,"version":appVersion,"plateform" : "IOS"]
         let strURL = Define.APP_URL + Define.API_MOBILESIGNIN
                 print("Parameter: \(parameters)\nURL: \(strURL)")
                 
@@ -187,7 +187,7 @@ extension LogInWithMobileNumberViewController {
                         }
                         else if status == 410
                         {
-                            let alertController = UIAlertController(title:"Error", message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
+                            let alertController = UIAlertController(title:Define.ERROR_TITLE, message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
 
                             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
                                { action -> Void in
@@ -232,6 +232,7 @@ extension LogInWithMobileNumberViewController {
             
            
             parameter["version"] = appVersion
+            parameter["plateform"] = "IOS"
         
            
             

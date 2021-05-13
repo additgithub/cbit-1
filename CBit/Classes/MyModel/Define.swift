@@ -32,7 +32,7 @@ class Define {
     //MARK: - Alert Message
     static let ERROR_SERVER = "We’ve run into a problem. Please try again later."
     static let ERROR_INTERNET = "No Internet"
-    static let ERROR_TITLE = "CBit Original"
+    static let ERROR_TITLE = "Cbit Original"
     
     //MARK: - URL
     
@@ -53,7 +53,7 @@ class Define {
 //    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
     //static let PRIVACYPOLICY_URL = "https://admin.cbitoriginal.com/page/privacy"
-    static let APP_VERSION = "3.34"
+    static let APP_VERSION = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String 
     
     static let PRIVACYPOLICY_URL = "http://cbitoriginal.com/privacy-policy-app.html"
     static let LIGALITY_URL = "https://admin.cbitoriginal.com/page/legality"
@@ -64,7 +64,7 @@ class Define {
     
     //MARK: - PayKun
    // static let PAYMENT_ACCESS_TOKEN = "65063B484A2F0DC8F014B82912DA6289"
-     static let PAYMENT_ACCESS_TOKEN = "A943C3B11109149D5D78BC3770DA49CA"
+     static let PAYMENT_ACCESS_TOKEN = "2A067CCCE0D692371CB780A95C61C424"
     static let PAYMENT_MARCHANT_ID = "140686552067082"
     static let ISLIVE = true
     
@@ -192,6 +192,10 @@ class Define {
     static let ALL_PRIVATE_GROUP_REQUEST_ACCEPT_DECLINE = "acceptDeclineRequest"
     
     static let ALL_Category_list = "selectCategoryImages"
+    
+    static let getaddmoneystatus = "getaddmoneystatus"
+    static let getautopilotcontent = "getautopilotcontent"
+    static let getDemoScreen = "getDemoScreen"
     
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
@@ -341,7 +345,21 @@ class ArgAppUpdater: NSObject {
 }
 
 extension UIViewController {
+    func clearTempFolder() {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl,
+                                                                       includingPropertiesForKeys: nil,
+                                                                       options: .skipsHiddenFiles)
+            for fileURL in fileURLs {
+                if fileURL.pathExtension == "png" {
+                    try FileManager.default.removeItem(at: fileURL)
+                    print("DELETED:",fileURL)
+                }
+            }
+        } catch  { print(error) }
+    }
 
     fileprivate func showAppUpdateAlert( Version : String, Force: Bool, AppURL: String) {
         print("AppURL:::::",AppURL)
@@ -366,6 +384,7 @@ extension UIViewController {
         let updateButton = UIAlertAction(title: "Update", style: .default) { (action:UIAlertAction) in
             print("Call API");
             print("No update")
+          //  self.clearTempFolder()
             guard let url = URL(string: AppURL) else {
                 return
             }

@@ -129,7 +129,7 @@ extension OTPVerifyVC {
         
         print(appVersion)
         
-        let parameters:[String: Any] = ["mobile_no": self.parameter["mobile_no"]!,"version":appVersion]
+        let parameters:[String: Any] = ["mobile_no": self.parameter["mobile_no"]!,"version":appVersion,"plateform" : "IOS"]
     //  , "email": self.parameter["email"]!]
         
             let strURL = Define.APP_URL + Define.API_MOBILESIGNIN
@@ -213,9 +213,20 @@ extension OTPVerifyVC {
                     
                     Define.USERDEFAULT.set("\(self.parameter["password"]!)", forKey: "Password")
                     
+//
+//                    let kycVC = self.storyboard?.instantiateViewController(withIdentifier: "KYCVerifycationVC") as! KYCVerifycationVC
+//                    self.navigationController?.pushViewController(kycVC, animated: true)
+                    SocketIOManager.sharedInstance.establisConnection()
+
+                            let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+                    let menuVC = storyBoard.instantiateViewController(withIdentifier: "TutorialNC")
+                    menuVC.modalPresentationStyle = .fullScreen
+                    self.present(menuVC,
+                                 animated: true, completion:
+                        {
+                            self.navigationController?.popToRootViewController(animated: true)
+                    })
                     
-                    let kycVC = self.storyboard?.instantiateViewController(withIdentifier: "KYCVerifycationVC") as! KYCVerifycationVC
-                    self.navigationController?.pushViewController(kycVC, animated: true)
                 } else {
                     Alert().showAlert(title: "Error",
                                       message: result!["message"] as! String,

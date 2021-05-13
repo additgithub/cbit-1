@@ -643,7 +643,8 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
             
             let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
             
-            if MyModel().isSetNA(totalTickets: totalTicket) {
+            let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
+            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                 ticketCell.labelWinningAmount.text = "N/A"
                 ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
             } else {
@@ -725,7 +726,8 @@ extension AGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
      let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
                                          
                                                        
-                                                       if MyModel().isSetNA(totalTickets: totalTicket) {
+            let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
+            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                                                            ticketCell.labelWinningAmount.text = "N/A"
                                                            
                                                            ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"

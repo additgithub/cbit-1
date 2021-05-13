@@ -8,6 +8,7 @@ class AddPaymentVC: UIViewController {
     @IBOutlet weak var labelWinning: LabelComman!
     
     @IBOutlet weak var textAmount: UITextField!
+    @IBOutlet weak var btnaddmoney: UIButton!
     
     var paymentPaykun: PaykunCheckout!
     
@@ -46,6 +47,8 @@ class AddPaymentVC: UIViewController {
         if isFromTicket {
             textAmount.text = String(format: "₹%.2f", addAmount) // "\(addAmount)"
         }
+        
+        getaddmoneystatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,7 +87,7 @@ class AddPaymentVC: UIViewController {
 //                                   orderNo: orderId,
 //                                   amount: "\(addAmount)",
 //                                   viewController: self)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          //  DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 
                 self.paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey:"FirstName") as? String ?? "CBit User",
                                        customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
@@ -93,7 +96,7 @@ class AddPaymentVC: UIViewController {
                                        orderNo: orderId,
                                        amount: "\(addAmount)",
                                        viewController: self)
-            }
+         //   }
             
 
         }
@@ -151,6 +154,61 @@ extension AddPaymentVC {
             }
         }
     }
+    
+    
+    func getaddmoneystatus()  {
+      
+        let strURL = Define.APP_URL + Define.getaddmoneystatus
+        print("URL: \(strURL)")
+        
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: nil,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+        
+                print("Error: \(error!)")
+                self.getaddmoneystatus()
+            } else {
+         
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as? [String: Any] ?? [:]
+                    let apddict : NSDictionary = result!["content"] as! NSDictionary
+                    if apddict["contest"] as! String == "Active" {
+                        self.btnaddmoney.isEnabled = true
+                    }
+                    else
+                    {
+                        self.btnaddmoney.isEnabled = false
+                    }
+                    //  self.arrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    //  self.MainarrMyJTicket = content["contest"] as? [[String : Any]] ?? [[:]]
+                    
+                    // self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
+                    
+                    //print(self.arrMyJTicket)
+                    print(content)
+                    
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+
 }
 
 //MARK: - Notifcation Delegate Method

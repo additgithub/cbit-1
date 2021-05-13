@@ -323,8 +323,8 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         
         let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
         
-        if MyModel().isSetNA(totalTickets: totalTicket) {
-            resultCell.labelTotalWinnings.text = "N/A"
+        let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+        if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {            resultCell.labelTotalWinnings.text = "N/A"
             resultCell.labelMaxWinner.text = "N/A"
         } else {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
