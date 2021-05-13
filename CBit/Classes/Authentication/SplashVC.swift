@@ -87,6 +87,7 @@ extension SplashVC {
              parameter["email"] = email
              parameter["password"] = password
             parameter["version"] = appVersion
+            parameter["plateform"] = "IOS"
         }
         
         let strURL = Define.APP_URL + Define.API_SIGNIN
@@ -143,7 +144,7 @@ extension SplashVC {
                        
            
             
-        let parameters:[String: Any] = ["version":appVersion]
+        let parameters:[String: Any] = ["version":appVersion,"plateform" : "IOS"]
                     let strURL = Define.APP_URL + Define.API_CHECKVERSION
                     print("Parameter: \(parameters)\nURL: \(strURL)")
                     

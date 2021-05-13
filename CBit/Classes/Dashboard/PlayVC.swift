@@ -259,7 +259,7 @@ extension PlayVC {
                     if arr.count > 0 {
                         self.arrContest.append(contentsOf: arr)
                         self.ismoredata = true
-                        self.Start = self.Start + 10
+                        self.Start = self.Start + self.Limit
                     }
                     else
                     {

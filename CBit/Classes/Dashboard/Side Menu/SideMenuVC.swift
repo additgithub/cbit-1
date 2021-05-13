@@ -64,7 +64,7 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         //SideMenu(title: "TERMS & CONDITION", subMenus: nil, isExpand: false),
         //SideMenu(title: "LEGALITY", subMenus: nil, isExpand: false),
         
-    SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
+ //   SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
     
    
   
@@ -200,8 +200,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         /*else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
-        else if arrSideMenu[9].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[9].arrSubMenu!.count * 60))
+        else if arrSideMenu[8].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[8].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -340,9 +340,9 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
         }, with: "6")
         
-        sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-        }, with: "7")
+//        sideMenuController?.cache(viewControllerGenerator: {
+//            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
+//        }, with: "7")
         
        /* sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
@@ -411,7 +411,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 9 //|| section == 2
+        if section == 1 || section == 8 //|| section == 2
         {
             headerCell.imageMenuArrow.isHidden = false
         } else {
@@ -438,7 +438,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 9{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 8{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -496,7 +496,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }*/
-     else if indexPath.section == 9 {
+     else if indexPath.section == 8 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -527,7 +527,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[9].isExpande = false
+            arrSideMenu[8].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -541,11 +541,11 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             setSideMenuHeight()
             tableMenu.reloadData()
         }*/
-        else if index == 9 {
+        else if index == 8 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-           // arrSideMenu[9].isExpande = false
+           // arrSideMenu[8].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -580,7 +580,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 8 {
+        else if index == 7 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC

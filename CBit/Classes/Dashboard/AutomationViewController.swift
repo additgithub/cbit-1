@@ -13,6 +13,7 @@ class AutomationViewController: UIViewController {
     //MARK: - Properties
     @IBOutlet weak var switchAutoPilot: UISwitch!
     @IBOutlet var switchReedem: UISwitch!
+    @IBOutlet weak var textviewinfo: UITextView!
     
     
     //MARK: - Default Method
@@ -47,6 +48,7 @@ class AutomationViewController: UIViewController {
         
         switchReedem.layer.cornerRadius = switchReedem.frame.height / 2
         switchReedem.layer.masksToBounds = true
+        getautopilotcontent()
     }
     //MARK: - Switch Method
     @IBAction func switchNotification(_ sender: UISwitch) {
@@ -201,6 +203,49 @@ extension AutomationViewController {
                     self.switchReedem.isOn = !self.switchReedem.isOn
                     Alert().showAlert(title: "Error",
                                       message: result!["message"] as? String ?? Define.ERROR_SERVER,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func getautopilotcontent()  {
+      
+        let strURL = Define.APP_URL + Define.getautopilotcontent
+        print("URL: \(strURL)")
+        
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: nil,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+        
+                print("Error: \(error!)")
+                self.getautopilotcontent()
+            } else {
+         
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let content = result!["content"] as? [String: Any] ?? [:]
+                //    let apddict : NSDictionary = result!["content"] as! NSDictionary
+                  
+                    self.textviewinfo.text = content["contest"] as? String
+                    
+                    print(content)
+                    
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
                                       viewController: self)
                 }
             }

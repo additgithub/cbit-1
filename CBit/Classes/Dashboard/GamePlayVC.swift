@@ -4,7 +4,7 @@ import SocketIO
 
 class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     
-    
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var btnlock: UIImageView!
     
     @IBOutlet weak var imglock09: UIImageView!
@@ -1074,7 +1074,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     }
     
     func   setData(isfromtime:Bool) {
-        
+        lbltitle.text = dictGameData["title"] as? String
         arrTickets = dictGameData["tickets"] as! [[String: Any]]
         arrBrackets = dictGameData["boxJson"] as! [[String: Any]]
         gameMode = dictGameData["gameMode"] as? String ?? "public"

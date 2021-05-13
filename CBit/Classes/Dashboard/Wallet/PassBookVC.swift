@@ -25,6 +25,7 @@ class PassBookVC: UIViewController {
     private var arrPassbook = [[String: Any]]()
     
     var filterarr = [String]()
+    var DisplayValue = [String]()
     var SavedIndex = [String]()
     
     lazy  var refreshControl: UIRefreshControl = {
@@ -54,6 +55,8 @@ class PassBookVC: UIViewController {
                              viewController: self)
         } else {
             isShowLoading = true
+            Start = 0
+            arrPassbook = [[String:Any]]()
             getPassbookData()
         }
     }
@@ -86,6 +89,9 @@ class PassBookVC: UIViewController {
             isRefresh = true
             isShowLoading = false
             refreshControl.beginRefreshing()
+            Start = 0
+            arrPassbook = [[String:Any]]()
+            tablePassBook.reloadData()
             self.getPassbookData()
         }
     }
@@ -102,11 +108,15 @@ class PassBookVC: UIViewController {
     }
     @IBAction func applyfilter_click(_ sender: UIButton) {
         popupvw.isHidden = true
+        Start = 0
+        arrPassbook = [[String:Any]]()
         getPassbookData()
     }
     @IBAction func clearfilter_click(_ sender: UIButton) {
         popupvw.isHidden = true
         SavedIndex = [String]()
+        arrPassbook = [[String:Any]]()
+        Start = 0
         getPassbookData()
     }
     
@@ -185,7 +195,7 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
                     cell.chkvw?.tag = indexPath.row + 1
                     cell.chkvw?.addTarget(self, action: #selector(PassBookVC.checkboxValueChangedPopUp(_:)), for: .valueChanged)
             
-            cell.lbltitle.text = "\(filterarr[indexPath.row])"
+            cell.lbltitle.text = "\(DisplayValue[indexPath.row])"
      
                 if SavedIndex.contains(String(indexPath.row+1)) {
                     cell.chkvw?.checkState = .checked
@@ -283,6 +293,7 @@ extension PassBookVC {
                 if status == 200 {
                   //  self.arrPassbook = result!["content"] as! [[String: Any]]
                     self.filterarr = result!["DropDown"] as? [String] ?? []
+                    self.DisplayValue = result!["DisplayValue"] as? [String] ?? []
                     let arr =  result!["content"] as! [[String : Any]]
                       if arr.count > 0 {
                           self.arrPassbook.append(contentsOf: arr)

@@ -471,12 +471,22 @@ class MyModel {
         return Int(startMiliSecound - currentMiliSecond)
     }
     
-    func isSetNA(totalTickets: Int) -> Bool {
-        if totalTickets == 0 || totalTickets == 1 {
+    func isSetNA(totalTickets: Int,minJoin:Int) -> Bool {
+//        if totalTickets == 0 || totalTickets == 1 {
+//            return true
+//        }
+        if totalTickets < minJoin {
             return true
         }
         return false
     }
+    
+//    func isSetNA(totalTickets: Int,minJoin:Int) -> Bool {
+//        if totalTickets == 0 || totalTickets == 1 {
+//            return true
+//        }
+//        return false
+//    }
     
 }
 

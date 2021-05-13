@@ -95,9 +95,9 @@ PODS:
     - SDWebImage/Core (= 4.4.5)
   - SDWebImage/Core (4.4.5)
   - SideMenuSwift (2.0.2)
-  - Socket.IO-Client-Swift (14.0.0):
-    - Starscream (~> 3.0.6)
-  - Starscream (3.0.6)
+  - Socket.IO-Client-Swift (15.2.0):
+    - Starscream (~> 3.1)
+  - Starscream (3.1.1)
   - SwiftGifOrigin (1.7.0)
 
 DEPENDENCIES:
@@ -122,7 +122,7 @@ DEPENDENCIES:
   - ReachabilitySwift
   - SDWebImage
   - SideMenuSwift
-  - Socket.IO-Client-Swift (~> 14.0.0)
+  - Socket.IO-Client-Swift (~> 15.2.0)
   - SwiftGifOrigin (~> 1.7.0)
 
 SPEC REPOS:
@@ -190,10 +190,10 @@ SPEC CHECKSUMS:
   ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
   SideMenuSwift: ba10587929b9090c89105ec52739e6c60b9e50de
-  Socket.IO-Client-Swift: 21e6a8a23a7d367d5ddfab6cbbd3c679cf3c25d6
-  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
 
-PODFILE CHECKSUM: 34b819190df46499add8c7ea97a090feca450562
+PODFILE CHECKSUM: ff7b8bd80608010f3bd9f8e0e995b1e2705b2088
 
 COCOAPODS: 1.10.1

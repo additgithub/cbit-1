@@ -232,7 +232,8 @@ extension CGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         
         let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
         
-        if MyModel().isSetNA(totalTickets: totalTicket) {
+        let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+        if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
             resultCell.labelTotalWinnings.text = "N/A"
             resultCell.labelMaxWinner.text = "N/A"
         } else {

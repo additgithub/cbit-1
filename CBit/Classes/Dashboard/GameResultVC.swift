@@ -4,7 +4,7 @@ import UserNotifications
 class GameResultVC: UIViewController {
     //MARK: - Properties
     
-    
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var lblnowin: UILabel!
     @IBOutlet weak var ccwinning: UILabel!
     @IBOutlet weak var totalblue: UILabel!
@@ -41,6 +41,9 @@ class GameResultVC: UIViewController {
     }
     
     func setDetail() {
+        
+        lbltitle.text = dictContestDetail["title"] as? String
+        
         let gametype = "\(dictContestDetail["game_type"]!)"
         
         
@@ -171,7 +174,8 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
             
             let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
             
-            if MyModel().isSetNA(totalTickets: totalTicket) {
+            let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                 ticketCell.labelWinningAmount.text = "N/A"
                 ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
             } else {
@@ -206,7 +210,8 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
                 
-                if MyModel().isSetNA(totalTickets: totalTicket) {
+                let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                     ticketCell.labelWinningAmount.text = "N/A"
                     
                     ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
@@ -390,7 +395,8 @@ extension GameResultVC: UITableViewDelegate, UITableViewDataSource {
                 let totalTicket = arrSelectedTickets[indexPath.row]["totalTickets"] as? Int ?? 0
                 
                 
-                if MyModel().isSetNA(totalTickets: totalTicket) {
+                let minJoin = arrSelectedTickets[indexPath.row]["minJoin"] as? Int ?? 0
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                     ticketCell.labelWinningAmount.text = "N/A"
                     
                     ticketCell.labelMaxWinner.text = "N/A(\(arrSelectedTickets[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"

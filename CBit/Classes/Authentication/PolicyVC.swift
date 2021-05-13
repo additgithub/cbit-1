@@ -8,7 +8,7 @@ class PolicyVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webViewTermsAndCondition.uiDelegate = self
+     //   webViewTermsAndCondition.navigationDelegate = self
         webViewTermsAndCondition.load(URLRequest(url: URL(string: Define.LIGALITY_URL)!))
     }
     
@@ -20,7 +20,7 @@ class PolicyVC: UIViewController {
 }
 
 //MARK: - WebView Delegate Method
-extension PolicyVC: WKUIDelegate {
+extension PolicyVC: WKNavigationDelegate {
       func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
          progressTermsAndCondition.setProgress(0.1, animated: false)
       }

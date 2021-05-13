@@ -7,6 +7,7 @@ import EventKit
 class TicketVC: UIViewController {
     //MARK: - Properties
     
+    @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var btnselectall: UIButton!
     @IBOutlet weak var labelRemainingTime: UILabel!
     @IBOutlet weak var collectionviewtickets: UICollectionView!
@@ -216,7 +217,7 @@ class TicketVC: UIViewController {
 
     }
     private func setDetail() {
-        
+        lbltitle.text = dictContestDetail["title"] as? String
         arrTicket = dictContestDetail["tickets"] as! [[String: Any]]
         let strMarquee = dictContestDetail["scrollerContent"] as? String ?? "No String"
         labelMarquee.text = strMarquee
@@ -497,8 +498,8 @@ extension TicketVC: UITableViewDelegate, UITableViewDataSource {
             ticketCell.labelBar.text = "\(range)"
             
             let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
-            
-            if MyModel().isSetNA(totalTickets: totalTicket) {
+            let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
+            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                 ticketCell.labelWinningAmount.text = "N/A"
                 ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
             } else {
@@ -562,8 +563,9 @@ extension TicketVC: UITableViewDelegate, UITableViewDataSource {
                 ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
                 
                 let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
+                let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
                 
-                if MyModel().isSetNA(totalTickets: totalTicket) {
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                     ticketCell.labelWinningAmount.text = "N/A"
                     
                     ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
@@ -695,7 +697,8 @@ extension TicketVC: UITableViewDelegate, UITableViewDataSource {
          let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
                                              
                                                            
-                                                           if MyModel().isSetNA(totalTickets: totalTicket) {
+                let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
+                if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
                                                                ticketCell.labelWinningAmount.text = "N/A"
                                                                
                                                                ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"

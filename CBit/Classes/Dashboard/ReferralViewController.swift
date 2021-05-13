@@ -91,10 +91,10 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
 
                 let url2 = UserDefaults.standard.value(forKey:"Referralcode")! as? String
                        
-                let url4 = "Install the ‘CBIT Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
+                let url4 = "Install the ‘Cbit Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
                       
                         
-                let url3 = "\n\n• Worlds shortest,easiest and original games! \n• Auto apply Cashback on loosing! \n• Refer & Earn Random commission upto 9 levels! \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Download it now!"
+                let url3 = "\n\n• Worlds shortest, easiest and original games! \n• Auto apply Cashback on loosing! \n• Refer & Earn Random commission upto 9 levels! \n\nTerms & conditions apply \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Download it now!"
 
             
                 

@@ -154,7 +154,7 @@ extension LoginVC {
         print(appVersion)
         
         parameter["version"] = appVersion
-        
+        parameter["plateform"] = "IOS"
         
         let strURL = Define.APP_URL + Define.API_SIGNIN
         print("Parameter: \(parameter)\nURL: \(strURL)")
