@@ -25,10 +25,14 @@ class WalletVC: UIViewController {
     @IBOutlet weak var lbl_applied_cc: UILabel!
     @IBOutlet weak var tbl_redeem: UITableView!
     
-     private var isFirstTime = Bool()
+    @IBOutlet weak var btnjassets: UIButton!
+    @IBOutlet weak var Jhitsamt: UILabel!
+    
+    @IBOutlet weak var lblearning: UILabel!
+    @IBOutlet weak var lbltds: UILabel!
+    
+    private var isFirstTime = Bool()
     private var arrjtickets = [[String: Any]]()
-    
-    
     private var arrMyJTicket = [[String: Any]]()
     
     var MainarrMyJTicket = [[String: Any]]()
@@ -60,6 +64,8 @@ class WalletVC: UIViewController {
         
         //getUserJticket()
         CallJAssetData()
+        getJhitsTotalAmount()
+        getReferralCommitionTotalAmount()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -225,6 +231,11 @@ class WalletVC: UIViewController {
         self.navigationController?.pushViewController(CCpassBookVC, animated: true)
     }
     
+    @IBAction func refresh_click(_ sender: UIButton) {
+        CallJAssetData()
+        getJhitsTotalAmount()
+        getReferralCommitionTotalAmount()
+    }
     
 }
 
@@ -436,6 +447,109 @@ extension WalletVC
                     } catch {
                         print(error.localizedDescription)
                     }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func getJhitsTotalAmount()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getJhitsTotalAmount
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let content =  result!["content"] as! [String:Any]
+                  //  self.btnjassets.setTitle("JHits: ₹ \(content["totalsum"] as! String)", for: .normal)
+                    self.Jhitsamt.text = "J Hits Till Date \n ₹ \(content["totalsum"] as! String)"
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func getReferralCommitionTotalAmount()  {
+        if isFirstTime {
+            Loading().showLoading(viewController: self)
+        }
+        let strURL = Define.APP_URL + Define.getReferralCommitionTotalAmount
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                if self.isFirstTime {
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                }
+                print("Error: \(error!)")
+                self.getUserJticket()
+            } else {
+                if self.isFirstTime {
+                    
+                    self.isFirstTime = false
+                    Loading().hideLoading(viewController: self)
+                    
+                }
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let content =  result!["content"] as! [String:Any]
+                  //  self.btnjassets.setTitle("JHits: ₹ \(content["totalsum"] as! String)", for: .normal)
+                    self.lblearning.text = "₹ \(content["Earning"] as! String)"
+                    self.lbltds.text = "₹ \(content["tds"] as! String)"
                     
                 } else if status == 401 {
                     

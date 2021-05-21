@@ -283,7 +283,16 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
      //   self.startlistner()
+        NotificationCenter.default.addObserver(
+             self,
+             selector: #selector(applicationWillEnterForeground(_:)),
+             name: UIApplication.willEnterForegroundNotification,
+             object: nil)
     }
+    @objc func applicationWillEnterForeground(_ notification: NSNotification) {
+        print("App moved to foreground!")
+        getContestDetail(isfromtimer: true, isStart: 0)
+        }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         SocketIOManager.sharedInstance.lastViewController = nil
@@ -294,6 +303,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     override func viewDidDisappear(_ animated: Bool) {
       //  startTimer?.invalidate()
         timermili?.invalidate()
+        viewAnimation?.adsTimer?.invalidate()
     }
     
     
@@ -487,6 +497,11 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     {
 //        lockallmili = currentTodayTimeInMilliSeconds()
 //        let total = lockallmili - 100 //+ startdatemilisec
+        if startTimemili == 0 {
+            startTimemili = 10
+        }
+        lockallmili = startTimemili * 10
+        print("FETCHTIME:",startTimemili)
         let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
@@ -946,7 +961,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
        
        //Total time since timer started, in seconds
         
-        lockallmili = startTimemili * 10
+      //  lockallmili = startTimemili * 10
      //  timemili = Date().timeIntervalSinceReferenceDate - startTimemili
 
        //The rest of your code goes here
@@ -1996,7 +2011,17 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         do{
             setSoundEffect = try AVAudioPlayer(contentsOf: soundURL!)
             setSoundEffect!.numberOfLoops = 4
-            setSoundEffect!.play()
+            if UserDefaults.standard.bool(forKey: "isaudio") {
+                viewAnimation?.isclicked = true
+                setSoundEffect!.play()
+                viewAnimation?.btnaudio.setImage(UIImage(named: "audio-speaker-on"), for: .normal)
+            }
+            else
+            {
+                viewAnimation?.isclicked = false
+                setSoundEffect!.pause()
+                viewAnimation?.btnaudio.setImage(UIImage(named: "mute"), for: .normal)
+            }
             viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
         } catch {
             print("Error In Sound PLay")
@@ -2647,6 +2672,11 @@ extension GamePlayVC: UITableViewDelegate, UITableViewDataSource {
         
 //        lockallmili = currentTodayTimeInMilliSeconds()
 //        let total = lockallmili - 100//+ startdatemilisec
+        if startTimemili == 0 {
+            startTimemili = 10
+        }
+        lockallmili = startTimemili * 10
+        print("FETCHTIME:",startTimemili)
         let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         

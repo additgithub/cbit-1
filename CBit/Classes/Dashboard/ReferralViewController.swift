@@ -9,6 +9,9 @@
 import UIKit
 import UserNotifications
 
+#if canImport(LinkPresentation)
+    import LinkPresentation
+#endif
 
 
 

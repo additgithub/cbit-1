@@ -65,10 +65,20 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         winnerCell.labelUserName.text = arrWinners[indexPath.row]["name"] as? String ?? "No Name"
         
         let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected")
-        if self.imageIsNullOrNot(imageName: img) {
-            winnerCell.imgselected.image = img
-            winnerCell.imgselected.isHidden = false
-            winnerCell.lblslotselected.isHidden = true
+        
+        let game_type = arrWinners[indexPath.row]["game_type"] as! String
+        if game_type == "spinning-machine" {
+                    if self.imageIsNullOrNot(imageName: img) {
+                        winnerCell.imgselected.image = img
+                        winnerCell.imgselected.isHidden = false
+                        winnerCell.lblslotselected.isHidden = true
+                    }
+                    else
+                    {
+                        winnerCell.imgselected.isHidden = true
+                        winnerCell.lblslotselected.isHidden = false
+                        winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
+                    }
         }
         else
         {
@@ -76,6 +86,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
             winnerCell.lblslotselected.isHidden = false
             winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
         }
+
         
           
         let winstatus  =  arrWinners[indexPath.row]["winStatus"] as? Int ?? 5

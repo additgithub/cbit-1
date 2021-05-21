@@ -57,6 +57,9 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
             self.dismiss(animated: true)
         }
     
+    @IBAction func refresh_click(_ sender: UIButton) {
+        getJticketWaitingListJ()
+    }
     @objc func btnWaitinglist(_ sender: Any, event: Any) {
         
         

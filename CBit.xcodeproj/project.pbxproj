@@ -91,7 +91,6 @@
 		1F822024222D4F17008FDF65 /* JoinByCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F822023222D4F17008FDF65 /* JoinByCodeVC.swift */; };
 		1F94A64922AF7C3C002E1960 /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94A64822AF7C3C002E1960 /* ViewAnimation.swift */; };
 		1F94A64C22AF7CA7002E1960 /* ViewAnimation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F94A64B22AF7CA7002E1960 /* ViewAnimation.xib */; };
-		1F94A64F22AF7EBB002E1960 /* cbit_briefcase_animation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1F94A64E22AF7EBB002E1960 /* cbit_briefcase_animation.gif */; };
 		1F97209222578E2B001D2CDA /* PrivateContestJoinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F97209122578E2B001D2CDA /* PrivateContestJoinVC.swift */; };
 		1FA38B0222857F8D00258D9E /* Ubuntu-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA38B0022857F8C00258D9E /* Ubuntu-R.ttf */; };
 		1FA38B0322857F8D00258D9E /* Ubuntu-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA38B0122857F8C00258D9E /* Ubuntu-M.ttf */; };
@@ -136,12 +135,16 @@
 		2F6FDC9625D64C5200555712 /* SpinningMachinePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */; };
 		2F7D31542642AA2B000A4B10 /* Countdown_timer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */; };
 		2F7D448525D69EFB00554F40 /* SMGameAnswerOneTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */; };
+		2F7F5C31265624C400DC6D7D /* ADVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7F5C2F265624C400DC6D7D /* ADVCollectionViewCell.swift */; };
+		2F7F5C32265624C400DC6D7D /* ADVCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */; };
 		2F804F8025D3DC610025C138 /* SpinningMachineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */; };
 		2F804F8325D3EFB80025C138 /* SpinningMachineTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */; };
 		2F8FBDC925D7B36600603A48 /* SMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FBDC825D7B36600603A48 /* SMResultVC.swift */; };
+		2FAD82E526567CF50026031A /* IMG_2358.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD82E426567CF50026031A /* IMG_2358.jpg */; };
 		2FC1FB8C25E51F6800A556BF /* AGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */; };
 		2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */; };
 		2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */; };
+		2FE171F92657C40D00B4EAF8 /* Bag.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2FE171F82657C40C00B4EAF8 /* Bag.gif */; };
 		9F5C69A525C3F00E00C8F2EE /* CGGamePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */; };
 		9F6800EC25B804530052A76D /* ClassicGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6800EB25B804530052A76D /* ClassicGridViewController.swift */; };
 		9F87805925C425F20031755E /* CreatePrivateGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F87805825C425F20031755E /* CreatePrivateGroupVC.swift */; };
@@ -304,7 +307,6 @@
 		1F822023222D4F17008FDF65 /* JoinByCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinByCodeVC.swift; sourceTree = "<group>"; };
 		1F94A64822AF7C3C002E1960 /* ViewAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAnimation.swift; sourceTree = "<group>"; };
 		1F94A64B22AF7CA7002E1960 /* ViewAnimation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewAnimation.xib; sourceTree = "<group>"; };
-		1F94A64E22AF7EBB002E1960 /* cbit_briefcase_animation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cbit_briefcase_animation.gif; sourceTree = "<group>"; };
 		1F97209122578E2B001D2CDA /* PrivateContestJoinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContestJoinVC.swift; sourceTree = "<group>"; };
 		1FA38B0022857F8C00258D9E /* Ubuntu-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-R.ttf"; sourceTree = "<group>"; };
 		1FA38B0122857F8C00258D9E /* Ubuntu-M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-M.ttf"; sourceTree = "<group>"; };
@@ -349,13 +351,17 @@
 		2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachinePlayVC.swift; sourceTree = "<group>"; };
 		2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Countdown_timer.mp3; sourceTree = "<group>"; };
 		2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMGameAnswerOneTVC.swift; sourceTree = "<group>"; };
+		2F7F5C2F265624C400DC6D7D /* ADVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADVCollectionViewCell.swift; sourceTree = "<group>"; };
+		2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ADVCollectionViewCell.xib; sourceTree = "<group>"; };
 		2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineVC.swift; sourceTree = "<group>"; };
 		2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineTicketVC.swift; sourceTree = "<group>"; };
 		2F8FBDC825D7B36600603A48 /* SMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMResultVC.swift; sourceTree = "<group>"; };
+		2FAD82E426567CF50026031A /* IMG_2358.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_2358.jpg; sourceTree = "<group>"; };
 		2FAF31612640101F001E0982 /* CBIT OG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBIT OG.entitlements"; sourceTree = "<group>"; };
 		2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMTicketVC.swift; sourceTree = "<group>"; };
 		2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMPlayVC.swift; sourceTree = "<group>"; };
 		2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGameResultVC.swift; sourceTree = "<group>"; };
+		2FE171F82657C40C00B4EAF8 /* Bag.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Bag.gif; sourceTree = "<group>"; };
 		59869B58E2F8EEF55A0CB157 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91D652900B505E5F93EC1228 /* Pods_CBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -580,6 +586,8 @@
 				1F94A64B22AF7CA7002E1960 /* ViewAnimation.xib */,
 				0446844F243C8B6D00E80800 /* LockAll.xib */,
 				04468451243C8C2F00E80800 /* LockAll.swift */,
+				2F7F5C2F265624C400DC6D7D /* ADVCollectionViewCell.swift */,
+				2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */,
 			);
 			path = ViewAnimation;
 			sourceTree = "<group>";
@@ -587,8 +595,9 @@
 		1F94A64D22AF7E9C002E1960 /* GIF */ = {
 			isa = PBXGroup;
 			children = (
-				1F94A64E22AF7EBB002E1960 /* cbit_briefcase_animation.gif */,
+				2FAD82E426567CF50026031A /* IMG_2358.jpg */,
 				04468455243CA9D100E80800 /* lock.gif */,
+				2FE171F82657C40C00B4EAF8 /* Bag.gif */,
 			);
 			path = GIF;
 			sourceTree = "<group>";
@@ -938,7 +947,6 @@
 				B0C152D322C745CB00B6B801 /* Montserrat-Regular.otf in Resources */,
 				1FBD3398222914D100B74578 /* LaunchScreen.storyboard in Resources */,
 				1FA38B0522857FAE00258D9E /* digital-7.ttf in Resources */,
-				1F94A64F22AF7EBB002E1960 /* cbit_briefcase_animation.gif in Resources */,
 				2F56E20B26441CB500E86852 /* heartbeat.mp3 in Resources */,
 				1F36F3B322562B7A00B62AFC /* SelectionView.xib in Resources */,
 				1F94A64C22AF7CA7002E1960 /* ViewAnimation.xib in Resources */,
@@ -952,12 +960,15 @@
 				1FA38B0222857F8D00258D9E /* Ubuntu-R.ttf in Resources */,
 				B0C3E8D322CF6CB800F1756D /* ViewTicketInfo.xib in Resources */,
 				1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */,
+				2F7F5C32265624C400DC6D7D /* ADVCollectionViewCell.xib in Resources */,
 				B0C152D422C745CB00B6B801 /* Montserrat-SemiBold.otf in Resources */,
+				2FE171F92657C40D00B4EAF8 /* Bag.gif in Resources */,
 				1F7A268B2261A521000FEAD5 /* Assets.xcassets in Resources */,
 				2F56E2082644049900E86852 /* message_tone_lg_no.mp3 in Resources */,
 				1F5DB44C222FECB000EF5FD5 /* ViewShorting.xib in Resources */,
 				1F4F2DA4227ACC5B009C4F9D /* Tick Tock.mp3 in Resources */,
 				B0C152D122C745CB00B6B801 /* Montserrat-Bold.otf in Resources */,
+				2FAD82E526567CF50026031A /* IMG_2358.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,6 +1209,7 @@
 				1F33F4C1226882AB00883616 /* OTPVarificationVC.swift in Sources */,
 				1F82201B222D3AE7008FDF65 /* WalletVC.swift in Sources */,
 				2F67E71D25D53117009F22ED /* SpinningMachineCell.swift in Sources */,
+				2F7F5C31265624C400DC6D7D /* ADVCollectionViewCell.swift in Sources */,
 				E85C56D225ED16A9007748C4 /* JoinGroupVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1239,7 +1251,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1264,7 +1276,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1419,7 +1431,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1456,7 +1468,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";

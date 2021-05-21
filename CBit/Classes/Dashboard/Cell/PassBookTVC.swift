@@ -11,6 +11,18 @@ class PassBookTVC: UITableViewCell {
     @IBOutlet weak var labelTDS: UILabel!
     
     @IBOutlet weak var viewbefore: UIView!
+    
+    @IBOutlet weak var imgapprovedstamp: UIImageView!
+    @IBOutlet weak var imggreentick: UIImageView!
+    
+    
+    @IBOutlet weak var vwnormal: UIView!
+    @IBOutlet weak var vwflip: UIView!
+    @IBOutlet weak var lbldepositedt: UILabel!
+    @IBOutlet weak var lbldepositetime: UILabel!
+    @IBOutlet weak var lbltransactionid: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

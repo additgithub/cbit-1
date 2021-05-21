@@ -67,7 +67,7 @@ class DashboardVC: UIViewController {
         
         
         setPageMenu()
-        getAdvertise()
+     //   getAdvertise()
         getAllSpecialContest()
         getSpinningMachine()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotitication(_:)),name:.getAllspecialContest,object: nil)
@@ -85,6 +85,21 @@ class DashboardVC: UIViewController {
         getReferalCriteriaChart()
     
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getUserInfo()
+       // getUserData()
+        NotificationCenter.default.addObserver(
+             self,
+             selector: #selector(applicationWillEnterForeground(_:)),
+             name: UIApplication.willEnterForegroundNotification,
+             object: nil)
+    }
+    
+    @objc func applicationWillEnterForeground(_ notification: NSNotification) {
+        print("App moved to foreground!")
+        }
+    
     @objc func handleNotitication(_ notification: Notification) {
            isShowLoading = false
            self.getAllSpecialContest()
@@ -526,6 +541,50 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
 
 //MARK: - API {
 extension DashboardVC {
+    func getUserInfo() {
+        let strURL = Define.APP_URL + Define.getUserInfo
+        print("URL: \(strURL)")
+        let parameter: [String: Any] = ["plateform": "ios","version": Define.APP_VERSION,"device":UIDevice.modelName]
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                } else {
+                }
+            }
+        }
+    }
+    
+    func getUserData() {
+        let strURL = Define.APP_URL + Define.getUserData
+        print("URL: \(strURL)")
+        let parameter: [String: Any] = [:]
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let dictData = result!["contest"] as! [String: Any]
+                    MyModel().setUserData(userData: dictData)
+                } else {
+                }
+            }
+        }
+    }
+    
     func getAdvertise() {
         let strURL = Define.APP_URL + Define.API_GET_ADS
         print("URL: \(strURL)")
