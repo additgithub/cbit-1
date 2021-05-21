@@ -569,7 +569,6 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         arrMyJTicket = [[String:Any]]()
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
-        Limit = 10
         isfromtab = true
         getUserJticket()
     }
@@ -670,8 +669,6 @@ class MyJticketlisting: UITableViewCell {
     @IBOutlet weak var lblredeemon: UILabel!
     @IBOutlet weak var lblappliedon: UILabel!
     @IBOutlet weak var lblhiton: UILabel!
-    
-    var isflip = true
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -780,7 +777,7 @@ extension MyJticketViewController {
                     self.lblApdrefresh.text = "Your APD Cycle refreshes on " + "\(apddict.value(forKey:"DayOfJoin") as? Int ?? 0)th" + " of every month"
                     print(self.lblapd.text!)
                     self.lblbap.text = "CC \(apddict["BAP"]!)"
-                    self.lbltap.text = "CC - \(apddict["TAP"]!)"
+                    self.lbltap.text = "CC \(apddict["TAP"]!)"
                     self.tbllistingMyjticket.reloadData()
                     
                     if self.arrMyJTicket.count > 0 {
@@ -928,7 +925,7 @@ extension MyJticketViewController {
                                     parameters: ["data": strBase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
+        { [self] (result, error) in
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!.localizedDescription)")
@@ -949,7 +946,7 @@ extension MyJticketViewController {
                     self.present(alertController, animated: true, completion: nil)
                     
                     print(self.arrMyJTicket)
-                    self.getUserJticket()
+                    self.segmentchanged(self.segment)
                     
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()

@@ -297,15 +297,24 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-     
-        
+        NotificationCenter.default.addObserver(
+             self,
+             selector: #selector(applicationWillEnterForeground(_:)),
+             name: UIApplication.willEnterForegroundNotification,
+             object: nil)
     }
+    
+    @objc func applicationWillEnterForeground(_ notification: NSNotification) {
+        print("App moved to foreground!")
+        getContestDetail(isfromtimer: true, isStart: 0)
+        }
     
     override func viewDidDisappear(_ animated: Bool) {
         deconfigAutoscrollTimer()
         deconfigFadeTimer()
       //  startTimer?.invalidate()
         timermili?.invalidate()
+        viewAnimation?.adsTimer?.invalidate()
     }
     
     func configAutoscrollTimer()
@@ -353,6 +362,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     @objc func autoScrollView()
     {
+        collection_slot.reloadData()
         let initailPoint = CGPoint(x: 0,y :w)
 //        if(LoadSpeed > 0.70 || speed < 10){
 //            speed = 10
@@ -596,6 +606,11 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     {
        // lockallmili = currentTodayTimeInMilliSeconds()
     //    let total = lockallmili - 100//+ startdatemilisec
+        if startTimemili == 0 {
+            startTimemili = 10
+        }
+        lockallmili = startTimemili * 10
+        print("FETCHTIME:",startTimemili)
         let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         
@@ -1021,7 +1036,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         
        //Total time since timer started, in seconds
         
-        lockallmili = startTimemili * 10
+       // lockallmili = startTimemili * 10
      //  timemili = Date().timeIntervalSinceReferenceDate - startTimemili
 
        //The rest of your code goes here
@@ -1064,7 +1079,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     print("Error: \(error!.localizedDescription)")
                   //  self.retry()
                 } else {
-                    Loading().hideLoading(viewController: self)
+                   
                     print("ContestResult: \(result!)")
                     let status = result!["statusCode"] as? Int ?? 0
                     if status == 200 {
@@ -1114,7 +1129,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                         self.arrSloat = tickets[0]["slotes"] as! [[String: Any]]
                         self.collection_lockall.reloadData()
                         
-                        Loading().hideLoading(viewController: self)
+                     //   Loading().hideLoading(viewController: self)
                       
                         
                         
@@ -1217,7 +1232,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                // self.slotarr = self.itemarr
                 
                 self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-                let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
+                var winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
                 self.originalarr = [UIImage]()
                 for box in self.arrBrackets {
                     for option in winning_options {
@@ -1231,11 +1246,12 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 
               
                 
-                let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+               // let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
+                 winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
                 for _ in 1..<200
                 {
-                    for dict in arrSloats {
-                        let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["displayValue"] as! String)
+                    for dict in winning_options {
+                        let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["Item"] as! String)
                         if self.imageIsNullOrNot(imageName: img) {
                             self.slotarr.append(img)
                         }
@@ -1432,6 +1448,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         }
 
         tableAnswer.reloadData()
+        Loading().hideLoading(viewController: self)
     }
     
     func setlockalldata(dictdata:[String:Any])  {
@@ -1785,7 +1802,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 viewAnimation!.frame = view.bounds
                // viewAnimation?.btnaudio.addTarget(self,action: #selector(viewAnimation?.pressed(sender: setSoundEffect)),for: .touchUpInside)
                // viewAnimation?.pressed(sender: setSoundEffect)
-                viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
+         //       viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
 //                let button = viewAnimation!.btnaudio
 //                 button?.actionHandle(controlEvents: .touchUpInside,
 //                 ForAction:{() -> Void in
@@ -1836,7 +1853,17 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         do{
             setSoundEffect = try AVAudioPlayer(contentsOf: soundURL!)
             setSoundEffect!.numberOfLoops = 4
-            setSoundEffect!.play()
+            if UserDefaults.standard.bool(forKey: "isaudio") {
+                viewAnimation?.isclicked = true
+                setSoundEffect!.play()
+                viewAnimation?.btnaudio.setImage(UIImage(named: "audio-speaker-on"), for: .normal)
+            }
+            else
+            {
+                viewAnimation?.isclicked = false
+                setSoundEffect!.pause()
+                viewAnimation?.btnaudio.setImage(UIImage(named: "mute"), for: .normal)
+            }
             viewAnimation?.avaudio = setSoundEffect ?? AVAudioPlayer()
         } catch {
             print("Error In Sound PLay")
@@ -2477,6 +2504,11 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
         
 //        lockallmili = currentTodayTimeInMilliSeconds()
 //        let total = lockallmili - 100//+ startdatemilisec
+        if startTimemili == 0 {
+            startTimemili = 10
+        }
+        lockallmili = startTimemili * 10
+        print("FETCHTIME:",startTimemili)
         let total = lockallmili + startdatemilisec
         let dt = total.dateFromMilliseconds()
         

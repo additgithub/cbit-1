@@ -1217,9 +1217,16 @@ extension SpinningMachineTicketVC {
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as? String ?? "No Message",
-                                      viewController: self)
+                    if result!["message"] as? String ?? "No Message" == "contest is over" {
+                        NotificationCenter.default.removeObserver(self)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    else
+                    {
+                        Alert().showAlert(title: "Error",
+                                          message: result!["message"] as? String ?? "No Message",
+                                          viewController: self)
+                    }
                 }
             }
         }

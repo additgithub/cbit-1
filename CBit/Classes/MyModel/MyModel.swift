@@ -156,7 +156,7 @@ class MyModel {
         let startDate = dateFormater.date(from: contestDate)
         
         let calendar = NSCalendar.current
-        let minusDate = calendar.date(byAdding: .second, value: -30, to: startDate!)
+        let minusDate = calendar.date(byAdding: .second, value: -60, to: startDate!)
         
         return minusDate!
         

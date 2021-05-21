@@ -65,11 +65,11 @@ class GameResultVC: UIViewController {
         arrTiclets = dictContestDetail["tickets"] as! [[String: Any]]
         let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
         let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
-        labelWinningAmount.text = "You win ₹\(winAmount)"
-        lblnowin.text = "No win ₹\(NowinAmount)"
+        labelWinningAmount.text = "Winnings : ₹\(winAmount)"
+        lblnowin.text = "Instant Cashback : ₹\(NowinAmount)"
         
         let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-        ccwinning.text = "You win CC \(winCCAmount)"
+        ccwinning.text = "Royalty : CC \(winCCAmount)"
         
         
         for item in arrTiclets {

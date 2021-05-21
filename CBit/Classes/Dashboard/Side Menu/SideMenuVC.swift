@@ -64,8 +64,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         //SideMenu(title: "TERMS & CONDITION", subMenus: nil, isExpand: false),
         //SideMenu(title: "LEGALITY", subMenus: nil, isExpand: false),
         
- //   SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
-    
+    SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
+    SideMenu(title: "Help Center", subMenus: nil, isExpand: false),
    
   
        SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
@@ -87,6 +87,7 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
     var efm = String()
     var em = String()
     var cc = String()
+    var DayOfJoin = String()
     
     //MARK: - Default Method.
     override func viewDidLoad() {
@@ -148,25 +149,25 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         
         
         if tagindex == 1 {
-            let alert = UIAlertController(title: "", message: "₹ \(myString1 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "APD : Average Play Per Day \n ₹ \(myString1 ?? "")\n Your APD cycle refreshes on \(DayOfJoin)th of every month.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         else if tagindex == 2
         {
-            let alert = UIAlertController(title: "", message: "₹ \(myString2 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "EFM : Entry fee metre \n  ₹ \(myString2 ?? "") \n EFM marks a count of your till date entry fee amount paid to join contests.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         else if tagindex == 3
         {
-            let alert = UIAlertController(title: "", message: "₹ \(myString3 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "EM : Earning Metre \n ₹ \(myString3 ?? "") \n Earning metre marks a count of your till date earnings in this app which includes : Winnings , J Hits ( Cashback on J ticket ) and Overall Referral Commission credited.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         else if tagindex == 4
         {
-            let alert = UIAlertController(title: "", message: "CC \(myString4 ?? "")", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "BAP : Balance Apply Potential \n CC \(myString4 ?? "") \n You can apply J tickets worth CC \(myString4 ?? "") until midnight . Increase your APD to extend the BAP limit.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
@@ -200,8 +201,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         /*else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
-        else if arrSideMenu[8].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[8].arrSubMenu!.count * 60))
+        else if arrSideMenu[10].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[10].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -340,9 +341,9 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
         }, with: "6")
         
-//        sideMenuController?.cache(viewControllerGenerator: {
-//            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-//        }, with: "7")
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
+        }, with: "7")
         
        /* sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
@@ -411,7 +412,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 8 //|| section == 2
+        if section == 1 || section == 10 //|| section == 2
         {
             headerCell.imageMenuArrow.isHidden = false
         } else {
@@ -438,7 +439,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 8{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 10{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -496,7 +497,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }*/
-     else if indexPath.section == 8 {
+     else if indexPath.section == 10 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -527,7 +528,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[8].isExpande = false
+            arrSideMenu[10].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -541,11 +542,11 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             setSideMenuHeight()
             tableMenu.reloadData()
         }*/
-        else if index == 8 {
+        else if index == 10 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-           // arrSideMenu[8].isExpande = false
+           // arrSideMenu[10].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -580,7 +581,16 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 7 {
+        else if index == 8 {
+            
+            let whatsappURL = URL(string: Define.whatsappapi)
+            if UIApplication.shared.canOpenURL(whatsappURL!) {
+                UIApplication.shared.open(whatsappURL!, options: [:], completionHandler: nil)
+                }
+            
+            
+        }
+        else if index == 9 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC
@@ -589,6 +599,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
             
         }
+
             
 //            else if index == 9 {
 //
@@ -782,6 +793,7 @@ extension SideMenuVC {
                     self.efm = "\(dictData["TotalEntry"]! as! Int)"
                     self.em = "\(dictData["TotalEarning"]! as! Double)"
                     self.cc = dictData["BAP"]! as? String ?? "0.0"
+                    self.DayOfJoin = String(dictData["DayOfJoin"]! as? Int ?? 0)
                     
                     let formatter = NumberFormatter()              // Cache this, NumberFormatter creation is expensive.
                     formatter.locale = Locale(identifier: "en_IN") // Here indian locale with english language is used

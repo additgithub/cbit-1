@@ -384,7 +384,7 @@ extension JticketlistingViewController {
                     Define.APPDELEGATE.handleLogout()
                 } else {
                     Alert().showAlert(title: "Alert",
-                                      message: result!["message"] as! String,
+                                      message: result?["message"] as? String ?? "",
                                       viewController: self)
                 }
             }

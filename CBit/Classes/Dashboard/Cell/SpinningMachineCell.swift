@@ -322,7 +322,7 @@ extension SpinningMachineCell: UICollectionViewDelegate, UICollectionViewDataSou
         if let dirPath = paths.first{
             let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(nameOfImage)
             let image    = UIImage(contentsOfFile: imageURL.path)
-            return image!
+            return image ?? UIImage()
         }
         return UIImage.init(named: "default.png")!
     }

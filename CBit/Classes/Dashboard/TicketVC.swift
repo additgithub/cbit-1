@@ -59,10 +59,19 @@ class TicketVC: UIViewController {
     var isFromLink = Bool()
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
-    
+    var viewAnimation: ViewAnimation?
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            // your code here
+//            if self.viewAnimation == nil {
+//                self.viewAnimation = ViewAnimation.instanceFromNib() as? ViewAnimation
+//                self.viewAnimation!.frame = self.view.bounds
+//                self.view.addSubview(self.viewAnimation!)
+//            }
+//        }
+        
         SetRandomNumber()
         setStartTimer()
         tableTickets.rowHeight = UITableView.automaticDimension
@@ -1014,9 +1023,17 @@ extension TicketVC {
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
-                    Alert().showAlert(title: "Error",
-                                      message: result!["message"] as? String ?? "No Message",
-                                      viewController: self)
+                    if result!["message"] as? String ?? "No Message" == "contest is over" {
+                        NotificationCenter.default.removeObserver(self)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    else
+                    {
+                        Alert().showAlert(title: "Error",
+                                          message: result!["message"] as? String ?? "No Message",
+                                          viewController: self)
+                    }
+                 
                 }
             }
         }

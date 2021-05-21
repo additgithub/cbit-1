@@ -77,6 +77,11 @@ class IDsVC: UIViewController {
     @IBAction func back_click(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    @IBAction func refresh_click(_ sender: UIButton) {
+        getReferalCriteriaChart()
+        getReferalCriteria()
+    }
+    
     @IBAction func close_click(_ sender: Any) {
         vwpopup.isHidden = true
         vwpopuplevel.isHidden = true

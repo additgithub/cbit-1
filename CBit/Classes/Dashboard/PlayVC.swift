@@ -45,7 +45,10 @@ class PlayVC: UIViewController {
             Alert().showTost(message: Define.ERROR_INTERNET, viewController: self)
         } else {
             isShowLoading = true
-            getAllContest()
+            Start = 0
+           arrContest = [[String:Any]]()
+           tablePlay.reloadData()
+            self.getAllContest()
         }
     }
     
@@ -66,7 +69,6 @@ class PlayVC: UIViewController {
             isShowLoading = false
             refreshControl.beginRefreshing()
             Start = 0
-          
            arrContest = [[String:Any]]()
            tablePlay.reloadData()
             self.getAllContest()
@@ -75,10 +77,9 @@ class PlayVC: UIViewController {
     
     @objc func handleNotitication(_ notification: Notification) {
         isShowLoading = false
-         Start = 0
-        
-        arrContest = [[String:Any]]()
-        tablePlay.reloadData()
+        Start = 0
+       arrContest = [[String:Any]]()
+       tablePlay.reloadData()
         self.getAllContest()
     }
 }
@@ -237,6 +238,9 @@ extension PlayVC {
                 if self.isVisible {
                     self.retry()
                 } else {
+                    self.Start = 0
+                    self.arrContest = [[String:Any]]()
+                    self.tablePlay.reloadData()
                     self.getAllContest()
                 }
             } else {
@@ -287,6 +291,9 @@ extension PlayVC {
                                           message: result!["message"] as? String  ?? Define.ERROR_SERVER,
                                           viewController: self)
                     } else {
+                        self.Start = 0
+                        self.arrContest = [[String:Any]]()
+                        self.tablePlay.reloadData()
                         self.getAllContest()
                     }
                 }
@@ -338,6 +345,9 @@ extension PlayVC {
                                         style: .default)
         { _ in
             self.isShowLoading = true
+            self.Start = 0
+            self.arrContest = [[String:Any]]()
+            self.tablePlay.reloadData()
             self.getAllContest()
         }
         let cancel = UIAlertAction(title: "Cancel",

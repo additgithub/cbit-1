@@ -7,6 +7,7 @@ class PopUpCell: UITableViewCell {
     
     @IBOutlet var chkvw: M13Checkbox?
     @IBOutlet var lbltitle: UILabel!
+    
 }
 
 
@@ -24,9 +25,11 @@ class PassBookVC: UIViewController {
     
     private var arrPassbook = [[String: Any]]()
     
-    var filterarr = [String]()
-    var DisplayValue = [String]()
+ //   var filterarr = [String]()
+    var DisplayValue = [[String: Any]]()
     var SavedIndex = [String]()
+    
+    var isfliparr = [Bool]()
     
     lazy  var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -39,7 +42,7 @@ class PassBookVC: UIViewController {
     private var isShowLoading = Bool()
     
     var Start = 0
-    var Limit = 10
+    var Limit = 20
     var ismoredata = false
     
     //MARK: - Default Method
@@ -130,7 +133,7 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
             return arrPassbook.count
         }
         else if tableView == tblpopup {
-            return filterarr.count
+            return DisplayValue.count
         }
         
         return 0
@@ -144,11 +147,19 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
         passBookCell.labelTransactionName.text = arrPassbook[indexPath.row]["title"] as? String ?? "No Name"
         passBookCell.labelData.text = "\(arrPassbook[indexPath.row]["date"] as? String ?? "00-00-0000")"
         passBookCell.labelTime.text = "\(arrPassbook[indexPath.row]["time"] as? String ?? "00:00")"
-        passBookCell.labelAmount.text = arrPassbook[indexPath.row]["amount"] as? String ?? "0"
-
-        passBookCell.beforebalance.text =  arrPassbook[indexPath.row]["beforebalance"] as? String ?? "0"
-        
-        
+            
+            let amount = arrPassbook[indexPath.row]["amount"] as? String ?? "0"
+            let beforebalance = arrPassbook[indexPath.row]["beforebalance"] as? String ?? "0"
+            
+            var myMutableString = NSMutableAttributedString()
+            myMutableString = NSMutableAttributedString(string: amount)
+            myMutableString.setAttributes([NSAttributedString.Key.foregroundColor : UIColor.darkGray], range: NSRange(location:myMutableString.length-2,length:2)) // What ever range you want to give
+            passBookCell.labelAmount.attributedText = myMutableString
+            
+            var myMutableString1 = NSMutableAttributedString()
+            myMutableString1 = NSMutableAttributedString(string: beforebalance)
+            myMutableString1.setAttributes([NSAttributedString.Key.foregroundColor : UIColor.darkGray], range: NSRange(location:myMutableString1.length-2,length:2)) // What ever range you want to give
+            passBookCell.beforebalance.attributedText =  myMutableString1
         
         let strType = arrPassbook[indexPath.row]["type"] as? String ?? "subtract"
         if strType == "subtract" {
@@ -174,6 +185,31 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
             //}
             
         }
+            passBookCell.lbldepositedt.text = "\(arrPassbook[indexPath.row]["dep_date"]!)"
+            passBookCell.lbldepositetime.text = "\(arrPassbook[indexPath.row]["dep_time"]!)"
+            passBookCell.lbltransactionid.text = "\(arrPassbook[indexPath.row]["transId"]!)"
+            
+            let RedeemFlag = "\(arrPassbook[indexPath.row]["RedeemFlag"]!)"
+            
+            if RedeemFlag == "1" {
+                passBookCell.imgapprovedstamp.isHidden = false
+                passBookCell.imggreentick.isHidden = false
+            }
+            else
+            {
+                passBookCell.imgapprovedstamp.isHidden = true
+                passBookCell.imggreentick.isHidden = true
+            }
+            
+            if isfliparr[indexPath.row]  {
+                passBookCell.vwflip.isHidden = false
+                passBookCell.vwnormal.isHidden = true
+            }
+            else
+            {
+                passBookCell.vwflip.isHidden = true
+                passBookCell.vwnormal.isHidden = false
+            }
             
             if arrPassbook.count > 1 {
                 let lastElement = arrPassbook.count - 1
@@ -195,7 +231,7 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
                     cell.chkvw?.tag = indexPath.row + 1
                     cell.chkvw?.addTarget(self, action: #selector(PassBookVC.checkboxValueChangedPopUp(_:)), for: .valueChanged)
             
-            cell.lbltitle.text = "\(DisplayValue[indexPath.row])"
+            cell.lbltitle.text = "\(DisplayValue[indexPath.row]["display"] ?? "")"
      
                 if SavedIndex.contains(String(indexPath.row+1)) {
                     cell.chkvw?.checkState = .checked
@@ -234,6 +270,34 @@ extension PassBookVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if tableView == tablePassBook {
+            let cell = tableView.cellForRow(at: indexPath) as! PassBookTVC
+            let RedeemFlag = "\(arrPassbook[indexPath.row]["RedeemFlag"]!)"
+            if RedeemFlag != "1" {
+                return
+            }
+            if isfliparr[indexPath.row]   {
+                isfliparr[indexPath.row] = false
+                cell.vwflip.isHidden = true
+                cell.vwnormal.isHidden = false
+                UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromLeft, animations: {() -> Void in
+                    cell.contentView.insertSubview(cell.vwnormal, aboveSubview: cell.vwflip)
+                    }, completion: {(_ finished: Bool) -> Void in
+                    })
+            }
+            else
+            {
+        
+                
+                cell.vwflip.isHidden = false
+                cell.vwnormal.isHidden = true
+                isfliparr[indexPath.row] = true
+                UIView.transition(with: cell.contentView, duration: 0.6, options: .transitionFlipFromRight, animations: {() -> Void in
+                    cell.contentView.insertSubview(cell.vwflip, aboveSubview: cell.vwnormal)
+                   }, completion: {(_ finished: Bool) -> Void in
+                   })
+            }
+        }
         
     }
 }
@@ -251,9 +315,9 @@ extension PassBookVC {
         if SavedIndex.count > 0 {
             
             for i in SavedIndex {
-                let WeekID = filterarr[Int(i)!-1]
+                let WeekID = DisplayValue[Int(i)!-1]["value"]
                 
-                descr.append("\(WeekID),")
+                descr.append("\(WeekID ?? ""),")
             }
           
             descr.removeLast(1)
@@ -292,13 +356,16 @@ extension PassBookVC {
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
                   //  self.arrPassbook = result!["content"] as! [[String: Any]]
-                    self.filterarr = result!["DropDown"] as? [String] ?? []
-                    self.DisplayValue = result!["DisplayValue"] as? [String] ?? []
+                 //   self.filterarr = result!["DropDown"] as? [String] ?? []
+                    self.DisplayValue = result!["DisplayValuess"] as! [[String: Any]]
                     let arr =  result!["content"] as! [[String : Any]]
                       if arr.count > 0 {
                           self.arrPassbook.append(contentsOf: arr)
                           self.ismoredata = true
                           self.Start = self.Start + 10
+                        for _ in self.arrPassbook {
+                            self.isfliparr.append(false)
+                        }
                       }
                       else
                       {
