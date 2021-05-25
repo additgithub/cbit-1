@@ -128,7 +128,7 @@ class SMResultVC: UIViewController {
         lblnowin.text = "Instant Cashback : ₹\(NowinAmount)"
         
         let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-        ccwinning.text = "Royalty : CC \(winCCAmount)"
+        ccwinning.text = "Loss Benefits : CC \(winCCAmount)"
         
         
         for item in arrTiclets {

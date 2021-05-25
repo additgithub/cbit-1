@@ -88,7 +88,7 @@ class DashboardVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getUserInfo()
-       // getUserData()
+        getUserData()
         NotificationCenter.default.addObserver(
              self,
              selector: #selector(applicationWillEnterForeground(_:)),
@@ -577,8 +577,42 @@ extension DashboardVC {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    let dictData = result!["contest"] as! [String: Any]
-                    MyModel().setUserData(userData: dictData)
+                    let userData = result!["contest"] as! [String: Any]
+                    Define.USERDEFAULT.set("\(userData["id"]!)", forKey: "UserID")
+                    Define.USERDEFAULT.set(userData["firstName"]!, forKey: "FirstName")
+                    Define.USERDEFAULT.set(userData["middelName"]!, forKey: "MiddelName")
+                    Define.USERDEFAULT.set(userData["lastName"]!, forKey: "LastName")
+                    Define.USERDEFAULT.set(userData["userName"]!, forKey: "UserName")
+                    Define.USERDEFAULT.set(userData["email"]!, forKey: "Email")
+                    Define.USERDEFAULT.set(userData["myCode"]!, forKey: "UserCode")
+                    Define.USERDEFAULT.set(userData["mobile_no"]!, forKey: "UserMobile")
+                    Define.USERDEFAULT.set(userData["profile_image"], forKey: "ProfileImage")
+                    
+                     Define.USERDEFAULT.set(userData["AutoPilot"], forKey: "AutoPilot")
+                     Define.USERDEFAULT.set(userData["isRedeem"], forKey: "isRedeem")
+                    
+                    
+                    let setNotification = userData["setNotification"] as? Bool ?? false
+                    Define.USERDEFAULT.set(setNotification, forKey: "SetNotification")
+                    
+                    let dictAmount = userData["wallateDetails"] as! [String: Any]
+                    
+                    Define.USERDEFAULT.set(dictAmount["pbAmount"] as? Double ?? 0.0, forKey: "PBAmount")
+                    Define.USERDEFAULT.set(dictAmount["sbAmount"] as? Double ?? 0.0, forKey: "SBAmount")
+                    Define.USERDEFAULT.set(dictAmount["tbAmount"] as? Double ?? 0.0, forKey: "TBAmount")
+                    Define.USERDEFAULT.set(dictAmount["ccAmount"] as? Double ?? 0.0, forKey: "ccAmount")
+                    
+                    let walletAuth = dictAmount["WalletAuth"] as! Int
+                                        UserDefaults.standard.set(walletAuth, forKey: "WalletAuth")
+                    
+                    let isBankVerify = userData["verify_bank"] as? Bool ?? false
+                    
+                    Define.USERDEFAULT.set(userData["verify_pan"] as? Int ?? 0, forKey: "IsPanVerify")
+                    Define.USERDEFAULT.set(isBankVerify, forKey: "IsBankVerify")
+                    
+                    let isEmailVerify = userData["verify_email"] as? Bool ?? false
+                    Define.USERDEFAULT.set(isEmailVerify, forKey: "IsEmailVerify")
+                   
                 } else {
                 }
             }
