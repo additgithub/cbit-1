@@ -608,7 +608,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         MainarrMyJTicket = [[String:Any]]()
         Start = 0
         Limit = 10
-        
+        tbllistingMyjticket.reloadData()
         if segment.selectedSegmentIndex == 0 {
             //            self.arrMyJTicket = self.MainarrMyJTicket.filter{($0["status"] as! Int) == 0}
             //            tbllistingMyjticket.reloadData()

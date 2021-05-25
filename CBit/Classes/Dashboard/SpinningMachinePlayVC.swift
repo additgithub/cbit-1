@@ -362,7 +362,6 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     @objc func autoScrollView()
     {
-        collection_slot.reloadData()
         let initailPoint = CGPoint(x: 0,y :w)
 //        if(LoadSpeed > 0.70 || speed < 10){
 //            speed = 10
@@ -864,7 +863,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 
             }
         
-        if  Int(self.gameTime) ?? 0 == 40 {
+        if  Int(self.gameTime) ?? 0 == 41 {
           print("TENSECOND")
               setTenSecSound()
           }
@@ -895,7 +894,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             if (gameStatus == "start") {
                 
                 isGameStart = true
-               
+                collection_slot.reloadData()
                 print("secondss",second)
                 
         

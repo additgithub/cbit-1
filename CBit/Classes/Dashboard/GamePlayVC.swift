@@ -765,7 +765,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         
        
             
-        if  Int(self.gameTime) ?? 0 == 40 {
+        if  Int(self.gameTime) ?? 0 == 41 {
           print("TENSECOND")
               setTenSecSound()
           }
