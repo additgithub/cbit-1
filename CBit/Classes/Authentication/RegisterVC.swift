@@ -125,9 +125,11 @@ class RegisterVC: UIViewController {
             Alert().showTost(message: "Enter Proper Surname", viewController: self)
         } else if textUserName.text!.count < 4 {
             Alert().showTost(message: "Enter Proper User Name", viewController: self)
-        } else if !MyModel().isValidEmail(testStr: textEmail.text!) || textEmail.text!.isEmpty {
-            Alert().showTost(message: "Enter Proper Email", viewController: self)
-        } else if stateid == 0 {
+        }
+//        else if !MyModel().isValidEmail(testStr: textEmail.text!) || textEmail.text!.isEmpty {
+//            Alert().showTost(message: "Enter Proper Email", viewController: self)
+//        }
+        else if stateid == 0 {
                    Alert().showTost(message: "Select State", viewController: self)
                }
         else if cityid == 0 {
@@ -316,7 +318,7 @@ extension RegisterVC {
     func getOTPAPI() {
         Loading().showLoading(viewController: self)
         let parameter:[String: Any] = ["mobile_no": textMobileNumber.text!,
-                                       "email": self.textEmail.text!,
+                                       "email": self.textEmail.text ?? "",
                                        "ReferralCode":textRefferalcode.text!]
         let strURL = Define.APP_URL + Define.API_GET_OTP
         print("Parameter: \(parameter)\nURL: \(strURL)")
@@ -357,7 +359,7 @@ extension RegisterVC {
                         "firstName": self.textFullName.text!,
                         "middelName": self.textMiddleName.text!,
                         "lastName": self.textLastName.text!,
-                        "email": self.textEmail.text!,
+                        "email": self.textEmail.text ?? "",
                         "StateID" :self.stateid,
                         "CityID" :self.cityid,
                         "mobile_no": self.textMobileNumber.text!,

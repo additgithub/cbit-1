@@ -33,13 +33,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         //        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
-        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+      //  let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        
+        let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
+                  // This block gets called when the user reacts to a notification received
+                  let payload: OSNotificationPayload? = result?.notification.payload
+                  
+                  print("Message: ", payload!.body!)
+                  print("badge number: ", payload?.badge ?? 0)
+                  print("notification sound: ", payload?.sound ?? "No sound")
+        }
         
         // Replace 'YOUR_APP_ID' with your OneSignal App ID.
-        OneSignal.initWithLaunchOptions(launchOptions,
-                                        appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
-                                        handleNotificationAction: nil,
-                                        settings: onesignalInitSettings)
+//        OneSignal.initWithLaunchOptions(launchOptions,
+//                                        appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
+//                                        handleNotificationAction: notificationOpenedBlock,
+//                                        settings: onesignalInitSettings)
+        let notificationReceivedBlock: OSHandleNotificationReceivedBlock = { notification in
+                    
+                    print("Received Notification: ", notification!.payload.notificationID!)
+                    print("launchURL: ", notification?.payload.launchURL ?? "No Launch Url")
+                    print("content_available = \(notification?.payload.contentAvailable ?? false)")
+                }
+        
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false, kOSSettingsKeyInAppLaunchURL: true, ]
+            
+            OneSignal.initWithLaunchOptions(launchOptions, appId: "2ebce384-8388-4bff-9973-96dfe41069ab", handleNotificationReceived: notificationReceivedBlock, handleNotificationAction: notificationOpenedBlock, settings: onesignalInitSettings)
         
         OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
         

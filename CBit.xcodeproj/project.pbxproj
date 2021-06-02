@@ -135,6 +135,7 @@
 		2F6FDC9625D64C5200555712 /* SpinningMachinePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */; };
 		2F7D31542642AA2B000A4B10 /* Countdown_timer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */; };
 		2F7D448525D69EFB00554F40 /* SMGameAnswerOneTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */; };
+		2F7E0CB126610AF40046E59F /* EasyJoinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */; };
 		2F7F5C31265624C400DC6D7D /* ADVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7F5C2F265624C400DC6D7D /* ADVCollectionViewCell.swift */; };
 		2F7F5C32265624C400DC6D7D /* ADVCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */; };
 		2F804F8025D3DC610025C138 /* SpinningMachineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */; };
@@ -351,6 +352,7 @@
 		2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachinePlayVC.swift; sourceTree = "<group>"; };
 		2F7D31522642AA2B000A4B10 /* Countdown_timer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Countdown_timer.mp3; sourceTree = "<group>"; };
 		2F7D448425D69EFB00554F40 /* SMGameAnswerOneTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMGameAnswerOneTVC.swift; sourceTree = "<group>"; };
+		2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyJoinVC.swift; sourceTree = "<group>"; };
 		2F7F5C2F265624C400DC6D7D /* ADVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADVCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ADVCollectionViewCell.xib; sourceTree = "<group>"; };
 		2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineVC.swift; sourceTree = "<group>"; };
@@ -748,14 +750,14 @@
 				1F5DB448222FEBD300EF5FD5 /* Filter */,
 				1F822009222CF06B008FDF65 /* Side Menu */,
 				1F36F3A72255F56F00B62AFC /* Private Mode */,
+				2F50E55D2660FB3500DF9865 /* SpinningMachine */,
+				2F50E55E2660FB9400DF9865 /* ClassicGrid */,
+				2F50E55F2660FC6000DF9865 /* AnyTimeCG */,
+				2F50E5602660FCDA00DF9865 /* AnyTimeSM */,
 				1F82200C222CF0CB008FDF65 /* DashboardVC.swift */,
 				1F82200E222D1E3E008FDF65 /* PlayVC.swift */,
 				1F822010222D1E94008FDF65 /* MyContestVC.swift */,
-				1F0A5C29223B6D6D004F335C /* TicketVC.swift */,
-				1F0A5C2F223BAA50004F335C /* MyTicketVC.swift */,
 				B0758F7322CCDA6800B0C501 /* UserListVC.swift */,
-				1FD003962230E59600040670 /* GamePlayVC.swift */,
-				1F5A98742245F9430070C1B6 /* GameResultVC.swift */,
 				1F5DB446222FDB1B00EF5FD5 /* HistoryVC.swift */,
 				1F801355224D044300675AF7 /* ViewWinnersVC.swift */,
 				1F0A5C33223BBF2C004F335C /* PaymentSummaryVC.swift */,
@@ -774,25 +776,16 @@
 				1F508F7E255D074400D88FBB /* CreatePrivateGroupViewController.swift */,
 				E85624BD25F7752E00D9C06D /* GroupUserAndRequestListVC.swift */,
 				9F6800EB25B804530052A76D /* ClassicGridViewController.swift */,
-				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
 				E849A9C125E7CCC5004FB85C /* MyPrivateGroupsVC.swift */,
 				E8551DAE25EE4D940074D885 /* SearchAllPrivateGroupVC.swift */,
 				9FE5177B25BEE37100E8B6DA /* HostGameVC.swift */,
 				E84D1BA525EA1867006E11F8 /* EditGameVC.swift */,
 				9FC75B9625C2CB2500A3B75D /* IDsVC.swift */,
 				9FC75B9925C2D02F00A3B75D /* HoroscopeVC.swift */,
-				9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */,
-				2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */,
 				9F87805825C425F20031755E /* CreatePrivateGroupVC.swift */,
 				2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */,
-				2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */,
-				2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */,
-				2F8FBDC825D7B36600603A48 /* SMResultVC.swift */,
-				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
-				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
-				2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */,
 				E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */,
-				2F18554525FC974C00366758 /* SMMyTicketVC.swift */,
+				2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -805,6 +798,48 @@
 				1FBE45DF222F9C7F00741438 /* DatePickerDialog.swift */,
 			);
 			path = Library;
+			sourceTree = "<group>";
+		};
+		2F50E55D2660FB3500DF9865 /* SpinningMachine */ = {
+			isa = PBXGroup;
+			children = (
+				2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */,
+				2F6FDC9525D64C5200555712 /* SpinningMachinePlayVC.swift */,
+				2F8FBDC825D7B36600603A48 /* SMResultVC.swift */,
+				2F18554525FC974C00366758 /* SMMyTicketVC.swift */,
+			);
+			path = SpinningMachine;
+			sourceTree = "<group>";
+		};
+		2F50E55E2660FB9400DF9865 /* ClassicGrid */ = {
+			isa = PBXGroup;
+			children = (
+				1F0A5C29223B6D6D004F335C /* TicketVC.swift */,
+				1FD003962230E59600040670 /* GamePlayVC.swift */,
+				1F5A98742245F9430070C1B6 /* GameResultVC.swift */,
+				1F0A5C2F223BAA50004F335C /* MyTicketVC.swift */,
+			);
+			path = ClassicGrid;
+			sourceTree = "<group>";
+		};
+		2F50E55F2660FC6000DF9865 /* AnyTimeCG */ = {
+			isa = PBXGroup;
+			children = (
+				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
+				9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */,
+				2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */,
+			);
+			path = AnyTimeCG;
+			sourceTree = "<group>";
+		};
+		2F50E5602660FCDA00DF9865 /* AnyTimeSM */ = {
+			isa = PBXGroup;
+			children = (
+				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
+				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
+				2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */,
+			);
+			path = AnyTimeSM;
 			sourceTree = "<group>";
 		};
 		B0D7A07C22E1C5A3002229B5 /* Payment */ = {
@@ -1083,6 +1118,7 @@
 				1F801356224D044300675AF7 /* ViewWinnersVC.swift in Sources */,
 				E84D1BA625EA1867006E11F8 /* EditGameVC.swift in Sources */,
 				1F5DB44A222FEC7C00EF5FD5 /* ViewFilter.swift in Sources */,
+				2F7E0CB126610AF40046E59F /* EasyJoinVC.swift in Sources */,
 				1F631EF0225B2D050021EBAC /* ShareContestCodeVC.swift in Sources */,
 				1F5DB445222FC72000EF5FD5 /* PassBookTVC.swift in Sources */,
 				1F547ABF23A7920F00E148C0 /* ReferrallistingViewController.swift in Sources */,
@@ -1251,7 +1287,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1276,7 +1312,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1431,7 +1467,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1468,7 +1504,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";

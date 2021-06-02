@@ -38,13 +38,13 @@ class Define {
     
 //    //Live
     
-   static let APP_URL = "http://207.154.223.43:3500/api/"
-   static let SOCKET_URL = "http://207.154.223.43:3500"
+//   static let APP_URL = "http://207.154.223.43:3500/api/"
+//   static let SOCKET_URL = "http://207.154.223.43:3500"
     
     //  Test
     
-//    static let APP_URL = "http://207.154.223.43:3600/api/"
-//    static let SOCKET_URL = "http://207.154.223.43:3600"
+    static let APP_URL = "http://207.154.223.43:3600/api/"
+    static let SOCKET_URL = "http://207.154.223.43:3600"
     
    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
@@ -201,6 +201,15 @@ class Define {
     
     static let getJhitsTotalAmount = "getJhitsTotalAmount"
     static let getReferralCommitionTotalAmount = "getReferralCommitionTotalAmount"
+    
+    static let setUserDefaultTicketPrice = "setUserDefaultTicketPrice"
+    static let getdefaultJoinTicket = "getdefaultJoinTicket"
+    
+    static let easyJoinContest = "easyJoinContest"
+    static let easyjoinContestPrice = "easyjoinContestPrice"
+    
+    
+    
     
     static let whatsappapi = "https://api.whatsapp.com/send/?phone=918879449776&text=hi"
     
