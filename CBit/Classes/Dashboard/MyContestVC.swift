@@ -347,7 +347,9 @@ extension MyContestVC: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier {
+        switch response.actionIdentifier{
+      //  switch response.notification.request.content.categoryIdentifier{
+      //  if response.notification.request.identifier == "textNotification"
         case Define.PLAYGAME:
             print("Play Game")
             let dictData = response.notification.request.content.userInfo as! [String: Any]

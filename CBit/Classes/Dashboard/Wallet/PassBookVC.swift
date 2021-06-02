@@ -7,6 +7,7 @@ class PopUpCell: UITableViewCell {
     
     @IBOutlet var chkvw: M13Checkbox?
     @IBOutlet var lbltitle: UILabel!
+    @IBOutlet weak var lblsubtitle: UILabel!
     
 }
 

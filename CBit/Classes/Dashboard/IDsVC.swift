@@ -270,7 +270,7 @@ class IDsVC: UIViewController {
     func setdata(dict:[String:Any])  {
         
         lblyourid.text = "\(dict["UserCriteriaID"]!)"
-        lblnetwork.text = "\(dict["UserRefferalNetwork"]!) Players"
+        lblnetwork.text = "\(dict["UserRefferalAllNetwork"]!) Players"
        // lblleveltotal.text = "Total (\(referallistarr.count))"
         var EM:Double = 0
         var RefComm:Double = 0
