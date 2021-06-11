@@ -544,7 +544,7 @@ extension DashboardVC {
     func getUserInfo() {
         let strURL = Define.APP_URL + Define.getUserInfo
         print("URL: \(strURL)")
-        let parameter: [String: Any] = ["plateform": "ios","version": Define.APP_VERSION,"device":UIDevice.modelName]
+        let parameter: [String: Any] = ["plateform": "ios","version": Define.APP_VERSION,"device":UIDevice.modelName,"device_version":UIDevice.current.systemVersion]
         SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,

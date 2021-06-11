@@ -165,22 +165,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         let layout = collection_lockall?.collectionViewLayout as! UICollectionViewFlowLayout
         layout.itemSize = CGSize(width: widthlockall, height: widthlockall)
         
-         gamelevel = dictContest["rows"] as? Int ?? 0
-      
-            if gamelevel == 3 {
-                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) - 30 /* 5*3 */
-            } else if gamelevel == 4 {
-                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                constrainCollectionViewHeight.constant = (view.frame.width) - width - 40 /* 5*4 */
-               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-            } else if gamelevel == 5 {
-                constrainCollectionViewHeight.constant = (view.frame.width) - 50 /* 5*5 */
-             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-            }
-
+        
         
         //collection_slot.semanticContentAttribute = .forceRightToLeft
 //        storeimage = Define.Globalimagearr
@@ -320,7 +305,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     func configAutoscrollTimer()
     {
         if timerautoscroll == nil {
-            timerautoscroll=Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(SpinningMachinePlayVC.autoScrollView), userInfo: nil, repeats: true)
+            timerautoscroll=Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(SpinningMachinePlayVC.autoScrollView), userInfo: nil, repeats: true)
             RunLoop.current.add(self.timerautoscroll!, forMode: .common)
            }
         
@@ -328,6 +313,10 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     func configFadeTimer()
     {
+        fadevw.isHidden = false
+        self.collection_slot?.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                          at: .top,
+                                    animated: false)
         if timerfade == nil {
         timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachinePlayVC.FedeinOut), userInfo: nil, repeats: true)
         RunLoop.current.add(self.timerfade!, forMode: .common)
@@ -344,6 +333,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     
     func deconfigFadeTimer()
     {
+        self.fadevw.isHidden = true
         timerfade?.invalidate()
     }
 
@@ -389,7 +379,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         {
             if w<collection_slot.contentSize.height
             {
-                w += CGFloat(05)
+                w += CGFloat(04)
             }
             else
             {
@@ -806,19 +796,19 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         //TODO: Game Start
                socket.on("onContestLive") { (data, ack) in
                    print("➤ On Contest Start")
-                   print("Data: \(data)")
+                //   print("Data: \(data)")
                    let strValue = data[0] as! String
                    
                    let strJSON = MyModel().decrypting(strData: strValue, strKey: Define.KEY)
                    let dictData = MyModel().convertToDictionary(text: strJSON)
                    
                   
-                                          
-                                          print("Game Data: \(String(describing: dictData))")
+                                          print("SOCKETLISTNER")
+                                      //    print("Game Data: \(String(describing: dictData))")
 
                                                      self.dictGameData = dictData!["content"] as! [String: Any]
-                                                     print(self.dictGameData)
-
+                                                 //    print(self.dictGameData)
+              //  self.dictContest = self.dictGameData
                                                      self.gametype  = self.dictContest["game_type"] as! String
                                                      if self.gametype == "spinning-machine" {
                                                          self.viewrdb.isHidden = false
@@ -832,14 +822,14 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                                      let serverDate = self.dictGameData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"
                                                      self.currentDate = MyModel().converStringToDate(strDate: serverDate, getFormate: "yyyy-MM-dd HH:mm:ss")
 
-                                                     print("➤ \(self.dictGameData)")
+                                                   //  print("➤ \(self.dictGameData)")
                                           
 
                                           
                                           self.setnewData()
                                        
                                           
-                                                     Loading().hideLoading(viewController: self)
+                                                 //    Loading().hideLoading(viewController: self)
                                         
                }
     }
@@ -865,14 +855,9 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 
             }
         
-        self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-        self.originalarr = [UIImage]()
-        for box in self.arrBrackets {
-            self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: box["Item"] as! String))
-            }
         
         
-        if  Int(self.gameTime) ?? 0 == 41 {
+        if  Int(self.gameTime) ?? 0 == 40 {
           print("TENSECOND")
               setTenSecSound()
           }
@@ -884,7 +869,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             
 
             
-            print("Set Data",dictGameData)
+         //   print("Set Data",dictGameData)
             let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
         
         if Int(gameTime)! <= 30 {
@@ -901,24 +886,42 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
         }
         
         if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
-            self.configFadeTimer()
-        }
-        else
-        {
             //self.slotarr = self.randomarr
-            self.deconfigFadeTimer()
+           
             if self.timerautoscroll == nil {
+                self.deconfigFadeTimer()
                 self.configAutoscrollTimer()
             }
            
-            self.fadevw.isHidden = true
         }
-
+        else  if  Int(self.gameTime) ?? 0 < 40 && Int(self.gameTime) ?? 0 > 30{
+       
+            self.configFadeTimer()
+        }
+//        else if  Int(self.gameTime) ?? 0 < 40
+//        {
+//
+//        }
+        
+        if originalarr.count == 0 {
+            self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+            self.originalarr = [UIImage]()
+            for box in self.arrBrackets {
+                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: box["Item"] as? String ?? ""))
+                }
+            collection_original.reloadData()
+        }
+        
+  
+        
             if (gameStatus == "start") {
+           
+
+                self.deconfigFadeTimer()
                 
                 isGameStart = true
                
-                print("secondss",second)
+             //   print("secondss",second)
                 
         
 
@@ -932,13 +935,15 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     
                     collection_original.isHidden = false
                     collection_slot.isHidden = true
-                    deconfigAutoscrollTimer()
+                   // deconfigAutoscrollTimer()
+                    deconfigFadeTimer()
+                   
                     
                     btnlockall.alpha = 1.0
-                       btnlockall.isEnabled = true
-                       btnlockall.isHidden = false
-                       btnlock.isHidden = true
-                       lbllockedat.isHidden = true
+                    btnlockall.isEnabled = true
+                    btnlockall.isHidden = false
+                    btnlock.isHidden = true
+                    lbllockedat.isHidden = true
                     
                   
                     
@@ -949,40 +954,11 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     collection_lockall.allowsSelection = true
                     self.getContestDetail(isfromtimer: true, isStart: 0)
                     
-                
-                    
 //                    strDisplayValuelockall = arrSloat[0]["displayValue"] as? String ?? ""
 //                    btn_lockall(btnlockall)
                     
                     tableAnswer.reloadData()
                     gamestart = false
-
-                                    
-//                                  btnzero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnonee.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btntwo.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnthree.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnfour.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnfive.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnsix.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnseven.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btneeight.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-//                                  btnnine.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-                    
-//                            btnlockallnumber.isEnabled = true
-//                            btnlockallnumber.alpha = 1.0
-                           
-//                              btnonee.isEnabled = true
-//                              btntwo.isEnabled = true
-//                              btnthree.isEnabled = true
-//                              btnfour.isEnabled = true
-//                              btnfive.isEnabled = true
-//                              btnsix.isEnabled = true
-//                              btnseven.isEnabled = true
-//                              btneeight.isEnabled = true
-//                              btnnine.isEnabled = true
-//                              btnzero.isEnabled = true
-                    
                              
                 }
                 
@@ -1114,7 +1090,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 
                       //  self.arrTickets = self.dictGameData["tickets"] as? [[String: Any]] ?? []
                      //   self.tableAnswer.reloadData()
-                        
+                    //    self.dictContest = self.dictGameData
                                    self.gametype  = self.dictContest["game_type"] as! String
                                    if self.gametype == "spinning-machine" {
                                        self.viewrdb.isHidden = false
@@ -1147,8 +1123,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                         }
                         
                        
-                        let tickets = self.dictGameData["tickets"] as! [[String: Any]]
-                        self.arrSloat = tickets[0]["slotes"] as! [[String: Any]]
+                        let tickets = self.dictGameData["tickets"] as? [[String: Any]]
+                        self.arrSloat = tickets?[0]["slotes"] as? [[String: Any]] ?? []
                         self.collection_lockall.reloadData()
                         
                      //   Loading().hideLoading(viewController: self)
@@ -1160,7 +1136,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                     } else {
                        
                         Alert().showAlert(title: "Alert",
-                                          message: result!["message"] as! String,
+                                          message: result?["message"] as? String ?? "",
                                           viewController: self)
                     }
                 }
@@ -1170,8 +1146,24 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     }
     
     var isfirstload = true
-    
+    var myGroup = DispatchGroup()
     func   setData(isfromtime:Bool) {
+        gamelevel = dictContest["rows"] as? Int ?? 0
+        let width = (view.frame.width-20)/5
+           if gamelevel == 3 {
+               // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+            //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+               constrainCollectionViewHeight.constant = (view.frame.width) - (width*2) - 30 /* 5*3 */
+           } else if gamelevel == 4 {
+               // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+               constrainCollectionViewHeight.constant = (view.frame.width) - width - 40 /* 5*4 */
+              //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+           } else if gamelevel == 5 {
+               constrainCollectionViewHeight.constant = (view.frame.width) - 50 /* 5*5 */
+            //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+              //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+           }
+
         lbltitle.text = dictGameData["title"] as? String
         arrTickets = dictGameData["tickets"] as! [[String: Any]]
         arrBrackets = dictGameData["boxJson"] as! [[String: Any]]
@@ -1226,7 +1218,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             
           
             
-            DispatchQueue.global(qos: .background).async {
+          //  DispatchQueue.global(qos: .background).async {
                 
 //                self.originalarr = [UIImage]()
 //                for box in self.arrBrackets {
@@ -1267,24 +1259,36 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //                }
 
               
-                
+                Loading().showLoading(viewController: self)
                // let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
                let winning_options = self.dictGameData["winning_options"] as! [[String: Any]]
-                for _ in 1..<200
+            for dict in winning_options {
+              
+                let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["Item"] as! String)
+                if self.imageIsNullOrNot(imageName: img) {
+                    self.slotarr.append(img)
+               
+                }
+               
+            }
+                for _ in 1..<12
                 {
-                    for dict in winning_options {
-                        let img = self.loadImageFromDocumentDirectory(nameOfImage: dict["Item"] as! String)
-                        if self.imageIsNullOrNot(imageName: img) {
-                            self.slotarr.append(img)
-                        }
-                        
-                    }
+                    //  self.myGroup.enter()
+                    self.slotarr.append(contentsOf: slotarr)
+                   //      self.myGroup.leave()
                     print("Randomarrcount:",self.slotarr.count)
                     print("Slotlooprunning")
+                    collection_slot.reloadData()
                 }
+            slotarr.shuffle()
+            slotarr.shuffle()
+            slotarr.shuffle()
 
-            }
-            
+        //    }
+//            myGroup.notify(queue: .main) {
+//                    print("Finished all requests.")
+//                Loading().hideLoading(viewController: self)
+//                }
             self.collection_original.reloadData()
         }
        
@@ -1572,7 +1576,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
            
          //  isStartEventCall = true
            if (notification.userInfo as Dictionary?) != nil {
-               print("--> User Info Data: \(notification.userInfo!)")
+             //  print("--> User Info Data: \(notification.userInfo!)")
             
             let dictData = notification.userInfo!
             gameTime = String(dictData["gameTime"] as! Int)
@@ -1583,22 +1587,24 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             if  (Int(gameTime)! == 40 )  //&& Int(gameTime)! >= 30 &&  Int(gameTime)! >= 0{
             {
                // slotarr = randomarr
-                deconfigFadeTimer()
-                configAutoscrollTimer()
+//                deconfigFadeTimer()
+//                configAutoscrollTimer()
+                deconfigAutoscrollTimer()
+                configFadeTimer()
             }
-            if  (Int(gameTime)! < 40 )  && Int(gameTime)! > 30
-            {
-                collection_slot.reloadData()
-            }
-//            else if Int(gameTime)! <= 30
-//                {
-//
+//            if  (Int(gameTime)! < 40 )  && Int(gameTime)! > 30
+//            {
+//                collection_slot.reloadData()
 //            }
-           
+//            if  (Int(gameTime)! > 40 )
+//            {
+//                collection_slot.reloadData()
+//            }
+            
             let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
 
             
-
+        //    self.dictContest = self.dictGameData
                                                      self.gametype  = self.dictContest["game_type"] as! String
                                                      if self.gametype == "spinning-machine" {
                                                          self.viewrdb.isHidden = false
@@ -1616,7 +1622,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                                          
                                     
                                           
-                                                     Loading().hideLoading(viewController: self)
+                                                   //  Loading().hideLoading(viewController: self)
            } else {
                
                print("--> No Data")
@@ -1908,7 +1914,28 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     //MARK: - Button Method
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
-        self.navigationController?.popViewController(animated: true)
+        if isFromNotification {
+          //  SocketIOManager.sharedInstance.establisConnection()
+
+            let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+            let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+            menuVC.modalPresentationStyle = .fullScreen
+            self.present(menuVC,
+                         animated: true, completion:
+                {
+                    self.navigationController?.popToRootViewController(animated: true)
+            })
+           // let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+//            let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardVC
+//            signUpVC.modalPresentationStyle = .fullScreen
+//            self.navigationController?.pushViewController(signUpVC, animated: true)
+
+        }
+        else
+        {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
     }
     @IBAction func buttonInfo(_ sender: Any) {
         let gameInfo = GamePlayInfo.instanceFromNib() as! GamePlayInfo

@@ -33,8 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         //        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
-      //  let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
-        
         let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
                   // This block gets called when the user reacts to a notification received
                   let payload: OSNotificationPayload? = result?.notification.payload
@@ -42,13 +40,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
                   print("Message: ", payload!.body!)
                   print("badge number: ", payload?.badge ?? 0)
                   print("notification sound: ", payload?.sound ?? "No sound")
+            
+            if let additionalData = result!.notification.payload!.additionalData {
+                print("additionalData: ", additionalData)
+                
+                if let actionSelected = payload?.actionButtons {
+                    print("actionSelected: ", actionSelected)
+                }
+              let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+              
+              let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+              let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
+              self.window = UIWindow(frame: UIScreen.main.bounds)
+              // spinning-machine / 0-9 / rdb
+//                if additionalData["NotificationType"] as! String == "spinning-machine"
+//              {
+//                    SpinningMachinePlayVC.isFromNotification = true
+//                    SpinningMachinePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
+//                    self.NavigateVC(controller: SpinningMachinePlayVC)
+//              }
+//              else
+//                {
+//                    GamePlayVC.isFromNotification = true
+//                    GamePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
+//                    self.NavigateVC(controller: GamePlayVC)
+//                }
+                 
+              
+        
+    
+                 
+              
+                // DEEP LINK from action buttons
+                if let actionID = result?.action.actionID {
+                    // For presenting a ViewController from push notification action button
+                    print("actionID = \(actionID)")
+                }
+            }
+
         }
         
-        // Replace 'YOUR_APP_ID' with your OneSignal App ID.
-//        OneSignal.initWithLaunchOptions(launchOptions,
-//                                        appId:"2ebce384-8388-4bff-9973-96dfe41069ab",
-//                                        handleNotificationAction: notificationOpenedBlock,
-//                                        settings: onesignalInitSettings)
+
         let notificationReceivedBlock: OSHandleNotificationReceivedBlock = { notification in
                     
                     print("Received Notification: ", notification!.payload.notificationID!)
@@ -76,10 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         })
         
         OneSignal.add(self as OSPermissionObserver)
-        
         OneSignal.add(self as OSSubscriptionObserver)
-        
-        
         
         FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
@@ -114,6 +143,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         return true
     }
+    
+    func NavigateVC(controller:UIViewController)  {
+        if MyModel().isLogedIn()
+        {
+            let navController = UINavigationController.init(rootViewController: controller)
+            navController.isNavigationBarHidden = true
+            self.window?.rootViewController = navController
+            self.window?.makeKeyAndVisible()
+
+        }
+      
+    }
+
     
     func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
         if !stateChanges.from.subscribed && stateChanges.to.subscribed {

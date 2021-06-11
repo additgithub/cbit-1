@@ -38,13 +38,13 @@ class Define {
     
 //    //Live
     
-//   static let APP_URL = "http://207.154.223.43:3500/api/"
-//   static let SOCKET_URL = "http://207.154.223.43:3500"
+   static let APP_URL = "http://207.154.223.43:3500/api/"
+   static let SOCKET_URL = "http://207.154.223.43:3500"
     
     //  Test
     
-    static let APP_URL = "http://207.154.223.43:3600/api/"
-    static let SOCKET_URL = "http://207.154.223.43:3600"
+//    static let APP_URL = "http://207.154.223.43:3600/api/"
+//    static let SOCKET_URL = "http://207.154.223.43:3600"
     
    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
@@ -207,6 +207,7 @@ class Define {
     
     static let easyJoinContest = "easyJoinContest"
     static let easyjoinContestPrice = "easyjoinContestPrice"
+    static let getUserJoinDateTime = "getUserJoinDateTime"
     
     
     
@@ -281,7 +282,9 @@ class ArgAppUpdater: NSObject {
         }
         return ArgAppUpdater._instance!;
     }
-
+//https://itunes.apple.com/lookup?id=1565769563
+    // https://itunes.apple.com/lookup?bundleId=\(identifier)
+    // "https://itunes.apple.com/lookup?bundleId=\(identifier)&country=IN"
     private func getAppInfo(completion: @escaping (AppInfo?, Error?) -> Void) -> URLSessionDataTask? {
         guard let identifier = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String,
             let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {

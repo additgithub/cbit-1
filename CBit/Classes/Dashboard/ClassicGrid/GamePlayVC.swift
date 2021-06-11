@@ -708,7 +708,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                   //                                   print(self.dictContest)
                                                      self.dictGameData = dictData!["content"] as! [String: Any]
                                                      print(self.dictGameData)
-
+          //      self.dictContest = self.dictGameData
                                                      self.gametype  = self.dictContest["game_type"] as! String
                                                      if self.gametype == "rdb" {
                                                          self.viewrdb.isHidden = false
@@ -1039,6 +1039,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                                    print(self.dictGameData)
                       //  self.arrTickets = self.dictGameData["tickets"] as? [[String: Any]] ?? []
                      //   self.tableAnswer.reloadData()
+              //          self.dictContest = self.dictGameData
                                    self.gametype  = self.dictContest["game_type"] as! String
                                    if self.gametype == "rdb" {
                                        self.viewrdb.isHidden = false
@@ -1663,7 +1664,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             self.dictGameData = dictData["contest"] as! [String: Any]
                                                      print(self.dictGameData)
             
-            
+        //    self.dictContest = self.dictGameData
 
                                                      self.gametype  = self.dictContest["game_type"] as! String
                                                      if self.gametype == "rdb" {
@@ -2040,7 +2041,27 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
     //MARK: - Button Method
     @IBAction func buttonBack(_ sender: Any) {
         NotificationCenter.default.removeObserver(self)
-        self.navigationController?.popViewController(animated: true)
+        if isFromNotification {
+          //  SocketIOManager.sharedInstance.establisConnection()
+
+            let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+            let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+            menuVC.modalPresentationStyle = .fullScreen
+            self.present(menuVC,
+                         animated: true, completion:
+                {
+                    self.navigationController?.popToRootViewController(animated: true)
+            })
+           // let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+//            let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardVC
+//            signUpVC.modalPresentationStyle = .fullScreen
+//            self.navigationController?.pushViewController(signUpVC, animated: true)
+
+        }
+        else
+        {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     @IBAction func buttonInfo(_ sender: Any) {
         let gameInfo = GamePlayInfo.instanceFromNib() as! GamePlayInfo

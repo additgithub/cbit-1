@@ -21,6 +21,9 @@ class SMMyTicketVC: UIViewController {
     //Constraint
     @IBOutlet weak var constraintBuyMoreViewHeights: NSLayoutConstraint!
     
+    @IBOutlet weak var tblticketheight: NSLayoutConstraint!
+    @IBOutlet weak var tblmyticketheight: NSLayoutConstraint!
+    
     var dictContest = [String: Any]()
 
     private var dictContestDetail = [String: Any]()
@@ -124,6 +127,14 @@ class SMMyTicketVC: UIViewController {
         viewAmountMain.isHidden = true
     }
     
+    override func viewDidLayoutSubviews() {
+        tblmyticketheight.constant = tableMyTickets.contentSize.height
+        tblticketheight.constant = tableTickets.contentSize.height
+        tableMyTickets.layoutIfNeeded()
+        tableTickets.layoutIfNeeded()
+        self.view.layoutIfNeeded()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         labelContestName.text = dictContest["name"] as? String ?? "No Name"
@@ -223,7 +234,9 @@ class SMMyTicketVC: UIViewController {
         }
         self.arrTicket = self.arrTicket.filter{($0["isAlreadyPurchase"] as! Bool) == false}
         print("➭Tickets: \(arrTicket)")
-        tableTickets.reloadData()
+        DispatchQueue.main.async {
+            self.tableTickets.reloadData()
+        }
         isDataLoaded = true
     }
     
@@ -367,6 +380,9 @@ class SMMyTicketVC: UIViewController {
 
 //MARK: - TableView Delegate Method
 extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+       viewDidLayoutSubviews()
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tableTickets {
             return arrTicket.count
@@ -1027,7 +1043,7 @@ extension SMMyTicketVC {
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     
                   //  self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
-                    self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+             //       self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                   //  self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
                     paymentVC.isFromLink = self.isFromLink

@@ -29,13 +29,19 @@ class EasyJoinVC: UIViewController {
     @IBOutlet weak var buttonAmountOk: UIButton!
     @IBOutlet weak var buttonAmountCancel: UIButton!
     
+    @IBOutlet weak var labelPurchasedAmount: UILabel!
+    @IBOutlet weak var labelPBAmount: UILabel!
+    @IBOutlet weak var buttonPay: UIButton!
+    @IBOutlet weak var labelPay: UILabel!
+    
     // var JoinArr = [[String: Any]]()
     var TimeArr = [[String: Any]]()
     var TicketArr = [[String: Any]]()
     
     var SavedIndexTime = [String]()
     var SavedIndexTicket = [String]()
-    
+    var selecteddata = [[String:Any]]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,8 +53,18 @@ class EasyJoinVC: UIViewController {
             chkall?.secondaryTintColor = #colorLiteral(red: 0.2176683843, green: 0.8194433451, blue: 0.2584097683, alpha: 1)
         }
         
-        easyJoinContest(sortby: "all")
+        easyJoinContest(sortby: "All")
         viewAmountMain.isHidden = true
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+        let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+        
+        let totalAmount = pbAmount + sbAmount
+        
+        labelPBAmount.text = MyModel().getCurrncy(value: totalAmount)
     }
     
     //MARK: - Button Action Method
@@ -71,6 +87,8 @@ class EasyJoinVC: UIViewController {
             break
         }
         tbltime.reloadData()
+        CalculateAmt()
+        
     }
     @IBAction func chkallticket(_ sender: M13Checkbox) {
         print("TAG:",sender.tag)
@@ -90,39 +108,21 @@ class EasyJoinVC: UIViewController {
             break
         }
         tblticket.reloadData()
+        CalculateAmt()
     }
     
     @IBAction func back_click(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    var totalSelectedAmount = Double()
+    
     @IBAction func pay_click(_ sender: UIButton) {
         
         if SavedIndexTime.count > 0 {
             if SavedIndexTicket.count > 0 {
                 
-                var totalAmount = Double()
                 
-                var selecteddata = [[String:Any]]()
-                for (index,dict) in TimeArr.enumerated() {
-                    var selecteddict = [String:Any]()
-                    var selectedticketstr = String()
-                    if SavedIndexTime.contains(String(index)) {
-                        let contestid = dict["id"]
-                        selecteddict["contest_id"] = contestid
-                        let princeData = dict["princeData"] as! [[String:Any]]
-                        for (tindix,tdict) in TicketArr.enumerated() {
-                            if SavedIndexTicket.contains(String(tindix)) {
-                                for (_,pdict) in princeData.enumerated() {
-                                    if tdict["price"] as! Int == pdict["amount"] as! Int {
-                                        totalAmount = totalAmount + Double(pdict["amount"] as! Int)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                
-              let  totalSelectedAmount = Double(totalAmount)
+                totalSelectedAmount = Double(CalculateAmt())
                 
                 viewAmountMain.isHidden = false
                 let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
@@ -137,13 +137,78 @@ class EasyJoinVC: UIViewController {
                     labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
                     labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
                 }
+                
+                self.view.layoutIfNeeded()
+                
+                let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+                
+                let totalAmount1 = pbAmount + sbAmount
+
+                
+                
+                if Double(totalSelectedAmount) > totalAmount1 {
+                    labelTotalBalance.textColor = UIColor.red
+                    buttonAmountOk.setTitle("Add to wallet", for: .normal)
+                } else {
+                    labelTotalBalance.textColor = UIColor.green
+                    buttonAmountOk.setTitle("OK", for: .normal)
+                }
             }
             else {
-                Alert().showTost(message: "Select Ticket", viewController: self)
+                Alert().showTost(message: "Choose games and contests", viewController: self)
             }
         }
         else {
-            Alert().showTost(message: "Select Contest", viewController: self)
+            Alert().showTost(message: "Choose games and contests", viewController: self)
+        }
+    }
+    private var noOfSelected = Int()
+    @IBAction func buttonPay(_ sender: Any) {
+        if labelPay.text == "Pay" {
+            if !MyModel().isConnectedToInternet() {
+                Alert().showTost(message: Define.ERROR_INTERNET,
+                                 viewController: self)
+            } else if noOfSelected == 0 {
+                Alert().showTost(message: "Select Ticket",
+                                 viewController: self)
+            } else {
+                viewAmountMain.isHidden = false
+                let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+                //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
+                if totalSelectedAmount <= pbAmount {
+                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
+                    labelwidrawableBalance.text = "₹ 0.0"
+                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                } else {
+                    let cutUtilized = totalSelectedAmount - pbAmount
+                    labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
+                    labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
+                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                }
+            }
+        } else {
+//            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+//            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+//
+//            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
+//
+//            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+//            paymentVC.isFromTicket = true
+//            paymentVC.addAmount = cutUtilized
+//            paymentVC.isFromLink = isFromLink
+//            self.navigationController?.pushViewController(paymentVC, animated: true)
+            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+            
+            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
+            
+            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+            paymentVC.isFromTicket = true
+            paymentVC.addAmount = cutUtilized
+            paymentVC.isFromLink = true
+          //  paymentVC.modalPresentationStyle = .fullScreen
+            present(paymentVC, animated: true) {
+            }
         }
     }
     
@@ -151,7 +216,7 @@ class EasyJoinVC: UIViewController {
         let  dropDown1 = DropDown()
         
         //  dropDown1.dataSource = self.MainarrMyJTicket.compactMap{$0["FilterDate"] as? String}.removeDuplicates()
-        dropDown1.dataSource = ["hour","half-hour","quarter","all"]
+        dropDown1.dataSource = ["Hourly","Half-hourly","Quarterly","All"]
         dropDown1.anchorView =  sender
         
         dropDown1.selectionAction = {
@@ -166,9 +231,32 @@ class EasyJoinVC: UIViewController {
         }
         dropDown1.show()
     }
-    
+    var isFromLink = Bool()
     @IBAction func buttonAmountOK(_ sender: UIButton) {
-        easyjoinContestPrice()
+        if sender.titleLabel?.text == "OK" {
+            if !MyModel().isConnectedToInternet() {
+                Alert().showTost(message: Define.ERROR_INTERNET,
+                                 viewController: self)
+            }
+            else
+            {
+                easyjoinContestPrice()
+            }
+        } else {
+            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+            
+            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
+            
+            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+            paymentVC.isFromTicket = true
+            paymentVC.addAmount = cutUtilized
+            paymentVC.isFromLink = true
+          //  paymentVC.modalPresentationStyle = .fullScreen
+            present(paymentVC, animated: true) {
+            }
+        }
+        
     }
     
     @IBAction func buttonAmountCancel(_ sender: UIButton) {
@@ -176,6 +264,44 @@ class EasyJoinVC: UIViewController {
     }
     
     //MARK: - Manual Function
+    
+    func CalculateAmt() -> Double {
+        var totalAmount = Double()
+        for (index,dict) in TimeArr.enumerated() {
+            var selecteddict = [String:Any]()
+            if SavedIndexTime.contains(String(index)) {
+                let contestid = dict["id"]
+                selecteddict["contest_id"] = contestid
+                let princeData = dict["princeData"] as! [[String:Any]]
+                for (tindix,tdict) in TicketArr.enumerated() {
+                    if SavedIndexTicket.contains(String(tindix)) {
+                        for (_,pdict) in princeData.enumerated() {
+                            if tdict["price"] as! Int == pdict["amount"] as! Int {
+                                totalAmount = totalAmount + Double(pdict["amount"] as! Int)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)
+        
+        let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+        let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+        
+        let totalAmount1 = pbAmount + sbAmount
+        
+        if Double(totalAmount) > totalAmount1 {
+            labelPBAmount.textColor = UIColor.red
+            labelPay.text = "Add to wallet"
+        } else {
+            labelPBAmount.textColor = Define.MAINVIEWCOLOR2
+            labelPBAmount.textColor = UIColor.green
+            labelPay.text = "Pay"
+        }
+        return totalAmount
+    }
     
     func SetDetails()  {
         
@@ -234,10 +360,88 @@ extension EasyJoinVC {
         }
     }
     
+    func getUserJoinDateTime() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [:]
+        let strURL = Define.APP_URL + Define.getUserJoinDateTime
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                
+                self.getUserJoinDateTime()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let dict =  result!["content"] as! [String : Any]
+                    let arr = dict["contest"] as? [[String:Any]] ?? []
+                    let selectedarr = self.selecteddata.compactMap {"\($0["contest_id"] as? Int ?? 0)"}
+                    for dic in arr {
+                        if selectedarr.contains(String(dic["id"] as? Int ?? 0)) {
+                            self.createReminderbeforethirtysecond(strTitle: dic["name"] as? String ?? "No Name",strDate: dic["startDate"] as! String)
+                        }
+                      
+                    }
+                    
+                    self.dismiss(animated: true, completion: nil)
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as?  String ?? "No Message.",
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func createReminderbeforethirtysecond(strTitle: String, strDate: String) {
+      
+            let center = UNUserNotificationCenter.current()
+
+            let content = UNMutableNotificationContent()
+               content.title = strTitle
+               content.body = "Your game starts soon, Hurry!!!!"
+               content.categoryIdentifier = "alarm"
+            content.categoryIdentifier = Define.PLAYGAME
+             //  content.userInfo = ["customData": "fizzbuzz"]
+          //     content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no.mp3"))
+            
+               let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
+                let timeInterval = reminderDate.timeIntervalSinceNow
+               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+
+               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+              // center.add(request)
+        
+        let curret = UNUserNotificationCenter.current()
+        curret.add(request) { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                print("EasyJoin Notification Registered.")
+            }
+        }
+            
+        
+    }
+
     func easyjoinContestPrice() {
         Loading().showLoading(viewController: self)
         
-        var selecteddata = [[String:Any]]()
+         selecteddata = [[String:Any]]()
         for (index,dict) in TimeArr.enumerated() {
             var selecteddict = [String:Any]()
             var selectedticketstr = String()
@@ -288,17 +492,25 @@ extension EasyJoinVC {
                 if status == 200 {
                    // let arr =  result!["content"] as! [String : Any]
 //                    Alert().showAlert(title: "",
-//                                      message: "Contests Joines Successfully",
+//                                      message: "Contests Joined Successfully",
 //                                      viewController: self)
-                    if MyModel().isLogedIn() {
-                        SocketIOManager.sharedInstance.establisConnection()
-                        if MyModel().isConnectedToInternet() {
-                            NotificationCenter.default.post(name: .upComingContest, object: nil)
-                            NotificationCenter.default.post(name: .myContest, object: nil)
-                            NotificationCenter.default.post(name:.getAllspecialContest,object: nil)
+                    let alertController = UIAlertController(title:Define.ERROR_TITLE, message: "Contests Joined Successfully", preferredStyle:UIAlertController.Style.alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                       { action -> Void in
+                        if MyModel().isLogedIn() {
+                            SocketIOManager.sharedInstance.establisConnection()
+                            if MyModel().isConnectedToInternet() {
+                                NotificationCenter.default.post(name: .upComingContest, object: nil)
+                                NotificationCenter.default.post(name: .myContest, object: nil)
+                                NotificationCenter.default.post(name:.getAllspecialContest,object: nil)
+                            }
                         }
-                    }
-                    self.dismiss(animated: true, completion: nil)
+                        self.getUserJoinDateTime()
+                       // self.dismiss(animated: true, completion: nil)
+                       })
+                    self.present(alertController, animated: true, completion: nil)
+               
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
                 } else {
@@ -413,6 +625,7 @@ extension EasyJoinVC: UITableViewDelegate, UITableViewDataSource {
             
             break
         }
+        CalculateAmt()
     }
     @IBAction func checkboxValueChangedPopUpTicket(_ sender: M13Checkbox) {
         print("TAG:",sender.tag)
@@ -433,6 +646,7 @@ extension EasyJoinVC: UITableViewDelegate, UITableViewDataSource {
             
             break
         }
+        CalculateAmt()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

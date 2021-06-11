@@ -69,7 +69,7 @@ class GameResultVC: UIViewController {
         lblnowin.text = "Refund : ₹\(NowinAmount)"
         
         let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-        ccwinning.text = "Loss Benefits : CC \(winCCAmount)"
+        ccwinning.text = "Reclamation : CC \(winCCAmount)"
         
         
         for item in arrTiclets {
