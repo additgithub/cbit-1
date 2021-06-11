@@ -27,7 +27,7 @@ class SpinningMachineTicketVC: UIViewController {
     var startTimer: Timer?
     var timer: Timer?
     var seconds = Int()
-
+    
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var tableTickets: UITableView!
     @IBOutlet weak var labelSelectedCount: UILabel!
@@ -72,7 +72,7 @@ class SpinningMachineTicketVC: UIViewController {
     private var isJoinContest = Bool()
     
     var isFromLink = Bool()
-   // var storeimage = [[String:Any]]()
+    // var storeimage = [[String:Any]]()
     var itemarr  = [UIImage]()
     var timerfade=Timer()
     var TicketArr = [[String: Any]]()
@@ -82,11 +82,11 @@ class SpinningMachineTicketVC: UIViewController {
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
-       // SetRandomNumber()
-       // setStartTimer()
-     //   self.collection_original.register(slotspinningcell.self, forCellWithReuseIdentifier: reuseidentifier)
-       
-
+        // SetRandomNumber()
+        // setStartTimer()
+        //   self.collection_original.register(slotspinningcell.self, forCellWithReuseIdentifier: reuseidentifier)
+        
+        
         let width = (view.frame.width-20)/5
         
         let coln = [collection_original]
@@ -98,39 +98,39 @@ class SpinningMachineTicketVC: UIViewController {
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
             layout.itemSize = CGSize(width: width, height: width-10)
-    
+            
         }
         
         let gamelevel = dictContest["rows"] as? Int ?? 0
-      
-            if gamelevel == 3 {
-                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-                 constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) - 30 /* 5*3 */
-            } else if gamelevel == 4 {
-                // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
-                constraintCollectionViewHeight.constant = (view.frame.width) - width - 40 /* 5*4 */
-               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-            } else if gamelevel == 5 {
-                 constraintCollectionViewHeight.constant = (view.frame.width) - 50 /* 5*5 */
-             //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
-               //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
-            }
-
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
-//           // Code you want to be delayed
-//            for dict in Define.Globalimagearr {
-//                self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
-//                    }
-//                    for _ in 1..<5
-//                    {
-//                        self.itemarr.append(contentsOf: self.itemarr)
-//                    }
-//       //     self.collection_original.reloadData()
-//        }
-               
-
+        if gamelevel == 3 {
+            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+            //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+            constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) - 30 /* 5*3 */
+        } else if gamelevel == 4 {
+            // constraintCollectionViewHeight.constant = (view.frame.width-20) /* 5*5 */
+            constraintCollectionViewHeight.constant = (view.frame.width) - width - 40 /* 5*4 */
+            //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+        } else if gamelevel == 5 {
+            constraintCollectionViewHeight.constant = (view.frame.width) - 50 /* 5*5 */
+            //   constraintCollectionViewHeight.constant = (view.frame.width-20) - width  /* 5*4 */
+            //  constraintCollectionViewHeight.constant = (view.frame.width) - (width*2) /* 5*3 */
+        }
+        
+        
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
+        //           // Code you want to be delayed
+        //            for dict in Define.Globalimagearr {
+        //                self.itemarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+        //                    }
+        //                    for _ in 1..<5
+        //                    {
+        //                        self.itemarr.append(contentsOf: self.itemarr)
+        //                    }
+        //       //     self.collection_original.reloadData()
+        //        }
+        
+        
         
         tableTickets.rowHeight = UITableView.automaticDimension
         tableTickets.tableFooterView = UIView()
@@ -142,7 +142,7 @@ class SpinningMachineTicketVC: UIViewController {
             getContestDetail()
         }
         
-       // setReminder()
+        // setReminder()
         constraintPaymentViewHeight.constant = 0
         constraintSelectionViewHeight.constant = 0
         
@@ -153,15 +153,15 @@ class SpinningMachineTicketVC: UIViewController {
         labelMarquee.marqueeType = .MLContinuous
         labelMarquee.scrollDuration = 15
         
-//        let formatedString = NSMutableAttributedString()
-//        formatedString
-//            .normal("The Total Tickets Sold and Max Winners are ")
-//            .bold("Updating Live !!!")
-//        labelMarquee.attributedText = formatedString
+        //        let formatedString = NSMutableAttributedString()
+        //        formatedString
+        //            .normal("The Total Tickets Sold and Max Winners are ")
+        //            .bold("Updating Live !!!")
+        //        labelMarquee.attributedText = formatedString
         
-     
         
-       var startDate: Date?
+        
+        var startDate: Date?
         
         let sDate1 = dictContest["startDate"]  as! String
         
@@ -173,21 +173,21 @@ class SpinningMachineTicketVC: UIViewController {
         let sDate = dateFormater.date(from:sDate1)
         
         print("Start Date :\(String(describing: sDate))")
-                let calender = Calendar.current
-                let unitFlags = Set<Calendar.Component>([ .second])
+        let calender = Calendar.current
+        let unitFlags = Set<Calendar.Component>([ .second])
         let dateComponent = calender.dateComponents(unitFlags, from: Date(), to:sDate!)
-                seconds = dateComponent.second!
-                print("Seconds: \(seconds)")
-                if timer == nil {
-                    timer = Timer.scheduledTimer(timeInterval: 1,
-                                                 target: self,
-                                                 selector: #selector(handleTimer),
-                                                 userInfo: nil,
-                                                 repeats: true)
-                }
+        seconds = dateComponent.second!
+        print("Seconds: \(seconds)")
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 1,
+                                         target: self,
+                                         selector: #selector(handleTimer),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
         
         viewAmountMain.isHidden = true
-      //  self.view.sendSubviewToBack(vwmain)
+        //  self.view.sendSubviewToBack(vwmain)
     }
     
     func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
@@ -226,7 +226,7 @@ class SpinningMachineTicketVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      //  configAutoscrollTimer()
+        //  configAutoscrollTimer()
         configFadeTimer()
     }
     
@@ -308,7 +308,7 @@ class SpinningMachineTicketVC: UIViewController {
         }
     }
     private func setStartTimer() {
-      
+        
         startTimer = Timer.scheduledTimer(timeInterval:0.5,
                                           target: self,
                                           selector: #selector(handleStartTimer),
@@ -317,11 +317,11 @@ class SpinningMachineTicketVC: UIViewController {
     }
     
     @objc func handleStartTimer() {
-      
-//                updateColors()
-//              SetRandomNumber()
-//        collectionviewtickets.reloadData()
-
+        
+        //                updateColors()
+        //              SetRandomNumber()
+        //        collectionviewtickets.reloadData()
+        
     }
     private func setDetail() {
         lbltitle.text = dictContestDetail["title"] as? String
@@ -347,9 +347,9 @@ class SpinningMachineTicketVC: UIViewController {
                 }
             }
         }
-
+        
         self.collection_original.reloadData()
-
+        
         getdefaultJoinTicket()
     }
     
@@ -382,7 +382,7 @@ class SpinningMachineTicketVC: UIViewController {
                                  viewController: self)
             } else {
                 viewAmountMain.isHidden = false
-               // self.view.bringSubviewToFront(vwmain)
+                // self.view.bringSubviewToFront(vwmain)
                 let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
                 //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
                 if totalSelectedAmount <= pbAmount {
@@ -417,63 +417,63 @@ class SpinningMachineTicketVC: UIViewController {
         for i in i..<arrTicket.count
         
         {
-         
-        let index = i
-        
             
-        let isPurchased = arrTicket[index]["isPurchased"] as! Bool
-        
-        let dictData = arrTicket[index]
-        let ticketID = dictData["contestPriceId"] as? Int ?? 0
-        
+            let index = i
             
-        if arrSelectedTikets.count > 0 {
             
-            for (indexNo, item) in arrSelectedTikets.enumerated() {
-                let selectedTicketID = item["contestPriceId"] as? Int ?? 0
+            let isPurchased = arrTicket[index]["isPurchased"] as! Bool
+            
+            let dictData = arrTicket[index]
+            let ticketID = dictData["contestPriceId"] as? Int ?? 0
+            
+            
+            if arrSelectedTikets.count > 0 {
                 
-                if ticketID == selectedTicketID {
+                for (indexNo, item) in arrSelectedTikets.enumerated() {
+                    let selectedTicketID = item["contestPriceId"] as? Int ?? 0
                     
-                    arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
-                    arrSelectedTikets[indexNo]["isPurchased"] = NSNumber(value: !isPurchased)
-                    break
-                } else if indexNo == arrSelectedTikets.count - 1 {
-                    
-                    arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
-                    arrSelectedTikets.append(arrTicket[index])
-                    break
+                    if ticketID == selectedTicketID {
+                        
+                        arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
+                        arrSelectedTikets[indexNo]["isPurchased"] = NSNumber(value: !isPurchased)
+                        break
+                    } else if indexNo == arrSelectedTikets.count - 1 {
+                        
+                        arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
+                        arrSelectedTikets.append(arrTicket[index])
+                        break
+                    }
+                }
+                
+            } else {
+                arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
+                arrSelectedTikets.append(arrTicket[index])
+            }
+            
+            var totalSelected = Int()
+            var totalAmount = Double()
+            
+            for item in arrSelectedTikets {
+                let isSelected = item["isPurchased"] as! Bool
+                if isSelected {
+                    totalSelected = totalSelected + 1
+                    let ticketAmount = item["amount"] as? Double ?? 0
+                    totalAmount = totalAmount + ticketAmount
                 }
             }
             
-        } else {
-            arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
-            arrSelectedTikets.append(arrTicket[index])
-        }
-        
-        var totalSelected = Int()
-        var totalAmount = Double()
-        
-        for item in arrSelectedTikets {
-            let isSelected = item["isPurchased"] as! Bool
-            if isSelected {
-                totalSelected = totalSelected + 1
-                let ticketAmount = item["amount"] as? Double ?? 0
-                totalAmount = totalAmount + ticketAmount
-            }
-        }
-        
-        noOfSelected = totalSelected
-        totalSelectedAmount = Double(totalAmount)
-        
-        labelSelectedCount.text = "\(totalSelected) Contest Selected"
-        labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
-        
-        setSelectedData()
-        isFromButtonClick = true
-        
-        let indexPath = IndexPath(row: index, section: 0)
-        tableTickets.reloadRows(at: [indexPath], with: .none)
-        
+            noOfSelected = totalSelected
+            totalSelectedAmount = Double(totalAmount)
+            
+            labelSelectedCount.text = "\(totalSelected) Contest Selected"
+            labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
+            
+            setSelectedData()
+            isFromButtonClick = true
+            
+            let indexPath = IndexPath(row: index, section: 0)
+            tableTickets.reloadRows(at: [indexPath], with: .none)
+            
         }
     }
     @IBAction func buttonAmountOK(_ sender: UIButton) {
@@ -482,7 +482,7 @@ class SpinningMachineTicketVC: UIViewController {
     
     @IBAction func buttonAmountCancel(_ sender: UIButton) {
         viewAmountMain.isHidden = true
-      //  self.view.sendSubviewToBack(vwmain)
+        //  self.view.sendSubviewToBack(vwmain)
     }
     @IBAction func buttonInfo(_ sender: Any) {
         
@@ -498,35 +498,35 @@ class SpinningMachineTicketVC: UIViewController {
     
     func SetRandomNumber() {
         self.view.layoutIfNeeded()
-//
-//        let rangeMin = dictContestDetail["ansRangeMin"] as? Int ?? 0
-//        let rangeMax = dictContestDetail["ansRangeMax"] as? Int ?? 0
-//            arrRandomNumbers = MyModel().createRandomNumbers(number:8, minRange:rangeMin, maxRange:rangeMax)
-//            arrBarcketColor = MyDataType().getArrayBrackets(index:8)
-//          //  constrainCollectionViewHeight.constant = 50
-//      //  collectionviewtickets.reloadData()
-//        self.view.layoutIfNeeded()
+        //
+        //        let rangeMin = dictContestDetail["ansRangeMin"] as? Int ?? 0
+        //        let rangeMax = dictContestDetail["ansRangeMax"] as? Int ?? 0
+        //            arrRandomNumbers = MyModel().createRandomNumbers(number:8, minRange:rangeMin, maxRange:rangeMax)
+        //            arrBarcketColor = MyDataType().getArrayBrackets(index:8)
+        //          //  constrainCollectionViewHeight.constant = 50
+        //      //  collectionviewtickets.reloadData()
+        //        self.view.layoutIfNeeded()
         
-       self.view.layoutIfNeeded()
-            let rangeMinNumber = dictContestDetail["ansRangeMin"] as? Int ?? 0
-            let rangeMaxNumber = dictContestDetail["ansRangeMax"] as? Int ?? 99
-            
+        self.view.layoutIfNeeded()
+        let rangeMinNumber = dictContestDetail["ansRangeMin"] as? Int ?? 0
+        let rangeMaxNumber = dictContestDetail["ansRangeMax"] as? Int ?? 99
+        
         let gamelevel = dictContest["level"] as? Int ?? 0
-      
-            if gamelevel == 1 {
-                arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
-                arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
-                constraintCollectionViewHeight.constant = 50
-            } else if gamelevel == 2 {
-                arrRandomNumbers = MyModel().createRandomNumbers(number: 16, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
-                arrBarcketColor = MyDataType().getArrayBrackets(index: 16)
-                constraintCollectionViewHeight.constant = 100
-            } else if gamelevel == 3 {
-                arrRandomNumbers = MyModel().createRandomNumbers(number: 32, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
-                arrBarcketColor = MyDataType().getArrayBrackets(index: 32)
-                constraintCollectionViewHeight.constant = 200
-            }
-            self.view.layoutIfNeeded()
+        
+        if gamelevel == 1 {
+            arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+            arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
+            constraintCollectionViewHeight.constant = 50
+        } else if gamelevel == 2 {
+            arrRandomNumbers = MyModel().createRandomNumbers(number: 16, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+            arrBarcketColor = MyDataType().getArrayBrackets(index: 16)
+            constraintCollectionViewHeight.constant = 100
+        } else if gamelevel == 3 {
+            arrRandomNumbers = MyModel().createRandomNumbers(number: 32, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+            arrBarcketColor = MyDataType().getArrayBrackets(index: 32)
+            constraintCollectionViewHeight.constant = 200
+        }
+        self.view.layoutIfNeeded()
     }
     
     func updateColors()
@@ -538,10 +538,10 @@ class SpinningMachineTicketVC: UIViewController {
             arrBarcketColor.insert(lastColor, at: 0)
         }
         
-       
         
         
-            arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: 0, maxRange: 99)
+        
+        arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: 0, maxRange: 99)
         
     }
     
@@ -550,26 +550,26 @@ class SpinningMachineTicketVC: UIViewController {
 extension SpinningMachineTicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return arrRandomNumbers.count
-            return itemarr.count
+        return itemarr.count
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.frame.width / 4, height: 25)
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    //        return CGSize(width: view.frame.width / 4, height: 25)
+    //    }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    //        return 0
+    //    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    //        return 0
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         print(collectionView)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
         //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-      //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
+        //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
         cell.imgImage.image = (itemarr[indexPath.row])//.imageByMakingWhiteBackgroundTransparent()
         return cell
     }
@@ -585,77 +585,6 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
         let gameMode = dictContest["type"] as? Int ?? 0
         if gameMode == 0 {
             let ticketCell = tableView.dequeueReusableCell(withIdentifier: "TicketTVC") as! TicketTVC
-            
-            let isAlreadyPurchase = arrTicket[indexPath.row]["isAlreadyPurchase"] as? Bool ?? false
-            
-            
-            
-            
-            if isAlreadyPurchase {
-                //ticketCell.buttonSelection.backgroundColor = UIColor.white
-                btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                ticketCell.buttonSelectTicket.alpha = 0.6
-                ticketCell.buttonSelectTicket.isEnabled = false
-                ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-            } else {
-                let isPurchased = arrTicket[indexPath.row]["isPurchased"] as? Bool ?? false
-                view.layoutIfNeeded()
-                ticketCell.buttonSelectTicket.alpha = 1
-                ticketCell.buttonSelectTicket.isEnabled = true
-                if isPurchased {
-                    //ticketCell.buttonSelection.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-                    btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
-                } else {
-                    //ticketCell.buttonSelection.backgroundColor = UIColor.clear
-                    btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                    ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
-                }
-                view.layoutIfNeeded()
-            }
-            
-            
-            let strAmonut = "\(arrTicket[indexPath.row]["amount"] as? Double ?? 0.0)"
-            //ticketCell.labelEntryFees.text = "₹\(MyModel().getNumbers(value: Double(strAmonut)!))"
-
-            let test = Double(strAmonut) ?? 0.00
-            ticketCell.labelEntryFees.text = String(format: "₹ %.02f", test)
-            //print(String(format: "%.02f", test))
-            
-            
-            let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
-            ticketCell.labelTotalTicket.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
-            
-            let range = arrTicket[indexPath.row]["bracketSize"] as? Int ?? 0
-            let rangeMin = dictContestDetail["ansRangeMin"] as? Int ?? 0
-            let rangeMax = dictContestDetail["ansRangeMax"] as? Int ?? 0
-            
-            ticketCell.imageBar.image = MyModel().getImageForRange(range: range, rangeMaxValue: abs(rangeMin - rangeMax))
-            ticketCell.labelBar.text = "\(range)"
-            
-            let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
-            
-            let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
-            if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
-                ticketCell.labelWinningAmount.text = "N/A"
-                ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-            } else {
-                let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
-                ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
-                let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
-                ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                
-             
-            }
-            
-            
-            ticketCell.labelMinRange.text = "\(dictContestDetail["ansRangeMin"] as? Int ?? 0)"
-            ticketCell.labelMaxRange.text = "\(dictContestDetail["ansRangeMax"] as? Int ?? 0)"
-            
-            ticketCell.buttonSelectTicket.addTarget(self,
-                                                 action: #selector(buttonSelection(_:)),
-                                                 for: .touchUpInside)
-            ticketCell.buttonSelectTicket.tag = indexPath.row
             return ticketCell
         }
         else
@@ -675,10 +604,10 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
                 ticketCell.buttonSelectTicket.alpha = 1
                 ticketCell.buttonSelectTicket.isEnabled = true
                 if isPurchased {
-                     btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
+                    btnselectall.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
                     ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_checked"), for: .normal)
                 } else {
-                     btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
+                    btnselectall.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
                     ticketCell.buttonSelectTicket.setImage(#imageLiteral(resourceName: "ic_unchecked"), for: .normal)
                 }
                 view.layoutIfNeeded()
@@ -691,49 +620,41 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
             let strTickets = "\(arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0)"
             ticketCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
             
-
             
-     let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
-                                         
-                                                       
+            
+            let totalTicket = arrTicket[indexPath.row]["totalTickets"] as? Int ?? 0
+            
+            
             let minJoin = arrTicket[indexPath.row]["minJoin"] as? Int ?? 0
             if MyModel().isSetNA(totalTickets: totalTicket, minJoin: minJoin) {
-                                                           ticketCell.labelWinningAmount.text = "N/A"
-                                                           
-                                                           ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                                                           
-
-                                                           
-                                                       } else {
-                                                           
-                                                           let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
-                                                           ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
-                                                           
-                                                           let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
-                                                           ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
-                                                         
-                                                       }
+                ticketCell.labelWinningAmount.text = "N/A"
+                
+                ticketCell.labelMaxWinner.text = "N/A(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                
+                
+                
+            } else {
+                
+                let strWinning = "\(arrTicket[indexPath.row]["totalWinnings"]!)"
+                ticketCell.labelWinningAmount.text = "\(MyModel().getCurrncy(value: Double(strWinning)!))"
+                
+                let strWinners = "\(arrTicket[indexPath.row]["maxWinners"] as? Int ?? 0)"
+                ticketCell.labelMaxWinner.text = "\(MyModel().getNumbers(value: Double(strWinners)!))(\(arrTicket[indexPath.row]["maxWinnersPrc"] as? Int ?? 0)%)"
+                
+            }
             
             ticketCell.arrData = nil
             ticketCell.arrData = arrTicket[indexPath.row]["slotes"] as? [[String: Any]]
             
             ticketCell.buttonSelectTicket.addTarget(self,
-                                                 action: #selector(buttonSelection(_:)),
-                                                 for: .touchUpInside)
+                                                    action: #selector(buttonSelection(_:)),
+                                                    for: .touchUpInside)
             ticketCell.buttonSelectTicket.tag = indexPath.row
-//            if TicketArr.count > 0 {
-//                let isSelected = TicketArr[indexPath.row]["isSelected"] as? Bool ?? false
-//                if isSelected {
-//                 //   self.buttonSelection(ticketCell.buttonSelectTicket)
-//                    ticketCell.buttonSelectTicket.sendActions(for: .touchUpInside)
-//                }
-//            }
-          
             self.view.layoutIfNeeded()
             return ticketCell
         }
         
-
+        
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -748,7 +669,7 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
         
         let index = sender.tag
         
-     
+        
         
         let isPurchased = arrTicket[index]["isPurchased"] as! Bool
         
@@ -772,7 +693,7 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
                     break
                 }
             }
-
+            
         } else {
             arrTicket[index]["isPurchased"] = NSNumber(value: !isPurchased)
             arrSelectedTikets.append(arrTicket[index])
@@ -791,7 +712,7 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
                 
             }
             
-
+            
         }
         
         noOfSelected = totalSelected
@@ -834,7 +755,7 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-   
+    
     
 }
 
@@ -857,7 +778,7 @@ extension SpinningMachineTicketVC {
         { (result, error) in
             if error != nil {
                 Loading().hideLoading(viewController: self)
-               
+                
                 self.getdefaultJoinTicket()
             } else {
                 Loading().hideLoading(viewController: self)
@@ -870,19 +791,19 @@ extension SpinningMachineTicketVC {
                     for (outerindx,outerdict) in self.arrTicket.enumerated()
                     {
                         let strAmonut = "\(outerdict["amount"] as? Double ?? 0.0)"
-                    for (indx,dict) in self.TicketArr.enumerated() {
-                        let isSelected = dict["isSelected"] as? Bool ?? false
-                        let price = "\(dict["price"] as? Double ?? 0.0)"
-                        if isSelected && strAmonut == price{
-                           let btn = UIButton()
-                            btn.tag = outerindx
-                            self.buttonSelection(btn)
+                        for (indx,dict) in self.TicketArr.enumerated() {
+                            let isSelected = dict["isSelected"] as? Bool ?? false
+                            let price = "\(dict["price"] as? Double ?? 0.0)"
+                            if isSelected && strAmonut == price{
+                                let btn = UIButton()
+                                btn.tag = outerindx
+                                self.buttonSelection(btn)
+                            }
+                            else
+                            {
+                                
+                            }
                         }
-                        else
-                        {
-                            
-                        }
-                    }
                     }
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
@@ -957,7 +878,7 @@ extension SpinningMachineTicketVC {
     }
     
     func getDateForRemider(contestDate: String) -> Date {
-     
+        
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
@@ -968,11 +889,11 @@ extension SpinningMachineTicketVC {
         
         return minusDate!
     }
-  
+    
     func joinContest() {
         Loading().showLoading(viewController: self)
         var arrSelected = [String]()
-       
+        
         for item in arrSelectedTikets {
             let isSelected = item["isPurchased"] as! Bool
             if isSelected {
@@ -1022,9 +943,9 @@ extension SpinningMachineTicketVC {
                     
                     NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     
-               //     self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+                    //     self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     self.createReminderbeforethirtysecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
-                   // self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+                    // self.createReminderbeforetensecond(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
                     let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
                     paymentVC.isFromLink = self.isFromLink
                     self.navigationController?.pushViewController(paymentVC, animated: true)
@@ -1034,7 +955,7 @@ extension SpinningMachineTicketVC {
                     
                     //MyContest
                     NotificationCenter.default.post(name: .myContest, object: nil)
-                     NotificationCenter.default.post(name: .getAllspecialContest, object: nil)
+                    NotificationCenter.default.post(name: .getAllspecialContest, object: nil)
                     
                 } else if status == 401 {
                     Define.APPDELEGATE.handleLogout()
@@ -1069,38 +990,38 @@ extension SpinningMachineTicketVC {
         if isRemiderSet {
             return
         } else {
-//            let reminder = EKReminder(eventStore: Define.APPDELEGATE.eventStore!)
-//
-//            reminder.title = strTitle
-//            reminder.calendar = Define.APPDELEGATE.eventStore?.defaultCalendarForNewReminders()
-//            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
-//            print("Date: \(reminderDate)")
-//            let alarm = EKAlarm(absoluteDate: reminderDate)
-//            reminder.addAlarm(alarm)
-//            do {
-//
-//                try Define.APPDELEGATE.eventStore?.save(reminder, commit: true)
-//                print("Timer Set")
-//            } catch {
-//                print("Reminder failed with error \(error.localizedDescription)")
-//            }
+            //            let reminder = EKReminder(eventStore: Define.APPDELEGATE.eventStore!)
+            //
+            //            reminder.title = strTitle
+            //            reminder.calendar = Define.APPDELEGATE.eventStore?.defaultCalendarForNewReminders()
+            //            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
+            //            print("Date: \(reminderDate)")
+            //            let alarm = EKAlarm(absoluteDate: reminderDate)
+            //            reminder.addAlarm(alarm)
+            //            do {
+            //
+            //                try Define.APPDELEGATE.eventStore?.save(reminder, commit: true)
+            //                print("Timer Set")
+            //            } catch {
+            //                print("Reminder failed with error \(error.localizedDescription)")
+            //            }
             
             let center = UNUserNotificationCenter.current()
-
+            
             let content = UNMutableNotificationContent()
-               content.title = strTitle
-               content.body = "Your game starts soon, Hurry!!!!"
-               content.categoryIdentifier = "alarm"
+            content.title = strTitle
+            content.body = "Your game starts soon, Hurry!!!!"
+            content.categoryIdentifier = "alarm"
             content.categoryIdentifier = Define.PLAYGAME
-             //  content.userInfo = ["customData": "fizzbuzz"]
-               content.sound = UNNotificationSound.default
-
-               let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
-                let timeInterval = reminderDate.timeIntervalSinceNow
-               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-
-               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-               center.add(request)
+            //  content.userInfo = ["customData": "fizzbuzz"]
+            content.sound = UNNotificationSound.default
+            
+            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
+            let timeInterval = reminderDate.timeIntervalSinceNow
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
             
         }
     }
@@ -1120,39 +1041,39 @@ extension SpinningMachineTicketVC {
         if isRemiderSet {
             return
         } else {
-//            let reminder = EKReminder(eventStore: Define.APPDELEGATE.eventStore!)
-//
-//            reminder.title = strTitle
-//            reminder.calendar = Define.APPDELEGATE.eventStore?.defaultCalendarForNewReminders()
-//            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
-//            print("Date: \(reminderDate)")
-//            let alarm = EKAlarm(absoluteDate: reminderDate)
-//            reminder.addAlarm(alarm)
-//            do {
-//
-//                try Define.APPDELEGATE.eventStore?.save(reminder, commit: true)
-//                print("Timer Set")
-//            } catch {
-//                print("Reminder failed with error \(error.localizedDescription)")
-//            }
+            //            let reminder = EKReminder(eventStore: Define.APPDELEGATE.eventStore!)
+            //
+            //            reminder.title = strTitle
+            //            reminder.calendar = Define.APPDELEGATE.eventStore?.defaultCalendarForNewReminders()
+            //            let reminderDate = MyModel().getDateForRemider(contestDate: strDate)
+            //            print("Date: \(reminderDate)")
+            //            let alarm = EKAlarm(absoluteDate: reminderDate)
+            //            reminder.addAlarm(alarm)
+            //            do {
+            //
+            //                try Define.APPDELEGATE.eventStore?.save(reminder, commit: true)
+            //                print("Timer Set")
+            //            } catch {
+            //                print("Reminder failed with error \(error.localizedDescription)")
+            //            }
             
             let center = UNUserNotificationCenter.current()
-
-            let content = UNMutableNotificationContent()
-               content.title = strTitle
-               content.body = "Your game starts soon, Hurry!!!!"
-               content.categoryIdentifier = "alarm"
-            content.categoryIdentifier = Define.PLAYGAME
-             //  content.userInfo = ["customData": "fizzbuzz"]
-           //    content.sound = UNNotificationSound.default
-          //  content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
             
-               let reminderDate = MyModel().getDateForRemiderbeforetensecond(contestDate: strDate)
-                let timeInterval = reminderDate.timeIntervalSinceNow
-               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-
-               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-               center.add(request)
+            let content = UNMutableNotificationContent()
+            content.title = strTitle
+            content.body = "Your game starts soon, Hurry!!!!"
+            content.categoryIdentifier = "alarm"
+            content.categoryIdentifier = Define.PLAYGAME
+            //  content.userInfo = ["customData": "fizzbuzz"]
+            //    content.sound = UNNotificationSound.default
+            //  content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "waiting_timer.mp3"))
+            
+            let reminderDate = MyModel().getDateForRemiderbeforetensecond(contestDate: strDate)
+            let timeInterval = reminderDate.timeIntervalSinceNow
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
             
         }
     }
@@ -1174,27 +1095,27 @@ extension SpinningMachineTicketVC {
         } else {
             
             let center = UNUserNotificationCenter.current()
-
+            
             let content = UNMutableNotificationContent()
-               content.title = strTitle
-               content.body = "Your game starts soon, Hurry!!!!"
-               content.categoryIdentifier = "alarm"
+            content.title = strTitle
+            content.body = "Your game starts soon, Hurry!!!!"
+            content.categoryIdentifier = "alarm"
             content.categoryIdentifier = Define.PLAYGAME
-             //  content.userInfo = ["customData": "fizzbuzz"]
-           // content.sound = UNNotificationSound.default
+            //  content.userInfo = ["customData": "fizzbuzz"]
+            // content.sound = UNNotificationSound.default
             content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no.mp3"))
             
-               let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
+            let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
             let timeInterval = reminderDate.timeIntervalSinceNow
-               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-
-               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-               center.add(request)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
             
         }
     }
-
-
+    
+    
     
 }
 
@@ -1212,8 +1133,8 @@ extension SpinningMachineTicketVC: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         switch response.actionIdentifier
         {
-            
-             
+        
+        
         case Define.PLAYGAME:
             print("Play Game")
             let dictData = response.notification.request.content.userInfo as! [String: Any]
