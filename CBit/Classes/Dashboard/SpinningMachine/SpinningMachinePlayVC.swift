@@ -314,10 +314,13 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
     func configFadeTimer()
     {
         fadevw.isHidden = false
-        self.collection_slot?.scrollToItem(at: IndexPath(row: 0, section: 0),
-                                          at: .top,
-                                    animated: false)
+       
         if timerfade == nil {
+            
+            self.collection_slot?.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                              at: .top,
+                                        animated: false)
+            
         timerfade=Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(SpinningMachinePlayVC.FedeinOut), userInfo: nil, repeats: true)
         RunLoop.current.add(self.timerfade!, forMode: .common)
         }
@@ -895,7 +898,12 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
            
         }
         else  if  Int(self.gameTime) ?? 0 < 40 && Int(self.gameTime) ?? 0 > 30{
-       
+            self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+            self.slotarr = [UIImage]()
+            for box in self.arrBrackets {
+                self.slotarr.append(self.loadImageFromDocumentDirectory(nameOfImage: box["Item"] as? String ?? ""))
+                }
+          //  collection_slot.reloadData()
             self.configFadeTimer()
         }
 //        else if  Int(self.gameTime) ?? 0 < 40
@@ -903,18 +911,20 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
 //
 //        }
         
-        if originalarr.count == 0 {
-            self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
-            self.originalarr = [UIImage]()
-            for box in self.arrBrackets {
-                self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: box["Item"] as? String ?? ""))
-                }
-            collection_original.reloadData()
-        }
+       
         
   
         
             if (gameStatus == "start") {
+                
+                if originalarr.count == 0 {
+                    self.arrBrackets = self.dictGameData["boxJson"] as! [[String: Any]]
+                    self.originalarr = [UIImage]()
+                    for box in self.arrBrackets {
+                        self.originalarr.append(self.loadImageFromDocumentDirectory(nameOfImage: box["Item"] as? String ?? ""))
+                        }
+                    collection_original.reloadData()
+                }
            
 
                 self.deconfigFadeTimer()

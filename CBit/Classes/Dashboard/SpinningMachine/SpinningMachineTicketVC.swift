@@ -39,7 +39,7 @@ class SpinningMachineTicketVC: UIViewController {
     @IBOutlet weak var labelMarquee: MarqueeLabel!
     //Constraint
     @IBOutlet weak var constraintPaymentViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var constraintSelectionViewHeight: NSLayoutConstraint!
+  //  @IBOutlet weak var constraintSelectionViewHeight: NSLayoutConstraint!
     
     //View Amount
     @IBOutlet weak var viewAmountMain: UIView!
@@ -144,7 +144,7 @@ class SpinningMachineTicketVC: UIViewController {
         
         // setReminder()
         constraintPaymentViewHeight.constant = 0
-        constraintSelectionViewHeight.constant = 0
+    //    constraintSelectionViewHeight.constant = 0
         
         labelMarquee.animationCurve = .curveEaseInOut
         labelMarquee.fadeLength = 10.0
@@ -465,7 +465,7 @@ class SpinningMachineTicketVC: UIViewController {
             noOfSelected = totalSelected
             totalSelectedAmount = Double(totalAmount)
             
-            labelSelectedCount.text = "\(totalSelected) Contest Selected"
+            labelSelectedCount.text = "\(totalSelected) Contests Selected"
             labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
             
             setSelectedData()
@@ -718,7 +718,7 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
         noOfSelected = totalSelected
         totalSelectedAmount = Double(totalAmount)
         
-        labelSelectedCount.text = "Selected \(totalSelected)"
+        labelSelectedCount.text = "\(totalSelected) Contests Selected"
         labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
         
         setSelectedData()
@@ -733,10 +733,10 @@ extension SpinningMachineTicketVC: UITableViewDelegate, UITableViewDataSource {
         self.view.layoutIfNeeded()
         if noOfSelected == 0 {
             constraintPaymentViewHeight.constant = 0
-            constraintSelectionViewHeight.constant = 0
+        //    constraintSelectionViewHeight.constant = 0
         } else {
             constraintPaymentViewHeight.constant = 50
-            constraintSelectionViewHeight.constant = 25
+         //   constraintSelectionViewHeight.constant = 25
         }
         self.view.layoutIfNeeded()
         

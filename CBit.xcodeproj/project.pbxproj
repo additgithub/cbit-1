@@ -140,6 +140,7 @@
 		2F7F5C32265624C400DC6D7D /* ADVCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */; };
 		2F804F8025D3DC610025C138 /* SpinningMachineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */; };
 		2F804F8325D3EFB80025C138 /* SpinningMachineTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */; };
+		2F8E0F762683654200546DFF /* AutoRenewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0F752683654200546DFF /* AutoRenewVC.swift */; };
 		2F8FBDC925D7B36600603A48 /* SMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FBDC825D7B36600603A48 /* SMResultVC.swift */; };
 		2FAD82E526567CF50026031A /* IMG_2358.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD82E426567CF50026031A /* IMG_2358.jpg */; };
 		2FC1FB8C25E51F6800A556BF /* AGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */; };
@@ -357,6 +358,7 @@
 		2F7F5C30265624C400DC6D7D /* ADVCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ADVCollectionViewCell.xib; sourceTree = "<group>"; };
 		2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineVC.swift; sourceTree = "<group>"; };
 		2F804F8225D3EFB80025C138 /* SpinningMachineTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningMachineTicketVC.swift; sourceTree = "<group>"; };
+		2F8E0F752683654200546DFF /* AutoRenewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRenewVC.swift; sourceTree = "<group>"; };
 		2F8FBDC825D7B36600603A48 /* SMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMResultVC.swift; sourceTree = "<group>"; };
 		2FAD82E426567CF50026031A /* IMG_2358.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_2358.jpg; sourceTree = "<group>"; };
 		2FAF31612640101F001E0982 /* CBIT OG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBIT OG.entitlements"; sourceTree = "<group>"; };
@@ -786,6 +788,7 @@
 				2F804F7F25D3DC610025C138 /* SpinningMachineVC.swift */,
 				E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */,
 				2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */,
+				2F8E0F752683654200546DFF /* AutoRenewVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1191,6 +1194,7 @@
 				1F0A5C32223BB1F9004F335C /* MyDataType.swift in Sources */,
 				1F5A9877224620860070C1B6 /* NotificationName.swift in Sources */,
 				2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */,
+				2F8E0F762683654200546DFF /* AutoRenewVC.swift in Sources */,
 				1F63528B22296AE70054BD12 /* Alert.swift in Sources */,
 				1FD003972230E59600040670 /* GamePlayVC.swift in Sources */,
 				1FBE45E0222F9C7F00741438 /* DatePickerDialog.swift in Sources */,
@@ -1287,7 +1291,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1312,7 +1316,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1467,7 +1471,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1504,7 +1508,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";

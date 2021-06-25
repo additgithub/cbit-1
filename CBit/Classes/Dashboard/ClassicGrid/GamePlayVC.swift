@@ -1607,7 +1607,13 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         self.view.layoutIfNeeded()
         let rangeMinNumber = dictGameData["ansRangeMin"] as? Int ?? 0
         let rangeMaxNumber = dictGameData["ansRangeMax"] as? Int ?? 99
-        if gamelevel == 1 {
+        
+        if gamelevel == 0 {
+             arrRandomNumbers = MyModel().createRandomNumbers(number: 4, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+             arrBarcketColor = MyDataType().getArrayBrackets(index: 4)
+             constrainCollectionViewHeight.constant = 25
+         }
+       else if gamelevel == 1 {
             arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
             arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
             constrainCollectionViewHeight.constant = 50

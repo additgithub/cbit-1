@@ -54,6 +54,7 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
            // ], isExpand: false),
         SideMenu(title: "Referral Network", subMenus: nil, isExpand: false),
         SideMenu(title: "Easy Join", subMenus: nil, isExpand: false),
+        SideMenu(title: "Auto Renew", subMenus: nil, isExpand: false),
         //SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "Horoscope", subMenus: nil, isExpand: false),
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
@@ -202,8 +203,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         /*else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
-        else if arrSideMenu[11].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[11].arrSubMenu!.count * 60))
+        else if arrSideMenu[12].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[12].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -316,6 +317,10 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "EasyJoinNC")
+        }, with: "2")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "AutoRenewVC")
         }, with: "3")
         
         /*sideMenuController?.cache(viewControllerGenerator: {
@@ -328,15 +333,15 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
-        }, with: "4")
-        
-        sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
         }, with: "5")
         
         sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
+            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
         }, with: "6")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
+        }, with: "7")
         
 //        sideMenuController?.cache(viewControllerGenerator: {
 //            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
@@ -344,11 +349,11 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
-        }, with: "7")
+        }, with: "8")
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "TutorialNC")
-        }, with: "8")
+        }, with: "9")
         
        /* sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "AboutUsNC")
@@ -417,7 +422,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 11 //|| section == 2
+        if section == 1 || section == 12 //|| section == 2
         {
             headerCell.imageMenuArrow.isHidden = false
         } else {
@@ -444,7 +449,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 11{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 12{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -502,7 +507,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }*/
-     else if indexPath.section == 11 {
+     else if indexPath.section == 12 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -533,25 +538,15 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[11].isExpande = false
+            arrSideMenu[12].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
         }
-      /*  else if index == 2 {
-            selectedIndex = index
-            arrSideMenu[1].isExpande = false
-        //    arrSideMenu[2].isExpande = false
-            arrSideMenu[11].isExpande = false
-            arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
-            setSideMenuHeight()
-            tableMenu.reloadData()
-        }*/
-        else if index == 11 {
+        else if index == 12 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-           // arrSideMenu[11].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
@@ -570,14 +565,14 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                 self.sideMenuController?.hideMenu()
             }
         }
-        /*else if index == 5 {
-            let IDsVC = self.storyboard?.instantiateViewController(withIdentifier: "HoroscopeVC") as! HoroscopeVC
+        else if index == 4 {
+            let IDsVC = self.storyboard?.instantiateViewController(withIdentifier: "AutoRenewVC") as! AutoRenewVC
             IDsVC.modalPresentationStyle = .fullScreen
             self.present(IDsVC, animated: true){
                 self.sideMenuController?.hideMenu()
             }
-        }*/
-        else if index == 5 {
+        }
+        else if index == 6 {
             let notificationVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
             notificationVC.modalPresentationStyle = .fullScreen
             self.present(notificationVC, animated: true){
@@ -593,7 +588,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //            }
 //
 //        }
-        else if index == 9 {
+        else if index == 10 {
             
             let whatsappURL = URL(string: Define.whatsappapi)
             if UIApplication.shared.canOpenURL(whatsappURL!) {
@@ -602,7 +597,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
             
         }
-        else if index == 10 {
+        else if index == 11 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             let vc = authStoryboard.instantiateViewController(withIdentifier: "FAQsVC") as! FAQsVC
@@ -611,49 +606,6 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
             
         }
-
-            
-//            else if index == 9 {
-//
-//                        let PackegaListVC = self.storyboard?.instantiateViewController(withIdentifier: "PackegaListVC") as! PackegaListVC
-//                       PackegaListVC.modalPresentationStyle = .fullScreen
-//                       self.present(PackegaListVC, animated: true, completion: nil)
-//
-//
-//
-//                   }
-    //    else if index == arrSideMenu.count - 1 {
-            // 12/16 deep
-            
-            
-            
-//            if let urlStr = NSURL(string: "https://cbitoriginal.com/") {
-//                let objectsToShare = [urlStr]
-//                let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-//
-//                if UI_USER_INTERFACE_IDIOM() == .pad {
-//                    if let popup = activityVC.popoverPresentationController {
-//                        popup.sourceView = self.view
-//                        popup.sourceRect = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 4, width: 0, height: 0)
-//                    }
-//                }
-//
-//                self.present(activityVC, animated: true, completion: nil)
-            
-//       // }
-//            let Referral = self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController") as! ReferralViewController
-//            Referral.modalPresentationStyle = .fullScreen
-//            present(Referral, animated: true) {
-//                self.sideMenuController?.hideMenu()
-            
-            
-//
-//            let Referral = self.storyboard?.instantiateViewController(withIdentifier: "JticketlistingViewController") as! JticketlistingViewController
-//            Referral.modalPresentationStyle = .fullScreen
-//            present(Referral, animated: true) {
-//                self.sideMenuController?.hideMenu()
-         //   }
-    //    }
           else {
             selectedIndex = index
             sideMenuController?.setContentViewController(with: "\(index)")

@@ -22,6 +22,9 @@ class DashboardVC: UIViewController {
     
     @IBOutlet weak var constraintAdsHeight: NSLayoutConstraint!
     @IBOutlet weak var pagingvw: UIView!
+    @IBOutlet weak var vwpopupreward: UIView!
+    @IBOutlet weak var imgreward: UIImageView!
+    
     private var arrSpecialContest = [[String: Any]]()
     var arrAdvertise = [[String: Any]]()
     var storeimage = [[String: Any]]()
@@ -54,6 +57,18 @@ class DashboardVC: UIViewController {
        // constraintAdsHeight.constant = self.view.frame.width / 3
        
           //   socket.off("onContestLive")
+        
+         if UserDefaults.standard.bool(forKey: "isfromregister")
+         {
+            vwpopupreward.isHidden = false
+            self.view.bringSubviewToFront(vwpopupreward)
+            let imageURL = UserDefaults.standard.string(forKey: "ImageDownload") ?? ""
+            imgreward.sd_setImage(with: URL(string: imageURL), placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+         }
+        else
+         {
+            vwpopupreward.isHidden = true
+         }
       
         let playVC = self.storyboard?.instantiateViewController(withIdentifier: "PlayVC") as! PlayVC
             let myContentVC = self.storyboard?.instantiateViewController(withIdentifier: "MyContestVC") as! MyContestVC
@@ -110,6 +125,7 @@ class DashboardVC: UIViewController {
         self.pagingViewController.view.frame = self.pagingvw.frame
         self.pagingViewController.view.layoutIfNeeded()
         self.view.layoutSubviews()
+        self.view.bringSubviewToFront(vwpopupreward)
     }
     
     
@@ -243,6 +259,11 @@ class DashboardVC: UIViewController {
     @IBAction func buttonMenu(_ sender: Any) {
         sideMenuController?.revealMenu()
     }
+    @IBAction func closepopup_click(_ sender: UIButton) {
+        vwpopupreward.isHidden = true
+        UserDefaults.standard.set(false, forKey: "isfromregister")
+    }
+    
     @IBAction func buttonHowToPLay(_ sender: Any) {
         
        let videoURL = URL(string:"https://www.cbitoriginal.com/howtoplayvideo.MP4")
