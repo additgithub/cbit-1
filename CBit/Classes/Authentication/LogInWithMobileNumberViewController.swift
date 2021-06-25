@@ -192,6 +192,7 @@ extension LogInWithMobileNumberViewController {
                             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
                                { action -> Void in
                                 let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
+                                signUpVC.MobileNumber = self.txtmobilenumber.text ?? ""
                                 signUpVC.isSocialLogin = false
                                 signUpVC.modalPresentationStyle = .fullScreen
                                 self.navigationController?.pushViewController(signUpVC, animated: true)

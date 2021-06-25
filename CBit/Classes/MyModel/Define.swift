@@ -56,8 +56,10 @@ class Define {
     static let APP_VERSION = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String 
     
     static let PRIVACYPOLICY_URL = "http://cbitoriginal.com/privacy-policy-app.html"
-    static let LIGALITY_URL = "https://admin.cbitoriginal.com/page/legality"
-    static let AAPINFO_URL = "https://admin.cbitoriginal.com/page/termsofuse_mobileapp"
+ //   static let LIGALITY_URL = "https://admin.cbitoriginal.com/page/legality"
+    static let LIGALITY_URL = "https://www.cbitoriginal.com/legality.html"
+ //   static let AAPINFO_URL = "https://admin.cbitoriginal.com/page/termsofuse_mobileapp"
+    static let AAPINFO_URL = "https://www.cbitoriginal.com/terms_conditions.html"
     static let JticketInfo_URl = "https://cbitoriginal.com/j_tickit.html"
     static let FAQsURL = "https://cbitoriginal.com/faq.html"
     
@@ -209,10 +211,14 @@ class Define {
     static let easyjoinContestPrice = "easyjoinContestPrice"
     static let getUserJoinDateTime = "getUserJoinDateTime"
     
+    static let setAutoRenewEasyJoin = "setAutoRenewEasyJoin"
+    static let setAutoRenewEasyJoinStatus = "setAutoRenewEasyJoinStatus"
+    static let getAutoRenewEasyJoin = "getAutoRenewEasyJoin"
     
     
     
-    static let whatsappapi = "https://api.whatsapp.com/send/?phone=918879449776&text=hi"
+    
+    static let whatsappapi = "https://api.whatsapp.com/send/?phone=918591497179&text=hi"
     
     //MARK: - PlaceHolderImage
     static let PLACEHOLDER_PROFILE_IMAGE = #imageLiteral(resourceName: "sidemenuicon1")
@@ -282,12 +288,12 @@ class ArgAppUpdater: NSObject {
         }
         return ArgAppUpdater._instance!;
     }
-//https://itunes.apple.com/lookup?id=1565769563
+// https://itunes.apple.com/lookup?id=1565769563
     // https://itunes.apple.com/lookup?bundleId=\(identifier)
     // "https://itunes.apple.com/lookup?bundleId=\(identifier)&country=IN"
     private func getAppInfo(completion: @escaping (AppInfo?, Error?) -> Void) -> URLSessionDataTask? {
         guard let identifier = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String,
-            let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(identifier)") else {
+            let url = URL(string: "https://itunes.apple.com/lookup?id=1565769563") else {
                 DispatchQueue.main.async {
                     completion(nil, VersionError.invalidBundleInfo)
                 }

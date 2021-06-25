@@ -50,6 +50,8 @@ class RegisterVC: UIViewController {
     var isPolicySelected = Bool()
     var isAgeSelected = Bool()
     var isStateSelected = Bool()
+    
+    var MobileNumber = String()
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +74,7 @@ class RegisterVC: UIViewController {
         textEmail.text = dictSocialData["Email"] as? String
         textFullName.text = dictSocialData["FirstName"] as? String
         textLastName.text = dictSocialData["LastName"] as? String
-        
+        textMobileNumber.text = MobileNumber
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,9 +121,11 @@ class RegisterVC: UIViewController {
     @IBAction func buttonSignUp(_ sender: Any) {
         if textFullName.text!.count < 3 {
             Alert().showTost(message: "Enter Proper First Name", viewController: self)
-        } else if textMiddleName.text!.count < 3 {
-            Alert().showTost(message: "Enter Proper Middle Name", viewController: self)
-        } else if textLastName.text!.count < 3 {
+        }
+//        else if textMiddleName.text!.count < 3 {
+//            Alert().showTost(message: "Enter Proper Middle Name", viewController: self)
+//        }
+        else if textLastName.text!.count < 3 {
             Alert().showTost(message: "Enter Proper Surname", viewController: self)
         } else if textUserName.text!.count < 4 {
             Alert().showTost(message: "Enter Proper User Name", viewController: self)
@@ -357,7 +361,7 @@ extension RegisterVC {
                     var parameter:[String: Any] = [
                       
                         "firstName": self.textFullName.text!,
-                        "middelName": self.textMiddleName.text!,
+                        "middelName": self.textMiddleName.text ?? "",
                         "lastName": self.textLastName.text!,
                         "email": self.textEmail.text ?? "",
                         "StateID" :self.stateid,

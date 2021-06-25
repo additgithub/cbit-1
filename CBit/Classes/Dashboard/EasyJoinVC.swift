@@ -168,23 +168,53 @@ class EasyJoinVC: UIViewController {
             if !MyModel().isConnectedToInternet() {
                 Alert().showTost(message: Define.ERROR_INTERNET,
                                  viewController: self)
-            } else if noOfSelected == 0 {
-                Alert().showTost(message: "Select Ticket",
-                                 viewController: self)
-            } else {
-                viewAmountMain.isHidden = false
-                let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
-                //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
-                if totalSelectedAmount <= pbAmount {
-                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
-                    labelwidrawableBalance.text = "₹ 0.0"
-                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
-                } else {
-                    let cutUtilized = totalSelectedAmount - pbAmount
-                    labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
-                    labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
-                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+            }
+//            else if noOfSelected == 0 {
+//                Alert().showTost(message: "Select Ticket",
+//                                 viewController: self)
+//            }
+            else  if SavedIndexTime.count > 0 {
+                if SavedIndexTicket.count > 0 {
+                    
+                    
+                    totalSelectedAmount = Double(CalculateAmt())
+                    
+                    viewAmountMain.isHidden = false
+                    let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+                    //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
+                    if totalSelectedAmount <= pbAmount {
+                        labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
+                        labelwidrawableBalance.text = "₹ 0.0"
+                        labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                    } else {
+                        let cutUtilized = totalSelectedAmount - pbAmount
+                        labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
+                        labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
+                        labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                    }
+                    
+                    self.view.layoutIfNeeded()
+                    
+                    let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+                    
+                    let totalAmount1 = pbAmount + sbAmount
+
+                    
+                    
+                    if Double(totalSelectedAmount) > totalAmount1 {
+                        labelTotalBalance.textColor = UIColor.red
+                        buttonAmountOk.setTitle("Add to wallet", for: .normal)
+                    } else {
+                        labelTotalBalance.textColor = UIColor.green
+                        buttonAmountOk.setTitle("OK", for: .normal)
+                    }
                 }
+                else {
+                    Alert().showTost(message: "Choose games and contests", viewController: self)
+                }
+            }
+            else {
+                Alert().showTost(message: "Choose games and contests", viewController: self)
             }
         } else {
 //            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
@@ -389,7 +419,7 @@ extension EasyJoinVC {
                     let selectedarr = self.selecteddata.compactMap {"\($0["contest_id"] as? Int ?? 0)"}
                     for dic in arr {
                         if selectedarr.contains(String(dic["id"] as? Int ?? 0)) {
-                            self.createReminderbeforethirtysecond(strTitle: dic["name"] as? String ?? "No Name",strDate: dic["startDate"] as! String)
+                            self.createReminderbeforethirtysecond(strTitle: dic["name"] as? String ?? "No Name",strDate: dic["startDate"] as! String, identifier: (String(dic["id"] as? Int ?? 0)))
                         }
                       
                     }
@@ -406,7 +436,7 @@ extension EasyJoinVC {
         }
     }
     
-    func createReminderbeforethirtysecond(strTitle: String, strDate: String) {
+    func createReminderbeforethirtysecond(strTitle: String, strDate: String,identifier:String) {
       
             let center = UNUserNotificationCenter.current()
 
@@ -423,14 +453,19 @@ extension EasyJoinVC {
                 let timeInterval = reminderDate.timeIntervalSinceNow
                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
 
-               let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-              // center.add(request)
+               let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+             //  center.add(request)
+        
+//        print("ContestDate:",strDate)
+//        print("EasyJoin Notification Registered.")
+
         
         let curret = UNUserNotificationCenter.current()
         curret.add(request) { (error) in
             if error != nil {
                 print(error!.localizedDescription)
             } else {
+                print("ContestDate:",strDate)
                 print("EasyJoin Notification Registered.")
             }
         }

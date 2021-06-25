@@ -204,6 +204,13 @@ extension OTPVerifyVC {
                     let Refferalcode = dictData["ReferralCode"] as! String
                     UserDefaults.standard.set(Refferalcode, forKey: "Referralcode")
                     
+                    let ImageDownload = dictData["ImageDownload"] as? String
+                    if ImageDownload != "" {
+                        UserDefaults.standard.set(ImageDownload, forKey: "ImageDownload")
+                        UserDefaults.standard.set(true, forKey: "isfromregister")
+                    }
+                  
+                    
                     if self.isSocialLogin {
                         
                         Define.USERDEFAULT.set(true, forKey: "isSocialLogin")
@@ -220,6 +227,7 @@ extension OTPVerifyVC {
 
                             let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
                     let menuVC = storyBoard.instantiateViewController(withIdentifier: "TutorialNC")
+                    
                     menuVC.modalPresentationStyle = .fullScreen
                     self.present(menuVC,
                                  animated: true, completion:

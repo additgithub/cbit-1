@@ -338,7 +338,7 @@ class TicketVC: UIViewController {
         noOfSelected = totalSelected
         totalSelectedAmount = Double(totalAmount)
         
-        labelSelectedCount.text = "\(totalSelected) Contest Selected"
+        labelSelectedCount.text = "\(totalSelected) Contests Selected"
         labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
         
         setSelectedData()
@@ -386,7 +386,12 @@ class TicketVC: UIViewController {
             
         let gamelevel = dictContest["level"] as? Int ?? 0
       
-            if gamelevel == 1 {
+        if gamelevel == 0 {
+             arrRandomNumbers = MyModel().createRandomNumbers(number: 4, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+             arrBarcketColor = MyDataType().getArrayBrackets(index: 4)
+             constraintCollectionViewHeight.constant = 25
+         }
+           else if gamelevel == 1 {
                 arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
                 arrBarcketColor = MyDataType().getArrayBrackets(index: 8)
                 constraintCollectionViewHeight.constant = 50
@@ -835,7 +840,7 @@ extension TicketVC: UITableViewDelegate, UITableViewDataSource {
         noOfSelected = totalSelected
         totalSelectedAmount = Double(totalAmount)
         
-        labelSelectedCount.text = "Selected \(totalSelected)"
+        labelSelectedCount.text = "\(totalSelected) Contests Selected"
         labelPurchasedAmount.text = String(format: "₹%.2f", totalAmount)//"₹\(totalAmount)"
         
         setSelectedData()

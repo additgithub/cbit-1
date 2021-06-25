@@ -85,7 +85,10 @@ class GameResultVC: UIViewController {
         
         gamelevel = dictContestDetail["level"] as? Int ?? 1
         
-        if gamelevel == 1 {
+        if gamelevel == 0 {
+             constraintCollectionViewHeight.constant = 25
+         }
+       else if gamelevel == 1 {
             constraintCollectionViewHeight.constant = 50
         } else if gamelevel == 2 {
             constraintCollectionViewHeight.constant = 100
