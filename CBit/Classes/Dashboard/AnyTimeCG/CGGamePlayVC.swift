@@ -97,7 +97,7 @@ class CGGamePlayVC: UIViewController  {
     var msecond:Int = 999
     
     var endGameTimer: Timer?
-    var endGameSecond = 20
+    var endGameSecond = 30
     
     var startTimer: Timer?
     var StartSecond = 15
