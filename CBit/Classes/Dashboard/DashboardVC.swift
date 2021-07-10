@@ -53,7 +53,7 @@ class DashboardVC: UIViewController {
     var myGroup = DispatchGroup()
     override func viewDidLoad() {
         super.viewDidLoad()
-        UNUserNotificationCenter.current().delegate = self
+       // UNUserNotificationCenter.current().delegate = self
        // constraintAdsHeight.constant = self.view.frame.width / 3
        
           //   socket.off("onContestLive")
@@ -104,6 +104,11 @@ class DashboardVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         getUserInfo()
         getUserData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+           // Code you want to be delayed
+            self.getUserJoinDateTime()
+        }
+       
         NotificationCenter.default.addObserver(
              self,
              selector: #selector(applicationWillEnterForeground(_:)),
@@ -290,30 +295,30 @@ class DashboardVC: UIViewController {
     }
 }
 //MARK: - Notifcation Delegate Method
-extension DashboardVC: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier {
-        case Define.PLAYGAME:
-            print("Play Game")
-            let dictData = response.notification.request.content.userInfo as! [String: Any]
-            print(dictData)
-            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-            gamePlayVC.isFromNotification = true
-            gamePlayVC.dictContest = dictData
-            self.navigationController?.pushViewController(gamePlayVC, animated: true)
-        default:
-            break
-        }
-        
-    }
-}
+//extension DashboardVC: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier {
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+//            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//            gamePlayVC.isFromNotification = true
+//            gamePlayVC.dictContest = dictData
+//            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//        
+//    }
+//}
 
 //MARK: - Collection View Delegate Method
 extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -859,6 +864,98 @@ extension DashboardVC {
                 }
             }
         }
+    }
+    
+    func getUserJoinDateTime() {
+      //  Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [:]
+        let strURL = Define.APP_URL + Define.getUserJoinDateTime
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+             //   Loading().hideLoading(viewController: self)
+                
+             //   self.getUserJoinDateTime()
+            } else {
+           //     Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let dict =  result!["content"] as! [String : Any]
+                    let arr = dict["contest"] as? [[String:Any]] ?? []
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+              //      let selectedarr = self.selecteddata.compactMap {"\($0["contest_id"] as? Int ?? 0)"}
+                    for dic in arr {
+//                        if selectedarr.contains(String(dic["id"] as? Int ?? 0)) {
+//                            self.createReminderbeforethirtysecond(strTitle: dic["name"] as? String ?? "No Name",strDate: dic["startDate"] as! String, identifier: (String(dic["id"] as? Int ?? 0)))
+//                        }
+                        self.createReminderbeforethirtysecond(strTitle: dic["name"] as? String ?? "No Name",strDate: dic["startDate"] as! String, identifier: (String(dic["id"] as? Int ?? 0)), info: dic)
+                    }
+                    
+                  //  self.dismiss(animated: true, completion: nil)
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as?  String ?? "No Message.",
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    func createReminderbeforethirtysecond(strTitle: String, strDate: String,identifier:String,info:[String:Any]) {
+        
+       
+      
+            let center = UNUserNotificationCenter.current()
+
+            let content = UNMutableNotificationContent()
+               content.title = strTitle
+               content.body = "Your game starts soon, Hurry!!!!"
+             //  content.categoryIdentifier = "alarm"
+            content.categoryIdentifier = "CategoryID\(identifier)" //Define.PLAYGAME
+               content.userInfo = info
+          //     content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "message_tone_lg_no.mp3"))
+            
+               let reminderDate = MyModel().getDateForRemiderbeforethirtysecond(contestDate: strDate)
+                let timeInterval = reminderDate.timeIntervalSinceNow
+      
+           guard timeInterval > 0 else {
+               return
+           }
+        
+               let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        
+
+               let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+             //  center.add(request)
+        
+//        print("ContestDate:",strDate)
+//        print("EasyJoin Notification Registered.")
+
+        
+        let curret = UNUserNotificationCenter.current()
+        curret.add(request) { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                print("ContestDate:",strDate)
+                print("EasyJoin Notification Registered.")
+            }
+        }
+            
+        
     }
     
     

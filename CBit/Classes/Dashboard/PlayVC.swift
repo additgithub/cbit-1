@@ -35,7 +35,7 @@ class PlayVC: UIViewController {
         tablePlay.tableFooterView = UIView()
         tablePlay.addSubview(refreshControl)
         
-        UNUserNotificationCenter.current().delegate = self
+      //  UNUserNotificationCenter.current().delegate = self
         //Add Notification
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotitication(_:)),
@@ -55,6 +55,7 @@ class PlayVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
+      
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -81,6 +82,7 @@ class PlayVC: UIViewController {
        arrContest = [[String:Any]]()
        tablePlay.reloadData()
         self.getAllContest()
+       // self.getUserJoinDateTime()
     }
 }
 
@@ -304,37 +306,36 @@ extension PlayVC {
     
     
     
-  
-    
+
     
  
     
 }
 //MARK: - Notifcation Delegate Method
-extension PlayVC: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier {
-        case Define.PLAYGAME:
-            print("Play Game")
-            let dictData = response.notification.request.content.userInfo as! [String: Any]
-            print(dictData)
-            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-            gamePlayVC.isFromNotification = true
-            gamePlayVC.dictContest = dictData
-            self.navigationController?.pushViewController(gamePlayVC, animated: true)
-        default:
-            break
-        }
-        
-    }
-}
+//extension PlayVC: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier {
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+//            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//            gamePlayVC.isFromNotification = true
+//            gamePlayVC.dictContest = dictData
+//            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//        
+//    }
+//}
 //MARK: - Alert Contollert
 extension PlayVC {
     func retry() {

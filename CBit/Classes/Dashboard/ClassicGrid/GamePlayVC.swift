@@ -547,8 +547,8 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                let parameter:[String: Any] = ["userId": Define.USERDEFAULT.value(forKey: "UserID")!,
                                               "contestId": dictContest["id"]!,
                                               "DisplayValue":strDisplayValuelockall ?? "",
-                                              "lock_time":datenew
-                                              
+                                              "lock_time":datenew,
+                                              "isLock": 1
                ]
         
         
@@ -885,6 +885,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 SocketIOManager.sharedInstance.lastViewController = nil
                 let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
                 resultVC.dictContest = dictContest
+                resultVC.isfromnotification = isFromNotification
                 self.navigationController?.pushViewController(resultVC, animated: true)
                 
                 
@@ -1456,6 +1457,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
             SocketIOManager.sharedInstance.lastViewController = nil
             let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
             resultVC.dictContest = dictContest
+            resultVC.isfromnotification = isFromNotification
             self.navigationController?.pushViewController(resultVC, animated: true)
             
             
@@ -1640,7 +1642,11 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
         let rangeMinNumber = dictGameData["ansRangeMin"] as? Int ?? 0
         let rangeMaxNumber = dictGameData["ansRangeMax"] as? Int ?? 99
         
-        if gamelevel == 1 {
+        if gamelevel == 0 {
+            arrRandomNumbers = MyModel().createRandomNumbers(number: 4, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
+            
+        }
+       else if gamelevel == 1 {
             arrRandomNumbers = MyModel().createRandomNumbers(number: 8, minRange: rangeMinNumber, maxRange: rangeMaxNumber)
             
         } else if gamelevel == 2 {
@@ -2009,6 +2015,7 @@ class GamePlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate {
                 NotificationCenter.default.removeObserver(self)
                 let resultVC = self.storyboard?.instantiateViewController(withIdentifier: "GameResultVC") as! GameResultVC
                 resultVC.dictContest = dictContest
+                resultVC.isfromnotification = isFromNotification
                 self.navigationController?.pushViewController(resultVC, animated: true)
             }
         }
@@ -2117,7 +2124,7 @@ extension GamePlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             
         } else {
             cell.labelNumber.text = "\(arrRandomNumbers[indexPath.row])"
-            
+          //  print("randomnumber",arrRandomNumbers)
             cell.viewColor.backgroundColor = arrBarcketColor[indexPath.row].color
         }
         return cell

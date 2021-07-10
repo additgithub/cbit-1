@@ -40,6 +40,8 @@ class SMResultVC: UIViewController {
     
     var timerfade=Timer()
     var isfirst = true
+    var isfromnotification = false
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +67,7 @@ class SMResultVC: UIViewController {
         
         tableResult.rowHeight = UITableView.automaticDimension
         tableResult.tableFooterView = UIView()
-        UNUserNotificationCenter.current().delegate = self
+      //  UNUserNotificationCenter.current().delegate = self
         
         getContestDetail()
         
@@ -155,8 +157,26 @@ class SMResultVC: UIViewController {
     
     //MAKR: - Buttom Method
     @IBAction func buttonBack(_ sender: UIButton) {
-        self.navigationController?.popToRootViewController(animated: true)
+       // self.navigationController?.popToRootViewController(animated: true)
+        if isfromnotification {
+          //  SocketIOManager.sharedInstance.establisConnection()
+
+            let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+            let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+            menuVC.modalPresentationStyle = .fullScreen
+            self.present(menuVC,
+                         animated: true, completion:
+                {
+                    self.navigationController?.popToRootViewController(animated: true)
+            })
+        }
+        else
+        {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        
     }
+    
 }
 
 //MAKR: - Collection View Delegate Mehtod
@@ -561,30 +581,30 @@ extension SMResultVC {
 }
 
 //MARK: - Notifcation Delegate Method
-extension SMResultVC: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier {
-        case Define.PLAYGAME:
-            print("Play Game")
-            let dictData = response.notification.request.content.userInfo as! [String: Any]
-            print(dictData)
-            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-            gamePlayVC.isFromNotification = true
-            gamePlayVC.dictContest = dictData
-            self.navigationController?.pushViewController(gamePlayVC, animated: true)
-        default:
-            break
-        }
-        
-    }
-}
+//extension SMResultVC: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier {
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+//            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//            gamePlayVC.isFromNotification = true
+//            gamePlayVC.dictContest = dictData
+//            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//        
+//    }
+//}
 
 //MARK: - Alert Contollert
 extension SMResultVC {

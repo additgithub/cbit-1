@@ -638,7 +638,8 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                let parameter:[String: Any] = ["userId": Define.USERDEFAULT.value(forKey: "UserID")!,
                                               "contestId": dictContest["id"]!,
                                               "DisplayValue":strDisplayValuelockall ?? "",
-                                              "lock_time":datenew
+                                              "lock_time":datenew,
+                                              "isLock": 1
                                               
                ]
         
@@ -980,6 +981,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 SocketIOManager.sharedInstance.lastViewController = nil
                 let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
                 SMResultVC.dictContest = dictContest
+                SMResultVC.isfromnotification = isFromNotification
                 self.navigationController?.pushViewController(SMResultVC, animated: true)
                 
                 
@@ -1428,6 +1430,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
             SocketIOManager.sharedInstance.lastViewController = nil
             let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
             SMResultVC.dictContest = dictContest
+            SMResultVC.isfromnotification = isFromNotification
             self.navigationController?.pushViewController(SMResultVC, animated: true)
             
             
@@ -1886,6 +1889,7 @@ class SpinningMachinePlayVC: UIViewController,URLSessionDelegate, URLSessionData
                 NotificationCenter.default.removeObserver(self)
                 let SMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SMResultVC") as! SMResultVC
                 SMResultVC.dictContest = dictContest
+                SMResultVC.isfromnotification = isFromNotification
                 self.navigationController?.pushViewController(SMResultVC, animated: true)
             }
         }
