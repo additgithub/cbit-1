@@ -16,7 +16,7 @@ class JoinedPlayerVC: UIViewController {
         super.viewDidLoad()
         tableUserList.rowHeight = UITableView.automaticDimension
         tableUserList.tableFooterView = UIView()
-        UNUserNotificationCenter.current().delegate = self
+      //  UNUserNotificationCenter.current().delegate = self
         
         if arrUsers.count == 0 {
             viewNoData.isHidden = false
@@ -55,30 +55,30 @@ extension JoinedPlayerVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - Notifcation Delegate Method
-extension JoinedPlayerVC: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier {
-        case Define.PLAYGAME:
-            print("Play Game")
-            let dictData = response.notification.request.content.userInfo as! [String: Any]
-            print(dictData)
-            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-            gamePlayVC.isFromNotification = true
-            gamePlayVC.dictContest = dictData
-            self.navigationController?.pushViewController(gamePlayVC, animated: true)
-        default:
-            break
-        }
-        
-    }
-}
+//extension JoinedPlayerVC: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier {
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+//            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//            gamePlayVC.isFromNotification = true
+//            gamePlayVC.dictContest = dictData
+//            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//        
+//    }
+//}
 
 //MARK: - Cell Class
 class JoinedPlayerTVC: UITableViewCell {

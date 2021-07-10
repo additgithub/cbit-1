@@ -36,6 +36,12 @@ class Define {
     
     //MARK: - URL
     
+    // AWS Server
+    
+    
+//    static let APP_URL = "http://13.127.63.200:3500/api"
+//    static let SOCKET_URL = "http://13.127.63.200:3500"
+    
 //    //Live
     
    static let APP_URL = "http://207.154.223.43:3500/api/"

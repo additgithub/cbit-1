@@ -42,7 +42,7 @@ class MyContestVC: UIViewController {
                                                selector: #selector(handleNotitication(_:)),
                                                name: .myContest,
                                                object: nil)
-        UNUserNotificationCenter.current().delegate = self
+      //  UNUserNotificationCenter.current().delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -338,32 +338,32 @@ extension MyContestVC {
     }
 }
 //MARK: - Notifcation Delegate Method
-extension MyContestVC: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        switch response.actionIdentifier{
-      //  switch response.notification.request.content.categoryIdentifier{
-      //  if response.notification.request.identifier == "textNotification"
-        case Define.PLAYGAME:
-            print("Play Game")
-            let dictData = response.notification.request.content.userInfo as! [String: Any]
-            print(dictData)
-            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-            gamePlayVC.isFromNotification = true
-            gamePlayVC.dictContest = dictData
-            self.navigationController?.pushViewController(gamePlayVC, animated: true)
-        default:
-            break
-        }
-        
-    }
-}
+//extension MyContestVC: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier{
+//      //  switch response.notification.request.content.categoryIdentifier{
+//      //  if response.notification.request.identifier == "textNotification"
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+//            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+//            gamePlayVC.isFromNotification = true
+//            gamePlayVC.dictContest = dictData
+//            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//        
+//    }
+//}
 
 //MARK: - Alert Contollert
 extension MyContestVC {

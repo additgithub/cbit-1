@@ -11,7 +11,7 @@ import Crashlytics
 import OneSignal
 @UIApplicationMain
 
-class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSubscriptionObserver,UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSubscriptionObserver {
     
     
     
@@ -24,6 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         
         ArgAppUpdater.getSingleton().showUpdateWithForce()
         UserDefaults.standard.register(defaults: ["isaudio" : true])
+       
+        
+        if let notificationData = launchOptions?[.remoteNotification] {
+            print("Notificationdata:",notificationData)
+                // Use this data to present a view controller based
+                // on the type of notification received
+            }
+
      //   ArgAppUpdater.getSingleton().showUpdateWithConfirmation()
 //        VersionCheck.shared.isUpdateAvailable() { hasUpdates in
 //          print("is update available: \(hasUpdates)")
@@ -66,7 +74,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
 //                    self.NavigateVC(controller: GamePlayVC)
 //                }
                  
-              
+                if additionalData["game_type"] as? String == "spinning-machine"
+              {
+                    SpinningMachinePlayVC.isFromNotification = true
+                    SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
+                    self.NavigateVC(controller: SpinningMachinePlayVC)
+              }
+              else
+                {
+                    GamePlayVC.isFromNotification = true
+                    GamePlayVC.dictContest = additionalData as! [String:Any]
+                    self.NavigateVC(controller: GamePlayVC)
+                }
         
     
                  
@@ -114,7 +133,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         Fabric.with([Crashlytics.self])
         IQKeyboardManager.shared.enable = true
         setSideMenu()
-        setActionForNotification()
+       // setActionForNotification()
+        
+       
         //FCM Push Notification
         
         
@@ -405,107 +426,133 @@ extension AppDelegate {
 }
 
 //@available(iOS 10, *)
-//extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
-//
-//
-//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-//        print("Firebase Registration token: \(fcmToken)")
-//
-//        let dataDict:[String: String] = ["token": fcmToken]
-//        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-//        // TODO: If necessary send token to application server.
-//        // Note: This callback is fired at each app startup and whenever a new token is generated.
-//        Define.USERDEFAULT.set(fcmToken, forKey: "FCMToken")
-//    }
-//
-//    func application(application: UIApplication,
-//                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-//        Messaging.messaging().apnsToken = deviceToken as Data
-//    }
-//
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-//        // If you are receiving a notification message while your app is in the background,
-//        // this callback will not be fired till the user taps on the notification launching the application.
-//        // TODO: Handle data of notification
-//
-//        // With swizzling disabled you must let Messaging know about the message, for Analytics
-//        // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print(userInfo)
-//    }
-//
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-//                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        // If you are receiving a notification message while your app is in the background,
-//        // this callback will not be fired till the user taps on the notification launching the application.
-//        // TODO: Handle data of notification
-//
-//        // With swizzling disabled you must let Messaging know about the message, for Analytics
-//        // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print(userInfo)
-//
-//        completionHandler(UIBackgroundFetchResult.newData)
-//    }
-//
-//    // Receive displayed notifications for iOS 10 devices.
-//    func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                willPresent notification: UNNotification,
-//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        let userInfo = notification.request.content.userInfo
-//
-//        // With swizzling disabled you must let Messaging know about the message, for Analytics
-//        // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print(userInfo)
-//        // Change this to your preferred presentation option
-//        completionHandler( [.alert, .badge, .sound])
-//    }
-//
-//    func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                didReceive response: UNNotificationResponse,
-//                                withCompletionHandler completionHandler: @escaping () -> Void) {
-//        let userInfo = response.notification.request.content.userInfo
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print(userInfo)
-//
-//        completionHandler()
-//    }
-//
-//    func getFCMToken() {
-//        InstanceID.instanceID().instanceID { (result, error) in
-//            if let error = error {
-//                print("Error fetching remote instance ID: \(error)")
-//            } else if let result = result {
-//                print("Remote instance ID token: \(result.token)")
-//                Define.USERDEFAULT.set(result.token, forKey: "FCMToken")
+extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+
+
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase Registration token: \(fcmToken)")
+
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        // TODO: If necessary send token to application server.
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
+        Define.USERDEFAULT.set(fcmToken, forKey: "FCMToken")
+    }
+
+    func application(application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        Messaging.messaging().apnsToken = deviceToken as Data
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+
+        // Print full message.
+        print(userInfo)
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+
+        // Print full message.
+        print(userInfo)
+
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+
+        // Print full message.
+        print(userInfo)
+        // Change this to your preferred presentation option
+        completionHandler( [.alert, .badge, .sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+
+        // Print full message.
+        print(userInfo)
+        let additionalData = response.notification.request.content.userInfo
+        if  additionalData.count > 1 {
+            print("additionalData: ", additionalData)
+            
+//            if let actionSelected = payload?.actionButtons {
+//                print("actionSelected: ", actionSelected)
 //            }
-//        }
-//    }
-//}
+          let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+          
+          let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+          let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
+          self.window = UIWindow(frame: UIScreen.main.bounds)
+          // spinning-machine / 0-9 / rdb
+                if additionalData["game_type"] as? String == "spinning-machine"
+              {
+                    SpinningMachinePlayVC.isFromNotification = true
+                    SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
+                    self.NavigateVC(controller: SpinningMachinePlayVC)
+              }
+              else
+                {
+                    GamePlayVC.isFromNotification = true
+                    GamePlayVC.dictContest = additionalData as! [String:Any]
+                    self.NavigateVC(controller: GamePlayVC)
+                }
+
+        }
+        completionHandler()
+    }
+
+    func getFCMToken() {
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                Define.USERDEFAULT.set(result.token, forKey: "FCMToken")
+            }
+        }
+    }
+}
 
 //MARK: - Loading View
 extension AppDelegate {
@@ -580,3 +627,71 @@ extension AppDelegate {
         
     }
 }
+
+
+//extension AppDelegate: UNUserNotificationCenterDelegate
+//{
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        if let notificationData = userInfo["notification_details"] as? Dictionary<String, Any> {
+//                print(notificationData)
+//
+//                let nNotificationType   = notificationData["notification_type"] as! Int
+//                let nNotificationID     = notificationData["notification_id"] as! Int
+//            }
+//    }
+//
+//
+//
+//
+//
+//    @available(iOS 10.0, *)
+//     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+//    {
+//        let id = notification.request.identifier
+//        print("Received notification with ID = \(id)")
+//
+//        completionHandler([.sound, .alert])
+//    }
+//
+//    // The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from application:didFinishLaunchingWithOptions:.
+//    @available(iOS 10.0, *)
+//     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+//    {
+//        let id = response.notification.request.identifier
+//        print("Received notification with ID = \(id)")
+//        completionHandler()
+//    }
+//}
+
+
+//MARK: - Notifcation Delegate Method
+//extension AppDelegate: UNUserNotificationCenterDelegate {
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.alert, .sound])
+//
+//    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.actionIdentifier
+//        {
+//
+//
+//        case Define.PLAYGAME:
+//            print("Play Game")
+//            let dictData = response.notification.request.content.userInfo as! [String: Any]
+//            print(dictData)
+////            let gamePlayVC = self.storyboard?.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+////            gamePlayVC.isFromNotification = true
+////            gamePlayVC.dictContest = dictData
+////            self.navigationController?.pushViewController(gamePlayVC, animated: true)
+//        default:
+//            break
+//        }
+//
+//    }
+//
+//}

@@ -453,7 +453,7 @@ extension EasyJoinVC {
                 let timeInterval = reminderDate.timeIntervalSinceNow
                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
 
-               let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+               let request = UNNotificationRequest(identifier: "identifier\(identifier)", content: content, trigger: trigger)
              //  center.add(request)
         
 //        print("ContestDate:",strDate)
