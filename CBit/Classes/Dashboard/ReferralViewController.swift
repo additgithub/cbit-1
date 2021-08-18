@@ -8,7 +8,9 @@
 
 import UIKit
 import UserNotifications
-
+import FirebaseDynamicLinks
+import FirebaseMessaging
+//import FirebaseAuth
 #if canImport(LinkPresentation)
     import LinkPresentation
 #endif
@@ -67,7 +69,7 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
     }
     
     
-
+    var invitationUrl:URL?
     @IBAction func btn_Invite(_ sender: Any) {
        
 //        Install the ‘Cbit Original’ Gaming App with my referral code - *DHANIK*
@@ -81,6 +83,26 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
 //        Click on the link to download the app- www.cbitoriginal.com
 //
 //        Hurry! Join now!
+        
+       
+       // guard let uid = Auth.auth().currentUser?.uid else { return }
+//        let link = URL(string: "https://mygame.example.com/?invitedby=\(UserDefaults.standard.string(forKey:"OnesignalID") ?? "123456")")
+//        let referralLink = DynamicLinkComponents(link: link!, domain: "example.page.link")
+//
+//        referralLink.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.cbit.org")
+//        referralLink.iOSParameters?.minimumAppVersion = "1.0.1"
+//        referralLink.iOSParameters?.appStoreID = "1565769563"
+//
+////        referralLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.example.android")
+////        referralLink.androidParameters?.minimumVersion = 125
+//
+//        referralLink.shorten { (shortURL, warnings, error) in
+//          if let error = error {
+//            print(error.localizedDescription)
+//            return
+//          }
+//          self.invitationUrl = shortURL
+//        }
         
         
       

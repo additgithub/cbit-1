@@ -708,7 +708,7 @@ extension MyTicketVC: UITableViewDelegate, UITableViewDataSource {
                                                          action: #selector(buttonSelection(_:)),
                                                          for: .touchUpInside)
                     ticketCell.buttonSelectTicket.tag = indexPath.row
-                    self.view.layoutIfNeeded()
+                    ticketCell.layoutIfNeeded()
                     return ticketCell
                 }
                 
@@ -948,7 +948,7 @@ extension MyTicketVC: UITableViewDelegate, UITableViewDataSource {
                                    
                     
                     ticketCell.arrData = arrSelectedTikets[indexPath.row]["slotes"] as? [[String: Any]]
-                    
+                    ticketCell.layoutIfNeeded()
                     return ticketCell
                 }
                 

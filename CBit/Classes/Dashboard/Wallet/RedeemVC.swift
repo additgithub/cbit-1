@@ -267,8 +267,8 @@ extension RedeemVC {
     }
     //Your redeem request has been processed . You will be notified with an email when the transaction is completed .
     func conformationPopup(){
-        let alertContoller = UIAlertController(title: "Redeem",
-                                              message: "Your redeem request has been processed. You will be notified with an email when the transaction is completed.",
+        let alertContoller = UIAlertController(title: "Withdrawal request",
+                                              message: "Your withdrawal request will be processed within 7 working days. You will be notified with a dropdown notification along with a confirmation email when the transaction is successfully processed. You can flip your inr passbook entry to view trancastion ID. Note: ₹3 is deducted on every withdrawal against bank charges, irrelevant of the withdrawal amount.",
                                               preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK",
                                      style: .default)

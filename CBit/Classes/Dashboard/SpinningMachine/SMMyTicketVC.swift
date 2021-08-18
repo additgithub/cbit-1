@@ -206,6 +206,7 @@ class SMMyTicketVC: UIViewController {
             }
         }
         tableMyTickets.reloadData()
+        self.tableMyTickets.reloadSections(NSIndexSet(indexesIn: NSMakeRange(0, self.tableMyTickets.numberOfSections)) as IndexSet, with: .none)
         
         if arrSelectedTikets.count == 1 {
             labelSelectedTicket.text = "\(arrSelectedTikets.count) Contest Joined"
@@ -236,6 +237,7 @@ class SMMyTicketVC: UIViewController {
         print("➭Tickets: \(arrTicket)")
         DispatchQueue.main.async {
             self.tableTickets.reloadData()
+            self.tableTickets.reloadSections(NSIndexSet(indexesIn: NSMakeRange(0, self.tableTickets.numberOfSections)) as IndexSet, with: .none)
         }
         isDataLoaded = true
     }
@@ -346,7 +348,7 @@ class SMMyTicketVC: UIViewController {
         
         let indexPath = IndexPath(row: index, section: 0)
         tableTickets.reloadRows(at: [indexPath], with: .none)
-        
+        self.tableTickets.reloadSections(NSIndexSet(indexesIn: NSMakeRange(0, self.tableTickets.numberOfSections)) as IndexSet, with: .none)
         }
     }
     @IBAction func buttonAmountOK(_ sender: UIButton) {
@@ -380,9 +382,6 @@ class SMMyTicketVC: UIViewController {
 
 //MARK: - TableView Delegate Method
 extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-       viewDidLayoutSubviews()
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tableTickets {
             return arrTicket.count
@@ -396,6 +395,7 @@ extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        self.viewDidLayoutSubviews()
         if tableView == tableTickets {
             let gameMode = dictContest["type"] as? Int ?? 0
             if gameMode == 0 {
@@ -536,7 +536,7 @@ extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
                                                      action: #selector(buttonSelection(_:)),
                                                      for: .touchUpInside)
                 ticketCell.buttonSelectTicket.tag = indexPath.row
-                self.view.layoutIfNeeded()
+                ticketCell.layoutIfNeeded()
                 return ticketCell
             }
         }
@@ -773,7 +773,7 @@ extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
                                    
                     
                     ticketCell.arrData = arrSelectedTikets[indexPath.row]["slotes"] as? [[String: Any]]
-                    
+                ticketCell.layoutIfNeeded()
                     return ticketCell
          //       }
                 
@@ -864,6 +864,7 @@ extension SMMyTicketVC: UITableViewDelegate, UITableViewDataSource {
         
         let indexPath = IndexPath(row: index, section: 0)
         tableTickets.reloadRows(at: [indexPath], with: .none)
+        self.tableTickets.reloadSections(NSIndexSet(indexesIn: NSMakeRange(0, self.tableTickets.numberOfSections)) as IndexSet, with: .none)
         //tableTickets.reloadData()
     }
     

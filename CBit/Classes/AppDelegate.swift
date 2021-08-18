@@ -6,8 +6,8 @@ import FBSDKCoreKit
 import Firebase
 import FirebaseMessaging
 import EventKit
-import Fabric
-import Crashlytics
+//import Fabric
+//import Crashlytics
 import OneSignal
 @UIApplicationMain
 
@@ -20,34 +20,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
     
     var gcmMessageIDKey = "gcm.message_id"
     
+    let customURLScheme = "www.cbit.com"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         ArgAppUpdater.getSingleton().showUpdateWithForce()
         UserDefaults.standard.register(defaults: ["isaudio" : true])
-       
+        
         
         if let notificationData = launchOptions?[.remoteNotification] {
             print("Notificationdata:",notificationData)
-                // Use this data to present a view controller based
-                // on the type of notification received
-            }
-
-     //   ArgAppUpdater.getSingleton().showUpdateWithConfirmation()
-//        VersionCheck.shared.isUpdateAvailable() { hasUpdates in
-//          print("is update available: \(hasUpdates)")
-//        }
+            // Use this data to present a view controller based
+            // on the type of notification received
+        }
+        
+        //   ArgAppUpdater.getSingleton().showUpdateWithConfirmation()
+        //        VersionCheck.shared.isUpdateAvailable() { hasUpdates in
+        //          print("is update available: \(hasUpdates)")
+        //        }
         //ReachabilityManager.shared.startMonitoring()
         //        SocketIOManager.sharedInstance.socket.off("onContestLive")
         //        SocketIOManager.sharedInstance.socket.off(clientEvent: "onContestLive")
         OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
         
         let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
-                  // This block gets called when the user reacts to a notification received
-                  let payload: OSNotificationPayload? = result?.notification.payload
-                  
-                  print("Message: ", payload!.body!)
-                  print("badge number: ", payload?.badge ?? 0)
-                  print("notification sound: ", payload?.sound ?? "No sound")
+            // This block gets called when the user reacts to a notification received
+            let payload: OSNotificationPayload? = result?.notification.payload
+            
+            print("Message: ", payload!.body!)
+            print("badge number: ", payload?.badge ?? 0)
+            print("notification sound: ", payload?.sound ?? "No sound")
             
             if let additionalData = result!.notification.payload!.additionalData {
                 print("additionalData: ", additionalData)
@@ -55,61 +57,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
                 if let actionSelected = payload?.actionButtons {
                     print("actionSelected: ", actionSelected)
                 }
-              let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
-              
-              let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-              let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
-              self.window = UIWindow(frame: UIScreen.main.bounds)
-              // spinning-machine / 0-9 / rdb
-//                if additionalData["NotificationType"] as! String == "spinning-machine"
-//              {
-//                    SpinningMachinePlayVC.isFromNotification = true
-//                    SpinningMachinePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
-//                    self.NavigateVC(controller: SpinningMachinePlayVC)
-//              }
-//              else
-//                {
-//                    GamePlayVC.isFromNotification = true
-//                    GamePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
-//                    self.NavigateVC(controller: GamePlayVC)
-//                }
-                 
-                if additionalData["game_type"] as? String == "spinning-machine"
-              {
-                    SpinningMachinePlayVC.isFromNotification = true
-                    SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
-                    self.NavigateVC(controller: SpinningMachinePlayVC)
-              }
-              else
-                {
-                    GamePlayVC.isFromNotification = true
-                    GamePlayVC.dictContest = additionalData as! [String:Any]
-                    self.NavigateVC(controller: GamePlayVC)
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+                
+                let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+                let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                // spinning-machine / 0-9 / rdb
+                //                if additionalData["NotificationType"] as! String == "spinning-machine"
+                //              {
+                //                    SpinningMachinePlayVC.isFromNotification = true
+                //                    SpinningMachinePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
+                //                    self.NavigateVC(controller: SpinningMachinePlayVC)
+                //              }
+                //              else
+                //                {
+                //                    GamePlayVC.isFromNotification = true
+                //                    GamePlayVC.dictContest["id"] = additionalData["contestId"] as! Int
+                //                    self.NavigateVC(controller: GamePlayVC)
+                //                }
+                
+                if additionalData.keys.contains("game_type")  && MyModel().isLogedIn() {
+                    if additionalData["game_type"] as? String == "spinning-machine"
+                    {
+                        SpinningMachinePlayVC.isFromNotification = true
+                        SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
+                        self.NavigateVC(controller: SpinningMachinePlayVC)
+                    }
+                    else
+                    {
+                        GamePlayVC.isFromNotification = true
+                        GamePlayVC.dictContest = additionalData as! [String:Any]
+                        self.NavigateVC(controller: GamePlayVC)
+                    }
+                    
                 }
-        
-    
-                 
-              
+                
+                
+                
+                
                 // DEEP LINK from action buttons
                 if let actionID = result?.action.actionID {
                     // For presenting a ViewController from push notification action button
                     print("actionID = \(actionID)")
                 }
             }
-
+            
         }
         
-
+        
         let notificationReceivedBlock: OSHandleNotificationReceivedBlock = { notification in
-                    
-                    print("Received Notification: ", notification!.payload.notificationID!)
-                    print("launchURL: ", notification?.payload.launchURL ?? "No Launch Url")
-                    print("content_available = \(notification?.payload.contentAvailable ?? false)")
-                }
+            
+            print("Received Notification: ", notification!.payload.notificationID!)
+            print("launchURL: ", notification?.payload.launchURL ?? "No Launch Url")
+            print("content_available = \(notification?.payload.contentAvailable ?? false)")
+        }
         
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false, kOSSettingsKeyInAppLaunchURL: true, ]
-            
-            OneSignal.initWithLaunchOptions(launchOptions, appId: "2ebce384-8388-4bff-9973-96dfe41069ab", handleNotificationReceived: notificationReceivedBlock, handleNotificationAction: notificationOpenedBlock, settings: onesignalInitSettings)
+        
+        OneSignal.initWithLaunchOptions(launchOptions, appId: "7414ca8f-bea2-4dde-b68d-951745422b9e", handleNotificationReceived: notificationReceivedBlock, handleNotificationAction: notificationOpenedBlock, settings: onesignalInitSettings)
         
         OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
         
@@ -129,13 +134,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         OneSignal.add(self as OSPermissionObserver)
         OneSignal.add(self as OSSubscriptionObserver)
         
+        FirebaseOptions.defaultOptions()?.deepLinkURLScheme = customURLScheme
         FirebaseApp.configure()
-        Fabric.with([Crashlytics.self])
+        // Fabric.with([Crashlytics.self])
         IQKeyboardManager.shared.enable = true
         setSideMenu()
-       // setActionForNotification()
+        // setActionForNotification()
         
-       
+        
         //FCM Push Notification
         
         
@@ -172,11 +178,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
             navController.isNavigationBarHidden = true
             self.window?.rootViewController = navController
             self.window?.makeKeyAndVisible()
-
+            
         }
-      
+        
     }
-
+    
     
     func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
         if !stateChanges.from.subscribed && stateChanges.to.subscribed {
@@ -262,34 +268,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
     //        }
     //    }
     
-    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        //let appId: String = FBSDKSettings.appID()
-        
-        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("www.cbit.com") == .orderedSame {
-            
-            var parameters: [String: String] = [:]
-            URLComponents(url: url as URL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                parameters[$0.name] = $0.value
-            }
-            print("Value: \(parameters)")
-            if !MyModel().isLogedIn()  {
-                
-            } else if !MyModel().isConnectedToInternet() {
-                
-            } else {
-                SocketIOManager.sharedInstance.establisConnection()
-                
-                presentViewController(parameter: parameters)
-            }
-            
-            return true
-        } else {
-            return ApplicationDelegate.shared.application(app, open: url ,
-                                                          sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-            
-            
-        }
-    }
+    
+    
     
     //    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
     //
@@ -379,35 +359,101 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         UNUserNotificationCenter.current().setNotificationCategories([category])
     }
     
+    func application(_ app: UIApplication, open url: URL, options:
+                        [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        //let appId: String = FBSDKSettings.appID()
+       
+        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare(customURLScheme) == .orderedSame {
+            
+            if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+                // Handle the deep link. For example, show the deep-linked content or
+                // apply a promotional offer to the user's account.
+                // [START_EXCLUDE]
+                // In this sample, we just open an alert.
+                handleDynamicLink(dynamicLink)
+                // [END_EXCLUDE]
+                return true
+            }
+            // [START_EXCLUDE silent]
+            // Show the deep link that the app was called with.
+            showDeepLinkAlertView(withMessage: "openURL:\n\(url)")
+            // [END_EXCLUDE]
+            return false
+            
+            //                var parameters: [String: String] = [:]
+            //                URLComponents(url: url as URL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+            //                    parameters[$0.name] = $0.value
+            //                }
+            //                print("Value: \(parameters)")
+            //                if !MyModel().isLogedIn()  {
+            //
+            //                } else if !MyModel().isConnectedToInternet() {
+            //
+            //                } else {
+            //                    SocketIOManager.sharedInstance.establisConnection()
+            //
+            //                    presentViewController(parameter: parameters)
+            //                }
+            //
+            //                return true
+        } else {
+            return ApplicationDelegate.shared.application(app, open: url ,
+                                                          sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+            
+            
+        }
+    }
+    
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         
         print("Continue User Activity called: ")
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            let url = userActivity.webpageURL!
-            print(url.absoluteString)
-            
-            if MyModel().isLogedIn() {
-                var parameters: [String: String] = [:]
-                URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                    parameters[$0.name] = $0.value
-                }
-                print("Value: \(parameters)")
-                if !MyModel().isLogedIn()  {
-                    
-                } else if !MyModel().isConnectedToInternet() {
-                    
-                } else {
-                    SocketIOManager.sharedInstance.establisConnection()
-                    presentViewController(parameter: parameters)
-                }
-            }
-            
-        }
+        //        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+        //            let url = userActivity.webpageURL!
+        //            print(url.absoluteString)
+        //
+        //            if MyModel().isLogedIn() {
+        //                var parameters: [String: String] = [:]
+        //                URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+        //                    parameters[$0.name] = $0.value
+        //                }
+        //                print("Value: \(parameters)")
+        //                if !MyModel().isLogedIn()  {
+        //
+        //                } else if !MyModel().isConnectedToInternet() {
+        //
+        //                } else {
+        //                    SocketIOManager.sharedInstance.establisConnection()
+        //                    presentViewController(parameter: parameters)
+        //                }
+        //            }
+        //
+        //        }
         
-        return true
+       
+        let handled = DynamicLinks.dynamicLinks()
+            .handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
+                // [START_EXCLUDE]
+                if let dynamiclink = dynamiclink {
+                    self.handleDynamicLink(dynamiclink)
+                }
+                // [END_EXCLUDE]
+            }
+        
+        // [START_EXCLUDE silent]
+        if !handled {
+            // Show the deep link URL from userActivity.
+            let message =
+                "continueUserActivity webPageURL:\n\(userActivity.webpageURL?.absoluteString ?? "")"
+            showDeepLinkAlertView(withMessage: message)
+        }
+        // [END_EXCLUDE]
+        return handled
     }
+    
+    
 }
 
 //MARK: - Link
@@ -427,80 +473,80 @@ extension AppDelegate {
 
 //@available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
-
-
+    
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase Registration token: \(fcmToken)")
-
+        
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
         Define.USERDEFAULT.set(fcmToken, forKey: "FCMToken")
     }
-
+    
     func application(application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         Messaging.messaging().apnsToken = deviceToken as Data
     }
-
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
-
+        
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-
+        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-
+        
         // Print full message.
         print(userInfo)
     }
-
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
-
+        
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-
+        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-
+        
         // Print full message.
         print(userInfo)
-
+        
         completionHandler(UIBackgroundFetchResult.newData)
     }
-
+    
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-
+        
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-
+        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-
+        
         // Print full message.
         print(userInfo)
         // Change this to your preferred presentation option
         completionHandler( [.alert, .badge, .sound])
     }
-
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -509,39 +555,39 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-
+        
         // Print full message.
         print(userInfo)
         let additionalData = response.notification.request.content.userInfo
-        if  additionalData.count > 1 {
+        if  additionalData.keys.contains("game_type") && MyModel().isLogedIn() {
             print("additionalData: ", additionalData)
             
-//            if let actionSelected = payload?.actionButtons {
-//                print("actionSelected: ", actionSelected)
-//            }
-          let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
-          
-          let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
-          let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
-          self.window = UIWindow(frame: UIScreen.main.bounds)
-          // spinning-machine / 0-9 / rdb
-                if additionalData["game_type"] as? String == "spinning-machine"
-              {
-                    SpinningMachinePlayVC.isFromNotification = true
-                    SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
-                    self.NavigateVC(controller: SpinningMachinePlayVC)
-              }
-              else
-                {
-                    GamePlayVC.isFromNotification = true
-                    GamePlayVC.dictContest = additionalData as! [String:Any]
-                    self.NavigateVC(controller: GamePlayVC)
-                }
-
+            //            if let actionSelected = payload?.actionButtons {
+            //                print("actionSelected: ", actionSelected)
+            //            }
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+            
+            let GamePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "GamePlayVC") as! GamePlayVC
+            let SpinningMachinePlayVC = mainStoryboard.instantiateViewController(withIdentifier: "SpinningMachinePlayVC") as! SpinningMachinePlayVC
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            // spinning-machine / 0-9 / rdb
+            if additionalData["game_type"] as? String == "spinning-machine"
+            {
+                SpinningMachinePlayVC.isFromNotification = true
+                SpinningMachinePlayVC.dictContest = additionalData as! [String:Any]
+                self.NavigateVC(controller: SpinningMachinePlayVC)
+            }
+            else
+            {
+                GamePlayVC.isFromNotification = true
+                GamePlayVC.dictContest = additionalData as! [String:Any]
+                self.NavigateVC(controller: GamePlayVC)
+            }
+            
         }
         completionHandler()
     }
-
+    
     func getFCMToken() {
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
@@ -626,7 +672,36 @@ extension AppDelegate {
         self.window?.makeKeyAndVisible()
         
     }
+    
+    
+    
+    
+    func handleDynamicLink(_ dynamicLink: DynamicLink) {
+        let matchConfidence: String
+        if dynamicLink.matchType == .weak {
+            matchConfidence = "Weak"
+        } else {
+            matchConfidence = "Strong"
+        }
+        let urlparam = queryParameters(from: dynamicLink.url! )
+        print("URL Parameter:",urlparam)
+        let message = "App URL: \(dynamicLink.url?.absoluteString ?? "")\n" +
+            "Match Confidence: \(matchConfidence)\nMinimum App Version: \(dynamicLink.minimumAppVersion ?? "") \n PARAM\(urlparam)"
+        showDeepLinkAlertView(withMessage: message)
+    }
+    
+    func showDeepLinkAlertView(withMessage message: String) {
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alertController = UIAlertController(
+            title: "Deep-link Data",
+            message: message,
+            preferredStyle: .alert
+        )
+        alertController.addAction(okAction)
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
 }
+
 
 
 //extension AppDelegate: UNUserNotificationCenterDelegate

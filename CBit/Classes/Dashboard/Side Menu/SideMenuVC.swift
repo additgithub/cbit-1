@@ -67,10 +67,12 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         //SideMenu(title: "LEGALITY", subMenus: nil, isExpand: false),
         
     SideMenu(title: "How to Play", subMenus: nil, isExpand: false),
+    SideMenu(title: "Report Issue", subMenus: nil, isExpand: false),
+    SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
     SideMenu(title: "Help Center", subMenus: nil, isExpand: false),
    
   
-       SideMenu(title: "FAQ's", subMenus: nil, isExpand: false),
+      
         SideMenu(title: "About Us", subMenus: [
              "About Us",
              "T & C",
@@ -203,8 +205,8 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         /*else if arrSideMenu[2].isExpande {
             constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[2].arrSubMenu!.count * 60))
         }*/
-        else if arrSideMenu[12].isExpande {
-            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[12].arrSubMenu!.count * 60))
+        else if arrSideMenu[13].isExpande {
+            constraintTableHeight.constant = CGFloat((60 * arrSideMenu.count) + (arrSideMenu[13].arrSubMenu!.count * 60))
         }
         else {
             constraintTableHeight.constant = CGFloat(60 * arrSideMenu.count)
@@ -422,7 +424,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
         
         headerCell.labelMenuTitle.text = arrSideMenu[section].menuTitle
         
-        if section == 1 || section == 12 //|| section == 2
+        if section == 1 || section == 13 //|| section == 2
         {
             headerCell.imageMenuArrow.isHidden = false
         } else {
@@ -449,7 +451,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVC") as! SideMenuTVC
-        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 12{
+        if indexPath.section == 1 ||  indexPath.section == 2 || indexPath.section == 13{
             menuCell.labelMenuTitle.text = arrSideMenu[indexPath.section].arrSubMenu![indexPath.row]
         }
         
@@ -507,7 +509,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                }
             
            }*/
-     else if indexPath.section == 12 {
+     else if indexPath.section == 13 {
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
             if indexPath.row == 0 {
                 let vc = authStoryboard.instantiateViewController(withIdentifier: "AboutUsVC") as! AboutUsVC
@@ -538,12 +540,12 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
-            arrSideMenu[12].isExpande = false
+            arrSideMenu[13].isExpande = false
             arrSideMenu[index].isExpande = !arrSideMenu[index].isExpande
             setSideMenuHeight()
             tableMenu.reloadData()
         }
-        else if index == 12 {
+        else if index == 13 {
             selectedIndex = index
             arrSideMenu[1].isExpande = false
             arrSideMenu[2].isExpande = false
@@ -590,13 +592,14 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
 //        }
         else if index == 10 {
             
-            let whatsappURL = URL(string: Define.whatsappapi)
-            if UIApplication.shared.canOpenURL(whatsappURL!) {
-                UIApplication.shared.open(whatsappURL!, options: [:], completionHandler: nil)
-                }
+            let Dashboard = UIStoryboard(name: "Dashboard", bundle: nil)
+            let vc = Dashboard.instantiateViewController(withIdentifier: "ReportIssueVC") as! ReportIssueVC
+           vc.modalPresentationStyle = .fullScreen
+          self.present(vc, animated: true, completion: nil)
             
             
         }
+       
         else if index == 11 {
             
             let authStoryboard = UIStoryboard(name: "Authentication", bundle: nil)
@@ -606,6 +609,17 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             
             
         }
+        else if index == 12 {
+            
+            let whatsappURL = URL(string: Define.whatsappapi)
+            if UIApplication.shared.canOpenURL(whatsappURL!) {
+                UIApplication.shared.open(whatsappURL!, options: [:], completionHandler: nil)
+                }
+            
+            
+        }
+       
+     
           else {
             selectedIndex = index
             sideMenuController?.setContentViewController(with: "\(index)")

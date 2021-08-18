@@ -23,15 +23,18 @@ pod 'Socket.IO-Client-Swift', '~> 15.2.0'
 	pod 'Firebase/Messaging'
 	pod 'MarqueeLabel'
 	pod 'IGRPhotoTweaks', '~> 1.0.0'
-	pod 'Fabric'
-	pod 'Crashlytics'
+#	pod 'Fabric'
+#	pod 'Crashlytics'
 	pod 'SwiftGifOrigin', '~> 1.7.0'
 	pod 'ReachabilitySwift'
   pod 'DropDown', '2.3.13'
   pod 'ActionSheetPicker-3.0'
   pod 'M13Checkbox'
   pod 'HSSearchable'
-  
+  pod 'IBAnimatable'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/DynamicLinks'
+ # pod 'Firebase/Auth'
 end
 
 

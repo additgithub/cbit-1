@@ -39,7 +39,7 @@ class Define {
     // AWS Server
     
     
-//    static let APP_URL = "http://13.127.63.200:3500/api"
+//    static let APP_URL = "http://13.127.63.200:3500/api/"
 //    static let SOCKET_URL = "http://13.127.63.200:3500"
     
 //    //Live
@@ -221,6 +221,10 @@ class Define {
     static let setAutoRenewEasyJoinStatus = "setAutoRenewEasyJoinStatus"
     static let getAutoRenewEasyJoin = "getAutoRenewEasyJoin"
     
+    static let reportslisting = "reportslisting"
+    static let setUserIssues = "setUserIssues"
+    
+    static let getUserQrCode = "getUserQrCode"
     
     
     

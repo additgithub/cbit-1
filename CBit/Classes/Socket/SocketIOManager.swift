@@ -185,9 +185,9 @@ class SocketIOManager: NSObject {
             
             if dictData != nil {
               
-                let strContestId = "\(dictData!["contestId"]!)"
+             //   let strContestId = "\(dictData!["contestId"]!)"
                 
-                self.createNotification(strContestID: strContestId, strMessage:"Hurry! Your Game starts in a min. All the best.")
+                self.createNotification(strMessage:"Hurry! Your Game starts in a min. All the best.", info: dictData!)
                 
                 
             } else {
@@ -270,7 +270,7 @@ class SocketIOManager: NSObject {
         }
     }
     
-    func createNotification(strContestID: String, strMessage: String) {
+    func createNotification(strMessage: String,info:[String:Any]) {
         if Define.USERDEFAULT.bool(forKey: "SetNotification") {
             if lastViewController != nil && lastViewController is GamePlayVC {
                 print("Notification Not Register")
@@ -280,8 +280,9 @@ class SocketIOManager: NSObject {
                 content.body = strMessage
                  content.sound = UNNotificationSound.default
                 content.categoryIdentifier = Define.ACTION_IDENTIFIRE
-                content.userInfo = ["id": strContestID] as [String: Any]
+              //  content.userInfo = ["id": strContestID] as [String: Any]
                  content.sound = UNNotificationSound.default
+                content.userInfo = info
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                 let request = UNNotificationRequest(identifier: Define.NOTIFICATION_IDENTIFIRE,content: content,trigger: trigger)
                 let curret = UNUserNotificationCenter.current()

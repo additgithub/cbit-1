@@ -15,6 +15,9 @@ class ViewWinnersVC: UIViewController {
     var dictContest = [String: Any]()
     var startDate = Date()
     
+    var Start = 0
+    var Limit = 10
+    var ismoredata = false
     
     private var arrWinners = [[String: Any]]()
     
@@ -105,6 +108,16 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
                     let imageURL = URL(string: arrWinners[indexPath.row]["referral_image"] as? String ?? "")
                     winnerCell.imageUser.sd_setImage(with: imageURL,placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
         
+        if arrWinners.count > 1 {
+            let lastElement = arrWinners.count - 1
+            if indexPath.row == lastElement && ismoredata{
+                //call get api for next page
+                getWinnersAPI()
+            }
+
+        }
+
+        
         return winnerCell
     }
     func imageIsNullOrNot(imageName : UIImage)-> Bool
@@ -137,7 +150,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
 extension ViewWinnersVC {
     func getWinnersAPI() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contestPriceId": dictTicket["contestPriceId"]!]
+        let parameter: [String: Any] = ["contestPriceId": dictTicket["contestPriceId"]!,"start": Start,"limit":Limit]
         let strURL = Define.APP_URL + Define.API_WINNER_LIST
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
@@ -160,7 +173,20 @@ extension ViewWinnersVC {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    self.arrWinners = result!["content"] as! [[String: Any]]
+                   // self.arrWinners = result!["content"] as! [[String: Any]]
+                    
+                    let arr =  result!["content"] as! [[String: Any]]
+                      if arr.count > 0 {
+                          self.arrWinners.append(contentsOf: arr)
+                          self.ismoredata = true
+                          self.Start = self.Start + self.Limit
+                      }
+                      else
+                      {
+                          self.ismoredata = false
+                      }
+                    
+                    
                     self.tableWinners.reloadData()
                     if self.arrWinners.count > 0 {
                         self.viewNoData.isHidden = true
