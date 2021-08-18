@@ -39,6 +39,8 @@ class TicketVC: UIViewController {
     @IBOutlet weak var buttonAmountOk: UIButton!
     @IBOutlet weak var buttonAmountCancel: UIButton!
     
+    @IBOutlet weak var tblticketheight: NSLayoutConstraint!
+    
     private var arrSelectedTikets = [[String: Any]]()
     
     var dictContest = [String: Any]()
@@ -178,6 +180,10 @@ class TicketVC: UIViewController {
         buttonAmountCancel.layer.borderColor = UIColor.black.cgColor
         buttonAmountCancel.layer.borderWidth = 1
         buttonAmountCancel.layer.masksToBounds = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tblticketheight.constant = tableTickets.contentSize.height
     }
     
     @objc func handelNotifcation(_ notification: Notification) {

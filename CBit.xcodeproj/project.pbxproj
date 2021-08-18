@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01ED758223476BC00049F7CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01ED758123476BBF0049F7CF /* GoogleService-Info.plist */; };
 		04468450243C8B6D00E80800 /* LockAll.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0446844F243C8B6D00E80800 /* LockAll.xib */; };
 		04468452243C8C2F00E80800 /* LockAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04468451243C8C2F00E80800 /* LockAll.swift */; };
 		04468456243CA9D200E80800 /* lock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 04468455243CA9D100E80800 /* lock.gif */; };
@@ -143,9 +142,11 @@
 		2F8E0F762683654200546DFF /* AutoRenewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0F752683654200546DFF /* AutoRenewVC.swift */; };
 		2F8FBDC925D7B36600603A48 /* SMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FBDC825D7B36600603A48 /* SMResultVC.swift */; };
 		2FAD82E526567CF50026031A /* IMG_2358.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD82E426567CF50026031A /* IMG_2358.jpg */; };
+		2FAD833526B01EEB00A1EE5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD833426B01EEB00A1EE5F /* GoogleService-Info.plist */; };
 		2FC1FB8C25E51F6800A556BF /* AGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */; };
 		2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */; };
 		2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */; };
+		2FC9F14A26A951D200053FFC /* ReportIssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9F14926A951D200053FFC /* ReportIssueVC.swift */; };
 		2FE171F92657C40D00B4EAF8 /* Bag.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2FE171F82657C40C00B4EAF8 /* Bag.gif */; };
 		9F5C69A525C3F00E00C8F2EE /* CGGamePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */; };
 		9F6800EC25B804530052A76D /* ClassicGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6800EB25B804530052A76D /* ClassicGridViewController.swift */; };
@@ -217,7 +218,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01ED758123476BBF0049F7CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01ED75832347716E0049F7CF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0446844F243C8B6D00E80800 /* LockAll.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockAll.xib; sourceTree = "<group>"; };
 		04468451243C8C2F00E80800 /* LockAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockAll.swift; sourceTree = "<group>"; };
@@ -361,10 +361,12 @@
 		2F8E0F752683654200546DFF /* AutoRenewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRenewVC.swift; sourceTree = "<group>"; };
 		2F8FBDC825D7B36600603A48 /* SMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMResultVC.swift; sourceTree = "<group>"; };
 		2FAD82E426567CF50026031A /* IMG_2358.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_2358.jpg; sourceTree = "<group>"; };
+		2FAD833426B01EEB00A1EE5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2FAF31612640101F001E0982 /* CBIT OG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBIT OG.entitlements"; sourceTree = "<group>"; };
 		2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMTicketVC.swift; sourceTree = "<group>"; };
 		2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMPlayVC.swift; sourceTree = "<group>"; };
 		2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGameResultVC.swift; sourceTree = "<group>"; };
+		2FC9F14926A951D200053FFC /* ReportIssueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIssueVC.swift; sourceTree = "<group>"; };
 		2FE171F82657C40C00B4EAF8 /* Bag.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Bag.gif; sourceTree = "<group>"; };
 		59869B58E2F8EEF55A0CB157 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -632,6 +634,7 @@
 		1FBD3381222914CE00B74578 = {
 			isa = PBXGroup;
 			children = (
+				2FAD833426B01EEB00A1EE5F /* GoogleService-Info.plist */,
 				1FBD338C222914CE00B74578 /* CBit */,
 				04648F6B246A6DF6008CBDC3 /* OneSignalNotificationServiceExtension */,
 				1FBD338B222914CE00B74578 /* Products */,
@@ -658,7 +661,6 @@
 				1FA38AFF22857F7800258D9E /* Font */,
 				1FBD339F222914E700B74578 /* Classes */,
 				1FBD33A02229177D00B74578 /* Stotyboard */,
-				01ED758123476BBF0049F7CF /* GoogleService-Info.plist */,
 				01ED75832347716E0049F7CF /* Info.plist */,
 				1F7A268A2261A520000FEAD5 /* Assets.xcassets */,
 			);
@@ -789,6 +791,7 @@
 				E85C56D125ED16A9007748C4 /* JoinGroupVC.swift */,
 				2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */,
 				2F8E0F752683654200546DFF /* AutoRenewVC.swift */,
+				2FC9F14926A951D200053FFC /* ReportIssueVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -905,7 +908,6 @@
 				1FBD3387222914CE00B74578 /* Frameworks */,
 				1FBD3388222914CE00B74578 /* Resources */,
 				B11D9DFE6FE2F41525461CF4 /* [CP] Embed Pods Frameworks */,
-				1F7390D522AE336E000E3448 /* ShellScript */,
 				B0D7A08322E1C69C002229B5 /* Embed Frameworks */,
 				B07691BE230BC11900E8DF31 /* ShellScript */,
 				04648F72246A6DF6008CBDC3 /* Embed App Extensions */,
@@ -982,6 +984,7 @@
 				B0C152D222C745CB00B6B801 /* Montserrat-MediumItalic.otf in Resources */,
 				1FBD33A62229186300B74578 /* Authentication.storyboard in Resources */,
 				1FBD33A82229189200B74578 /* Dashboard.storyboard in Resources */,
+				2FAD833526B01EEB00A1EE5F /* GoogleService-Info.plist in Resources */,
 				B0C152D322C745CB00B6B801 /* Montserrat-Regular.otf in Resources */,
 				1FBD3398222914D100B74578 /* LaunchScreen.storyboard in Resources */,
 				1FA38B0522857FAE00258D9E /* digital-7.ttf in Resources */,
@@ -994,7 +997,6 @@
 				04468450243C8B6D00E80800 /* LockAll.xib in Resources */,
 				1F5DB44E222FECF200EF5FD5 /* ViewFilter.xib in Resources */,
 				1FA38B0322857F8D00258D9E /* Ubuntu-M.ttf in Resources */,
-				01ED758223476BC00049F7CF /* GoogleService-Info.plist in Resources */,
 				1FA38B0222857F8D00258D9E /* Ubuntu-R.ttf in Resources */,
 				B0C3E8D322CF6CB800F1756D /* ViewTicketInfo.xib in Resources */,
 				1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */,
@@ -1030,19 +1032,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		1F7390D522AE336E000E3448 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" a90dcb4b065aff7982480ab35a47c77a92f38ba0 547195d13ff8220b7474bf720d4b634dbc2eaa7afd0a7ba5d903385a71c5cfb9\n";
 		};
 		B07691BE230BC11900E8DF31 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1211,6 +1200,7 @@
 				1F36F3A62255D5FF00B62AFC /* PrivateContest.swift in Sources */,
 				1FCE13C623DF0FA600E6D520 /* MyJticketViewController.swift in Sources */,
 				1F3081B6224748450067B037 /* SplashVC.swift in Sources */,
+				2FC9F14A26A951D200053FFC /* ReportIssueVC.swift in Sources */,
 				1F822022222D4A86008FDF65 /* NotificationTVC.swift in Sources */,
 				1F631EF4225B44520021EBAC /* PrivateContestDetailVC.swift in Sources */,
 				1F6F230522324FB80005CC11 /* CryptLib.m in Sources */,
@@ -1450,7 +1440,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F05D30FF4D92BBF0AEEF873 /* Pods-CBit.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CLANG_ENABLE_MODULES = YES;
@@ -1487,7 +1476,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99F55E886ADE80DCF82F9068 /* Pods-CBit.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CLANG_ENABLE_MODULES = YES;

@@ -53,6 +53,7 @@ class SpinningMachineTicketVC: UIViewController {
     @IBOutlet weak var vwmain: UIView!
     @IBOutlet weak var collection_original: UICollectionView!
     @IBOutlet weak var fadevw: UIView!
+    @IBOutlet weak var tblticketheight: NSLayoutConstraint!
     
     private var arrSelectedTikets = [[String: Any]]()
     
@@ -276,6 +277,10 @@ class SpinningMachineTicketVC: UIViewController {
         buttonAmountCancel.layer.borderColor = UIColor.black.cgColor
         buttonAmountCancel.layer.borderWidth = 1
         buttonAmountCancel.layer.masksToBounds = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tblticketheight.constant = tableTickets.contentSize.height
     }
     
     @objc func handelNotifcation(_ notification: Notification) {

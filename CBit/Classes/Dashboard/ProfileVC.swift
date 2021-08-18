@@ -20,6 +20,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var labelPanCardStatus: UILabel!
     
     @IBOutlet weak var constrainTableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var imgQRCode: UIImageView!
     
     var dictProfileData = [String: Any]()
     var arrBanks = [[String: Any]]()
@@ -35,6 +36,7 @@ class ProfileVC: UIViewController {
         tableBanks.sectionFooterHeight = 50
         
         getProfileDetails()
+        getUserQrCode()
     }
     
     override func viewWillLayoutSubviews() {
@@ -125,6 +127,12 @@ class ProfileVC: UIViewController {
         self.delegate?.backButtonFire()
         self.dismiss(animated: true)
     }
+    @IBAction func QRCode_click(_ sender: UIButton) {
+        
+        self.imageTapped(image: imgQRCode.image!)
+
+    }
+    
     @IBAction func buttonCamera(_ sender: Any) {
         chooseOption()
     }
@@ -329,6 +337,38 @@ extension ProfileVC {
             }
         }
     }
+    
+    func getUserQrCode() {
+        Loading().showLoading(viewController: self)
+        let strURL = Define.APP_URL + Define.getUserQrCode
+        print("URL: \(strURL)")
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: nil,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                  let  content = result!["content"] as! [String: Any]
+                    let imageURL = URL(string: "\(content["path"] as? String ?? "")")
+                    self.imgQRCode.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as? String ?? Define.ERROR_SERVER,
+                                      viewController: self)
+                }
+            }
+        }
+    }
 }
 
 //MARK: - TableView Delegate Method
@@ -404,5 +444,46 @@ extension ProfileVC {
         present(alertController,
                 animated: true,
                 completion: nil)
+    }
+    
+    //MARK:- Image Action
+   func imageTapped(image:UIImage){
+       let newImageView = UIImageView(image: image.aspectFittedToHeight(UIScreen.main.bounds.height))
+       newImageView.frame = UIScreen.main.bounds
+    newImageView.backgroundColor = UIColor.black
+     //  newImageView.enableZoom()
+      // newImageView.contentMode = .scaleAspectFill
+       newImageView.contentMode = .scaleAspectFit
+       newImageView.isUserInteractionEnabled = true
+       let tap = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.dismissFullscreenImage(_:)))
+       newImageView.addGestureRecognizer(tap)
+       self.view.addSubview(newImageView)
+//        self.navigationController?.isNavigationBarHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+   }
+   
+   @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+//        self.navigationController?.isNavigationBarHidden = false
+//        self.tabBarController?.tabBar.isHidden = false
+       sender.view?.removeFromSuperview()
+   }
+}
+
+
+extension UIImage
+{
+    /// Given a required height, returns a (rasterised) copy
+    /// of the image, aspect-fitted to that height.
+
+    func aspectFittedToHeight(_ newHeight: CGFloat) -> UIImage
+    {
+        let scale = newHeight / self.size.height
+        let newWidth = self.size.width * scale
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: newSize))
+        }
     }
 }

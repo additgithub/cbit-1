@@ -29,6 +29,8 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.cbit.org</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>www.cbit.com</string>

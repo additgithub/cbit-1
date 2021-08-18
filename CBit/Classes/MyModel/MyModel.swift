@@ -543,3 +543,11 @@ extension Array where Element:Equatable {
         return result
     }
 }
+
+extension String
+{
+    func trim() -> String
+   {
+    return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
+   }
+}
