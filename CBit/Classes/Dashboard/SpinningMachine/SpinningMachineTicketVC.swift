@@ -377,7 +377,9 @@ class SpinningMachineTicketVC: UIViewController {
         NotificationCenter.default.removeObserver(self)
         self.navigationController?.popViewController(animated: true)
     }
+  
     @IBAction func buttonPay(_ sender: Any) {
+
         if labelPay.text == "Pay" {
             if !MyModel().isConnectedToInternet() {
                 Alert().showTost(message: Define.ERROR_INTERNET,
@@ -431,7 +433,7 @@ class SpinningMachineTicketVC: UIViewController {
             let dictData = arrTicket[index]
             let ticketID = dictData["contestPriceId"] as? Int ?? 0
             
-            
+            let vv = 58.0 + 4
             if arrSelectedTikets.count > 0 {
                 
                 for (indexNo, item) in arrSelectedTikets.enumerated() {

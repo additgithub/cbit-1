@@ -44,9 +44,20 @@ class Define {
     
 //    //Live
     
-   static let APP_URL = "http://207.154.223.43:3500/api/"
-   static let SOCKET_URL = "http://207.154.223.43:3500"
+//   static let APP_URL = "http://207.154.223.43:3500/api/"
+//   static let SOCKET_URL = "http://207.154.223.43:3500"
     
+    //--------------TESTING SERVER-------------------//
+
+    static let APP_URL = "http://103.35.165.112:3500/api/"
+    static let SOCKET_URL = "http://103.35.165.112:3500"
+    
+//    URL: http://103.35.165.112:3500/login
+//
+//    USERNAME: cbit@cbit.com
+//
+//    PASSWORD: Magic_0074
+   
     //  Test
     
 //    static let APP_URL = "http://207.154.223.43:3600/api/"
@@ -225,6 +236,10 @@ class Define {
     static let setUserIssues = "setUserIssues"
     
     static let getUserQrCode = "getUserQrCode"
+    
+    static let jtradingInfo = "jtradingInfo"
+    static let storeTradingData = "storeTradingData"
+    static let jtradingChart = "jtradingChart"
     
     
     
