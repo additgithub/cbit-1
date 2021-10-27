@@ -179,7 +179,71 @@ extension SplashVC {
                             } else if status == 410 {
                                 let current = Define.APP_VERSION
                                 let appStore = result!["currentVersion"] as? String ?? "0"
+                                let popUpData = result!["popUpData"] as? [[String:Any]] ?? []
+                                let type = popUpData[0]["type"] as? String ?? ""
                                 let versionCompare = current.compare(appStore, options: .numeric)
+                                if type == "KYC"
+                                {
+                                        // will execute the code here
+                                        print("ask user to kyc")
+                                         //   Define.APPDELEGATE.handleLogout()
+                                        
+                                        let content = popUpData[0]["content"] as? String ?? ""
+                                        let title = popUpData[0]["title"] as? String ?? ""
+                                        
+                                        let is_cancel = popUpData[0]["is_cancel"] as? Int ?? 0
+                                        let btn_name = popUpData[0]["btn_name"] as? String ?? "update"
+                                        let link = popUpData[0]["link"] as? String ?? ""
+                                        
+                                        if is_cancel == 1 {
+                                            let alertController = UIAlertController(title: title, message: content, preferredStyle:UIAlertController.Style.alert)
+
+                                            alertController.addAction(UIAlertAction(title: btn_name, style: UIAlertAction.Style.default)
+                                              { action -> Void in
+                                                // Put your code here
+                                                let srotyboard = UIStoryboard(name: "Authentication", bundle: nil)
+                                                let panVC = srotyboard.instantiateViewController(withIdentifier: "KYCVerifycationVC") as! KYCVerifycationVC
+                                                panVC.isFromWallet = true
+                                                panVC.delegate = self
+                                                self.navigationController?.pushViewController(panVC, animated: true)
+                                              })
+                                            
+                                            alertController.addAction(UIAlertAction(title: "LATER", style: UIAlertAction.Style.default)
+                                              { action -> Void in
+                                                if MyModel().isLogedIn() {
+                                                    let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+                                                    let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+                                                    menuVC.modalPresentationStyle = .fullScreen
+                                                    self.present(menuVC, animated: true,completion:{})
+                                                }
+                                                else
+                                                {
+                                                    let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginNC")
+                                                        loginVC?.modalPresentationStyle = .fullScreen
+                                                        self.present(loginVC!, animated: true, completion: nil)
+                                                }
+                                               
+                                              })
+                                            self.present(alertController, animated: true, completion: nil)
+                                        }
+                                        else
+                                        {
+                                            let alertController = UIAlertController(title: title, message: content, preferredStyle:UIAlertController.Style.alert)
+
+                                            alertController.addAction(UIAlertAction(title: btn_name, style: UIAlertAction.Style.default)
+                                              { action -> Void in
+                                                // Put your code here
+                                                let srotyboard = UIStoryboard(name: "Authentication", bundle: nil)
+                                                let panVC = srotyboard.instantiateViewController(withIdentifier: "KYCVerifycationVC") as! KYCVerifycationVC
+                                                panVC.isFromWallet = true
+                                                panVC.delegate = self
+                                                self.navigationController?.pushViewController(panVC, animated: true)                                              })
+                                            self.present(alertController, animated: true, completion: nil)
+                                        }
+                                    
+                                }
+                                else
+                                {
                                 if versionCompare == .orderedSame {
                                     print("same version")
                                 } else if versionCompare == .orderedAscending {
@@ -251,7 +315,7 @@ extension SplashVC {
                                     // execute if current > appStore
                                     print("don't expect happen...")
                                 }
-                               
+                                }
                             }
                             else
                             {
@@ -284,5 +348,14 @@ extension SplashVC {
         }
         alertControll.addAction(okAction)
         self.present(alertControll, animated: true, completion: nil)
+    }
+}
+
+//MARK: - KYC Delegate Method
+extension SplashVC: KYCVerifycationDelegate {
+    func processAdded() {
+//        Alert().showAlert(title: "CBit",
+//                          message: "Your PAN card added successfully, Wait for the verification.",
+//                          viewController: self)
     }
 }

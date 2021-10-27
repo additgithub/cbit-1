@@ -43,6 +43,7 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
             userCell.lblticketno.text! = arrJticketwaitinglist[indexPath.row]["name"] as? String ?? "No Name"
             userCell.lblwaitingno.text! = "Current Waiting : " + "\( arrJticketwaitinglist[indexPath.row]["waiting"] as? Int ?? 00)"
             userCell.btnwaitingno.addTarget(self, action:#selector(btnWaitinglist(_:event:)), for: .touchUpInside)
+            userCell.btnJT.addTarget(self, action:#selector(btnJT(_:event:)), for: .touchUpInside)
             let imageURL = URL(string: arrJticketwaitinglist  [indexPath.row]["image"] as? String ?? "")
             userCell.imgjticket.sd_setImage(with: imageURL, placeholderImage: Define.PLACEHOLDER_PROFILE_IMAGE)
             
@@ -64,8 +65,8 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         
         
         let point : CGPoint = (sender as AnyObject).convert(CGPoint.zero, to:tblwaitinglist)
-        var indexPath =  self.tblwaitinglist!.indexPathForRow(at: point)
-        var selectedrow = indexPath!.row
+        let indexPath =  self.tblwaitinglist!.indexPathForRow(at: point)
+        let selectedrow = indexPath!.row
         
         
         
@@ -76,6 +77,25 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         jticketwaitinglists.modalPresentationStyle = .fullScreen
         jticketwaitinglists.id = id
         self.present(jticketwaitinglists, animated: true, completion: nil)
+        
+    }
+    
+    @objc func btnJT(_ sender: Any, event: Any) {
+        
+        
+        let point : CGPoint = (sender as AnyObject).convert(CGPoint.zero, to:tblwaitinglist)
+        let indexPath =  self.tblwaitinglist!.indexPathForRow(at: point)
+        let selectedrow = indexPath!.row
+        
+        
+        
+        id =  (arrJticketwaitinglist[selectedrow] as AnyObject).value(forKey: "id") as! Int
+        
+        let JTredingVC = self.storyboard?.instantiateViewController(withIdentifier: "JTredingVC") as! JTredingVC
+        //  gamePlayVC.isFromNotification = true
+        JTredingVC.modalPresentationStyle = .fullScreen
+        JTredingVC.ticketid = String(id)
+        self.present(JTredingVC, animated: true, completion: nil)
         
     }
 
@@ -93,6 +113,7 @@ class JticketwaitinglistJViewController: UIViewController,UITableViewDataSource,
         @IBOutlet weak var imgjticket: ImageViewProfile!
         
         @IBOutlet weak var lblwaitingno: UILabel!
+        @IBOutlet weak var btnJT: UIButton!
         
         
         @IBOutlet weak var lbl_appliy_count: UILabel!

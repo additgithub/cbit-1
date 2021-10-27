@@ -127,6 +127,7 @@
 		1FFB3E51225C6A7600DC1AFA /* PrivateContestResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */; };
 		1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */; };
 		2F18554625FC974C00366758 /* SMMyTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F18554525FC974C00366758 /* SMMyTicketVC.swift */; };
+		2F356AC926FA0A8F00F02675 /* JTredingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F356AC826FA0A8F00F02675 /* JTredingVC.swift */; };
 		2F56E2082644049900E86852 /* message_tone_lg_no.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */; };
 		2F56E20B26441CB500E86852 /* heartbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F56E20A26441CB500E86852 /* heartbeat.mp3 */; };
 		2F66E1DD25E7A23800A1EDA4 /* AGSMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */; };
@@ -147,6 +148,7 @@
 		2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */; };
 		2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */; };
 		2FC9F14A26A951D200053FFC /* ReportIssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9F14926A951D200053FFC /* ReportIssueVC.swift */; };
+		2FDACFA726FAF83D000861EC /* JTredingDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDACFA626FAF83D000861EC /* JTredingDetailVC.swift */; };
 		2FE171F92657C40D00B4EAF8 /* Bag.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2FE171F82657C40C00B4EAF8 /* Bag.gif */; };
 		9F5C69A525C3F00E00C8F2EE /* CGGamePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */; };
 		9F6800EC25B804530052A76D /* ClassicGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6800EB25B804530052A76D /* ClassicGridViewController.swift */; };
@@ -346,6 +348,7 @@
 		1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContestResultVC.swift; sourceTree = "<group>"; };
 		1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContesrWinnerVC.swift; sourceTree = "<group>"; };
 		2F18554525FC974C00366758 /* SMMyTicketVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMyTicketVC.swift; sourceTree = "<group>"; };
+		2F356AC826FA0A8F00F02675 /* JTredingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTredingVC.swift; sourceTree = "<group>"; };
 		2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no.mp3; sourceTree = "<group>"; };
 		2F56E20A26441CB500E86852 /* heartbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heartbeat.mp3; sourceTree = "<group>"; };
 		2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMResultVC.swift; sourceTree = "<group>"; };
@@ -367,6 +370,7 @@
 		2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGSMPlayVC.swift; sourceTree = "<group>"; };
 		2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGGameResultVC.swift; sourceTree = "<group>"; };
 		2FC9F14926A951D200053FFC /* ReportIssueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIssueVC.swift; sourceTree = "<group>"; };
+		2FDACFA626FAF83D000861EC /* JTredingDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTredingDetailVC.swift; sourceTree = "<group>"; };
 		2FE171F82657C40C00B4EAF8 /* Bag.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Bag.gif; sourceTree = "<group>"; };
 		59869B58E2F8EEF55A0CB157 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		8459A2323C981453C54B972D /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -792,6 +796,8 @@
 				2F7E0CB026610AF40046E59F /* EasyJoinVC.swift */,
 				2F8E0F752683654200546DFF /* AutoRenewVC.swift */,
 				2FC9F14926A951D200053FFC /* ReportIssueVC.swift */,
+				2F356AC826FA0A8F00F02675 /* JTredingVC.swift */,
+				2FDACFA626FAF83D000861EC /* JTredingDetailVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1196,9 +1202,11 @@
 				1F05AFD323AA03A6006C6AF2 /* JticketlistingViewController.swift in Sources */,
 				1F5A98752245F9430070C1B6 /* GameResultVC.swift in Sources */,
 				1F6E25D42281AFD100B4EACA /* OTPVerifyVC.swift in Sources */,
+				2FDACFA726FAF83D000861EC /* JTredingDetailVC.swift in Sources */,
 				1F6FC720222EAA93007DBA72 /* RedeemVC.swift in Sources */,
 				1F36F3A62255D5FF00B62AFC /* PrivateContest.swift in Sources */,
 				1FCE13C623DF0FA600E6D520 /* MyJticketViewController.swift in Sources */,
+				2F356AC926FA0A8F00F02675 /* JTredingVC.swift in Sources */,
 				1F3081B6224748450067B037 /* SplashVC.swift in Sources */,
 				2FC9F14A26A951D200053FFC /* ReportIssueVC.swift in Sources */,
 				1F822022222D4A86008FDF65 /* NotificationTVC.swift in Sources */,
@@ -1281,7 +1289,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1306,7 +1314,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1460,7 +1468,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1496,7 +1504,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbit.org;
 				PRODUCT_NAME = "Cbit Original";
 				PROVISIONING_PROFILE_SPECIFIER = "";
