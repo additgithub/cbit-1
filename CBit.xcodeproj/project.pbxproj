@@ -126,6 +126,13 @@
 		1FFB3E4F225C596000DC1AFA /* JoinedPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E4E225C596000DC1AFA /* JoinedPlayerVC.swift */; };
 		1FFB3E51225C6A7600DC1AFA /* PrivateContestResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */; };
 		1FFB3E53225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */; };
+		2813AAA22862D136001E9FF1 /* NewAGSMTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2813AAA12862D136001E9FF1 /* NewAGSMTicketVC.swift */; };
+		2813AAA42862D183001E9FF1 /* NewAGSMPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2813AAA32862D183001E9FF1 /* NewAGSMPlayVC.swift */; };
+		2813AAA62862D1A5001E9FF1 /* NewAGSMResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2813AAA52862D1A5001E9FF1 /* NewAGSMResultVC.swift */; };
+		28CDA59E282FD21C0041945C /* ATG.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28CDA59D282FD21C0041945C /* ATG.storyboard */; };
+		28CDA5A0282FD6780041945C /* NewCGTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CDA59F282FD6780041945C /* NewCGTicketVC.swift */; };
+		28CDA5A2282FD6A40041945C /* NewCGGamePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CDA5A1282FD6A40041945C /* NewCGGamePlayVC.swift */; };
+		28CDA5A4282FD6BF0041945C /* NewCGGameResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CDA5A3282FD6BF0041945C /* NewCGGameResultVC.swift */; };
 		2F18554625FC974C00366758 /* SMMyTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F18554525FC974C00366758 /* SMMyTicketVC.swift */; };
 		2F356AC926FA0A8F00F02675 /* JTredingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F356AC826FA0A8F00F02675 /* JTredingVC.swift */; };
 		2F56E2082644049900E86852 /* message_tone_lg_no.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */; };
@@ -347,6 +354,13 @@
 		1FFB3E4E225C596000DC1AFA /* JoinedPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinedPlayerVC.swift; sourceTree = "<group>"; };
 		1FFB3E50225C6A7600DC1AFA /* PrivateContestResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContestResultVC.swift; sourceTree = "<group>"; };
 		1FFB3E52225C7F5600DC1AFA /* PrivateContesrWinnerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateContesrWinnerVC.swift; sourceTree = "<group>"; };
+		2813AAA12862D136001E9FF1 /* NewAGSMTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAGSMTicketVC.swift; sourceTree = "<group>"; };
+		2813AAA32862D183001E9FF1 /* NewAGSMPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAGSMPlayVC.swift; sourceTree = "<group>"; };
+		2813AAA52862D1A5001E9FF1 /* NewAGSMResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAGSMResultVC.swift; sourceTree = "<group>"; };
+		28CDA59D282FD21C0041945C /* ATG.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ATG.storyboard; sourceTree = "<group>"; };
+		28CDA59F282FD6780041945C /* NewCGTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCGTicketVC.swift; sourceTree = "<group>"; };
+		28CDA5A1282FD6A40041945C /* NewCGGamePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCGGamePlayVC.swift; sourceTree = "<group>"; };
+		28CDA5A3282FD6BF0041945C /* NewCGGameResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCGGameResultVC.swift; sourceTree = "<group>"; };
 		2F18554525FC974C00366758 /* SMMyTicketVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMMyTicketVC.swift; sourceTree = "<group>"; };
 		2F356AC826FA0A8F00F02675 /* JTredingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTredingVC.swift; sourceTree = "<group>"; };
 		2F56E2072644049900E86852 /* message_tone_lg_no.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = message_tone_lg_no.mp3; sourceTree = "<group>"; };
@@ -695,6 +709,7 @@
 				1FBD3396222914D100B74578 /* LaunchScreen.storyboard */,
 				1FBD33A52229186300B74578 /* Authentication.storyboard */,
 				1FBD33A72229189200B74578 /* Dashboard.storyboard */,
+				28CDA59D282FD21C0041945C /* ATG.storyboard */,
 			);
 			path = Stotyboard;
 			sourceTree = "<group>";
@@ -840,6 +855,9 @@
 				9FE5177825BECB1200E8B6DA /* CGTicketVC.swift */,
 				9F5C69A425C3F00E00C8F2EE /* CGGamePlayVC.swift */,
 				2FC62B0425E3DE160000C6C8 /* CGGameResultVC.swift */,
+				28CDA59F282FD6780041945C /* NewCGTicketVC.swift */,
+				28CDA5A1282FD6A40041945C /* NewCGGamePlayVC.swift */,
+				28CDA5A3282FD6BF0041945C /* NewCGGameResultVC.swift */,
 			);
 			path = AnyTimeCG;
 			sourceTree = "<group>";
@@ -850,6 +868,9 @@
 				2FC1FB8B25E51F6800A556BF /* AGSMTicketVC.swift */,
 				2FC1FB8E25E51F8B00A556BF /* AGSMPlayVC.swift */,
 				2F66E1DC25E7A23800A1EDA4 /* AGSMResultVC.swift */,
+				2813AAA12862D136001E9FF1 /* NewAGSMTicketVC.swift */,
+				2813AAA32862D183001E9FF1 /* NewAGSMPlayVC.swift */,
+				2813AAA52862D1A5001E9FF1 /* NewAGSMResultVC.swift */,
 			);
 			path = AnyTimeSM;
 			sourceTree = "<group>";
@@ -1007,6 +1028,7 @@
 				B0C3E8D322CF6CB800F1756D /* ViewTicketInfo.xib in Resources */,
 				1F5078A522521ECB0027E455 /* GamePlayInfo.xib in Resources */,
 				2F7F5C32265624C400DC6D7D /* ADVCollectionViewCell.xib in Resources */,
+				28CDA59E282FD21C0041945C /* ATG.storyboard in Resources */,
 				B0C152D422C745CB00B6B801 /* Montserrat-SemiBold.otf in Resources */,
 				2FE171F92657C40D00B4EAF8 /* Bag.gif in Resources */,
 				1F7A268B2261A521000FEAD5 /* Assets.xcassets in Resources */,
@@ -1130,11 +1152,13 @@
 				2FC62B0525E3DE160000C6C8 /* CGGameResultVC.swift in Sources */,
 				1FBE45E2222F9F3200741438 /* CreateContestVC.swift in Sources */,
 				1F508F7F255D074400D88FBB /* CreatePrivateGroupViewController.swift in Sources */,
+				28CDA5A4282FD6BF0041945C /* NewCGGameResultVC.swift in Sources */,
 				B0D6ED1222C63D170019C6E6 /* PrivateModeVC.swift in Sources */,
 				2F18554625FC974C00366758 /* SMMyTicketVC.swift in Sources */,
 				1F822017222D2FB6008FDF65 /* MyPackageVC.swift in Sources */,
 				1F18383D2293DF580043D61C /* ImageCropVC.swift in Sources */,
 				1FF6B0D5223CC52200CB8C84 /* GameAnswerOneTVC.swift in Sources */,
+				2813AAA22862D136001E9FF1 /* NewAGSMTicketVC.swift in Sources */,
 				1F6E25D62281BA2000B4EACA /* KYCVerifycationVC.swift in Sources */,
 				1F4789E1227075FA006748DD /* SettingVC.swift in Sources */,
 				1F72A5B82382F78100A31B15 /* Bracketcv.swift in Sources */,
@@ -1171,8 +1195,10 @@
 				1FBE45E4222FA98C00741438 /* UpdateContestVC.swift in Sources */,
 				B08087DC22D9A59E002BE005 /* SwiftPingPong.swift in Sources */,
 				B0D30A55231814A100A63315 /* FAQsVC.swift in Sources */,
+				2813AAA42862D183001E9FF1 /* NewAGSMPlayVC.swift in Sources */,
 				1FC3A6B8222E425D00EA4BDE /* ResetPasswordVC.swift in Sources */,
 				B0C3E8D122CF6CA600F1756D /* ViewTicketInfo.swift in Sources */,
+				28CDA5A0282FD6780041945C /* NewCGTicketVC.swift in Sources */,
 				1F822013222D2EF6008FDF65 /* OrganizeVC.swift in Sources */,
 				9FC75B9725C2CB2500A3B75D /* IDsVC.swift in Sources */,
 				2FC1FB8F25E51F8B00A556BF /* AGSMPlayVC.swift in Sources */,
@@ -1199,6 +1225,7 @@
 				1FA9C09B2247AB2600A60AF7 /* GameAnsRangeTVC.swift in Sources */,
 				1FBD33B82229342B00B74578 /* TextFieldComman.swift in Sources */,
 				1F82201D222D3D6E008FDF65 /* LabelComman.swift in Sources */,
+				28CDA5A2282FD6A40041945C /* NewCGGamePlayVC.swift in Sources */,
 				1F05AFD323AA03A6006C6AF2 /* JticketlistingViewController.swift in Sources */,
 				1F5A98752245F9430070C1B6 /* GameResultVC.swift in Sources */,
 				1F6E25D42281AFD100B4EACA /* OTPVerifyVC.swift in Sources */,
@@ -1206,6 +1233,7 @@
 				1F6FC720222EAA93007DBA72 /* RedeemVC.swift in Sources */,
 				1F36F3A62255D5FF00B62AFC /* PrivateContest.swift in Sources */,
 				1FCE13C623DF0FA600E6D520 /* MyJticketViewController.swift in Sources */,
+				2813AAA62862D1A5001E9FF1 /* NewAGSMResultVC.swift in Sources */,
 				2F356AC926FA0A8F00F02675 /* JTredingVC.swift in Sources */,
 				1F3081B6224748450067B037 /* SplashVC.swift in Sources */,
 				2FC9F14A26A951D200053FFC /* ReportIssueVC.swift in Sources */,
