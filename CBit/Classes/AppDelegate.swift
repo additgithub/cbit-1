@@ -683,11 +683,11 @@ extension AppDelegate {
         } else {
             matchConfidence = "Strong"
         }
-        let urlparam = queryParameters(from: dynamicLink.url! )
-        print("URL Parameter:",urlparam)
-        let message = "App URL: \(dynamicLink.url?.absoluteString ?? "")\n" +
-            "Match Confidence: \(matchConfidence)\nMinimum App Version: \(dynamicLink.minimumAppVersion ?? "") \n PARAM\(urlparam)"
-        showDeepLinkAlertView(withMessage: message)
+//        let urlparam = queryParameters(from: dynamicLink.url! )
+//        print("URL Parameter:",urlparam)
+//        let message = "App URL: \(dynamicLink.url?.absoluteString ?? "")\n" +
+//            "Match Confidence: \(matchConfidence)\nMinimum App Version: \(dynamicLink.minimumAppVersion ?? "") \n PARAM\(urlparam)"
+//        showDeepLinkAlertView(withMessage: message)
     }
     
     func showDeepLinkAlertView(withMessage message: String) {

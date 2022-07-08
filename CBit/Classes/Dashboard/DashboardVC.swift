@@ -280,8 +280,16 @@ class DashboardVC: UIViewController {
     }
 }
     @IBAction func classicgrid_click(_ sender: UIButton) {
-        let CGTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "CGTicketVC") as! CGTicketVC
-        self.navigationController?.pushViewController(CGTicketVC, animated: true)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "ATG", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "NewCGTicketVC") as! NewCGTicketVC
+        if sender.tag == 1 {
+            nextViewController.gametype  = "rdb"
+        }
+        else
+        {
+            nextViewController.gametype  = "0-9"
+        }
+        self.navigationController?.pushViewController(nextViewController, animated: true)
         
     }
     @IBAction func spinningmachine_click(_ sender: UIButton) {

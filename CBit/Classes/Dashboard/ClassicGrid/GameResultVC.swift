@@ -729,12 +729,12 @@ class GameResultTVC: UITableViewCell {
     }
     
     func viewDidLayoutSubviews() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let section = 0
-        let lastItemIndex = self.collectionlist.numberOfItems(inSection: section) - 1
-        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
-        self.collectionlist.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            let section = 0
+//        let lastItemIndex = self.collectionlist.numberOfItems(inSection: section) - 1
+//        let indexPath:NSIndexPath = NSIndexPath.init(item: lastItemIndex, section: section)
+//        self.collectionlist.scrollToItem(at: indexPath as IndexPath, at: .right, animated: true)
+//        }
        }
     
     

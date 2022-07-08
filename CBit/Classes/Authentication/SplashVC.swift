@@ -14,19 +14,20 @@ class SplashVC: UIViewController {
             
            let isMobileOtpLogin = Define.USERDEFAULT.bool(forKey: "isMobileOtpLogin")
             
-            self.CheckVersion()
+        //    self.CheckVersion()
 
             
             if MyModel().isLogedIn() {
                 
-//                SocketIOManager.sharedInstance.establisConnection()
-//                let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
-//                let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
-//                self.present(menuVC,
-//                             animated: true,
-//                             completion:
-//                    {
-//                })
+                SocketIOManager.sharedInstance.establisConnection()
+                let storyBoard = UIStoryboard(name: "Dashboard", bundle: nil)
+                let menuVC = storyBoard.instantiateViewController(withIdentifier: "MenuNC")
+                menuVC.modalPresentationStyle = .fullScreen
+                self.present(menuVC,
+                             animated: true,
+                             completion:
+                    {
+                })
                 if isMobileOtpLogin {
                     
                //  self.CheckVersion()
@@ -180,7 +181,10 @@ extension SplashVC {
                                 let current = Define.APP_VERSION
                                 let appStore = result!["currentVersion"] as? String ?? "0"
                                 let popUpData = result!["popUpData"] as? [[String:Any]] ?? []
-                                let type = popUpData[0]["type"] as? String ?? ""
+                                var type = ""
+                                if popUpData.count > 0 {
+                                     type = popUpData[0]["type"] as? String ?? ""
+                                }
                                 let versionCompare = current.compare(appStore, options: .numeric)
                                 if type == "KYC"
                                 {

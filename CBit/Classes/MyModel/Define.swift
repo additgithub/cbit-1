@@ -49,8 +49,8 @@ class Define {
     
     //--------------TESTING SERVER-------------------//
 
-    static let APP_URL = "http://103.35.165.112:3500/api/"
-    static let SOCKET_URL = "http://103.35.165.112:3500"
+//    static let APP_URL = "http://103.35.165.112:3500/api/"
+//    static let SOCKET_URL = "http://103.35.165.112:3500"
     
 //    URL: http://103.35.165.112:3500/login
 //
@@ -60,8 +60,8 @@ class Define {
    
     //  Test
     
-//    static let APP_URL = "http://207.154.223.43:3600/api/"
-//    static let SOCKET_URL = "http://207.154.223.43:3600"
+    static let APP_URL = "http://207.154.223.43:3600/api/"
+    static let SOCKET_URL = "http://207.154.223.43:3600"
     
    static let SHARE_URL = "https://admin.cbitoriginal.com/deeplink?url=ashvh.com&code="
     
@@ -105,6 +105,8 @@ class Define {
     static let API_GET_CONTEST = "getAllContest"
     static let API_MY_CONTEST = "getMyContest"
     static let API_CONTEST_DETAIL = "contestDetails"
+    static let API_CONTEST_DETAILANYTIME = "contestDetailsAnyTimeGame"
+    static let API_ANYTIMEJOIN_CONTEST = "AnyTimejoinContest"
     static let API_JOIN_CONTEST = "joinContest"
     static let API_PASSBOOK = "getPassbook"
     static let API_WINNER_LIST = "winnerList"
