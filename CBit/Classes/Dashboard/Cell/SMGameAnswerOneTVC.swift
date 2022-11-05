@@ -160,20 +160,20 @@ extension SMGameAnswerThreeTVC: UICollectionViewDelegate, UICollectionViewDataSo
             cell.labelDisplayValue.text = strDisplayValue
         }
       
-             if strDisplayValue == "Draw" {
-                 let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                 cell.labelDisplayValue.text = strMainString
-                 cell.labelDisplayValue.isHidden = false
-                 cell.img.isHidden = true
-             }
-             else
-             {
+//             if strDisplayValue == "Draw" {
+//                 let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                 cell.labelDisplayValue.text = strMainString
+//                 cell.labelDisplayValue.isHidden = false
+//                 cell.img.isHidden = true
+//             }
+//             else
+//             {
                  cell.labelDisplayValue.isHidden = true
                  cell.img.isHidden = false
                  let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
  //                cell.img.image = makeTransparent(image: localimg)
                  cell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-             }
+       //      }
          
         
         
@@ -341,20 +341,20 @@ extension SMGameAnswerThreeLockTVC: UICollectionViewDelegate, UICollectionViewDa
             cell.labelDisplayValue.text = strDisplayValue
         }
        
-            if strDisplayValue == "Draw" {
-                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                cell.labelDisplayValue.text = strMainString
-                cell.labelDisplayValue.isHidden = false
-                cell.img.isHidden = true
-            }
-            else
-            {
+//            if strDisplayValue == "Draw" {
+//                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                cell.labelDisplayValue.text = strMainString
+//                cell.labelDisplayValue.isHidden = false
+//                cell.img.isHidden = true
+//            }
+//            else
+//            {
                 cell.labelDisplayValue.isHidden = true
                 cell.img.isHidden = false
                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
 //                cell.img.image = makeTransparent(image: localimg)
                 cell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-            }
+       //     }
         
        
         

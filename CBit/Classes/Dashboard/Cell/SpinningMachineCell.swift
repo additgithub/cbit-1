@@ -359,3 +359,19 @@ extension UIImage {
         return newImage
     }
 }
+
+
+class NewSpinningMachineCell: UITableViewCell {
+
+    @IBOutlet weak var labelEntryFees: LableWithLightBG!
+    @IBOutlet weak var labelTotalTickets: LableWithLightBG!
+    @IBOutlet weak var labelWinningAmount: LableWithLightBG!
+    @IBOutlet weak var labelMaxWinner: LableWithLightBG!
+    @IBOutlet weak var buttonSelectTicket: UIButton!
+  
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+
+}

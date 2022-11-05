@@ -775,21 +775,21 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
 //            lockcell.contentView.layer.borderWidth = 0
         }
         
-        let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
+     //   let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
         
-        if strDisplayValue == "Draw" {
-            let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-            lockcell.labelDisplayValue.text = strMainString
-            lockcell.labelDisplayValue.isHidden = false
-            lockcell.img.isHidden = true
-        }
-        else
-        {
+//        if strDisplayValue == "Draw" {
+//            let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//            lockcell.labelDisplayValue.text = strMainString
+//            lockcell.labelDisplayValue.isHidden = false
+//            lockcell.img.isHidden = true
+//        }
+//        else
+//        {
             lockcell.labelDisplayValue.isHidden = true
             lockcell.img.isHidden = false
             let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
             lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-        }
+    //    }
         
         return lockcell
     }

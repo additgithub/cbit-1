@@ -82,7 +82,7 @@ class DashboardVC: UIViewController {
         
         
         setPageMenu()
-     //   getAdvertise()
+        getAdvertise()
         getAllSpecialContest()
         getSpinningMachine()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotitication(_:)),name:.getAllspecialContest,object: nil)
@@ -293,9 +293,9 @@ class DashboardVC: UIViewController {
         
     }
     @IBAction func spinningmachine_click(_ sender: UIButton) {
-        
-        let AGSMTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMTicketVC") as! AGSMTicketVC
-        self.navigationController?.pushViewController(AGSMTicketVC, animated: true)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "ATG", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "NewAGSMTicketVC") as! NewAGSMTicketVC
+        self.navigationController?.pushViewController(nextViewController, animated: true)
         
 //        let SpinningMachineVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineVC") as! SpinningMachineVC
 //        SpinningMachineVC.storeimage = storeimage

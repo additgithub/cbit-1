@@ -18,7 +18,7 @@ class ViewWinnersVC: UIViewController {
     var Start = 0
     var Limit = 10
     var ismoredata = false
-    
+    var isfromanytime = false
     private var arrWinners = [[String: Any]]()
     
     //MARK: - Default Method
@@ -150,8 +150,17 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
 extension ViewWinnersVC {
     func getWinnersAPI() {
         Loading().showLoading(viewController: self)
-        let parameter: [String: Any] = ["contestPriceId": dictTicket["contestPriceId"]!,"start": Start,"limit":Limit]
-        let strURL = Define.APP_URL + Define.API_WINNER_LIST
+        var parameter = [String: Any]()
+        var strURL = String()
+        if isfromanytime {
+             strURL = Define.APP_URL + Define.API_ANYTIMEWINNER_LIST
+            parameter = ["contestPriceId": dictTicket["contestPriceId"]!,"start": Start,"limit":Limit,"game_no":dictTicket["game_no"]!]
+        }
+        else
+        {
+             strURL = Define.APP_URL + Define.API_WINNER_LIST
+            parameter = ["contestPriceId": dictTicket["contestPriceId"]!,"start": Start,"limit":Limit]
+        }
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
         let jsonString = MyModel().getJSONString(object: parameter)
