@@ -124,12 +124,12 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         if game == "Anytime Game"
         {
             cell.lblatggameno.text = "ATG Game No.: \(arrHistory[indexPath.row]["game_no"] as? Int ?? 0)"
-            cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
+          //  cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
         }
         else
         {
             cell.lblatggameno.text = "Live Game"
-            cell.lblatggameno.textColor = UIColor.red
+          //  cell.lblatggameno.textColor = UIColor.red
         }
 
         if arrHistory.count > 1 {

@@ -30,7 +30,8 @@ class NewCGGameResultVC: UIViewController {
     var dictContestDetail = [String: Any]()
     var isfromhistory = false
     var arrSelectedTikets = [[String: Any]]()
-
+    var gametype = String()
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +54,7 @@ class NewCGGameResultVC: UIViewController {
     }
 
     func setDetail() {
-     let gametype = "\(dictContestDetail["game_type"]!)"
+      gametype = "\(dictContestDetail["game_type"]!)"
         
         
     if gametype == "0-9"
@@ -151,7 +152,53 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
+
+        if gametype == "rdb" {
+            resultCell.vwrdb.isHidden = false
+            resultCell.vwnumberslot.isHidden = true
+            resultCell.labelAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            resultCell.labelAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+            resultCell.labelAnsPlus.backgroundColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            
+            resultCell.labelAnsMinus.text = "Red Win"
+            resultCell.labelAnsZero.text = "Draw"
+            resultCell.labelAnsPlus.text = "Blue Win"
+            
+         //   resultCell.vwrdb.backgroundColor = UIColor.lightGray
+            resultCell.labelAnsMinus.textColor = UIColor.white
+            resultCell.labelAnsZero.textColor = UIColor.black
+            resultCell.labelAnsPlus.textColor = UIColor.white
+           
+            view.layoutIfNeeded()
+
+        }
+        else
+        {
+            resultCell.vwrdb.isHidden = true
+            resultCell.vwnumberslot.isHidden = false
+            self.view.layoutIfNeeded()
+            resultCell.isfromnumberslot = true
+            resultCell.arrData = nil
+           // var ticketdataarr = [[String:Any]]()
+            
+//        let slotes = arrSelectedTickets[indexPath.row]["slotes"] as? String ?? "0"
+//                if slotes == "3" {
+//                    ticketdataarr.append(["displayValue":"0 to 3"])
+//                    ticketdataarr.append(["displayValue":"4 to 6"])
+//                    ticketdataarr.append(["displayValue":"7 to 9"])
+//                }
+//                else
+//                {
+//                    ticketdataarr.append(["displayValue":"0 to 5"])
+//                    ticketdataarr.append(["displayValue":"6 to 9"])
+//                }
+            resultCell.arrData = arrSelectedTickets[indexPath.row]["slotes"] as? [[String:Any]] ?? []
+                
+                self.view.layoutIfNeeded()
+            
+        }
         
         let game_no = arrSelectedTickets[indexPath.row]["game_no"] as? Int ?? 0
         
@@ -251,13 +298,16 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
     //MAKR: - TableView Button
     @objc func buttonViewWinners(_ sender: UIButton) {
         let index = sender.tag
-        let winnerVC = self.storyboard?.instantiateViewController(withIdentifier: "ViewWinnersVC") as! ViewWinnersVC
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
+        let winnerVC = storyBoard.instantiateViewController(withIdentifier: "ViewWinnersVC") as! ViewWinnersVC
         winnerVC.dictTicket = arrSelectedTickets[index]
-        let startDate = MyModel().converStringToDate(strDate: dictContestDetail["startDate"] as! String,
-                                                     getFormate: "yyyy-MM-dd HH:mm:ss")
-        
-        winnerVC.startDate = startDate
+//        let startDate = MyModel().converStringToDate(strDate: dictContestDetail["startDate"] as! String,
+//                                                     getFormate: "yyyy-MM-dd HH:mm:ss")
+//        
+//        winnerVC.startDate = startDate
         winnerVC.dictContest = dictContest
+        winnerVC.isfromanytime = true
+
         self.navigationController?.pushViewController(winnerVC, animated: true)
     }
 }
@@ -350,10 +400,19 @@ extension NewCGGameResultVC {
     func getContestDetailHistory()
     {
         Loading().showLoading(viewController: self)
+        var dict = [String:Any]()
+        dict["game_no"] = dictContest["game_no"]!
+        dict["contestPriceId"] = dictContest["contestPriceID"]!
+        var arrallselected = [[String:Any]]()
+        arrallselected.append(dict)
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
                                         "GameNo": dictContest["game_no"]!,
-                                        "contest_price_id": dictContest["contestPriceID"]!
-        ]
+                                        "contest_price_id": dictContest["contestPriceID"]!,
+                                        "contest_price_game_list": MyModel().getJSONString(object: arrallselected)!]
+//        let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
+//                                        "GameNo": dictContest["game_no"]!,
+//                                        "contest_price_id": dictContest["contestPriceID"]!
+//        ]
         let strURL = Define.APP_URL + Define.contestDetailsAnyTimeGame
         print("Parameter: \(parameter)\nURL: \(strURL)")
         

@@ -698,20 +698,25 @@ class GameResultTVC: UITableViewCell {
     @IBOutlet weak var lblplaypending: UILabel!
     @IBOutlet weak var lblgameno: UILabel!
     @IBOutlet weak var imgselectedans: UIImageView!
-    
-    
+    @IBOutlet weak var labelAnsMinus: UILabel!
+    @IBOutlet weak var labelAnsZero: UILabel!
+    @IBOutlet weak var labelAnsPlus: UILabel!
+    @IBOutlet weak var vwrdb: UIView!
+    @IBOutlet weak var vwnumberslot: UIView!
+    @IBOutlet weak var collectionSloat: UICollectionView!
+
     @IBOutlet weak var collectionlist: UICollectionView!
     
     var arrSloats = [[String: Any]]()
     var strDisplayValue = String()
-    
-    //    var arrData:[[String: Any]]? {
-    //        didSet {
-    //            guard let arrList = arrData else { return }
-    //            arrSloats = arrList
-    //            collectionlist.reloadData()
-    //        }
-    //    }
+    var isfromnumberslot = false
+        var arrData:[[String: Any]]? {
+            didSet {
+                guard let arrList = arrData else { return }
+                arrSloats = arrList
+                collectionSloat?.reloadData()
+            }
+        }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -724,8 +729,9 @@ class GameResultTVC: UITableViewCell {
 //        collectionlist.layer.cornerRadius = 10
 //        collectionlist.layer.borderWidth = 2
 //        collectionlist.layer.borderColor = UIColor.black.cgColor
-        
-        
+       
+            collectionSloat?.delegate = self
+            collectionSloat?.dataSource = self
     }
     
     func viewDidLayoutSubviews() {
@@ -751,10 +757,20 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if arrSloats.count == 2 {
-            return CGSize(width: 50, height: 50)
-        } else {
-            return CGSize(width: 50, height: 50)
+        if isfromnumberslot {
+            if arrSloats.count == 2 {
+                return CGSize(width: (collectionView.frame.width / 2) - 5.0, height: 40)
+            } else {
+                return CGSize(width: (collectionView.frame.width / 3) - 10, height: 40)
+            }
+        }
+        else
+        {
+            if arrSloats.count == 2 {
+                return CGSize(width: 50, height: 50)
+            } else {
+                return CGSize(width: 50, height: 50)
+            }
         }
     }
     
@@ -763,35 +779,50 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
-        
-        if strDisplayValue == arrSloats[indexPath.row]["displayValue"] as? String ?? "" {
-//            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-//            lockcell.contentView.layer.borderWidth = 2
+        if isfromnumberslot
+        {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TicketSloatCVC", for: indexPath) as! TicketSloatCVC
+
+            let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
+            if arrSloats.count == 2 {
+                cell.labelDisplay.text = strDisplayValue
+            } else {
+                
+                cell.labelDisplay.text = strDisplayValue
+            }
+            return cell
         }
         else
         {
-//            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-//            lockcell.contentView.layer.borderWidth = 0
+            let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
+
+            if strDisplayValue == arrSloats[indexPath.row]["displayValue"] as? String ?? "" {
+    //            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+    //            lockcell.contentView.layer.borderWidth = 2
+            }
+            else
+            {
+    //            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+    //            lockcell.contentView.layer.borderWidth = 0
+            }
+            
+         //   let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
+            
+    //        if strDisplayValue == "Draw" {
+    //            let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+    //            lockcell.labelDisplayValue.text = strMainString
+    //            lockcell.labelDisplayValue.isHidden = false
+    //            lockcell.img.isHidden = true
+    //        }
+    //        else
+    //        {
+                lockcell.labelDisplayValue.isHidden = true
+                lockcell.img.isHidden = false
+                let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
+                lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
+        //    }
+            return lockcell
         }
-        
-     //   let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
-        
-//        if strDisplayValue == "Draw" {
-//            let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-//            lockcell.labelDisplayValue.text = strMainString
-//            lockcell.labelDisplayValue.isHidden = false
-//            lockcell.img.isHidden = true
-//        }
-//        else
-//        {
-            lockcell.labelDisplayValue.isHidden = true
-            lockcell.img.isHidden = false
-            let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
-            lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-    //    }
-        
-        return lockcell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

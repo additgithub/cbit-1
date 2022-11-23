@@ -47,7 +47,7 @@ class ViewWithShadowAndBorder: UIView {
     }
     
     private func setView() {
-        backgroundColor = #colorLiteral(red: 0, green: 0.2549019608, blue: 0, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0, green: 0.2535769343, blue: 0, alpha: 1)
         //backgroundColor = UIColor.white
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.5

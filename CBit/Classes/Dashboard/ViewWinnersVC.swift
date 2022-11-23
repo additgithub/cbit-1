@@ -110,7 +110,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         
         if arrWinners.count > 1 {
             let lastElement = arrWinners.count - 1
-            if indexPath.row == lastElement && ismoredata{
+            if indexPath.row == lastElement && ismoredata && arrWinners.count > Limit{
                 //call get api for next page
                 getWinnersAPI()
             }
