@@ -124,12 +124,12 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         if game == "Anytime Game"
         {
             cell.lblatggameno.text = "ATG Game No.: \(arrHistory[indexPath.row]["game_no"] as? Int ?? 0)"
-            cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
+          //  cell.lblatggameno.textColor = #colorLiteral(red: 0.1221796647, green: 0.3820681274, blue: 0.4405243397, alpha: 1)
         }
         else
         {
             cell.lblatggameno.text = "Live Game"
-            cell.lblatggameno.textColor = UIColor.red
+          //  cell.lblatggameno.textColor = UIColor.red
         }
 
         if arrHistory.count > 1 {
@@ -151,19 +151,21 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         let gametype  = arrHistory[indexPath.row]["game_type"] as! String
         
         if game == "Anytime Game" {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "ATG", bundle:nil)
             if gametype == "spinning-machine" {
-                let AGSMResultVC = self.storyboard?.instantiateViewController(withIdentifier: "AGSMResultVC") as! AGSMResultVC
-                AGSMResultVC.dictContest = arrHistory[indexPath.row]
-                AGSMResultVC.isfromhistory = true
-                self.navigationController?.pushViewController(AGSMResultVC, animated: true)
+                
+                let NewAGSMResultVC = storyBoard.instantiateViewController(withIdentifier: "NewAGSMResultVC") as! NewAGSMResultVC
+                NewAGSMResultVC.dictContest = arrHistory[indexPath.row]
+                NewAGSMResultVC.isfromhistory = true
+                self.navigationController?.pushViewController(NewAGSMResultVC, animated: true)
 
             }
             else
             {
-                let CGGameResultVC = self.storyboard?.instantiateViewController(withIdentifier: "CGGameResultVC") as! CGGameResultVC
-                CGGameResultVC.dictContest = arrHistory[indexPath.row]
-                CGGameResultVC.isfromhistory = true
-                self.navigationController?.pushViewController(CGGameResultVC, animated: true)
+                let NewCGGameResultVC = storyBoard.instantiateViewController(withIdentifier: "NewCGGameResultVC") as! NewCGGameResultVC
+                NewCGGameResultVC.dictContest = arrHistory[indexPath.row]
+                NewCGGameResultVC.isfromhistory = true
+                self.navigationController?.pushViewController(NewCGGameResultVC, animated: true)
             }
         }
         else
@@ -195,7 +197,7 @@ extension HistoryVC {
         }
         let strURL = Define.APP_URL + Define.API_CONTEST_HISTORY
         print("URL: \(strURL)")
-        let parameter: [String: Any] = ["start": Start,"limit":Limit]
+        let parameter: [String: Any] = ["start": Start,"limit":Limit,"is_anytimegame":"1"]
         
         SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: parameter,

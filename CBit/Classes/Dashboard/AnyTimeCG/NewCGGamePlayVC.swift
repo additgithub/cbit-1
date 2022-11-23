@@ -232,7 +232,7 @@ class NewCGGamePlayVC: UIViewController {
         SocketIOManager.sharedInstance.lastViewController = self
        // SwiftPingPong.shared.startPingPong()
      //   self.startlistner()
-        configStartTimer()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -526,8 +526,7 @@ class NewCGGamePlayVC: UIViewController {
         
         for item in arrSloatsSelect {
             let displayValue = item["displayValue"] as? String ?? ""
-            let gameMode = dictContest["type"] as? Int ?? 1
-            if gameMode == 0 {
+            if self.gametype == "rdb" {
                 if strDisplayValuelockall == displayValue {
                     startValue = item["startValue"] as? Int
                     endValue = item["endValue"] as? Int
@@ -597,14 +596,14 @@ class NewCGGamePlayVC: UIViewController {
                        var dictTicket = self.arrSelectedTicket[i]
                        dictTicket["isLock"] = dictItemData["isLockAll"]
                        dictTicket["displayValue"] = dictItemData["displayValue"]
-                       dictTicket["isSelected"] = dictItemData["isLockTime"]
+                       dictTicket["isSelected"] = dictItemData["isLock"]
                         dictTicket["lockTime"] = dictItemData["isLockTime"]
                        self.arrSelectedTicket[i] = dictTicket
 //                       let indexPath = IndexPath(row:i, section: 0)
 //                       self.tableAnswer.reloadRows(at: [indexPath], with: .none)
                        }
                     self.tableAnswer.reloadData()
-                 //   self.getContestDetail(isfromtimer: true, isStart: 0)
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
                     self.setlockalldata(dictdata: dictItemData1[0])
                    }
                }
@@ -679,7 +678,7 @@ class NewCGGamePlayVC: UIViewController {
         viewTimmer.layer.cornerRadius = 15
         viewTimmer.layer.masksToBounds = true
         
-        labelContestName.text = dictContest["name"] as? String ?? "No Name"
+      
         
         
     }
@@ -834,7 +833,7 @@ class NewCGGamePlayVC: UIViewController {
                                     parameters: ["data":strbase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
+        { [self] (result, error) in
             if error != nil {
                 
                 Loading().hideLoading(viewController: self)
@@ -857,8 +856,19 @@ class NewCGGamePlayVC: UIViewController {
                     Define.USERDEFAULT.set(dictData["sbAmount"] as? Double ?? 0.0, forKey: "SBAmount")
                     Define.USERDEFAULT.set(dictData["tbAmount"] as? Double ?? 0.0, forKey: "TBAmount")
                     
+                    let GameNumberarr = result!["GameNumber"] as! [[String: Any]]
+                    let arrSelectedTiketscopy = arrSelectedTikets
+                    
+                    for (indexouter,dictouter) in GameNumberarr.enumerated() {
+                        for (indexinner,dictinner) in arrSelectedTiketscopy.enumerated() {
+                            if dictouter["contestPriceId"] as! Int == dictinner["contestpriceID"] as! Int {
+                                arrSelectedTikets[indexinner]["game_played"] = dictouter["game_no"] as! Int
+                            }
+                        }
+                    }
                   //  NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                     self.getContestDetail(isfromtimer: true, isStart: 0)
+                    configStartTimer()
 //                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
 //                    let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
 //                    paymentVC.isFromLink = self.isFromLink
@@ -941,7 +951,7 @@ class NewCGGamePlayVC: UIViewController {
                                         parameters: ["data": strBase64!],
                                         header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                         auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-            { (result, error) in
+        { [self] (result, error) in
                 if error != nil {
                     Loading().hideLoading(viewController: self)
                     print("Error: \(error!.localizedDescription)")
@@ -968,6 +978,7 @@ class NewCGGamePlayVC: UIViewController {
                                    self.dictGameData = result!["content"] as! [String: Any]
                       //  self.arrTickets = self.dictGameData["tickets"] as? [[String: Any]] ?? []
                      //   self.tableAnswer.reloadData()
+                                labelContestName.text = dictGameData["name"] as? String ?? "No Name"
                                    self.gametype  = self.dictGameData["game_type"] as! String
                                    if self.gametype == "rdb" {
                                        self.viewrdb.isHidden = false
@@ -1787,9 +1798,10 @@ extension NewCGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let isSelectedZero = arrSloatsCheck[1]["isSelected"] as? Bool ?? false
                     if isSelectedZero {
                         fixCell.buttonAnsZero.backgroundColor = UIColor.white
-                        
+                        fixCell.labelAnsZero.textColor = UIColor.black
                     } else {
                         fixCell.buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                        fixCell.labelAnsZero.textColor = UIColor.white
                     }
                     
                     let isSelectedPlus = arrSloatsCheck[2]["isSelected"] as? Bool ?? false
@@ -1880,6 +1892,7 @@ extension NewCGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     
                     if isSelectedMinus {
                         fixCell.buttonAnsMinus.backgroundColor = UIColor.white
+                        fixCell.labelAnsMinus.textColor = UIColor.black
                     } else {
                        // fixCell.buttonAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         
@@ -1892,14 +1905,16 @@ extension NewCGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                     let isSelectedZero = arrSloatsCheck[1]["isSelected"] as? Bool ?? false
                     if isSelectedZero {
                         fixCell.buttonAnsZero.backgroundColor = UIColor.white
+                        fixCell.labelAnsZero.textColor = UIColor.black
                     } else {
                         fixCell.buttonAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+                        fixCell.labelAnsZero.textColor = UIColor.white
                     }
                     
                     let isSelectedPlus = arrSloatsCheck[2]["isSelected"] as? Bool ?? false
                     if isSelectedPlus {
                         fixCell.buttonAnsPlus.backgroundColor = UIColor.white
-                        
+                        fixCell.labelAnsPlus.textColor = UIColor.black
                     } else {
                    //     fixCell.buttonAnsPlus.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
                         
@@ -2120,7 +2135,12 @@ extension NewCGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
         var endValue: Int?
         var gameno: Int?
         var strDisplayValue: String?
-        
+        if Lockall1 == nil {
+               Lockall1 = LockAll.instanceFromNib() as? LockAll
+               Lockall1!.frame = view.bounds
+               view.addSubview(Lockall1!)
+
+           }
         let arrSloatsSelect = arrSelectedTicket[index]["slotes"] as! [[String: Any]]
         
         for item in arrSloatsSelect {
@@ -2178,13 +2198,19 @@ extension NewCGGamePlayVC: UITableViewDelegate, UITableViewDataSource {
                 print("AnytimeUpdateGame:",dictData!)
                 let status = dictData!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    var dictItemData = dictData!["content"] as! [String: Any]
+                    self.Lockall1?.removeFromSuperview()
+                    self.Lockall1 == nil
+                    let dictItemData = dictData!["content"] as! [[String: Any]]
                     var dictTicket = self.arrSelectedTicket[index]
-                    dictTicket["isLock"] = dictItemData["isLock"]
-                    dictTicket["lockTime"] = dictItemData["isLockTime"]
+                    dictTicket["isLock"] = dictItemData[0]["isLock"]
+                    dictTicket["lockTime"] = dictItemData[0]["isLockTime"]
+                    dictTicket["displayValue"] = dictItemData[0]["displayValue"]
+                    dictTicket["isSelected"] = true
                     self.arrSelectedTicket[index] = dictTicket
                     let indexPath = IndexPath(row: index, section: 0)
-                   self.tableAnswer.reloadRows(at: [indexPath], with: .none)
+                  // self.tableAnswer.reloadRows(at: [indexPath], with: .none)
+                    self.tableAnswer.reloadData()
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
                 }
             }
         }

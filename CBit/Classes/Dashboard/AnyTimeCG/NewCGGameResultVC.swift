@@ -9,18 +9,15 @@
 import UIKit
 
 class NewCGGameResultVC: UIViewController {
-    //MARK: - Properties
+    //MARK: - øL,.Properties
     
     
-    @IBOutlet weak var lblnowin: UILabel!
-    @IBOutlet weak var ccwinning: UILabel!
     @IBOutlet weak var totalblue: UILabel!
     @IBOutlet weak var totalred: UILabel!
     @IBOutlet weak var labelContestName: UILabel!
     @IBOutlet weak var collectionGameView: UICollectionView!
     @IBOutlet weak var labelAnswer: UILabel!
     @IBOutlet weak var tableResult: UITableView!
-    @IBOutlet weak var labelWinningAmount: UILabel!
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     var dictContest = [String: Any]()
@@ -33,7 +30,8 @@ class NewCGGameResultVC: UIViewController {
     var dictContestDetail = [String: Any]()
     var isfromhistory = false
     var arrSelectedTikets = [[String: Any]]()
-
+    var gametype = String()
+    
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,11 +50,11 @@ class NewCGGameResultVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        labelContestName.text = dictContest["name"] as? String ?? "No Name"
+        
     }
 
     func setDetail() {
-     let gametype = "\(dictContestDetail["game_type"]!)"
+      gametype = "\(dictContestDetail["game_type"]!)"
         
         
     if gametype == "0-9"
@@ -75,13 +73,13 @@ class NewCGGameResultVC: UIViewController {
         
         arrBrackets = dictContestDetail["boxJson"] as! [[String: Any]]
         arrTiclets = dictContestDetail["tickets"] as! [[String: Any]]
-        let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
-        let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
-        labelWinningAmount.text = "You win ₹\(winAmount)"
-        lblnowin.text = "No win ₹\(NowinAmount)"
-        
-        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-        ccwinning.text = "You win CC \(winCCAmount)"
+//        let winAmount = Double(dictContestDetail["totalWinAmount"] as? String ?? "0.0")!
+//        let NowinAmount = Double(dictContestDetail["nowin"] as? String ?? "0.0")!
+//        labelWinningAmount.text = "You win ₹\(winAmount)"
+//        lblnowin.text = "No win ₹\(NowinAmount)"
+//
+//        let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
+//        ccwinning.text = "You win CC \(winCCAmount)"
         
         
         for item in arrTiclets {
@@ -154,7 +152,53 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let resultCell = tableView.dequeueReusableCell(withIdentifier: "GameResultTVC") as! GameResultTVC
+
+        if gametype == "rdb" {
+            resultCell.vwrdb.isHidden = false
+            resultCell.vwnumberslot.isHidden = true
+            resultCell.labelAnsMinus.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            resultCell.labelAnsZero.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+            resultCell.labelAnsPlus.backgroundColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            
+            resultCell.labelAnsMinus.text = "Red Win"
+            resultCell.labelAnsZero.text = "Draw"
+            resultCell.labelAnsPlus.text = "Blue Win"
+            
+         //   resultCell.vwrdb.backgroundColor = UIColor.lightGray
+            resultCell.labelAnsMinus.textColor = UIColor.white
+            resultCell.labelAnsZero.textColor = UIColor.black
+            resultCell.labelAnsPlus.textColor = UIColor.white
+           
+            view.layoutIfNeeded()
+
+        }
+        else
+        {
+            resultCell.vwrdb.isHidden = true
+            resultCell.vwnumberslot.isHidden = false
+            self.view.layoutIfNeeded()
+            resultCell.isfromnumberslot = true
+            resultCell.arrData = nil
+           // var ticketdataarr = [[String:Any]]()
+            
+//        let slotes = arrSelectedTickets[indexPath.row]["slotes"] as? String ?? "0"
+//                if slotes == "3" {
+//                    ticketdataarr.append(["displayValue":"0 to 3"])
+//                    ticketdataarr.append(["displayValue":"4 to 6"])
+//                    ticketdataarr.append(["displayValue":"7 to 9"])
+//                }
+//                else
+//                {
+//                    ticketdataarr.append(["displayValue":"0 to 5"])
+//                    ticketdataarr.append(["displayValue":"6 to 9"])
+//                }
+            resultCell.arrData = arrSelectedTickets[indexPath.row]["slotes"] as? [[String:Any]] ?? []
+                
+                self.view.layoutIfNeeded()
+            
+        }
         
         let game_no = arrSelectedTickets[indexPath.row]["game_no"] as? Int ?? 0
         
@@ -175,16 +219,16 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         
         let dictSelectedData = arrSelectedTickets[indexPath.row]["user_select"] as! [String: Any]
         print("Data: \(dictSelectedData)")
-        let strValue = "\(dictSelectedData["displayValue"] as? String ?? "0")"
+        let strValue = "\(dictSelectedData["selectValue"] as? String ?? "0")"
         
-        if strValue == "Red win"
+        if strValue == "Red"
         {
             resultCell.btnred.layer.borderColor = UIColor.black.cgColor
             resultCell.btnred.layer.borderWidth = 2
             resultCell.btndraw.layer.borderWidth = 0
             resultCell.btnblue.layer.borderWidth = 0
         }
-        else if strValue == "Blue win"
+        else if strValue == "Blue"
         {
             resultCell.btnblue.layer.borderColor = UIColor.black.cgColor
             resultCell.btnred.layer.borderWidth = 0
@@ -254,13 +298,16 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
     //MAKR: - TableView Button
     @objc func buttonViewWinners(_ sender: UIButton) {
         let index = sender.tag
-        let winnerVC = self.storyboard?.instantiateViewController(withIdentifier: "ViewWinnersVC") as! ViewWinnersVC
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
+        let winnerVC = storyBoard.instantiateViewController(withIdentifier: "ViewWinnersVC") as! ViewWinnersVC
         winnerVC.dictTicket = arrSelectedTickets[index]
-        let startDate = MyModel().converStringToDate(strDate: dictContestDetail["startDate"] as! String,
-                                                     getFormate: "yyyy-MM-dd HH:mm:ss")
-        
-        winnerVC.startDate = startDate
+//        let startDate = MyModel().converStringToDate(strDate: dictContestDetail["startDate"] as! String,
+//                                                     getFormate: "yyyy-MM-dd HH:mm:ss")
+//        
+//        winnerVC.startDate = startDate
         winnerVC.dictContest = dictContest
+        winnerVC.isfromanytime = true
+
         self.navigationController?.pushViewController(winnerVC, animated: true)
     }
 }
@@ -321,7 +368,7 @@ extension NewCGGameResultVC {
                                     parameters: ["data":strBase64!],
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
                                     auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
-        { (result, error) in
+        { [self] (result, error) in
             if error != nil {
                 Loading().hideLoading(viewController: self)
                 print("Error: \(error!)")
@@ -336,7 +383,7 @@ extension NewCGGameResultVC {
                 if status == 200 {
                     self.dictContestDetail = result!["content"] as! [String: Any]
 
-
+                    labelContestName.text = dictContestDetail["name"] as? String ?? "No Name"
                     print(self.dictContestDetail)
                     self.setDetail()
 
@@ -353,10 +400,19 @@ extension NewCGGameResultVC {
     func getContestDetailHistory()
     {
         Loading().showLoading(viewController: self)
+        var dict = [String:Any]()
+        dict["game_no"] = dictContest["game_no"]!
+        dict["contestPriceId"] = dictContest["contestPriceID"]!
+        var arrallselected = [[String:Any]]()
+        arrallselected.append(dict)
         let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
                                         "GameNo": dictContest["game_no"]!,
-                                        "contest_price_id": dictContest["contestPriceID"]!
-        ]
+                                        "contest_price_id": dictContest["contestPriceID"]!,
+                                        "contest_price_game_list": MyModel().getJSONString(object: arrallselected)!]
+//        let parameter: [String: Any] = ["contest_id": dictContest["id"]!,
+//                                        "GameNo": dictContest["game_no"]!,
+//                                        "contest_price_id": dictContest["contestPriceID"]!
+//        ]
         let strURL = Define.APP_URL + Define.contestDetailsAnyTimeGame
         print("Parameter: \(parameter)\nURL: \(strURL)")
         

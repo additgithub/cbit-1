@@ -110,6 +110,7 @@ class Define {
     static let API_JOIN_CONTEST = "joinContest"
     static let API_PASSBOOK = "getPassbook"
     static let API_WINNER_LIST = "winnerList"
+    static let API_ANYTIMEWINNER_LIST = "anytimeWinnerList"
     static let API_CONTEST_HISTORY = "contestHistory"
     static let API_UPLOAD_PROFILE_IMAGE = "uploadProfileImage"
     static let API_ADD_PRIVATE_CONTEST = "addPrivateContest"
@@ -147,6 +148,11 @@ class Define {
     static let API_ANYTIMEGAMELIST = "getAnyTimeGameList"
     static let API_ANYTIMEGAMECONTESTLIST = "getAnyTimeGameContestList"
     static let contestDetailsAnyTimeGame = "contestDetailsAnyTimeGame"
+    
+    static let API_SPINNINGITEMCATEGORY = "spinningItemCategory"
+    static let API_GETANYTIMEGAMELIST = "getAnyTimeGameList"
+   // static let contestDetailsAnyTimeGame = "contestDetailsAnyTimeGame"
+    
     //MARK: - Socket Event
     static let EVENT_LOGINT = "login"
     static let EVENT_CONTEST_DETAIL = "contestDetails"
