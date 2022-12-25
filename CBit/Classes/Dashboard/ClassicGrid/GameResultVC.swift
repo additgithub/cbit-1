@@ -704,7 +704,8 @@ class GameResultTVC: UITableViewCell {
     @IBOutlet weak var vwrdb: UIView!
     @IBOutlet weak var vwnumberslot: UIView!
     @IBOutlet weak var collectionSloat: UICollectionView!
-
+    @IBOutlet weak var lbllockedtext: UILabel!
+    
     @IBOutlet weak var collectionlist: UICollectionView!
     
     var arrSloats = [[String: Any]]()

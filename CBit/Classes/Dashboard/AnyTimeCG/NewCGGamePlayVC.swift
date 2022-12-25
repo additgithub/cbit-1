@@ -100,7 +100,7 @@ class NewCGGamePlayVC: UIViewController {
     var endGameSecond = 30
     
     var startTimer: Timer?
-    var StartSecond = 15
+    var StartSecond = 14
     var miliSecondValue = 0
     var differenceSecond = Int()
     
@@ -218,6 +218,7 @@ class NewCGGamePlayVC: UIViewController {
         btnnine.isEnabled = false
         btnzero.isEnabled = false
         
+        configStartTimer()
         joinContest()
         
         
@@ -257,7 +258,10 @@ class NewCGGamePlayVC: UIViewController {
         StartSecond = StartSecond-1
 
         labelTimer.text = "Game starts in: \(StartSecond)"
-                if StartSecond == 0 {
+                if StartSecond == 1 {
+//                    dictGameData["gameStatus"] = "start"
+//                    self.setData(isfromtime: true)
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
                     if startTimer != nil {
                     startTimer!.invalidate()
                     startTimer = nil
@@ -267,7 +271,6 @@ class NewCGGamePlayVC: UIViewController {
                     imgplaypause.isHidden = true
                     lblplaypause.isHidden = true
                    // joinContest()
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
                 }
     }
     
@@ -453,7 +456,10 @@ class NewCGGamePlayVC: UIViewController {
            
         }
         else{
-            locakall()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.locakall()
+
+            }
         }
         
     }
@@ -849,7 +855,7 @@ class NewCGGamePlayVC: UIViewController {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
                     let dictData = result!["content"] as! [String: Any]
                     
                     Define.USERDEFAULT.set(dictData["pbAmount"] as? Double ?? 0.0, forKey: "PBAmount")
@@ -867,8 +873,7 @@ class NewCGGamePlayVC: UIViewController {
                         }
                     }
                   //  NotificationCenter.default.post(name: .paymentUpdated, object: nil)
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
-                    configStartTimer()
+                 
 //                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
 //                    let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
 //                    paymentVC.isFromLink = self.isFromLink
@@ -1054,19 +1059,7 @@ class NewCGGamePlayVC: UIViewController {
             SetRandomNumber()
         }
         
-        arrSelectedTicket.removeAll()
-        for item in arrTickets {
-            let isPurchased = item["isPurchased"] as? Bool ?? false
-            let gameMode = dictContest["type"] as? Int ?? 0
-            var dictData = item
-            if gameMode == 0 {
-                dictData["selectedValue"] = dictGameData["ansRangeMin"] as? Float ?? 0.0
-            }
-            
-            if isPurchased {
-                arrSelectedTicket.append(dictData)
-            }
-        }
+   
         
         //notStart
         //start
@@ -1076,7 +1069,7 @@ class NewCGGamePlayVC: UIViewController {
        // second = (dictGameData["duration"] as? Int)!
       //  print("secondsspre",second)
         
-        if StartSecond == 0 {
+        if StartSecond == 1 {
             
             //            isGameStart = true
             //            print("secondss",second)
@@ -1123,6 +1116,20 @@ class NewCGGamePlayVC: UIViewController {
 //
 //
 //        }
+        
+        arrSelectedTicket.removeAll()
+        for item in arrTickets {
+            let isPurchased = item["isPurchased"] as? Bool ?? false
+            let gameMode = dictContest["type"] as? Int ?? 0
+            var dictData = item
+            if gameMode == 0 {
+                dictData["selectedValue"] = dictGameData["ansRangeMin"] as? Float ?? 0.0
+            }
+            
+            if isPurchased {
+                arrSelectedTicket.append(dictData)
+            }
+        }
 
         self.collectionGame.reloadData()
         tableAnswer.reloadData()
@@ -1371,7 +1378,7 @@ class NewCGGamePlayVC: UIViewController {
         
         // let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
         
-        if StartSecond > 0{
+        if StartSecond > 1{
              if miliSecondValue == 0 {
                         miliSecondValue = miliSecondValue + 1
                         updateColors()
@@ -1423,7 +1430,7 @@ class NewCGGamePlayVC: UIViewController {
     }
     
     @objc func handleTimer(){
-        if second > 1 {
+        if second >= 1 {
             
 
             setnewData()

@@ -1,6 +1,6 @@
 import UIKit
 import UserNotifications
-import PayKun
+//import PayKun
 
 class AddPaymentVC: UIViewController {
 
@@ -10,7 +10,7 @@ class AddPaymentVC: UIViewController {
     @IBOutlet weak var textAmount: UITextField!
     @IBOutlet weak var btnaddmoney: UIButton!
     
-    var paymentPaykun: PaykunCheckout!
+   // var paymentPaykun: PaykunCheckout!
     
     var isFromTicket = Bool()
     var addAmount = Double()
@@ -21,10 +21,10 @@ class AddPaymentVC: UIViewController {
         super.viewDidLoad()
      //   UNUserNotificationCenter.current().delegate = self
       
-        paymentPaykun = PaykunCheckout.init(key: Define.PAYMENT_ACCESS_TOKEN,
-                                            merchantId: Define.PAYMENT_MARCHANT_ID,
-                                            isLive: Define.ISLIVE,
-                                            andDelegate: self)
+//        paymentPaykun = PaykunCheckout.init(key: Define.PAYMENT_ACCESS_TOKEN,
+//                                            merchantId: Define.PAYMENT_MARCHANT_ID,
+//                                            isLive: Define.ISLIVE,
+//                                            andDelegate: self)
         
     }
     
@@ -89,13 +89,13 @@ class AddPaymentVC: UIViewController {
 //                                   viewController: self)
           //  DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 
-                self.paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey:"FirstName") as? String ?? "CBit User",
-                                       customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
-                                       customerMobile: Define.USERDEFAULT.value(forKey: "UserMobile") as! String,
-                                       productName: "Credentia Games LLP Cbit Original",
-                                       orderNo: orderId,
-                                       amount: "\(addAmount)",
-                                       viewController: self)
+//                self.paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey:"FirstName") as? String ?? "CBit User",
+//                                       customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
+//                                       customerMobile: Define.USERDEFAULT.value(forKey: "UserMobile") as! String,
+//                                       productName: "Credentia Games LLP Cbit Original",
+//                                       orderNo: orderId,
+//                                       amount: "\(addAmount)",
+//                                       viewController: self)
          //   }
             
 
@@ -260,20 +260,20 @@ extension AddPaymentVC {
 }
 
 //MARK: - PAYKUN Delegate Method
-extension AddPaymentVC: PaykunCheckoutDelegate {
-    func onPaymentFailed(_ responce: [AnyHashable : Any]) {
-        print("-----> Payment Failed")
-        print("Data: ", responce)
-        
-        let statusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusVC") as! PaymentStatusVC
-        statusVC.isTransactionStatus = false
-        self.navigationController?.pushViewController(statusVC, animated: true)
-    }
-    
-    func onPaymentSucceed(_ responce: [AnyHashable : Any]) {
-        print("-----> Payment Success")
-        print("Data: ", responce)
-        let paymentID = responce["req_id"] as? String ?? ""
-        self.addMoneyAPI(paymentId: paymentID)
-    }
-}
+//extension AddPaymentVC: PaykunCheckoutDelegate {
+//    func onPaymentFailed(_ responce: [AnyHashable : Any]) {
+//        print("-----> Payment Failed")
+//        print("Data: ", responce)
+//        
+//        let statusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusVC") as! PaymentStatusVC
+//        statusVC.isTransactionStatus = false
+//        self.navigationController?.pushViewController(statusVC, animated: true)
+//    }
+//    
+//    func onPaymentSucceed(_ responce: [AnyHashable : Any]) {
+//        print("-----> Payment Success")
+//        print("Data: ", responce)
+//        let paymentID = responce["req_id"] as? String ?? ""
+//        self.addMoneyAPI(paymentId: paymentID)
+//    }
+//}

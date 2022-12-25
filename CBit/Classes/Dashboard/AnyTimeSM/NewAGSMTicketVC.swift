@@ -516,7 +516,16 @@ class NewAGSMTicketVC: UIViewController {
         }
     }
     @IBAction func buttonAmountOK(_ sender: UIButton) {
-        joinContest()
+      //  joinContest()
+        let AGSMPlayVC = self.storyboard?.instantiateViewController(withIdentifier: "NewAGSMPlayVC") as! NewAGSMPlayVC
+    AGSMPlayVC.dictContest = self.dictContest
+       AGSMPlayVC.isFromNotification = false
+    AGSMPlayVC.arrSelectedTikets = self.arrSelectedTikets
+    AGSMPlayVC.AnyTimedictContest = self.AnyTimedictContest[self.currentindex]["items"] as? [[String:Any]] ?? []
+    AGSMPlayVC.smitemarr = self.smitemarr
+    AGSMPlayVC.smitemarrcopy = self.smitemarrcopy
+
+        self.navigationController?.pushViewController(AGSMPlayVC, animated: true)
     }
     
     @IBAction func buttonAmountCancel(_ sender: UIButton) {

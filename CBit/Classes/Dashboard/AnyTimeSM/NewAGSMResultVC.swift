@@ -294,12 +294,16 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
         if isLock {
+            let selectValue = "\(dictSelectedData["selectValue"] as? String ?? "0")"
+
             resultCell.labelAnswer.text = "You choose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            let localimg1 = loadImageFromDocumentDirectory(nameOfImage: selectValue)
+            resultCell.imgselectedans.image =  localimg1
         } else {
             resultCell.labelAnswer.text = "\(strValue)"
             resultCell.labelLoackedAt.text = ""
-            
+            resultCell.imgselectedans.image =  UIImage()
         }
         
         let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false

@@ -248,10 +248,12 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         if isLock {
             resultCell.labelAnswer.text = "Your Selection  \(strValue)"
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            resultCell.lbllockedtext.text = "You choose right answer in  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+
         } else {
             resultCell.labelAnswer.text = "\(strValue)"
             resultCell.labelLoackedAt.text = ""
-            
+            resultCell.lbllockedtext.text = ""
         }
         
         let isCancel = arrSelectedTickets[indexPath.row]["isCancel"] as? Bool ?? false
@@ -283,8 +285,8 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
             resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
-//            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["winAmount"]!)"
-//            resultCell.labelAmount.text = "Win: \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+            let strWinAmount = "\(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)"
+            resultCell.labelAmount.text = "Points : CC \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
         return resultCell

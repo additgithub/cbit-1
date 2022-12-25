@@ -12,7 +12,8 @@ class DashboardVC: UIViewController {
     @IBOutlet weak var HeightSpecial: NSLayoutConstraint!
     @IBOutlet weak var veSpecialNoContest: UIView!
     
-  
+    @IBOutlet weak var scrollvw: UIScrollView!
+    
     @IBOutlet weak var collectionSpecialcontest: UICollectionView!
     @IBOutlet weak var viewNavigation: UIView!
     @IBOutlet weak var viewAdvertise: UIView!
@@ -127,10 +128,10 @@ class DashboardVC: UIViewController {
        }
     
     override func viewDidLayoutSubviews() {
-        self.pagingViewController.view.frame = self.pagingvw.frame
-        self.pagingViewController.view.layoutIfNeeded()
-        self.view.layoutSubviews()
-        self.view.bringSubviewToFront(vwpopupreward)
+//        self.pagingViewController.view.frame = self.pagingvw.frame
+//        self.pagingViewController.view.layoutIfNeeded()
+//        self.view.layoutSubviews()
+       // self.view.bringSubviewToFront(vwpopupreward)
     }
     
     
@@ -165,49 +166,59 @@ class DashboardVC: UIViewController {
         
        
         
-       // DispatchQueue.main.async {
+      //  DispatchQueue.main.async {
+     //   DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Put your code which should be executed with a delay here
             self.pagingViewController.view.frame = self.pagingvw.frame
-            self.pagingViewController.view.layoutIfNeeded()
+      //  self.pagingvw.addSubview(pagingViewController.view)
+     //   self.pagingViewController.view.frame = CGRect(x: 0, y: self.pagingvw.frame.origin.y-80, width: self.pagingvw.frame.width, height: self.pagingvw.frame.height)
+//            self.pagingViewController.view.layoutIfNeeded()
 //            self.pagingViewController.viewDidLayoutSubviews()
-//            self.pagingViewController.loadViewIfNeeded()
+            self.pagingViewController.loadViewIfNeeded()
+        self.pagingvw.layoutSubviews()
+//        }
      //   }
+            
   
             
-//        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//
-//            pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: (self.view.frame.width / 3) + 50),
-//            pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//            pagingViewController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            pagingViewController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-//
-//
-//            ])
-//
-//
-//
-//        if isSpecialContest {
-//
-//            pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-//            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:255)
-//
-//        }
-//
-//
-//        else
-//        {
-//
-//        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-//        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:100)
-//
-//        }
-//                   NSLayoutConstraint.activate([
-//                       pagingViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: (self.view.frame.width / 3) + 50),
-//                       pagingViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//                       pagingViewController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//                       pagingViewController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-//                       ])
+        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+
+            pagingViewController.view.topAnchor.constraint(equalTo: pagingvw.topAnchor, constant:0),
+            pagingViewController.view.bottomAnchor.constraint(equalTo: pagingvw.bottomAnchor),
+            pagingViewController.view.leadingAnchor.constraint(equalTo: pagingvw.leadingAnchor),
+            pagingViewController.view.trailingAnchor.constraint(equalTo: pagingvw.trailingAnchor),
+          //  pagingViewController.view.heightAnchor.constraint(equalToConstant: 400)
+
+
+            ])
+
+
+
+        if isSpecialContest {
+
+            pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            pagingViewController.view.updateConstraint(attribute: NSLayoutConstraint.Attribute.top,constant:0)
+
+        }
+
+
+        else
+        {
+
+        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        pagingViewController.view.updateConstraint(attribute:NSLayoutConstraint.Attribute.top, constant:0)
+
+        }
+                   NSLayoutConstraint.activate([
+                       pagingViewController.view.topAnchor.constraint(equalTo: pagingvw.topAnchor,constant:0),
+                       pagingViewController.view.bottomAnchor.constraint(equalTo: pagingvw.bottomAnchor),
+                       pagingViewController.view.leadingAnchor.constraint(equalTo: pagingvw.leadingAnchor),
+                       pagingViewController.view.trailingAnchor.constraint(equalTo: pagingvw.trailingAnchor),
+                     //  pagingViewController.view.heightAnchor.constraint(equalToConstant: 400)
+
+                       ])
             
             
         
@@ -468,7 +479,7 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
        return CGSize(width:self.collectionSpecialcontest.frame.width, height:self.collectionSpecialcontest.frame.height)
         }
         if collectionView == collectionAdvertise {
-             return CGSize(width:self.collectionAdvertise.frame.width, height:100)
+             return CGSize(width:self.collectionAdvertise.frame.width, height:120)
         }
        fatalError()
     }
@@ -487,21 +498,22 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
 
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let game_type = arrSpecialContest[indexPath.row]["game_type"] as! String
-        if game_type == "spinning-machine" {
-            let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
-            SpinningMachineTicketVC.dictContest = arrSpecialContest[indexPath.row]
-           // SpinningMachineTicketVC.storeimage = storeimage
-            self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+        if collectionView == self.collectionSpecialcontest {
+            
+            let game_type = arrSpecialContest[indexPath.row]["game_type"] as! String
+            if game_type == "spinning-machine" {
+                let SpinningMachineTicketVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineTicketVC") as! SpinningMachineTicketVC
+                SpinningMachineTicketVC.dictContest = arrSpecialContest[indexPath.row]
+                // SpinningMachineTicketVC.storeimage = storeimage
+                self.navigationController?.pushViewController(SpinningMachineTicketVC, animated: true)
+            }
+            else
+            {
+                let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
+                ticketVC.dictContest = arrSpecialContest[indexPath.row]
+                self.navigationController?.pushViewController(ticketVC, animated: true)
+            }
         }
-        else
-        {
-            let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
-            ticketVC.dictContest = arrSpecialContest[indexPath.row]
-            self.navigationController?.pushViewController(ticketVC, animated: true)
-        }
-        
 //        let ticketVC = self.storyboard?.instantiateViewController(withIdentifier: "TicketVC") as! TicketVC
 //        ticketVC.dictContest = arrSpecialContest[indexPath.row]
 //        self.navigationController?.pushViewController(ticketVC, animated: true)
@@ -1163,7 +1175,7 @@ extension DashboardVC {
                       //  self.veSpecialNoContest.isHidden = false
                         
                         self.isSpecialContest = false
-                     //  self.setPageMenu()
+                       self.setPageMenu()
                         DispatchQueue.main.async {
                             self.collectionSpecialcontest.reloadData()
                             self.HeightSpecial.constant = 0
@@ -1179,7 +1191,7 @@ extension DashboardVC {
                             self.HeightSpecial.constant = 173
                         }
                     
-                  //      self.setPageMenu()
+                        self.setPageMenu()
                                       }
                    
 //                    let serverDate = dictData["currentTime"] as? String ?? "\(MyModel().convertDateToString(date: Date(), returnFormate: "yyyy-MM-dd HH:mm:ss"))"

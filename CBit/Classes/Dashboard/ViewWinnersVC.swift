@@ -67,25 +67,25 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         
         winnerCell.labelUserName.text = arrWinners[indexPath.row]["name"] as? String ?? "No Name"
         
-        let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected")
+        let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["ItemImage"] as? String ?? "No Slot Selected")
         
         let game_type = arrWinners[indexPath.row]["game_type"] as! String
         if game_type == "spinning-machine" {
                     if self.imageIsNullOrNot(imageName: img) {
-                        winnerCell.imgselected.image = img
-                        winnerCell.imgselected.isHidden = false
+                        winnerCell.imgtick.image = img
+                        winnerCell.imgtick.isHidden = false
                         winnerCell.lblslotselected.isHidden = true
                     }
                     else
                     {
-                        winnerCell.imgselected.isHidden = true
+                        winnerCell.imgtick.isHidden = true
                         winnerCell.lblslotselected.isHidden = false
                         winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
                     }
         }
         else
         {
-            winnerCell.imgselected.isHidden = true
+            winnerCell.imgtick.isHidden = true
             winnerCell.lblslotselected.isHidden = false
             winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
         }
@@ -94,12 +94,31 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
           
         let winstatus  =  arrWinners[indexPath.row]["winStatus"] as? Int ?? 5
             print(winstatus)
+        winnerCell.labelUserName.textColor = UIColor.red
+
         if winstatus == 0 {
-            winnerCell.labelUserName.textColor = UIColor.red
+            winnerCell.imgselected.isHidden = true
         }
-        else if winstatus == 1
+        else
+        {
+            winnerCell.imgselected.isHidden = false
+        }
+        
+         if winstatus == 1
         {
              winnerCell.labelUserName.textColor = #colorLiteral(red: 0.4795994759, green: 0.7768470645, blue: 0.3392369151, alpha: 1)
+            winnerCell.imgselected.image = UIImage(named: "winner")
+            winnerCell.imgselected.tintColor = #colorLiteral(red: 0.4795994759, green: 0.7768470645, blue: 0.3392369151, alpha: 1)
+        }
+        else if winstatus == 2
+        {
+            winnerCell.imgselected.image = UIImage(named: "right")
+            winnerCell.imgselected.tintColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
+        }
+        else if winstatus == 3
+        {
+            winnerCell.imgselected.image = UIImage(named: "cross")
+            winnerCell.imgselected.tintColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
         }
             
         winnerCell.labelTime.text = arrWinners[indexPath.row]["lockTime"] as? String ?? "00:00:00"
@@ -271,6 +290,7 @@ class ViewWinnersTVC: UITableViewCell {
     @IBOutlet weak var labelUserName: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     
+    @IBOutlet weak var imgtick: UIImageView!
     @IBOutlet weak var lblslotselected: UILabel!
     @IBOutlet weak var imgselected: UIImageView!
     

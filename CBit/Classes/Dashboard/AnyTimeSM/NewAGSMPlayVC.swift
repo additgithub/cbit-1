@@ -35,6 +35,8 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         var StartSecond = 15
         var storeimage = [[String:Any]]()
     var smitemarr = [[String: Any]]()
+    var smitemarrcopy = [[String: Any]]()
+
         @IBOutlet weak var btnlock: UIImageView!
         
 
@@ -165,6 +167,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
             layout.itemSize = CGSize(width: 50, height: 50)
             
             
+            Loading().showLoading(viewController: self)
 
             
             //collection_slot.semanticContentAttribute = .forceRightToLeft
@@ -207,12 +210,25 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
             
             
            // isShowLoading = true
-            getContestDetail(isfromtimer: true, isStart: 0)
            // arrSelectedTicket = arrSelectedTikets
-
+            fetchdata()
             
         }
-        
+    func fetchdata()  {
+            for _ in 1..<300
+            {
+                for dict in self.AnyTimedictContest {
+                   if dict["name"] as! String != "Draw"
+                    {
+                       self.randomarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+                   }
+                }
+            }
+     
+        Loading().hideLoading(viewController: self)
+        configStartTimer()
+        joinContest()
+    }
         
         func loadImageFromDocumentDirectory(nameOfImage : String) -> UIImage {
             let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
@@ -229,7 +245,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         override func viewDidAppear(_ animated: Bool) {
             configAutoscrollTimer()
           //  configFadeTimer()
-            configStartTimer()
+          //  configStartTimer()
         }
         
         override func viewDidDisappear(_ animated: Bool) {
@@ -359,8 +375,10 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
             StartSecond = StartSecond-1
 
             labelTimer.text = "Game starts in: \(StartSecond)"
-                    if StartSecond == 1 {
-                        getContestDetail(isfromtimer: true, isStart: 0)
+                    if StartSecond == 0 {
+                        dictGameData["gameStatus"] = "start"
+                        self.setData(isfromtime: true)
+                       // getContestDetail(isfromtimer: true, isStart: 0)
                         btnplaypause.isHidden = true
                         imgplaypause.isHidden = true
                         lblplaypause.isHidden = true
@@ -374,13 +392,15 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         @IBAction func btn_lockall(_ sender: Any) {
             
 
-            print("selection",strDisplayValuelockall)
+            print("selection",strDisplayValuelockall ?? "")
             if strDisplayValuelockall == nil
             {
                
             }
             else{
-                locakall()
+              //  DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.locakall()
+              //  }
             }
             
         }
@@ -717,7 +737,119 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         private var isGetContest = Bool()
         private var isJoinContest = Bool()
         
+    func joinContest() {
+        Loading().showLoading(viewController: self)
+        var arrSelectedcontestid = [String]()
+        var arrSelectedticketsIds = [String]()
+        var randomlistarr = [[String:Any]]()
+        var listarr = [[String:Any]]()
+        for (_,dict) in smitemarr.enumerated() {
+            let singledict = ["Image":dict["image"],
+                              "Item":dict["name"],
+                              "id":dict["id"],
+            ]
+            listarr.append(singledict as [String : Any])
+        }
+        
+        let singledict = ["Image":smitemarrcopy[smitemarrcopy.count-1]["image"],
+                          "Item":smitemarrcopy[smitemarrcopy.count-1]["name"],
+                          "id":smitemarrcopy[smitemarrcopy.count-1]["id"],
+        ]
+        randomlistarr.append(singledict as [String : Any])
+        
+        for item in arrSelectedTikets {
+            let isSelected = item["isPurchased"] as! Bool
+            if isSelected {
+                let strID = "\(item["contestpriceID"]!)"
+                arrSelectedticketsIds.append(strID)
+                
+                let strcontestId = "\(item["contestId"]!)"
+                arrSelectedcontestid.append(strcontestId)
+            }
+        }
+        
+        let strSelectedID = arrSelectedcontestid.joined(separator: ",")
+        let strSelectedID1 = arrSelectedticketsIds.joined(separator: ",")
+        
+        let parameter:[String: Any] = ["contest_id":strSelectedID ,
+                                       "tickets": strSelectedID1,"list":MyModel().getJSONString(object: listarr)!,"Randomlist":MyModel().getJSONString(object: randomlistarr)!]
+        let strURL = Define.APP_URL + Define.API_ANYTIMEJOIN_CONTEST
+        
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        {  (result, error) in
+            if error != nil {
+                
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                self.isGetContest = false
+                self.isJoinContest = true
+                //self.retry()
+                self.joinContest()
+                
+                
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    let dictData = result!["content"] as! [String: Any]
+                    
+                    Define.USERDEFAULT.set(dictData["pbAmount"] as? Double ?? 0.0, forKey: "PBAmount")
+                    Define.USERDEFAULT.set(dictData["sbAmount"] as? Double ?? 0.0, forKey: "SBAmount")
+                    Define.USERDEFAULT.set(dictData["tbAmount"] as? Double ?? 0.0, forKey: "TBAmount")
+                    
+                    let GameNumberarr = result!["GameNumber"] as! [[String: Any]]
+                    let arrSelectedTiketscopy = self.arrSelectedTikets
+                    
+                    for (_,dictouter) in GameNumberarr.enumerated() {
+                        for (indexinner,dictinner) in arrSelectedTiketscopy.enumerated() {
+                            if dictouter["contestPriceId"] as! Int == dictinner["contestpriceID"] as! Int {
+                                self.arrSelectedTikets[indexinner]["game_played"] = dictouter["game_no"] as! Int
+                            }
+                        }
+                    }
+                    
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
 
+                 //   DispatchQueue.main.async { [self] in
+                 
+                 //   }
+                   
+                  //  NotificationCenter.default.post(name: .paymentUpdated, object: nil)
+                  //  self.getContestDetail(isfromtimer: true, isStart: 0)
+                 //   configStartTimer()
+//                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
+//                    let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentSummaryVC") as! PaymentSummaryVC
+//                    paymentVC.isFromLink = self.isFromLink
+//                    self.navigationController?.pushViewController(paymentVC, animated: true)
+                    
+                    //UpComingContest
+//                    NotificationCenter.default.post(name: .upComingContest, object: nil)
+//
+//                    //MyContest
+//                    NotificationCenter.default.post(name: .myContest, object: nil)
+//                     NotificationCenter.default.post(name: .getAllspecialContest, object: nil)
+                    
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as? String ?? "No Message",
+                                      viewController: self)
+                }
+            }
+        }
+    }
         
         func getContestDetail(isfromtimer:Bool,isStart:Int) {
             
@@ -918,15 +1050,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
            // second = (dictGameData["duration"] as? Int)!
             
            // let arrSloats = self.arrSelectedTicket[0]["slotes"] as! [[String: Any]]
-            for _ in 1..<300
-            {
-                for dict in AnyTimedictContest {
-                   if dict["name"] as! String != "Draw"
-                    {
-                    randomarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
-                   }
-                }
-            }
+          
        
             if (gameStatus == "notStart") && Int(self.gameTime) ?? 0 > 40{
                // self.configFadeTimer()
