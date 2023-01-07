@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '12.0'
 
 target 'CBit' do
   
@@ -35,6 +35,8 @@ pod 'Socket.IO-Client-Swift', '~> 15.2.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
  # pod 'Firebase/Auth'
+ pod 'CashfreePG', '~> 2.0.1'
+
 end
 
 

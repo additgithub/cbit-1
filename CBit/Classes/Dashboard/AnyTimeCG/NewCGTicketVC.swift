@@ -89,13 +89,13 @@ class NewCGTicketVC: UIViewController {
         if gametype == "rdb" {
             constraintgamevwheight.constant = 50
             vwnumberslot.isHidden = true
-            lblgamename.text = "Any Time Game : Colour Colour"
+            lblgamename.text = "Blue - Red"
         }
         else
         {
             constraintgamevwheight.constant = 100
             vwcolor.isHidden = true
-            lblgamename.text = "Any Time Game : Number Slots"
+            lblgamename.text = "Which Colour has a bigger total?"
 
         }
         viewAmountMain.isHidden = true
@@ -232,8 +232,8 @@ class NewCGTicketVC: UIViewController {
             
             let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
             
-            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
-            paymentVC.isFromTicket = true
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
+            let paymentVC = storyBoard.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
             paymentVC.addAmount = cutUtilized
             paymentVC.isFromLink = isFromLink
             self.navigationController?.pushViewController(paymentVC, animated: true)
@@ -599,7 +599,16 @@ extension NewCGTicketVC: UITableViewDelegate, UITableViewDataSource {
         let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
         
         let totalAmount = pbAmount + sbAmount
-        
+        if Double(totalSelectedAmount) > totalAmount {
+           // labelPBAmount.textColor = UIColor.red
+          //  labelPay.text = "Add to wallet"
+            buttonPay.setTitle("Add to wallet", for: .normal)
+        } else {
+         //   labelPBAmount.textColor = Define.MAINVIEWCOLOR2
+          //  labelPBAmount.textColor = UIColor.green
+         //   labelPay.text = "Play"
+            buttonPay.setTitle("Play", for: .normal)
+        }
         //        if Double(totalSelectedAmount) > totalAmount {
         //            labelPBAmount.textColor = UIColor.red
         //            labelPay.text = "Add to wallet"

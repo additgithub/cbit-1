@@ -57,6 +57,8 @@
 	<string>601003210400979</string>
 	<key>FacebookDisplayName</key>
 	<string>CBit</string>
+    <key>LSApplicationCategoryType</key>
+    <string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -64,6 +66,10 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 		<string>whatsapp</string>
+        <string>bhim</string>
+         <string>paytmmp</string>
+         <string>phonepe</string>
+         <string>tez</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

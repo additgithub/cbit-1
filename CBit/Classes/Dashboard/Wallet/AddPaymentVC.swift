@@ -1,6 +1,37 @@
 import UIKit
 import UserNotifications
 //import PayKun
+import CashfreePG
+import CashfreePGCoreSDK
+import CashfreePGUISDK
+
+class Utils {
+    
+    // TEST
+    // API ID - 19394184a127e65aca15fcbf3f149391
+    // Secret Key - 8be190814383278e9815fc8b526d99fe285bddce
+    
+    // LIVE
+    // API ID - 2423146ae9d1b480ecf5840c65413242
+    // Secret Key - a156718bf429c722b8b27b4ea81304253cb50a96
+    
+   // TEST
+//    static var environment: CFENVIRONMENT = .SANDBOX
+//    static var APPID = "19394184a127e65aca15fcbf3f149391"
+//    static var SecretKey = "8be190814383278e9815fc8b526d99fe285bddce"
+//    static var URL = "https://sandbox.cashfree.com/pg/orders"
+
+    // LIVE
+     static var environment: CFENVIRONMENT = .PRODUCTION
+     static var APPID = "2423146ae9d1b480ecf5840c65413242"
+     static var SecretKey = "a156718bf429c722b8b27b4ea81304253cb50a96"
+     static var URL = "https://api.cashfree.com/pg/orders"
+
+
+//    static let payment_session_id = "session_PZpsrKm4XXuTA-DhdcsBnwIpTZM8dzO-Pr7hFprzB6e0tbrlbYQecrsPBtd5IHB59wv3y3YuRG3zDfyXuNMJWl83JHZbiLpDnC5AAgN3I-LF"
+//    static let order_id = "order_3242E1iDhG1aXtjKgETgKtxj0sDlnS"
+
+}
 
 class AddPaymentVC: UIViewController {
 
@@ -71,15 +102,16 @@ class AddPaymentVC: UIViewController {
             return
         }
         
-        if addAmount < 10 {
-            Alert().showTost(message: "Minimum deposit - ₹10.", viewController: self)
-        } else {
+//        if addAmount < 10 {
+//            Alert().showTost(message: "Minimum deposit - ₹10.", viewController: self)
+//        } else {
             
             var orderId = "\(1 + arc4random_uniform(9))"
             for _ in 0..<9 {
                 orderId = orderId + ("\(arc4random_uniform(10))")
             }
-                        
+            GetPaymentIDfromcashfreeAPI(orderId: orderId)
+
 //            paymentPaykun.checkout(withCustomerName: Define.USERDEFAULT.value(forKey: "UserName") as? String ?? "CBit User",
 //                                   customerEmail: Define.USERDEFAULT.value(forKey: "Email") as! String,
 //                                   customerMobile: Define.USERDEFAULT.value(forKey: "UserMobile") as! String,
@@ -98,13 +130,127 @@ class AddPaymentVC: UIViewController {
 //                                       viewController: self)
          //   }
             
-
+      //  }
+    }
+    
+    func MakePayment(dict:[String:Any]) {
+        do {
+            let session = try CFSession.CFSessionBuilder()
+            .setOrderID("\(dict["order_id"] ?? "")") // Replace the order_id
+                .setPaymentSessionId("\(dict["payment_session_id"] ?? "")") // Replace the order_token
+                .setEnvironment(Utils.environment)
+                .build()
+            let paymentComponent = try CFPaymentComponent.CFPaymentComponentBuilder()
+                .enableComponents([
+                    "order-details",
+                    "card",
+                    "upi",
+                    "wallet",
+                    "netbanking",
+                    "emi",
+                    "paylater"
+                ])
+                .build()
+            let nativeCheckoutPayment = try CFDropCheckoutPayment.CFDropCheckoutPaymentBuilder()
+                .setSession(session)
+                .setComponent(paymentComponent)
+                .build()
+            
+            let service = CFPaymentGatewayService.getInstance()
+            service.setCallback(self)
+            try service.doPayment(nativeCheckoutPayment, viewController: self)
+        } catch let e {
+            let error = e as! CashfreeError
+            print(error.localizedDescription)
         }
     }
 }
 
+extension AddPaymentVC: CFResponseDelegate {
+    
+    func onError(_ error: CFErrorResponse, order_id: String) {
+        print(error.message as Any)
+                print("-----> Payment Failed")
+              //  print("Data: ", responce)
+        
+                let statusVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentStatusVC") as! PaymentStatusVC
+                statusVC.isTransactionStatus = false
+                self.navigationController?.pushViewController(statusVC, animated: true)
+    }
+    
+    func verifyPayment(order_id: String) {
+        // Verify The Payment here
+                print("-----> Payment Success")
+                print("Data: ", order_id)
+               // let paymentID = responce["req_id"] as? String ?? ""
+                self.addMoneyAPI(paymentId: order_id)
+    }
+    
+}
+
 //MARK: - API
 extension AddPaymentVC {
+    func GetPaymentIDfromcashfreeAPI(orderId: String)
+    {
+        guard let addAmount = Double(textAmount.text!) else {
+            Alert().showTost(message: "Enter Proper Amount", viewController: self)
+            return
+        }
+        
+       // Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [
+            "order_id": orderId,
+            "order_amount": "\(addAmount)",
+            "order_currency": "INR",
+            "order_note": "user order",
+            "customer_details": ["customer_id":Define.USERDEFAULT.value(forKey: "UserID") as? String,
+                                 "customer_name":Define.USERDEFAULT.value(forKey: "UserName") as? String ?? "CBit User",
+                                 "customer_email":Define.USERDEFAULT.value(forKey: "Email") as? String,
+                                 "customer_phone":Define.USERDEFAULT.value(forKey: "UserMobile") as? String]
+        ]
+        let strURL = "https://sandbox.cashfree.com/pg/orders"
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+
+        
+      
+        
+       // var semaphore = DispatchSemaphore (value: 0)
+        let parameters = jsonString
+
+       // let parameters = "{\n    \"order_amount\": \"1.00\",\n    \"order_id\": \"order_id\",\n    \"order_currency\": \"INR\",\n    \"customer_details\": {\n        \"customer_id\": \"customer_id\",\n        \"customer_name\": \"customer_name\",\n        \"customer_email\": \"customer_email\",\n        \"customer_phone\": \"customer_phone\"\n    },\n    \"order_meta\": {\n        \"notify_url\": \"https://test.cashfree.com\"\n    },\n    \"order_note\": \"some order note here\"\n}"
+        let postData = parameters!.data(using: .utf8)
+
+        var request = URLRequest(url: URL(string: Utils.URL)!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(Utils.APPID, forHTTPHeaderField: "x-client-id")
+        request.addValue(Utils.SecretKey, forHTTPHeaderField: "x-client-secret")
+        request.addValue("2022-09-01", forHTTPHeaderField: "x-api-version")
+        request.addValue("Cbit", forHTTPHeaderField: "x-request-id")
+
+        request.httpMethod = "POST"
+        request.httpBody = postData
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+           // Loading().hideLoading(viewController: self)
+          guard let data = data else {
+            print(String(describing: error))
+        //    semaphore.signal()
+            return
+          }
+          print(String(data: data, encoding: .utf8)!)
+            let orderData = MyModel().convertToDictionary(text: (String(data: data, encoding: .utf8)!))
+            print("OrderData",orderData ?? [:])
+       //   semaphore.signal()
+            DispatchQueue.main.async {
+                self.MakePayment(dict: orderData ?? [:])
+            }
+        }
+
+        task.resume()
+      //  semaphore.wait()
+    }
     func addMoneyAPI(paymentId: String)
     {
         Loading().showLoading(viewController: self)

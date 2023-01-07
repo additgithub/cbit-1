@@ -20,6 +20,8 @@ class NewCGGameResultVC: UIViewController {
     @IBOutlet weak var tableResult: UITableView!
     
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var lblgamename: UILabel!
+    @IBOutlet weak var lblcontestname: UILabel!
     var dictContest = [String: Any]()
     var gamelevel = Int()
     
@@ -60,9 +62,14 @@ class NewCGGameResultVC: UIViewController {
     if gametype == "0-9"
     {
          labelAnswer.text = "Blue - Red = \(dictContestDetail["answer"]!)"
+        lblcontestname.text = "Blue - Red"
+        lblgamename.text = "Blue - Red"
+
         }
     else{
         labelAnswer.isHidden = true
+        lblcontestname.text = "Which Colour has a bigger total?"
+        lblgamename.text = "Which Colour has a bigger total?"
         }
         
        
@@ -210,7 +217,7 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         let test = Double(strAmount) ?? 0.00
         resultCell.labelEntryFees.text = String(format: "₹ %.02f", test)
         
-        let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"]!)"
+        let strTickets = "\(arrSelectedTickets[indexPath.row]["no_of_players"]!)"
         resultCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
         let strWinnings = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
         resultCell.labelTotalWinnings.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
@@ -246,9 +253,17 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
         let isLock = arrSelectedTickets[indexPath.row]["isLock"] as? Bool ?? false
         
         if isLock {
+            let win = arrSelectedTickets[indexPath.row]["win"] as? Int ?? 0
+            if win == 0
+            {
+                resultCell.labelAnswer.text = "You choose wrong answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            }
+            else
+            {
+                resultCell.labelAnswer.text = "You choose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            }
             resultCell.labelAnswer.text = "Your Selection  \(strValue)"
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
-            resultCell.lbllockedtext.text = "You choose right answer in  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
 
         } else {
             resultCell.labelAnswer.text = "\(strValue)"
@@ -288,7 +303,37 @@ extension NewCGGameResultVC: UITableViewDelegate, UITableViewDataSource {
             let strWinAmount = "\(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)"
             resultCell.labelAmount.text = "Points : CC \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
-        
+        if ("\(arrSelectedTickets[indexPath.row]["pending"]!)" == "0") {
+//                    viewHolder.tvViewWinner.setVisibility(View.VISIBLE);
+//                    viewHolder.tvWinnings.setVisibility(View.VISIBLE);
+            resultCell.vwwinamount.isHidden = false
+            resultCell.buttonViewWinners.isHidden = false
+            resultCell.labelViewWinners.isHidden = false
+
+                    if ("\(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)" != "0") {
+                      //  viewHolder.tvWinnings.setText("Points : CC " + ticketList.get(i).getTotalCCWinAmount());
+                        resultCell.labelAmount.text = "Points : CC \(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)"
+
+                    } else if ("\(arrSelectedTickets[indexPath.row]["nowin"]!)" != "0") {
+                       // viewHolder.tvWinnings.setText("Refund : " + ticketList.get(i).getNowin());
+                        resultCell.labelAmount.text = "Refund : \(arrSelectedTickets[indexPath.row]["nowin"]!)"
+
+                    }  else if ("\(arrSelectedTickets[indexPath.row]["winAmount"]!)" != "0") {
+                      //  viewHolder.tvWinnings.setText("Win : " + Utils.getCurrencyFormat(String.valueOf(ticketList.get(i).getWinAmount())));
+                        resultCell.labelAmount.text = "Win : \(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+
+                    }else {
+                       // viewHolder.tvWinnings.setText("Win : " + Utils.getCurrencyFormat(String.valueOf(ticketList.get(i).getWinAmount())));
+                        resultCell.labelAmount.text = "Win : \(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+                    }
+            //07944444121 - 20003847183
+                }
+        else
+        {
+            resultCell.vwwinamount.isHidden = true
+            resultCell.buttonViewWinners.isHidden = true
+            resultCell.labelViewWinners.isHidden = true
+        }
         return resultCell
     }
     

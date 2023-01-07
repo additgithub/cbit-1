@@ -227,7 +227,7 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         let test = Double(strAmount) ?? 0.00
         resultCell.labelEntryFees.text = String(format: "₹ %.02f", test)
         
-        let strTickets = "\(arrSelectedTickets[indexPath.row]["totalTickets"]!)"
+        let strTickets = "\(arrSelectedTickets[indexPath.row]["no_of_players"]!)"
         resultCell.labelTotalTickets.text = "\(MyModel().getNumbers(value: Double(strTickets)!))"
         let strWinnings = "\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
         resultCell.labelTotalWinnings.text = "\(MyModel().getCurrncy(value: Double(strWinnings)!))"
@@ -295,8 +295,17 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         
         if isLock {
             let selectValue = "\(dictSelectedData["selectValue"] as? String ?? "0")"
+            
+            let win = arrSelectedTickets[indexPath.row]["win"] as? Int ?? 0
+            if win == 0
+            {
+                resultCell.labelAnswer.text = "You choose wrong answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            }
+            else
+            {
+                resultCell.labelAnswer.text = "You choose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+            }
 
-            resultCell.labelAnswer.text = "You choose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
             let localimg1 = loadImageFromDocumentDirectory(nameOfImage: selectValue)
             resultCell.imgselectedans.image =  localimg1
@@ -335,7 +344,7 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
             resultCell.labelTotalWinnings.text = "₹\(arrSelectedTickets[indexPath.row]["totalWinnings"]!)"
             resultCell.labelMaxWinner.text = "\(arrSelectedTickets[indexPath.row]["maxWinners"]!)"
             let strWinAmount = "\(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)"
-            resultCell.labelAmount.text = "Points : CC \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
+            resultCell.labelAmount.text = "Points : \(MyModel().getCurrncy(value: Double(strWinAmount)!))"
         }
         
         //        resultCell.collectionlist.delegate = self
@@ -343,6 +352,38 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         resultCell.strDisplayValue = strValue
         // resultCell.arrData = nil
         resultCell.arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as? [[String: Any]] ?? []
+        
+        if ("\(arrSelectedTickets[indexPath.row]["pending"]!)" == "0") {
+//                    viewHolder.tvViewWinner.setVisibility(View.VISIBLE);
+//                    viewHolder.tvWinnings.setVisibility(View.VISIBLE);
+            resultCell.vwwinamount.isHidden = false
+            resultCell.buttonViewWinners.isHidden = false
+            resultCell.labelViewWinners.isHidden = false
+
+                    if ("\(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)" != "0") {
+                      //  viewHolder.tvWinnings.setText("Points : CC " + ticketList.get(i).getTotalCCWinAmount());
+                        resultCell.labelAmount.text = "Points : CC \(arrSelectedTickets[indexPath.row]["totalCCWinAmount"]!)"
+
+                    } else if ("\(arrSelectedTickets[indexPath.row]["nowin"]!)" != "0") {
+                       // viewHolder.tvWinnings.setText("Refund : " + ticketList.get(i).getNowin());
+                        resultCell.labelAmount.text = "Refund : \(arrSelectedTickets[indexPath.row]["nowin"]!)"
+
+                    }  else if ("\(arrSelectedTickets[indexPath.row]["winAmount"]!)" != "0") {
+                      //  viewHolder.tvWinnings.setText("Win : " + Utils.getCurrencyFormat(String.valueOf(ticketList.get(i).getWinAmount())));
+                        resultCell.labelAmount.text = "Win : \(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+
+                    }else {
+                       // viewHolder.tvWinnings.setText("Win : " + Utils.getCurrencyFormat(String.valueOf(ticketList.get(i).getWinAmount())));
+                        resultCell.labelAmount.text = "Win : \(arrSelectedTickets[indexPath.row]["winAmount"]!)"
+                    }
+            //07944444121 - 20003847183
+                }
+        else
+        {
+            resultCell.vwwinamount.isHidden = true
+            resultCell.buttonViewWinners.isHidden = true
+            resultCell.labelViewWinners.isHidden = true
+        }
         
         return resultCell
     }

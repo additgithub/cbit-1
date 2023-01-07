@@ -26,6 +26,15 @@ class DashboardVC: UIViewController {
     @IBOutlet weak var vwpopupreward: UIView!
     @IBOutlet weak var imgreward: UIImageView!
     
+    @IBOutlet weak var lblwalletbalance: UILabel!
+    @IBOutlet weak var lblnewresults: UILabel!
+    @IBOutlet weak var lblreedemed: UILabel!
+    @IBOutlet weak var lblapplied: UILabel!
+    @IBOutlet weak var lblreceived: UILabel!
+    @IBOutlet weak var lbltotalrefferal: UILabel!
+    @IBOutlet weak var lblrefferalcomission: UILabel!
+    @IBOutlet weak var resultheight: NSLayoutConstraint!
+    
     private var arrSpecialContest = [[String: Any]]()
     var arrAdvertise = [[String: Any]]()
     var storeimage = [[String: Any]]()
@@ -99,12 +108,14 @@ class DashboardVC: UIViewController {
                }
     
         getReferalCriteriaChart()
-    
+    getNewResultStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         getUserInfo()
         getUserData()
+        CallJAssetData()
+        getReferralCommitionTotalAmount()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
             self.getUserJoinDateTime()
@@ -115,6 +126,30 @@ class DashboardVC: UIViewController {
              selector: #selector(applicationWillEnterForeground(_:)),
              name: UIApplication.willEnterForegroundNotification,
              object: nil)
+        
+        let pbAmount = "\(Define.USERDEFAULT.value(forKey: "PBAmount")!)"
+        guard let amountPB = Double(pbAmount) else {
+            return
+        }
+       // labelbalance.text = MyModel().getCurrncy(value: amountPB)
+        
+        let sbAmount = "\(Define.USERDEFAULT.value(forKey: "SBAmount")!)"
+        guard let amountSB = Double(sbAmount) else {
+            return
+        }
+        
+//        let ccAmount = "\(Define.USERDEFAULT.value(forKey:"ccAmount")!)"
+//        guard let amountCC = Double(ccAmount) else {
+//            return
+//        }
+     
+       // lblcc.text! =  "CC " + MyModel().getNumbers(value:amountCC)
+            
+            //MyModel().getCurrncy(value: amountCC)
+        
+        lblreceived.text = MyModel().getCurrncy(value: amountSB)
+        
+        lblwalletbalance.text = MyModel().getCurrncy(value: (amountPB + amountSB))
     }
     
     @objc func applicationWillEnterForeground(_ notification: NSNotification) {
@@ -311,6 +346,26 @@ class DashboardVC: UIViewController {
 //        let SpinningMachineVC = self.storyboard?.instantiateViewController(withIdentifier: "SpinningMachineVC") as! SpinningMachineVC
 //        SpinningMachineVC.storeimage = storeimage
 //        self.navigationController?.pushViewController(SpinningMachineVC, animated: true)
+    }
+    
+    @IBAction func btnnewresult_click(_ sender: UIButton) {
+//        let HistoryVC = self.storyboard?.instantiateViewController(withIdentifier: "HistoryVC") as! HistoryVC
+//        self.navigationController?.pushViewController(HistoryVC, animated: true)
+//        let historyVC = self.storyboard?.instantiateViewController(withIdentifier: "HistoryVC") as! HistoryVC
+//        historyVC.modalPresentationStyle = .fullScreen
+//        self.present(historyVC, animated: true){
+//            self.sideMenuController?.hideMenu()
+//        }
+        sideMenuController?.setContentViewController(with: "\(7)")
+        sideMenuController?.hideMenu()
+    }
+    
+    @IBAction func btnkyc_click(_ sender: UIButton) {
+        let srotyboard = UIStoryboard(name: "Authentication", bundle: nil)
+        let panVC = srotyboard.instantiateViewController(withIdentifier: "KYCVerifycationVC") as! KYCVerifycationVC
+        panVC.isFromWallet = true
+        panVC.delegate = self
+        self.navigationController?.pushViewController(panVC, animated: true)
     }
 }
 //MARK: - Notifcation Delegate Method
@@ -587,6 +642,145 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
 
 //MARK: - API {
 extension DashboardVC {
+    func getNewResultStatus() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [:]
+        let strURL = Define.APP_URL + Define.AnytimeGameNotificationCount
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        
+        SwiftAPI().getMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
+                self.getReferalCriteriaChart()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let content = result!["content"] as! [String: Any]
+                    let count = content["count"] as? Int ?? 0
+                    if count > 0
+                    {
+                        self.lblnewresults.text = "\(count) New Results Declared"
+                        self.resultheight.constant = 50
+                    }
+                    else
+                    {
+                        self.resultheight.constant = 0
+                    }
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
+    
+    func getReferralCommitionTotalAmount()  {
+     
+        let strURL = Define.APP_URL + Define.getReferralCommitionTotalAmount
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                print("Error: \(error!)")
+            } else {
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let content =  result!["content"] as! [String:Any]
+                  //  self.btnjassets.setTitle("JHits: ₹ \(content["totalsum"] as! String)", for: .normal)
+                    self.lblrefferalcomission.text = "₹ \(content["Earning"] as! String)"
+                    self.lbltotalrefferal.text = "\(content["ReferralCount"] as? Int ?? 0)"
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    func CallJAssetData()  {
+       
+        let strURL = Define.APP_URL + Define.getJAssets
+        print("URL: \(strURL)")
+        
+        let parameter: [String: Any] = [
+            :
+        ]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                print("Error: \(error!)")
+            } else {
+           
+                print("Result: \(result!)")
+                
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: result!, options: .prettyPrinted)
+                        // here "jsonData" is the dictionary encoded in JSON data
+                        
+                        let allAssetListModel = try? JSONDecoder().decode(JAssetsListModel.self, from: jsonData)
+                        
+                        let contact = allAssetListModel?.content!
+                        self.lblapplied.text = "CC \(contact!.appliedCC!)"
+                        self.lblreedemed.text = "CC \(contact!.redemedCC!)"
+                        
+                       
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
     func getUserInfo() {
         let strURL = Define.APP_URL + Define.getUserInfo
         print("URL: \(strURL)")
@@ -1239,5 +1433,13 @@ extension UIView {
             constraint.constant = constant
             self.layoutIfNeeded()
         }
+    }
+}
+//MARK: - KYC Delegate Method
+extension DashboardVC: KYCVerifycationDelegate {
+    func processAdded() {
+//        Alert().showAlert(title: "CBit",
+//                          message: "Your PAN card added successfully, Wait for the verification.",
+//                          viewController: self)
     }
 }

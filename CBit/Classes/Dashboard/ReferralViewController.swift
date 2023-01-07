@@ -114,25 +114,19 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
                 let url1 =  "Hey there! \n\n"
  
 
-                let url2 = UserDefaults.standard.value(forKey:"Referralcode")! as? String
+                let url2 = UserDefaults.standard.value(forKey:"Referralcode") as? String ?? ""
                        
-                let url4 = "Install the ‘Cbit Original’ Gaming App with my referral code - " + "*" + (url2 ?? "") + "*"
+            let url4 = "Install the ‘Cbit Original’ Gaming App with my referral code - " + "*" + (url2) + "*"
                       
                         
                 let url3 = "\n\n• Worlds shortest, easiest and original games! \n• Auto apply Cashback on loosing! \n• Refer & Earn Random commission upto 9 levels! \n\nTerms & conditions apply \n\nClick on the link to download the app- www.cbitoriginal.com \n\nHurry! Download it now!"
 
-            
-                
-                        
         
-            let appendString  = "\(url1)\(url4)\(url3)"
-                        
-                        
+            let url5  = "https://cbitoriginal.in/refer.html?code=\(url2)"
                // let objectsToShare = [appendString,urlStr] as [Any]
-                 
+                        let appendString  = "\(url1)\(url4)\(url3)\(url5)"
+
                  let objectsToShare = [appendString] as [Any]
-                        
-                        
                         
                 let activityVC = UIActivityViewController(activityItems: objectsToShare as [Any], applicationActivities: nil)
         
@@ -145,7 +139,6 @@ class ReferralViewController: UIViewController,UIGestureRecognizerDelegate {
                         }
         
                         self.present(activityVC, animated: true, completion: nil)
-        
          }
         
     }

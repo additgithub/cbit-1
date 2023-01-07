@@ -93,7 +93,7 @@ class NewCGGamePlayVC: UIViewController {
     private var isStartEventCall = Bool()
     
     var timer: Timer?
-    var second = 30
+    var second = 29
     var msecond:Int = 999
     
     var endGameTimer: Timer?

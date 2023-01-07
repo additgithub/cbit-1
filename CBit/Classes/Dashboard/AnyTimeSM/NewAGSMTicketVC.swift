@@ -97,7 +97,7 @@ class NewAGSMTicketVC: UIViewController {
         }
         
        // setReminder()
-        constraintPaymentViewHeight.constant = 0
+        constraintPaymentViewHeight.constant = 50
         constraintSelectionViewHeight.constant = 0
         
         
@@ -405,7 +405,7 @@ class NewAGSMTicketVC: UIViewController {
         
         
         
-         if labelPay.text == "Play" {
+         if buttonPay.titleLabel?.text == "Play" {
              if !MyModel().isConnectedToInternet() {
                  Alert().showTost(message: Define.ERROR_INTERNET,
                                   viewController: self)
@@ -758,7 +758,7 @@ extension NewAGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
     func setSelectedData() {
         self.view.layoutIfNeeded()
         if noOfSelected == 0 {
-            constraintPaymentViewHeight.constant = 0
+            constraintPaymentViewHeight.constant = 50
             constraintSelectionViewHeight.constant = 0
         } else {
             constraintPaymentViewHeight.constant = 50
@@ -774,10 +774,12 @@ extension NewAGSMTicketVC: UITableViewDelegate, UITableViewDataSource {
         if Double(totalSelectedAmount) > totalAmount {
             labelPBAmount.textColor = UIColor.red
             labelPay.text = "Add to wallet"
+            buttonPay.setTitle("Add to wallet", for: .normal)
         } else {
             labelPBAmount.textColor = Define.MAINVIEWCOLOR2
             labelPBAmount.textColor = UIColor.green
             labelPay.text = "Play"
+            buttonPay.setTitle("Play", for: .normal)
         }
     }
     
@@ -819,6 +821,7 @@ extension NewAGSMTicketVC {
                     let arrlst = dic!["lst"] as? [[String: Any]] ?? []
                     if arrlst.count > 0 {
                         self.AnyTimedictContest = arrlst
+                        self.AnyTimedictContest.shuffle()
                         self.lblgamename.text = self.AnyTimedictContest[0]["name"] as? String
                         self.totalgame = self.AnyTimedictContest.count
                         self.getAnyTimeGameContestList()

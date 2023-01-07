@@ -70,7 +70,7 @@ class GameResultVC: UIViewController {
         lblnowin.text = "Refund : ₹\(NowinAmount)"
         
         let winCCAmount = Double(dictContestDetail["totalCCWinAmount"] as? String ?? "0.0")!
-        ccwinning.text = "Reclamation : CC \(winCCAmount)"
+        ccwinning.text = "Points : CC \(winCCAmount)"
         
         
         for item in arrTiclets {
@@ -708,6 +708,7 @@ class GameResultTVC: UITableViewCell {
     
     @IBOutlet weak var collectionlist: UICollectionView!
     
+    @IBOutlet weak var vwwinamount: ViewWithRadius!
     var arrSloats = [[String: Any]]()
     var strDisplayValue = String()
     var isfromnumberslot = false

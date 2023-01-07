@@ -50,12 +50,10 @@ class HistoryVC: UIViewController {
                                                name: .updateHistory,
                                                object: nil)
         
-        if !MyModel().isConnectedToInternet() {
-            Alert().showTost(message: Define.ERROR_INTERNET,
-                             viewController: self)
-        } else {
-            getHistoryListAPI()
-        }
+      
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +64,12 @@ class HistoryVC: UIViewController {
 //        } else {
 //            getHistoryListAPI()
 //        }
+        if !MyModel().isConnectedToInternet() {
+            Alert().showTost(message: Define.ERROR_INTERNET,
+                             viewController: self)
+        } else {
+            getHistoryListAPI()
+        }
     }
     
     @objc func handleNotification() {
@@ -79,8 +83,9 @@ class HistoryVC: UIViewController {
     
     //MARK: -Button Method
     @IBAction func buttonBack(_ sender: Any) {
-        
+      //  self.navigationController?.popViewController(animated: true)
         sideMenuController?.revealMenu()
+       // self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func segmentchanged(_ sender: UISegmentedControl) {
@@ -131,6 +136,24 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             cell.lblatggameno.text = "Live Game"
           //  cell.lblatggameno.textColor = UIColor.red
         }
+        
+        let is_watch  = arrHistory[indexPath.row]["is_watch"] as! Int
+        let gametime  = arrHistory[indexPath.row]["game_time"] as! String
+        if gametime == "-"
+        {
+            cell.imgnew.isHidden = true
+        }
+        else
+        {
+            if (is_watch == 0) {
+                cell.imgnew.isHidden = false
+            }
+            else
+            {
+                cell.imgnew.isHidden = true
+            }
+        }
+        
 
         if arrHistory.count > 1 {
             let lastElement = arrHistory.count - 1
@@ -325,6 +348,7 @@ class HistoryTVC: UITableViewCell {
     @IBOutlet weak var lblplaydate: UILabel!
     @IBOutlet weak var lblresulttime: UILabel!
     @IBOutlet weak var lblplaytime: UILabel!
+    @IBOutlet weak var imgnew: UIImageView!
     
     
     

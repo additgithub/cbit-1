@@ -67,7 +67,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         
         winnerCell.labelUserName.text = arrWinners[indexPath.row]["name"] as? String ?? "No Name"
         
-        let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["ItemImage"] as? String ?? "No Slot Selected")
+        let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["ItemImage"] as? String ?? "")
         
         let game_type = arrWinners[indexPath.row]["game_type"] as! String
         if game_type == "spinning-machine" {
@@ -80,14 +80,14 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
                     {
                         winnerCell.imgtick.isHidden = true
                         winnerCell.lblslotselected.isHidden = false
-                        winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
+                        winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? ""
                     }
         }
         else
         {
             winnerCell.imgtick.isHidden = true
-            winnerCell.lblslotselected.isHidden = false
-            winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
+            winnerCell.lblslotselected.isHidden = true
+           // winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? "No Slot Selected"
         }
 
         
@@ -96,13 +96,13 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
             print(winstatus)
         winnerCell.labelUserName.textColor = UIColor.red
 
-        if winstatus == 0 {
-            winnerCell.imgselected.isHidden = true
-        }
-        else
-        {
-            winnerCell.imgselected.isHidden = false
-        }
+//        if winstatus == 0 {
+//            winnerCell.imgselected.isHidden = true
+//        }
+//        else
+//        {
+//            winnerCell.imgselected.isHidden = false
+//        }
         
          if winstatus == 1
         {
@@ -115,7 +115,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
             winnerCell.imgselected.image = UIImage(named: "right")
             winnerCell.imgselected.tintColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
         }
-        else if winstatus == 3
+        else //if winstatus == 3
         {
             winnerCell.imgselected.image = UIImage(named: "cross")
             winnerCell.imgselected.tintColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)

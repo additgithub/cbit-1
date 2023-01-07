@@ -96,7 +96,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         private var isStartEventCall = Bool()
         
         var timer: Timer?
-        var second = 30
+        var second = 29
         var msecond:Int = 999
         
         var endGameTimer: Timer?
@@ -171,16 +171,16 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
 
             
             //collection_slot.semanticContentAttribute = .forceRightToLeft
-            storeimage = Define.Globalimagearr
-            for _ in 1..<8
-            {
-                for dict in storeimage {
-                    itemarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
-                }
-
-            }
-
-           slotarr = itemarr
+//            storeimage = Define.Globalimagearr
+//            for _ in 1..<8
+//            {
+//                for dict in storeimage {
+//                    itemarr.append(loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
+//                }
+//
+//            }
+//
+//           slotarr = itemarr
             
             tableAnswer.rowHeight = UITableView.automaticDimension
             tableAnswer.tableFooterView = UIView()
@@ -212,19 +212,28 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
            // isShowLoading = true
            // arrSelectedTicket = arrSelectedTikets
             fetchdata()
-            
         }
     func fetchdata()  {
-            for _ in 1..<300
-            {
+//            for _ in 1..<300
+//            {
                 for dict in self.AnyTimedictContest {
                    if dict["name"] as! String != "Draw"
                     {
                        self.randomarr.append(self.loadImageFromDocumentDirectory(nameOfImage: dict["name"] as! String))
                    }
                 }
-            }
-     
+          //  }
+        
+        for _ in 1..<8
+        {
+            //  self.myGroup.enter()
+            self.randomarr.append(contentsOf: randomarr)
+           //      self.myGroup.leave()
+            print("Randomarrcount:",self.randomarr.count)
+            print("Slotlooprunning")
+          //  collection_slot.reloadData()
+        }
+        slotarr = randomarr
         Loading().hideLoading(viewController: self)
         configStartTimer()
         joinContest()
@@ -243,7 +252,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         }
         
         override func viewDidAppear(_ animated: Bool) {
-            configAutoscrollTimer()
+           // configAutoscrollTimer()
           //  configFadeTimer()
           //  configStartTimer()
         }

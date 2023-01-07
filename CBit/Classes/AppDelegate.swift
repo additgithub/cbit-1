@@ -121,7 +121,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,OSPermissionObserver,OSSub
         let userId = OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
         
         UserDefaults.standard.set(userId,forKey:"OnesignalID")
-        
+        print("Current playerId \(userId ?? "")")
+
         
         // Recommend moving the below line to prompt for push after informing the user about
         //   how your app will use them.

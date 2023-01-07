@@ -249,6 +249,9 @@ class Define {
     static let storeTradingData = "storeTradingData"
     static let jtradingChart = "jtradingChart"
     
+    static let AnytimeGameNotificationCount = "AnytimeGameNotificationCount"
+
+    
     
     
     static let whatsappapi = "https://api.whatsapp.com/send/?phone=918591497179&text=hi"

@@ -1,6 +1,15 @@
 PODS:
   - ActionSheetPicker-3.0 (2.5.0)
   - Alamofire (4.8.1)
+  - CashfreeAnalyticsSDK (2.0.0):
+    - CFNetworkSDK (~> 2.0.0)
+  - CashfreePG (2.0.1):
+    - CashfreePGUISDK (~> 2.0.1)
+  - CashfreePGCoreSDK (2.0.1):
+    - CashfreeAnalyticsSDK (~> 2.0.0)
+  - CashfreePGUISDK (2.0.1):
+    - CashfreePGCoreSDK (~> 2.0.1)
+  - CFNetworkSDK (2.0.0)
   - DropDown (2.3.13)
   - FBSDKCoreKit (6.5.2):
     - FBSDKCoreKit/Basics (= 6.5.2)
@@ -125,6 +134,7 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0
   - Alamofire (~> 4.7)
+  - CashfreePG (~> 2.0.1)
   - DropDown (= 2.3.13)
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -152,6 +162,11 @@ SPEC REPOS:
   trunk:
     - ActionSheetPicker-3.0
     - Alamofire
+    - CashfreeAnalyticsSDK
+    - CashfreePG
+    - CashfreePGCoreSDK
+    - CashfreePGUISDK
+    - CFNetworkSDK
     - DropDown
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -189,6 +204,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 6d79f6f3b98e2b21d218dd65a39f634ff37a27e5
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  CashfreeAnalyticsSDK: d36845057f2f2bfda662dbe8c29a64f56805ec48
+  CashfreePG: 5bf71604f88a0af20bc0fcbec1faa466ad21077b
+  CashfreePGCoreSDK: 6992b40a99bf192b930ff46f631d56e1db088692
+  CashfreePGUISDK: 4714435dbdbc9c19bc222991a132c0a9e3578088
+  CFNetworkSDK: fca644b42b741bd154764bc2c67d85008a9be489
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FBSDKCoreKit: ada5c8a05188daefc9addb985c52b8a1b26da519
   FBSDKLoginKit: caa165495afa29a12324cb2307fe6e5b33783142
@@ -223,6 +243,6 @@ SPEC CHECKSUMS:
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
 
-PODFILE CHECKSUM: 637e576fa8603461036c7f35b0fdbcec6669a7e7
+PODFILE CHECKSUM: 8673e42ee6b3cf302d58ec4be5df6d47799ab029
 
 COCOAPODS: 1.11.3
