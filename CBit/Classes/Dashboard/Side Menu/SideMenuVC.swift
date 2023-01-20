@@ -53,6 +53,7 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
            // "My Group"
            // ], isExpand: false),
         SideMenu(title: "Referral Network", subMenus: nil, isExpand: false),
+        SideMenu(title: "Invite Friends", subMenus: nil, isExpand: false),
         SideMenu(title: "Easy Join", subMenus: nil, isExpand: false),
         SideMenu(title: "Auto Renew", subMenus: nil, isExpand: false),
         //SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
@@ -60,7 +61,6 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         SideMenu(title: "Wallet", subMenus: nil, isExpand: false),
         SideMenu(title: "Notification", subMenus: nil, isExpand: false),
         SideMenu(title: "History", subMenus: nil, isExpand: false),
-        SideMenu(title: "Invite Friends", subMenus: nil, isExpand: false),
         SideMenu(title: "Settings", subMenus: nil, isExpand: false),
   //      SideMenu(title: "PACKAGES", subMenus: nil, isExpand: false),
         //SideMenu(title: "TERMS & CONDITION", subMenus: nil, isExpand: false),
@@ -318,12 +318,16 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         }, with: "1")
         
         sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "EasyJoinNC")
+            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
         }, with: "2")
         
         sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "AutoRenewVC")
+            self.storyboard?.instantiateViewController(withIdentifier: "EasyJoinNC")
         }, with: "3")
+        
+        sideMenuController?.cache(viewControllerGenerator: {
+            self.storyboard?.instantiateViewController(withIdentifier: "AutoRenewVC")
+        }, with: "4")
         
         /*sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "OrganizeNC")
@@ -335,19 +339,17 @@ class SideMenuVC: UIViewController,UIGestureRecognizerDelegate {
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "WalletNC")
-        }, with: "5")
-        
-        sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
         }, with: "6")
         
         sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
+            self.storyboard?.instantiateViewController(withIdentifier: "NotificationNC")
         }, with: "7")
         
         sideMenuController?.cache(viewControllerGenerator: {
-            self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController")
+            self.storyboard?.instantiateViewController(withIdentifier: "HistoryNC")
         }, with: "8")
+        
+      
         
         sideMenuController?.cache(viewControllerGenerator: {
             self.storyboard?.instantiateViewController(withIdentifier: "SettingNC")
@@ -536,6 +538,7 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
     //MARK: -  TableView Header Button
     @objc func buttonHeaderClick(_ sender: UIButton) {
         let index = sender.tag
+        selectedIndex = index
         if index == 1 {
             selectedIndex = index
            // arrSideMenu[1].isExpande = false
@@ -560,27 +563,34 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
                 self.sideMenuController?.hideMenu()
             }
         }
-        else if index == 3 {
+        else if index == 4 {
             let EasyJoinVC = self.storyboard?.instantiateViewController(withIdentifier: "EasyJoinVC") as! EasyJoinVC
             EasyJoinVC.modalPresentationStyle = .fullScreen
             self.present(EasyJoinVC, animated: true){
                 self.sideMenuController?.hideMenu()
             }
         }
-        else if index == 4 {
+        else if index == 5 {
             let IDsVC = self.storyboard?.instantiateViewController(withIdentifier: "AutoRenewVC") as! AutoRenewVC
             IDsVC.modalPresentationStyle = .fullScreen
             self.present(IDsVC, animated: true){
                 self.sideMenuController?.hideMenu()
             }
         }
-        else if index == 6 {
+        else if index == 7 {
             let notificationVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC
             notificationVC.modalPresentationStyle = .fullScreen
             self.present(notificationVC, animated: true){
                 self.sideMenuController?.hideMenu()
             }
         }
+        else if index == 3 {
+            let ReferralViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReferralViewController") as! ReferralViewController
+            ReferralViewController.modalPresentationStyle = .fullScreen
+            self.present(ReferralViewController, animated: true){
+                self.sideMenuController?.hideMenu()
+            }
+         }
 //        else if index == 7 {
 //            let historyVC = self.storyboard?.instantiateViewController(withIdentifier: "HistoryVC") as! HistoryVC
 //            self.navigationController?.pushViewController(historyVC, animated: true)

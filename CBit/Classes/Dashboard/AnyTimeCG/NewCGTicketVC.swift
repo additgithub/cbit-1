@@ -64,6 +64,8 @@ class NewCGTicketVC: UIViewController {
     
     var isFromLink = Bool()
     var gametype = ""
+    private var isnextcontentin2minutes = false
+
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintgamevwheight: NSLayoutConstraint!
     @IBOutlet weak var vwnumberslot: UIView!
@@ -204,40 +206,8 @@ class NewCGTicketVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func buttonPay(_ sender: Any) {
-        if buttonPay.titleLabel?.text == "Play" {
-            if !MyModel().isConnectedToInternet() {
-                Alert().showTost(message: Define.ERROR_INTERNET,
-                                 viewController: self)
-            } else if noOfSelected == 0 {
-                Alert().showTost(message: "Select Ticket",
-                                 viewController: self)
-            } else {
-                viewAmountMain.isHidden = false
-                let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
-                //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
-                if totalSelectedAmount <= pbAmount {
-                    labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
-                    labelwidrawableBalance.text = "₹ 0.0"
-                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
-                } else {
-                    let cutUtilized = totalSelectedAmount - pbAmount
-                    labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
-                    labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
-                    labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
-                }
-            }
-        } else {
-            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
-            let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
-            
-            let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
-            
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
-            let paymentVC = storyBoard.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
-            paymentVC.addAmount = cutUtilized
-            paymentVC.isFromLink = isFromLink
-            self.navigationController?.pushViewController(paymentVC, animated: true)
-        }
+        Checklivecontest()
+      
     }
     @IBAction func buttonAmountOK(_ sender: UIButton) {
        // joinContest()
@@ -625,6 +595,84 @@ extension NewCGTicketVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - API
 extension NewCGTicketVC {
+    func Checklivecontest() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [:]
+        let strURL = Define.APP_URL + Define.checkLiveContest
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { [self] (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+                //self.retry()
+                // self.getContestDetail()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["status"] as? Int ?? 0
+                if status == 200 {
+                    let arr = result!["content"] as? [[String: Any]] ?? []
+                    if self.buttonPay.titleLabel?.text == "Play" {
+                        if !MyModel().isConnectedToInternet() {
+                            Alert().showTost(message: Define.ERROR_INTERNET,
+                                             viewController: self)
+                        } else if noOfSelected == 0 {
+                            Alert().showTost(message: "Select Ticket",
+                                             viewController: self)
+                        } else {
+                            viewAmountMain.isHidden = false
+                            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+                            //let tbAmount = Define.USERDEFAULT.value(forKey: "TBAmount") as? Double ?? 0.0
+                            if totalSelectedAmount <= pbAmount {
+                                labelUtilizedbalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \()"
+                                labelwidrawableBalance.text = "₹ 0.0"
+                                labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                            } else {
+                                let cutUtilized = totalSelectedAmount - pbAmount
+                                labelUtilizedbalance.text = String(format: "₹%.2f", pbAmount) //"₹ \(pbAmount)"
+                                labelwidrawableBalance.text = String(format: "₹%.2f", cutUtilized) //"₹ \(cutUtilized)"
+                                labelTotalBalance.text = String(format: "₹%.2f", totalSelectedAmount) //"₹ \(totalSelectedAmount)"
+                            }
+                        }
+                    } else {
+                        let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0
+                        let sbAmount = Define.USERDEFAULT.value(forKey: "SBAmount") as? Double ?? 0.0
+                        
+                        let cutUtilized = totalSelectedAmount - (pbAmount + sbAmount)
+                        
+                        let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
+                        let paymentVC = storyBoard.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+                        paymentVC.addAmount = cutUtilized
+                        paymentVC.isFromLink = isFromLink
+                        self.navigationController?.pushViewController(paymentVC, animated: true)
+                    }
+                    
+                }
+                else if status == 400 {
+                    Alert().showAlert(title: "Warning",
+                                      message: result!["message"] as?  String ?? "No Message.",
+                                      viewController: self)
+                }
+                else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as?  String ?? "No Message.",
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    
     func getAnyTimeGameList() {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = ["isSpinningMachine":"0","game_type":gametype]

@@ -68,20 +68,27 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         winnerCell.labelUserName.text = arrWinners[indexPath.row]["name"] as? String ?? "No Name"
         
         let img = self.loadImageFromDocumentDirectory(nameOfImage: arrWinners[indexPath.row]["ItemImage"] as? String ?? "")
-        
+        if isfromanytime {
+            winnerCell.imgtick.isHidden = true
+            winnerCell.lblslotselected.isHidden = true
+        }
+        else
+        {
+            if self.imageIsNullOrNot(imageName: img) {
+                winnerCell.imgtick.image = img
+                winnerCell.imgtick.isHidden = false
+                winnerCell.lblslotselected.isHidden = true
+            }
+            else
+            {
+                winnerCell.imgtick.isHidden = true
+                winnerCell.lblslotselected.isHidden = false
+                winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? ""
+            }
+        }
         let game_type = arrWinners[indexPath.row]["game_type"] as! String
         if game_type == "spinning-machine" {
-                    if self.imageIsNullOrNot(imageName: img) {
-                        winnerCell.imgtick.image = img
-                        winnerCell.imgtick.isHidden = false
-                        winnerCell.lblslotselected.isHidden = true
-                    }
-                    else
-                    {
-                        winnerCell.imgtick.isHidden = true
-                        winnerCell.lblslotselected.isHidden = false
-                        winnerCell.lblslotselected.text = arrWinners[indexPath.row]["displayValue"] as? String ?? ""
-                    }
+               
         }
         else
         {
@@ -113,7 +120,7 @@ extension ViewWinnersVC: UITableViewDelegate, UITableViewDataSource {
         else if winstatus == 2
         {
             winnerCell.imgselected.image = UIImage(named: "right")
-            winnerCell.imgselected.tintColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
+            winnerCell.imgselected.tintColor = #colorLiteral(red: 0.4795994759, green: 0.7768470645, blue: 0.3392369151, alpha: 1)
         }
         else //if winstatus == 3
         {

@@ -52,6 +52,8 @@ class RegisterVC: UIViewController {
     var isStateSelected = Bool()
     
     var MobileNumber = String()
+    var Refferalcode = String()
+
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +77,8 @@ class RegisterVC: UIViewController {
         textFullName.text = dictSocialData["FirstName"] as? String
         textLastName.text = dictSocialData["LastName"] as? String
         textMobileNumber.text = MobileNumber
+        textRefferalcode.text = Refferalcode
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

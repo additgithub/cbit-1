@@ -187,17 +187,7 @@ extension LogInWithMobileNumberViewController {
                         }
                         else if status == 410
                         {
-                            let alertController = UIAlertController(title:Define.ERROR_TITLE, message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
-
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
-                               { action -> Void in
-                                let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
-                                signUpVC.MobileNumber = self.txtmobilenumber.text ?? ""
-                                signUpVC.isSocialLogin = false
-                                signUpVC.modalPresentationStyle = .fullScreen
-                                self.navigationController?.pushViewController(signUpVC, animated: true)
-                               })
-                            self.present(alertController, animated: true, completion: nil)
+                            self.checkforrefferalAPI()
                         }
                         else {
                             Alert().showAlert(title: "Error",
@@ -316,5 +306,96 @@ extension LogInWithMobileNumberViewController {
             }
         }
     
-    
+    func checkforrefferalAPI() {
+        Loading().showLoading(viewController: self)
+       
+        
+        var parameter:[String: Any] = ["mobile": self.txtmobilenumber.text!]
+        
+        let strURL = Define.APP_URL + Define.checkForReferral
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: nil,
+                                    auther: nil)
+            
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+//                Alert().showAlert(title: "Error",
+//                                  message: Define.ERROR_SERVER,
+//                                  viewController: self)
+             //   self.checkforrefferalAPI()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let dictData = result!["content"] as! [[String: Any]]
+               
+                    let code = dictData[0]["code"] as! String
+                   
+//                    let alertController = UIAlertController(title:Define.ERROR_TITLE, message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
+//
+//                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+//                       { action -> Void in
+                        let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
+                        signUpVC.MobileNumber = self.txtmobilenumber.text ?? ""
+                        signUpVC.Refferalcode = code
+                        signUpVC.isSocialLogin = false
+                        signUpVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(signUpVC, animated: true)
+//                       })
+//                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                }
+                else if status == 400 {
+               
+//                    let alertController = UIAlertController(title:Define.ERROR_TITLE, message: result!["message"] as? String, preferredStyle:UIAlertController.Style.alert)
+//
+//                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+//                       { action -> Void in
+                        let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
+                        signUpVC.MobileNumber = self.txtmobilenumber.text ?? ""
+                        signUpVC.isSocialLogin = false
+                        signUpVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(signUpVC, animated: true)
+//                       }
+//                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                }
+                else if status == 423 {
+                    Alert().showAlert(title: "Account Locked",
+                                      message: result!["message"] as? String ?? "No message available",
+                                      viewController: self)
+                } else {
+                    if self.isSocialLogin {
+                     
+                        let signUpVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
+                        signUpVC.isSocialLogin = self.isSocialLogin
+                        signUpVC.dictSocialData = self.dictSocialData
+                        signUpVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(signUpVC, animated: true)
+                        
+                        
+                    } else {
+                        
+                        Alert().showAlert(title: "Error",
+                                          message: result!["message"] as? String ?? "No message available",
+                                          viewController: self)
+                   
+                    }
+                    
+                }
+            }
+        }
+    }
 }

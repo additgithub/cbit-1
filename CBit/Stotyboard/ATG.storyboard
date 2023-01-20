@@ -1715,7 +1715,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_padlock" translatesAutoresizingMaskIntoConstraints="NO" id="7tN-UP-gsJ">
-                                                                    <rect key="frame" x="366.5" y="19.5" width="25" height="25"/>
+                                                                    <rect key="frame" x="366.5" y="19" width="25" height="25"/>
                                                                     <color key="tintColor" red="0.0" green="0.20000000000000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="25" id="64x-c7-FJO"/>

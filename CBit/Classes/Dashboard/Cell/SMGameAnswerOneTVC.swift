@@ -177,17 +177,17 @@ extension SMGameAnswerThreeTVC: UICollectionViewDelegate, UICollectionViewDataSo
          
         
         
-        let isSelected = arrSloats[indexPath.row]["isSelected"] as? Bool ?? false
-        if isSelected {
-           // cell.viewSloats.backgroundColor = UIColor.white
-            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
-            cell.viewSloats.layer.borderWidth = 2
-           
-        } else {
-            //cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
-            cell.viewSloats.layer.borderWidth = 0
-        }
+//        let isSelected = arrSloats[indexPath.row]["isSelected"] as? Bool ?? false
+//        if isSelected {
+//           // cell.viewSloats.backgroundColor = UIColor.white
+//            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
+//            cell.viewSloats.layer.borderWidth = 2
+//
+//        } else {
+//            //cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
+//            cell.viewSloats.layer.borderWidth = 0
+//        }
         if  !isGameStart
              {
                cell.viewSloats.backgroundColor = UIColor.clear
@@ -358,22 +358,22 @@ extension SMGameAnswerThreeLockTVC: UICollectionViewDelegate, UICollectionViewDa
         
        
         
-        let isSelected = arrSloats[indexPath.row]["isSelected"] as? Bool ?? false
+//        let isSelected = arrSloats[indexPath.row]["isSelected"] as? Bool ?? false
 //        if isSelected {
 //            cell.viewSloats.backgroundColor = UIColor.white
 //        } else {
 //            cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
 //        }
-        if isSelected {
-           // cell.viewSloats.backgroundColor = UIColor.white
-            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
-            cell.viewSloats.layer.borderWidth = 2
-           
-        } else {
-            //cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
-            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
-            cell.viewSloats.layer.borderWidth = 0
-        }
+//        if isSelected {
+//           // cell.viewSloats.backgroundColor = UIColor.white
+//            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
+//            cell.viewSloats.layer.borderWidth = 2
+//
+//        } else {
+//            //cell.viewSloats.backgroundColor = #colorLiteral(red: 1, green: 0.7411764706, blue: 0.2549019608, alpha: 1)
+//            cell.viewSloats.layer.borderColor = UIColor.black.cgColor
+//            cell.viewSloats.layer.borderWidth = 0
+//        }
         
         return cell
     }

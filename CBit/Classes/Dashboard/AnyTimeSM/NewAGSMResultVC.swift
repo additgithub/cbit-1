@@ -299,11 +299,11 @@ extension NewAGSMResultVC: UITableViewDelegate, UITableViewDataSource {
             let win = arrSelectedTickets[indexPath.row]["win"] as? Int ?? 0
             if win == 0
             {
-                resultCell.labelAnswer.text = "You choose wrong answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+                resultCell.labelAnswer.text = "You chose wrong answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
             }
             else
             {
-                resultCell.labelAnswer.text = "You choose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
+                resultCell.labelAnswer.text = "You chose right answer in \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"
             }
 
             resultCell.labelLoackedAt.text = "Locked At  \(arrSelectedTickets[indexPath.row]["lockTime"] as? String ?? "--:--:--")"

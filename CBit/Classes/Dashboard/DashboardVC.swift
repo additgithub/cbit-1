@@ -108,7 +108,6 @@ class DashboardVC: UIViewController {
                }
     
         getReferalCriteriaChart()
-    getNewResultStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,6 +115,8 @@ class DashboardVC: UIViewController {
         getUserData()
         CallJAssetData()
         getReferralCommitionTotalAmount()
+        getNewResultStatus()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
             self.getUserJoinDateTime()
@@ -286,23 +287,23 @@ class DashboardVC: UIViewController {
                    }
         
         
-       if let coll  = collectionSpecialcontest {
-                   for cell in coll.visibleCells {
-                       let indexPath: IndexPath? = coll.indexPath(for: cell)
-                       if ((indexPath?.row)! < arrSpecialContest.count - 1){
-                           let indexPath1: IndexPath?
-                           indexPath1 = IndexPath.init(row: (indexPath?.row)! + 1, section: (indexPath?.section)!)
-
-                           coll.scrollToItem(at: indexPath1!, at: .right, animated: true)
-                       }
-                       else{
-                           let indexPath1: IndexPath?
-                           indexPath1 = IndexPath.init(row: 0, section: (indexPath?.section)!)
-                           coll.scrollToItem(at: indexPath1!, at: .left, animated: true)
-                       }
-
-                   }
-               }
+//       if let coll  = collectionSpecialcontest {
+//                   for cell in coll.visibleCells {
+//                       let indexPath: IndexPath? = coll.indexPath(for: cell)
+//                       if ((indexPath?.row)! < arrSpecialContest.count - 1){
+//                           let indexPath1: IndexPath?
+//                           indexPath1 = IndexPath.init(row: (indexPath?.row)! + 1, section: (indexPath?.section)!)
+//
+//                           coll.scrollToItem(at: indexPath1!, at: .right, animated: true)
+//                       }
+//                       else{
+//                           let indexPath1: IndexPath?
+//                           indexPath1 = IndexPath.init(row: 0, section: (indexPath?.section)!)
+//                           coll.scrollToItem(at: indexPath1!, at: .left, animated: true)
+//                       }
+//
+//                   }
+//               }
        
     }
     
@@ -356,7 +357,7 @@ class DashboardVC: UIViewController {
 //        self.present(historyVC, animated: true){
 //            self.sideMenuController?.hideMenu()
 //        }
-        sideMenuController?.setContentViewController(with: "\(7)")
+        sideMenuController?.setContentViewController(with: "\(8)")
         sideMenuController?.hideMenu()
     }
     

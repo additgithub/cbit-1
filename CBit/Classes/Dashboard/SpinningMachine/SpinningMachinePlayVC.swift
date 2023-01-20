@@ -1995,15 +1995,15 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == collection_lockall {
             let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
             
-            if strDisplayValuelockall == arrSloat[indexPath.row]["displayValue"] as? String ?? "" {
-                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-                lockcell.contentView.layer.borderWidth = 2
-            }
-            else
-            {
-                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-                lockcell.contentView.layer.borderWidth = 0
-            }
+//            if strDisplayValuelockall == arrSloat[indexPath.row]["displayValue"] as? String ?? "" {
+//                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+//                lockcell.contentView.layer.borderWidth = 2
+//            }
+//            else
+//            {
+//                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+//                lockcell.contentView.layer.borderWidth = 0
+//            }
             
             let strDisplayValue = arrSloat[indexPath.row]["displayValue"] as! String
           

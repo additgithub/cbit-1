@@ -1,5 +1,9 @@
 import UIKit
+import AVFoundation
 import SDWebImage
+import AVFoundation
+import AVKit
+
 class TutorialVC: UIViewController {
     //MARK: - Properties
     @IBOutlet weak var collectionViewTutorial: UICollectionView!
@@ -7,7 +11,8 @@ class TutorialVC: UIViewController {
     @IBOutlet weak var buttonSkip: UIButton!
     
     var isFromeDashboard = Bool()
-    
+    let avPlayerViewController = AVPlayerViewController()
+    var playerView: AVPlayer?
 //    var arrTutorialImages = [
 //
 //        UIImage(named: "1.png"),
@@ -43,6 +48,13 @@ class TutorialVC: UIViewController {
     
     //MARK: - Button Method
     @IBAction func buttonSkip(_ sender: UIButton) {
+        let cells = collectionViewTutorial.visibleCells.compactMap({ $0 as? TutorialCVC })
+        cells.forEach { videoCell in
+
+            if videoCell.isPlaying {
+                videoCell.stopPlaying()
+            }
+        }
         if isFromeDashboard {
             self.dismiss(animated: true, completion: nil)
         } else {
@@ -58,6 +70,13 @@ class TutorialVC: UIViewController {
     }
     
     @IBAction func buttonGotIt(_ sender: UIButton) {
+        let cells = collectionViewTutorial.visibleCells.compactMap({ $0 as? TutorialCVC })
+        cells.forEach { videoCell in
+
+            if videoCell.isPlaying {
+                videoCell.stopPlaying()
+            }
+        }
         if isFromeDashboard {
             self.dismiss(animated: true, completion: nil)
         } else {
@@ -139,25 +158,70 @@ extension TutorialVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionViewTutorial.dequeueReusableCell(withReuseIdentifier: "TutorialCVC", for: indexPath) as! TutorialCVC
       //  cell.imageTutorial.sd_setImage(with: URL(string: imgarr[indexPath.row]["image"] as! String),placeholderImage:Define.PLACEHOLDER_PROFILE_IMAGE)
-        
-        Loading().showLoading(viewController: self)
-        SDWebImageManager.shared().loadImage(
-                with: URL(string: imgarr[indexPath.row]["image"] as! String),
-                options: .highPriority,
-                progress: nil) { (image, data, error, cacheType, isFinished, imageUrl) in
-                  print(isFinished)
-        //    self.myGroup.leave()
-            if image != nil {
-                cell.imageTutorial.image = image
-                Loading().hideLoading(viewController: self)
-                 }
-            
-              }
+        let remoteurl = imgarr[indexPath.row]["image"] as! String
+        if remoteurl.isImage()
+        {
+            Loading().showLoading(viewController: self)
+            SDWebImageManager.shared().loadImage(
+                    with: URL(string: imgarr[indexPath.row]["image"] as! String),
+                    options: .highPriority,
+                    progress: nil) { (image, data, error, cacheType, isFinished, imageUrl) in
+                        print(isFinished)
+                        Loading().hideLoading(viewController: self)
+            //    self.myGroup.leave()
+                if image != nil {
+                    cell.imageTutorial.image = image
+                     }
+                  }
+        }
+        else
+        {
+            cell.videolink = URL(string: remoteurl)
+        }
         
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let videoCell = cell as? TutorialCVC else { return }
+        videoCell.startPlaying()
+    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let videoCell = cell as? TutorialCVC else { return }
+        videoCell.stopPlaying()
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+       let cells = collectionViewTutorial.visibleCells.compactMap({ $0 as? TutorialCVC })
+       cells.forEach { videoCell in
+
+           if videoCell.isPlaying {
+               videoCell.stopPlaying()
+           }
+       }
+    }
+
+    // TODO: write logic to start the video after it ends scrolling
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+       guard !decelerate else { return }
+       let cells = collectionViewTutorial.visibleCells.compactMap({ $0 as? TutorialCVC })
+       cells.forEach  { videoCell in
+
+           if !videoCell.isPlaying  {
+               videoCell.startPlaying()
+           }
+       }
+    }
+
+    // TODO: write logic to start the video after it ends scrolling (programmatically)
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let cells = collectionViewTutorial.visibleCells.compactMap({ $0 as? TutorialCVC })
+        cells.forEach { videoCell in
+           // TODO: write logic to start the video after it ends scrolling
+           if !videoCell.isPlaying  {
+               videoCell.startPlaying()
+           }
+       }
         let pageWidth = collectionViewTutorial.frame.width
         let currentPage = collectionViewTutorial.contentOffset.x / pageWidth
         
@@ -189,4 +253,105 @@ class TutorialCVC: UICollectionViewCell {
         super.awakeFromNib()
         
     }
+    
+    public var isPlaying: Bool = false
+        public var videolink: URL? = nil {
+            didSet {
+                guard let link = videolink, oldValue != link else { return }
+                loadVideoUsingURL(link)
+            }
+        }
+        private var queuePlayer = AVQueuePlayer()
+        private var playerLayer = AVPlayerLayer()
+        private var looperPlayer: AVPlayerLooper?
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            
+            commonInit()
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+            
+            commonInit()
+        }
+        
+        private func commonInit() {
+            
+          //  queuePlayer.volume = 0.0
+            queuePlayer.actionAtItemEnd = .none
+            
+            playerLayer.videoGravity = .resizeAspect
+            playerLayer.name = "videoLoopLayer"
+            playerLayer.cornerRadius = 5.0
+            playerLayer.masksToBounds = true
+            contentView.layer.addSublayer(playerLayer)
+            playerLayer.player = queuePlayer
+        }
+        
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            
+            /// Resize video layer based on new frame
+            playerLayer.frame = imageTutorial.frame //CGRect(origin: .zero, size: CGSize(width: frame.width, height: frame.width))
+        }
+        
+        private func loadVideoUsingURL(_ url: URL) {
+            /// Load asset in background thread to avoid lagging
+            DispatchQueue.global(qos: .background).async {
+                let asset = AVURLAsset(url: url)
+                /// Load needed values asynchronously
+                asset.loadValuesAsynchronously(forKeys: ["duration", "playable"]) {
+                    /// UI actions should executed on the main thread
+                    DispatchQueue.main.async { [weak self] in
+                        guard let `self` = self else { return }
+                        let item = AVPlayerItem(asset: asset)
+                        if self.queuePlayer.currentItem != item {
+                            self.queuePlayer.replaceCurrentItem(with: item)
+                            self.looperPlayer = AVPlayerLooper(player: self.queuePlayer, templateItem: item)
+                        }
+                    }
+                }
+            }
+        }
+        
+        public func startPlaying() {
+            queuePlayer.play()
+            isPlaying = true
+        }
+        
+        public func stopPlaying() {
+            queuePlayer.pause()
+            isPlaying = false
+        }
+    
 }
+extension String {
+
+       public func isImage() -> Bool {
+           // Add here your image formats.
+           let imageFormats = ["jpg", "jpeg", "png", "gif"]
+
+           if let ext = self.getExtension() {
+               return imageFormats.contains(ext)
+           }
+
+           return false
+       }
+
+       public func getExtension() -> String? {
+          let ext = (self as NSString).pathExtension
+
+          if ext.isEmpty {
+              return nil
+          }
+
+          return ext
+       }
+
+       public func isURL() -> Bool {
+          return URL(string: self) != nil
+       }
+
+   }

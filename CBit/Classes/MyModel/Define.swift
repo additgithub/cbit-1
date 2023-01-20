@@ -250,7 +250,11 @@ class Define {
     static let jtradingChart = "jtradingChart"
     
     static let AnytimeGameNotificationCount = "AnytimeGameNotificationCount"
+    static let checkForReferral = "checkForReferral"
+    static let updateIsWatch = "updateIsWatch"
+    static let checkLiveContest = "checkLiveContest"
 
+    
     
     
     

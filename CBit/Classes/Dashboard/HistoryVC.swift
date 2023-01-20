@@ -12,7 +12,7 @@ class HistoryVC: UIViewController {
     private var MainarrHistory = [[String: Any]]()
     
     private var isFirstTime = Bool()
-    
+    private var isanytimeselected = 1
     private var isRefresh = Bool()
     lazy  var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -34,7 +34,7 @@ class HistoryVC: UIViewController {
              Start = 0
             arrHistory = [[String:Any]]()
             tableHistory.reloadData()
-            self.getHistoryListAPI()
+            self.getHistoryListAPI(isanytime: isanytimeselected)
         }
     }
     
@@ -68,7 +68,12 @@ class HistoryVC: UIViewController {
             Alert().showTost(message: Define.ERROR_INTERNET,
                              viewController: self)
         } else {
-            getHistoryListAPI()
+            isRefresh = true
+            refreshControl.beginRefreshing()
+             Start = 0
+            arrHistory = [[String:Any]]()
+            tableHistory.reloadData()
+            self.getHistoryListAPI(isanytime: isanytimeselected)
         }
     }
     
@@ -77,7 +82,7 @@ class HistoryVC: UIViewController {
             Alert().showTost(message: Define.ERROR_INTERNET,
                              viewController: self)
         } else {
-            getHistoryListAPI()
+            getHistoryListAPI(isanytime: isanytimeselected)
         }
     }
     
@@ -89,17 +94,22 @@ class HistoryVC: UIViewController {
     }
     
     @IBAction func segmentchanged(_ sender: UISegmentedControl) {
-    
-        
+    arrHistory = []
+        Start = 0
         if segment.selectedSegmentIndex == 0 {
-                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
-                        tableHistory.reloadData()
+//                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Anytime Game"}
+//                        tableHistory.reloadData()
           //  status = "0"
+            isanytimeselected = 1
+            getHistoryListAPI(isanytime: isanytimeselected)
         }
         else if segment.selectedSegmentIndex == 1 {
-                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
-                        tableHistory.reloadData()
+//                        self.arrHistory = self.MainarrHistory.filter{($0["game"] as! String) == "Basic"}
+//                        tableHistory.reloadData()
           //  status = "1"
+            isanytimeselected = 0
+            getHistoryListAPI(isanytime: isanytimeselected)
+
         }
       
         
@@ -159,7 +169,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             let lastElement = arrHistory.count - 1
             if indexPath.row == lastElement && ismoredata{
                 //call get api for next page
-                getHistoryListAPI()
+                getHistoryListAPI(isanytime: isanytimeselected)
             }
 
         }
@@ -172,9 +182,21 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let game  = arrHistory[indexPath.row]["game"] as! String
         let gametype  = arrHistory[indexPath.row]["game_type"] as! String
-        
+        let is_watch  = arrHistory[indexPath.row]["is_watch"] as! Int
+        let gametime  = arrHistory[indexPath.row]["game_time"] as! String
+        if gametime == "-"
+        {
+        }
+        else
+        {
+            if (is_watch == 0) {
+                UpdateWatchAPI(dict: arrHistory[indexPath.row])
+            }
+        }
+
         if game == "Anytime Game" {
             let storyBoard : UIStoryboard = UIStoryboard(name: "ATG", bundle:nil)
+           
             if gametype == "spinning-machine" {
                 
                 let NewAGSMResultVC = storyBoard.instantiateViewController(withIdentifier: "NewAGSMResultVC") as! NewAGSMResultVC
@@ -214,14 +236,15 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - API
 extension HistoryVC {
-    func getHistoryListAPI()  {
+    func getHistoryListAPI(isanytime:Int)  {
         if isFirstTime {
             Loading().showLoading(viewController: self)
         }
         let strURL = Define.APP_URL + Define.API_CONTEST_HISTORY
         print("URL: \(strURL)")
-        let parameter: [String: Any] = ["start": Start,"limit":Limit,"is_anytimegame":"1"]
-        
+        let parameter: [String: Any] = ["start": Start,"limit":Limit,"is_anytimegame":"\(isanytime)"]
+        print("parameter: \(parameter)")
+
         SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
@@ -237,7 +260,7 @@ extension HistoryVC {
                     self.refreshControl.endRefreshing()
                 }
                 print("Error: \(error!)")
-                self.getHistoryListAPI()
+                self.getHistoryListAPI(isanytime: isanytime)
             } else {
                 if self.isRefresh {
                     self.isRefresh = true
@@ -289,6 +312,56 @@ extension HistoryVC {
             }
         }
     }
+    
+    func UpdateWatchAPI(dict:[String:Any])  {
+        let strURL = Define.APP_URL + Define.updateIsWatch
+        print("URL: \(strURL)")
+        let parameter: [String: Any] = ["contest_id":dict["id"]!,
+                                        "game_no":dict["game_no"]!,
+                                        "contestPriceId":dict["contestPriceID"]!,
+                                        "is_watch":"1"]
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+           
+                
+                if self.isRefresh {
+                    self.isRefresh = true
+                    self.refreshControl.endRefreshing()
+                }
+                print("Error: \(error!)")
+            } else {
+                if self.isRefresh {
+                    self.isRefresh = true
+                    self.refreshControl.endRefreshing()
+                }
+                
+            
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                   // self.arrHistory = result!["content"] as! [[String: Any]]
+                    self.MainarrHistory = result!["content"] as! [[String: Any]]
+                    let arr =  result!["content"] as! [[String : Any]]
+                    
+                    
+                } else if status == 401 {
+                    
+                    Define.APPDELEGATE.handleLogout()
+                    
+                } else {
+                    
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
 }
 
 //MARK: - Notifcation Delegate Method
@@ -326,7 +399,7 @@ extension HistoryVC {
         let buttonRetry = UIAlertAction(title: "Retry",
                                         style: .default)
         { _ in
-            self.getHistoryListAPI()
+            self.getHistoryListAPI(isanytime: self.isanytimeselected)
         }
         let cancel = UIAlertAction(title: "Cancel",
                                    style: .cancel,

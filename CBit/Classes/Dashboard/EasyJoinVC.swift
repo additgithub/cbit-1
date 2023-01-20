@@ -155,11 +155,11 @@ class EasyJoinVC: UIViewController {
                 }
             }
             else {
-                Alert().showTost(message: "Choose games and contests", viewController: self)
+                Alert().showTost(message: "Chose games and contests", viewController: self)
             }
         }
         else {
-            Alert().showTost(message: "Choose games and contests", viewController: self)
+            Alert().showTost(message: "Chose games and contests", viewController: self)
         }
     }
     private var noOfSelected = Int()
@@ -210,11 +210,11 @@ class EasyJoinVC: UIViewController {
                     }
                 }
                 else {
-                    Alert().showTost(message: "Choose games and contests", viewController: self)
+                    Alert().showTost(message: "Chose games and contests", viewController: self)
                 }
             }
             else {
-                Alert().showTost(message: "Choose games and contests", viewController: self)
+                Alert().showTost(message: "Chose games and contests", viewController: self)
             }
         } else {
 //            let pbAmount = Define.USERDEFAULT.value(forKey: "PBAmount") as? Double ?? 0.0

@@ -76,7 +76,7 @@ class AddPaymentVC: UIViewController {
         labelWinning.text = MyModel().getCurrncy(value: amountSB)
         
         if isFromTicket {
-            textAmount.text = String(format: "₹%.2f", addAmount) // "\(addAmount)"
+            textAmount.text = String(format: "%.2f", addAmount) // "\(addAmount)"
         }
         
         getaddmoneystatus()

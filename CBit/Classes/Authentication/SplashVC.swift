@@ -54,7 +54,8 @@ class SplashVC: UIViewController {
             }
                 else {
                
-                let fbLoginManeger: LoginManager = LoginManager();              fbLoginManeger.logOut()
+                let fbLoginManeger: LoginManager = LoginManager();
+                    fbLoginManeger.logOut()
                 let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginNC")
                 loginVC?.modalPresentationStyle = .fullScreen
                 self.present(loginVC!, animated: true, completion: nil)
