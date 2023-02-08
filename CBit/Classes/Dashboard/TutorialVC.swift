@@ -262,7 +262,7 @@ class TutorialCVC: UICollectionViewCell {
             }
         }
         private var queuePlayer = AVQueuePlayer()
-        private var playerLayer = AVPlayerLayer()
+        private var playerLayer = AVPlayerViewController()
         private var looperPlayer: AVPlayerLooper?
         
         override init(frame: CGRect) {
@@ -281,12 +281,14 @@ class TutorialCVC: UICollectionViewCell {
             
           //  queuePlayer.volume = 0.0
             queuePlayer.actionAtItemEnd = .none
-            
             playerLayer.videoGravity = .resizeAspect
-            playerLayer.name = "videoLoopLayer"
-            playerLayer.cornerRadius = 5.0
-            playerLayer.masksToBounds = true
-            contentView.layer.addSublayer(playerLayer)
+//            playerLayer.name = "videoLoopLayer"
+//            playerLayer.cornerRadius = 5.0
+//            playerLayer.masksToBounds = true
+//            contentView.layer.addSublayer(playerLayer)
+            playerLayer.view.clipsToBounds = true
+            playerLayer.showsPlaybackControls = true
+            self.contentView.addSubview(playerLayer.view)
             playerLayer.player = queuePlayer
         }
         
@@ -294,7 +296,8 @@ class TutorialCVC: UICollectionViewCell {
             super.layoutSubviews()
             
             /// Resize video layer based on new frame
-            playerLayer.frame = imageTutorial.frame //CGRect(origin: .zero, size: CGSize(width: frame.width, height: frame.width))
+           // playerLayer.frame = imageTutorial.frame //CGRect(origin: .zero, size: CGSize(width: frame.width, height: frame.width))
+            playerLayer.view.frame = imageTutorial.frame
         }
         
         private func loadVideoUsingURL(_ url: URL) {

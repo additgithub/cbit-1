@@ -799,13 +799,13 @@ extension GameResultTVC: UICollectionViewDelegate, UICollectionViewDataSource, U
             let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
 
             if strDisplayValue == arrSloats[indexPath.row]["displayValue"] as? String ?? "" {
-    //            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-    //            lockcell.contentView.layer.borderWidth = 2
+                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+                lockcell.contentView.layer.borderWidth = 2
             }
             else
             {
-    //            lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-    //            lockcell.contentView.layer.borderWidth = 0
+                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+                lockcell.contentView.layer.borderWidth = 0
             }
             
          //   let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String

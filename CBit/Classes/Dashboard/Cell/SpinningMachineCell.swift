@@ -245,14 +245,14 @@ extension SpinningMachineCell: UICollectionViewDelegate, UICollectionViewDataSou
         
         let strDisplayValue = arrSloats[indexPath.row]["displayValue"] as! String
         
-            if strDisplayValue == "Draw" {
-                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                cell.labelDisplay.text = strMainString
-                cell.labelDisplay.isHidden = false
-                cell.img.isHidden = true
-            }
-            else
-            {
+//            if strDisplayValue == "Draw" {
+//                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                cell.labelDisplay.text = strMainString
+//                cell.labelDisplay.isHidden = false
+//                cell.img.isHidden = true
+//            }
+//            else
+//            {
                 cell.labelDisplay.isHidden = true
                 cell.img.isHidden = false
                 let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloats[indexPath.row]["displayValue"] as! String)
@@ -260,7 +260,7 @@ extension SpinningMachineCell: UICollectionViewDelegate, UICollectionViewDataSou
                 cell.img.image = localimg
                // cell.img.image =  localimg.imageByMakingWhiteBackgroundTransparent()
              //   cell.img.sd_setImage(with: URL(string: arrSloats[indexPath.row]["ImageUrl"] as! String), completed: nil)
-            }
+          //  }
 //            if indexPath.row == 1 {
 //                let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
 //                cell.labelDisplay.text = strMainString

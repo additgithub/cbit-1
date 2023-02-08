@@ -82,6 +82,10 @@ extension MyContestVC: UITableViewDelegate, UITableViewDataSource {
         if game_type == "spinning-machine" {
             cell.imageLevel.image = #imageLiteral(resourceName: "slot_machine")
         }
+        else if game_type == "0-9"
+        {
+            cell.imageLevel.image = #imageLiteral(resourceName: "Numberslot")
+        }
         else
         {
             cell.imageLevel.image = #imageLiteral(resourceName: "classic_grid")

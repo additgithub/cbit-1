@@ -240,17 +240,17 @@ extension AGSMResultVC: UITableViewDelegate, UITableViewDataSource {
         let arrSloats = arrSelectedTickets[indexPath.row]["slotes"] as! [[String: Any]]
         if arrSloats.count == 3 {
             let displayValue = "\(arrSloats[1]["displayValue"] as? String ?? "0")"
-            if displayValue == "Draw" {
-                let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
-                resultCell.btndraw.setTitle(strMainString, for: .normal)
-                resultCell.img1.isHidden = true
-            }
-            else
-            {
+//            if displayValue == "Draw" {
+//                let strMainString = displayValue.replacingOccurrences(of: " ", with: "\n")
+//                resultCell.btndraw.setTitle(strMainString, for: .normal)
+//                resultCell.img1.isHidden = true
+//            }
+//            else
+//            {
                 resultCell.img1.isHidden = false
                 let localimg1 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[1]["displayValue"] as! String)
                 resultCell.img1.image =  localimg1//.imageByMakingWhiteBackgroundTransparent()
-            }
+         //   }
             let localimg0 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[0]["displayValue"] as! String)
             let localimg2 = loadImageFromDocumentDirectory(nameOfImage: arrSloats[2]["displayValue"] as! String)
             resultCell.img0.image =  localimg0//.imageByMakingWhiteBackgroundTransparent()

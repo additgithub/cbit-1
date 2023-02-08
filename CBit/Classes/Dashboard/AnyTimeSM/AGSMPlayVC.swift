@@ -1436,19 +1436,19 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             
             let strDisplayValue = arrSloat[indexPath.row]["displayValue"] as! String
           
-                 if strDisplayValue == "Draw" {
-                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                    lockcell.labelDisplayValue.text = strMainString
-                    lockcell.labelDisplayValue.isHidden = false
-                    lockcell.img.isHidden = true
-                 }
-                 else
-                 {
+//                 if strDisplayValue == "Draw" {
+//                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                    lockcell.labelDisplayValue.text = strMainString
+//                    lockcell.labelDisplayValue.isHidden = false
+//                    lockcell.img.isHidden = true
+//                 }
+//                 else
+//                 {
                     lockcell.labelDisplayValue.isHidden = true
                     lockcell.img.isHidden = false
                      let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
                     lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-                 }
+               //  }
           
             return lockcell
         }
@@ -1465,17 +1465,17 @@ extension AGSMPlayVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         {
             strDisplayValuelockall = arrSloat[indexPath.row]["displayValue"] as? String ?? ""
                     
-            if strDisplayValuelockall == "Draw" {
-                labelanswerselected.isHidden = false
-                imgselected.isHidden = true
-                labelanswerselected.text = strDisplayValuelockall
-            }
-            else
-            {
+//            if strDisplayValuelockall == "Draw" {
+//                labelanswerselected.isHidden = false
+//                imgselected.isHidden = true
+//                labelanswerselected.text = strDisplayValuelockall
+//            }
+//            else
+//            {
                 labelanswerselected.isHidden = true
                 imgselected.isHidden = false
                 imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")//.imageByMakingWhiteBackgroundTransparent()
-            }
+        //    }
             collection_lockall.reloadData()
     }
     }

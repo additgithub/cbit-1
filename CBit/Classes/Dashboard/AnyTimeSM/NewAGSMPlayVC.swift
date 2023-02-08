@@ -96,7 +96,7 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
         private var isStartEventCall = Bool()
         
         var timer: Timer?
-        var second = 29
+        var second = 30
         var msecond:Int = 999
         
         var endGameTimer: Timer?
@@ -1301,8 +1301,8 @@ class NewAGSMPlayVC: UIViewController,URLSessionDelegate, URLSessionDataDelegate
             if second > 0 {
 
                // setnewData()
-                self.labelTimer.text = String(format: "%02i", self.second)
                 second = second - 1
+                self.labelTimer.text = String(format: "%02i", self.second)
                 msecond = 999
                 
                 

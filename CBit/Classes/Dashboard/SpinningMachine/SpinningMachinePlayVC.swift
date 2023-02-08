@@ -1995,31 +1995,31 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == collection_lockall {
             let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
             
-//            if strDisplayValuelockall == arrSloat[indexPath.row]["displayValue"] as? String ?? "" {
-//                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-//                lockcell.contentView.layer.borderWidth = 2
-//            }
-//            else
-//            {
-//                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
-//                lockcell.contentView.layer.borderWidth = 0
-//            }
+            if strDisplayValuelockall == arrSloat[indexPath.row]["displayValue"] as? String ?? "" {
+                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+                lockcell.contentView.layer.borderWidth = 2
+            }
+            else
+            {
+                lockcell.contentView.layer.borderColor = UIColor.black.cgColor
+                lockcell.contentView.layer.borderWidth = 0
+            }
             
             let strDisplayValue = arrSloat[indexPath.row]["displayValue"] as! String
           
-                 if strDisplayValue == "Draw" {
-                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
-                    lockcell.labelDisplayValue.text = strMainString
-                    lockcell.labelDisplayValue.isHidden = false
-                    lockcell.img.isHidden = true
-                 }
-                 else
-                 {
+//                 if strDisplayValue == "Draw" {
+//                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                    lockcell.labelDisplayValue.text = strMainString
+//                    lockcell.labelDisplayValue.isHidden = false
+//                    lockcell.img.isHidden = true
+//                 }
+//                 else
+//                 {
                     lockcell.labelDisplayValue.isHidden = true
                     lockcell.img.isHidden = false
                      let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
                     lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-                 }
+              //   }
           
             return lockcell
         }
@@ -2035,17 +2035,17 @@ extension SpinningMachinePlayVC: UICollectionViewDelegate, UICollectionViewDataS
         {
             strDisplayValuelockall = arrSloat[indexPath.row]["displayValue"] as? String ?? ""
                     
-            if strDisplayValuelockall == "Draw" {
-                labelanswerselected.isHidden = false
-                imgselected.isHidden = true
-                labelanswerselected.text = strDisplayValuelockall
-            }
-            else
-            {
+//            if strDisplayValuelockall == "Draw" {
+//                labelanswerselected.isHidden = false
+//                imgselected.isHidden = true
+//                labelanswerselected.text = strDisplayValuelockall
+//            }
+//            else
+//            {
                 labelanswerselected.isHidden = true
                 imgselected.isHidden = false
                 imgselected.image = loadImageFromDocumentDirectory(nameOfImage: strDisplayValuelockall ?? "")//.imageByMakingWhiteBackgroundTransparent()
-            }
+         //   }
             collection_lockall.reloadData()
     }
     }
@@ -2212,7 +2212,6 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 flexiCell.labelLockTime.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-               // lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                 
                 return flexiCell
             } else {
@@ -2226,7 +2225,6 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
                     flexiCell.viewLocked.isHidden = false
                     flexiCell.labelLockedAnswer.text = "\(dictUserSelectData["startValue"]!) to \(dictUserSelectData["endValue"]!)"
                     flexiCell.labelLockedAt.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-                  //   lbllockedat.text = "locked at: \(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                 } else {
                     flexiCell.viewUnLocked.isHidden = false
@@ -2385,7 +2383,6 @@ extension SpinningMachinePlayVC: UITableViewDelegate, UITableViewDataSource {
                     fixCell.arrData = arrSloats
                     
                     fixCell.labelLockTime.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
-                 //   lbllockedat.text = "Locked at:\(arrSelectedTicket[indexPath.row]["lockTime"] as? String ?? "--")"
                     
                     for item in arrSloats {
                         let isSelected = item["isSelected"] as? Bool ?? false

@@ -113,10 +113,10 @@ class NewCGTicketVC: UIViewController {
             setSelectedData()
         }
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.handelNotifcation(_:)),
-                                               name: .onContestLiveUpdate,
-                                               object: nil)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.handelNotifcation(_:)),
+//                                               name: .onContestLiveUpdate,
+//                                               object: nil)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -456,19 +456,23 @@ extension NewCGTicketVC: UITableViewDelegate, UITableViewDataSource {
                 ticketCell.arrData = nil
             var ticketdataarr = [[String:Any]]()
             
-        let slotes = arrTicket[indexPath.row]["slotes"] as? String ?? "0"
-          //  for _ in 1..<Int(slotes)! {
-                if slotes == "3" {
-                    ticketdataarr.append(["displayValue":"0 to 3"])
-                    ticketdataarr.append(["displayValue":"4 to 6"])
-                    ticketdataarr.append(["displayValue":"7 to 9"])
-                }
-                else
-                {
-                    ticketdataarr.append(["displayValue":"0 to 5"])
-                    ticketdataarr.append(["displayValue":"6 to 9"])
-                }
-        //    }
+            let slotes = arrTicket[indexPath.row]["slotes_value"] as? [[String:Any]] ?? []
+           // for index in 0..<Int(slotes)! {
+            for index in 0..<slotes.count {
+
+                ticketdataarr.append(slotes[index])
+
+//                if slotes == "3" {
+//                    ticketdataarr.append(["displayValue":"0 to 3"])
+//                    ticketdataarr.append(["displayValue":"4 to 6"])
+//                    ticketdataarr.append(["displayValue":"7 to 9"])
+//                }
+//                else
+//                {
+//                    ticketdataarr.append(["displayValue":"0 to 5"])
+//                    ticketdataarr.append(["displayValue":"6 to 9"])
+//                }
+            }
                 ticketCell.arrData = ticketdataarr
                 
                 ticketCell.buttonSelectTicket.addTarget(self,

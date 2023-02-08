@@ -140,9 +140,9 @@ class RegisterVC: UIViewController {
         else if stateid == 0 {
                    Alert().showTost(message: "Select State", viewController: self)
                }
-        else if cityid == 0 {
-                Alert().showTost(message: "Select City", viewController: self)
-            }
+//        else if cityid == 0 {
+//                Alert().showTost(message: "Select City", viewController: self)
+//            }
 //        else if !isSocialLogin && (textPassword.text!.count < 8 || textPassword.text!.isEmpty) {
 //            Alert().showTost(message: "Password Should 8 Character", viewController: self)
 //
@@ -365,11 +365,11 @@ extension RegisterVC {
                     var parameter:[String: Any] = [
                       
                         "firstName": self.textFullName.text!,
-                        "middelName": self.textMiddleName.text ?? "",
+                       // "middelName": self.textMiddleName.text ?? "",
                         "lastName": self.textLastName.text!,
                         "email": self.textEmail.text ?? "",
                         "StateID" :self.stateid,
-                        "CityID" :self.cityid,
+                       // "CityID" :self.cityid,
                         "mobile_no": self.textMobileNumber.text!,
                         "userName": self.textUserName.text!,
                         "ReferralCode" : self.textRefferalcode.text!,

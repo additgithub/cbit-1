@@ -276,7 +276,7 @@ class MyModel {
         Define.USERDEFAULT.set(token, forKey: "AccessToken")
         Define.USERDEFAULT.set("\(userData["id"]!)", forKey: "UserID")
         Define.USERDEFAULT.set(userData["firstName"]!, forKey: "FirstName")
-        Define.USERDEFAULT.set(userData["middelName"]!, forKey: "MiddelName")
+       // Define.USERDEFAULT.set(userData["middelName"]!, forKey: "MiddelName")
         Define.USERDEFAULT.set(userData["lastName"]!, forKey: "LastName")
         Define.USERDEFAULT.set(userData["userName"]!, forKey: "UserName")
         Define.USERDEFAULT.set(userData["email"]!, forKey: "Email")

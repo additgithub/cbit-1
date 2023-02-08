@@ -93,7 +93,7 @@ class NewCGGamePlayVC: UIViewController {
     private var isStartEventCall = Bool()
     
     var timer: Timer?
-    var second = 29
+    var second = 30
     var msecond:Int = 999
     
     var endGameTimer: Timer?
@@ -217,8 +217,9 @@ class NewCGGamePlayVC: UIViewController {
         btneeight.isEnabled = false
         btnnine.isEnabled = false
         btnzero.isEnabled = false
-        
-        configStartTimer()
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+              self.configStartTimer()
+          }
         joinContest()
         
         
@@ -258,10 +259,12 @@ class NewCGGamePlayVC: UIViewController {
         StartSecond = StartSecond-1
 
         labelTimer.text = "Game starts in: \(StartSecond)"
-                if StartSecond == 1 {
-//                    dictGameData["gameStatus"] = "start"
-//                    self.setData(isfromtime: true)
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
+                if StartSecond == 0 {
+                    dictGameData["gameStatus"] = "start"
+                    isGameStart = true
+                    setnewData()
+                    self.setData(isfromtime: true)
+                   // self.getContestDetail(isfromtimer: true, isStart: 0)
                     if startTimer != nil {
                     startTimer!.invalidate()
                     startTimer = nil
@@ -855,7 +858,6 @@ class NewCGGamePlayVC: UIViewController {
                 print("Result: \(result!)")
                 let status = result!["statusCode"] as? Int ?? 0
                 if status == 200 {
-                    self.getContestDetail(isfromtimer: true, isStart: 0)
                     let dictData = result!["content"] as! [String: Any]
                     
                     Define.USERDEFAULT.set(dictData["pbAmount"] as? Double ?? 0.0, forKey: "PBAmount")
@@ -865,13 +867,15 @@ class NewCGGamePlayVC: UIViewController {
                     let GameNumberarr = result!["GameNumber"] as! [[String: Any]]
                     let arrSelectedTiketscopy = arrSelectedTikets
                     
-                    for (indexouter,dictouter) in GameNumberarr.enumerated() {
+                    for (_,dictouter) in GameNumberarr.enumerated() {
                         for (indexinner,dictinner) in arrSelectedTiketscopy.enumerated() {
                             if dictouter["contestPriceId"] as! Int == dictinner["contestpriceID"] as! Int {
                                 arrSelectedTikets[indexinner]["game_played"] = dictouter["game_no"] as! Int
                             }
                         }
                     }
+                    self.getContestDetail(isfromtimer: true, isStart: 0)
+
                   //  NotificationCenter.default.post(name: .paymentUpdated, object: nil)
                  
 //                    self.createReminder(strTitle: self.dictContest["name"] as? String ?? "No Name",strDate: self.dictContest["startDate"] as! String)
@@ -1069,7 +1073,7 @@ class NewCGGamePlayVC: UIViewController {
        // second = (dictGameData["duration"] as? Int)!
       //  print("secondsspre",second)
         
-        if StartSecond == 1 {
+        if StartSecond == 0 {
             
             //            isGameStart = true
             //            print("secondss",second)
@@ -1378,7 +1382,7 @@ class NewCGGamePlayVC: UIViewController {
         
         // let gameStatus = dictGameData["gameStatus"] as? String ?? "notStart"
         
-        if StartSecond > 1{
+        if StartSecond > 0{
              if miliSecondValue == 0 {
                         miliSecondValue = miliSecondValue + 1
                         updateColors()
@@ -1434,8 +1438,8 @@ class NewCGGamePlayVC: UIViewController {
             
 
             setnewData()
-            self.labelTimer.text = String(format: "%02i", self.second)
             second = second - 1
+            self.labelTimer.text = String(format: "%02i", self.second)
             msecond = 999
             
             
