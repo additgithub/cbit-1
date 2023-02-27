@@ -18,6 +18,7 @@ class slotspinningcell: UICollectionViewCell {
 
 class SpinningMachineTicketVC: UIViewController {
     //MARK: - Properties
+    @IBOutlet weak var collectionitem: UICollectionView!
     @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var btnselectall: UIButton!
     @IBOutlet weak var labelRemainingTime: UILabel!
@@ -79,7 +80,8 @@ class SpinningMachineTicketVC: UIViewController {
     var TicketArr = [[String: Any]]()
     private  let reuseidentifier = "slotspinningcell"
     @IBOutlet weak var constraintCollectionViewHeight: NSLayoutConstraint!
-    
+    var arrSloat = [[String:Any]]()
+
     //MARK: - Default Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,17 +92,21 @@ class SpinningMachineTicketVC: UIViewController {
         
         let width = (view.frame.width-20)/5
         
-        let coln = [collection_original]
+        let coln = [collection_original,collectionitem]
         
         for cln in coln {
             cln?.layer.cornerRadius = 10
             cln?.layer.borderColor = UIColor.black.cgColor
-            cln?.layer.borderWidth = 3
+            cln?.layer.borderWidth = 2
             
             let layout = cln?.collectionViewLayout as! UICollectionViewFlowLayout
             layout.itemSize = CGSize(width: width, height: width-10)
             
         }
+        
+//        let widthlockall = (collectionitem.frame.width)/5-10
+//        let layout = collectionitem?.collectionViewLayout as! UICollectionViewFlowLayout
+//        layout.itemSize = CGSize(width: widthlockall, height: 70)
         
         let gamelevel = dictContest["rows"] as? Int ?? 0
         
@@ -352,9 +358,10 @@ class SpinningMachineTicketVC: UIViewController {
                 }
             }
         }
-        
+        self.arrSloat = arrTicket[0]["slotes"] as? [[String: Any]] ?? []
+
         self.collection_original.reloadData()
-        
+        self.collectionitem.reloadData()
         getdefaultJoinTicket()
     }
     
@@ -557,7 +564,13 @@ class SpinningMachineTicketVC: UIViewController {
 extension SpinningMachineTicketVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return arrRandomNumbers.count
-        return itemarr.count
+        if collectionView == collectionitem {
+            return arrSloat.count
+        }
+        if collectionView == collection_original {
+            return itemarr.count
+        }
+        return 0
     }
     
     //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -574,11 +587,39 @@ extension SpinningMachineTicketVC: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         print(collectionView)
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
-        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
-        //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
-        cell.imgImage.image = (itemarr[indexPath.row])//.imageByMakingWhiteBackgroundTransparent()
-        return cell
+      
+        
+        if collectionView == collectionitem {
+            let lockcell = collectionView.dequeueReusableCell(withReuseIdentifier: "lockallcell", for: indexPath) as! lockallcell
+            
+       
+            
+            let strDisplayValue = arrSloat[indexPath.row]["displayValue"] as! String
+          
+//                 if strDisplayValue == "Draw" {
+//                     let strMainString = strDisplayValue.replacingOccurrences(of: " ", with: "\n")
+//                    lockcell.labelDisplayValue.text = strMainString
+//                    lockcell.labelDisplayValue.isHidden = false
+//                    lockcell.img.isHidden = true
+//                 }
+//                 else
+//                 {
+                    lockcell.labelDisplayValue.isHidden = true
+                    lockcell.img.isHidden = false
+                     let localimg = loadImageFromDocumentDirectory(nameOfImage: arrSloat[indexPath.row]["displayValue"] as! String)
+                    lockcell.img.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
+              //   }
+          
+            return lockcell
+        }
+        if collectionView == collection_original {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseidentifier, for: indexPath) as! slotspinningcell
+            //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slotcell", for: indexPath) as! slotcell
+            //  cell.imgImage.image = makeTransparent(image: itemarr[indexPath.row])
+            cell.imgImage.image = (itemarr[indexPath.row])//.imageByMakingWhiteBackgroundTransparent()
+            return cell
+        }
+        return UICollectionViewCell()
     }
 }
 

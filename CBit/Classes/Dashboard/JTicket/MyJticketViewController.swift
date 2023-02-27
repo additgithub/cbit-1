@@ -40,7 +40,7 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
     var filterByDate = ""
     var filterByExchange = "0"
     var isfromtab = false
-    
+    var isfromdashboard = false
     var isfliparr = [Bool]()
     
     
@@ -70,6 +70,11 @@ class MyJticketViewController: UIViewController,UITableViewDataSource,UITableVie
         getjticketdate()
         getUserJticket()
         getjticketname()
+        if isfromdashboard
+        {
+            segment.selectedSegmentIndex = 2
+            segmentchanged(segment)
+        }
         
     }
     override func viewWillAppear(_ animated: Bool) {

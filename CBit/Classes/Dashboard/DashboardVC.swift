@@ -368,6 +368,20 @@ class DashboardVC: UIViewController {
         panVC.delegate = self
         self.navigationController?.pushViewController(panVC, animated: true)
     }
+    @IBAction func btnreceived_click(_ sender: UIButton) {
+        let myjticket = self.storyboard?.instantiateViewController(withIdentifier: "MyJticketViewController") as! MyJticketViewController
+        myjticket.modalPresentationStyle = .fullScreen
+        myjticket.isfromdashboard = true
+        self.navigationController?.present(myjticket, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnrefferal_click(_ sender: UIButton) {
+        let IDsVC = self.storyboard?.instantiateViewController(withIdentifier: "IDsVC") as! IDsVC
+        IDsVC.modalPresentationStyle = .fullScreen
+        self.present(IDsVC, animated: true){
+            self.sideMenuController?.hideMenu()
+        }
+    }
 }
 //MARK: - Notifcation Delegate Method
 //extension DashboardVC: UNUserNotificationCenterDelegate {

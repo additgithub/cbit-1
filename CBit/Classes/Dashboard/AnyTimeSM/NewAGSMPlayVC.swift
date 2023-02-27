@@ -1538,13 +1538,13 @@ extension NewAGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
                             let localimg = loadImageFromDocumentDirectory(nameOfImage: item["displayValue"] as? String ?? "0")
                             if imageIsNullOrNot(imageName: localimg) {
                                 fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-                                fixCell.imgselected.isHidden = false
+                               // fixCell.imgselected.isHidden = false
                                 fixCell.labelAnsSelected.isHidden = true
                             }
                             else
                             {
                                 fixCell.labelAnsSelected.text = item["displayValue"] as? String ?? "0"
-                                fixCell.imgselected.isHidden = true
+                              //  fixCell.imgselected.isHidden = true
                                 fixCell.labelAnsSelected.isHidden = false
                             }
                             
@@ -1560,13 +1560,13 @@ extension NewAGSMPlayVC: UITableViewDelegate, UITableViewDataSource {
 //                        }
                         if imageIsNullOrNot(imageName: localimg) {
                             fixCell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-                            fixCell.imgselected.isHidden = false
+                          //  fixCell.imgselected.isHidden = false
                             fixCell.labelAnsSelected.isHidden = true
                         }
                         else
                         {
                             fixCell.labelAnsSelected.text = strSelected
-                            fixCell.imgselected.isHidden = true
+                           // fixCell.imgselected.isHidden = true
                             fixCell.labelAnsSelected.isHidden = false
                         }
                        
@@ -1765,13 +1765,13 @@ extension NewAGSMPlayVC: SMGameAnswerThreeDelegate, GameAnsRangeDelegate {
 //                }
                 if imageIsNullOrNot(imageName: localimg) {
                     cell.imgselected.image =  localimg//.imageByMakingWhiteBackgroundTransparent()
-                    cell.imgselected.isHidden = false
+                   // cell.imgselected.isHidden = false
                     cell.labelAnsSelected.isHidden = true
                 }
                 else
                 {
                     cell.labelAnsSelected.text =  item["displayValue"] as? String ?? "0"
-                    cell.imgselected.isHidden = true
+                  //  cell.imgselected.isHidden = true
                     cell.labelAnsSelected.isHidden = false
                 }
                 
