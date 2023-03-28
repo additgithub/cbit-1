@@ -254,7 +254,8 @@ class Define {
     static let updateIsWatch = "updateIsWatch"
     static let checkLiveContest = "checkLiveContest"
 
-    
+    static let getLocationSettings = "getLocationSettings"
+
     
     
     

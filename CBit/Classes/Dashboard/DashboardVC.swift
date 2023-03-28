@@ -5,8 +5,8 @@ import AVFoundation
 import AVKit
 import SocketIO
 import SDWebImage
-
-class DashboardVC: UIViewController {
+import CoreLocation
+class DashboardVC: UIViewController, CLLocationManagerDelegate {
 
   
     @IBOutlet weak var HeightSpecial: NSLayoutConstraint!
@@ -38,7 +38,8 @@ class DashboardVC: UIViewController {
     private var arrSpecialContest = [[String: Any]]()
     var arrAdvertise = [[String: Any]]()
     var storeimage = [[String: Any]]()
-    
+    var statelist = [[String: Any]]()
+
     var currentIndex = 0
     
     var adsTimer: Timer?
@@ -61,6 +62,8 @@ class DashboardVC: UIViewController {
 //      }()
     var socket: SocketIOClient!
     var myGroup = DispatchGroup()
+    var locationManager:CLLocationManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        // UNUserNotificationCenter.current().delegate = self
@@ -95,6 +98,8 @@ class DashboardVC: UIViewController {
         getAdvertise()
         getAllSpecialContest()
         getSpinningMachine()
+        getrestrictedstatelist()
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotitication(_:)),name:.getAllspecialContest,object: nil)
               
         if !MyModel().isLogedIn() {
@@ -108,15 +113,60 @@ class DashboardVC: UIViewController {
                }
     
         getReferalCriteriaChart()
+        
+      
     }
-    
+    //MARK: - location delegate methods
+    @objc func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    let userLocation :CLLocation = locations[0] as CLLocation
+
+    print("user latitude = \(userLocation.coordinate.latitude)")
+    print("user longitude = \(userLocation.coordinate.longitude)")
+    self.getUserInfo(lat: "\(userLocation.coordinate.latitude)", long: "\(userLocation.coordinate.longitude)")
+
+//    self.labelLat.text = "\(userLocation.coordinate.latitude)"
+//    self.labelLongi.text = "\(userLocation.coordinate.longitude)"
+
+    let geocoder = CLGeocoder()
+    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+        if (error != nil){
+            print("error in reverseGeocode")
+        }
+        let placemark = placemarks! as [CLPlacemark]
+        if placemark.count>0{
+            let placemark = placemarks![0]
+            print(placemark.locality!)
+            print(placemark.administrativeArea!)
+            print(placemark.country!)
+            let dict = placemark.addressDictionary
+            let addressarr = dict?["FormattedAddressLines"] as? [String] ?? []
+           // self.labelAdd.text = "\(placemark.locality!), \(placemark.administrativeArea!), \(placemark.country!)"
+            print("Current location:\(placemark)")
+            if self.statelist.contains(where: { $0["state"] as! String == addressarr[2].uppercased() }) {
+                let Alert = UIAlertController(title: "", message: "Our gaming app is not available in your state. Sorry for the inconvenience caused", preferredStyle: UIAlertController.Style.alert)
+
+                let Okbutton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { _ in
+                       print("We can run a block of code." )
+                    self.logOutAPI()
+                   }
+
+                   Alert.addAction(Okbutton)
+                self.present(Alert, animated: true, completion: nil)
+            }
+        }
+    }
+
+}
+    @objc func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Error \(error)")
+}
+
     override func viewWillAppear(_ animated: Bool) {
-        getUserInfo()
+       // getUserInfo(lat: "", long: "")
         getUserData()
         CallJAssetData()
         getReferralCommitionTotalAmount()
         getNewResultStatus()
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
             self.getUserJoinDateTime()
@@ -657,6 +707,84 @@ extension DashboardVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
 
 //MARK: - API {
 extension DashboardVC {
+    func logOutAPI() {
+        Loading().showLoading(viewController: self)
+        let strURL = Define.APP_URL + Define.API_LOGOUT
+        print("URL: \(strURL)")
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: nil,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!.localizedDescription)")
+                Alert().showAlert(title: "Error",
+                                  message: Define.ERROR_SERVER,
+                                  viewController: self)
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as? String ?? Define.ERROR_SERVER,
+                                      viewController: self)
+                }
+            }
+        }
+    }
+    func getrestrictedstatelist() {
+        Loading().showLoading(viewController: self)
+        let parameter: [String: Any] = [:]
+        let strURL = Define.APP_URL + Define.getLocationSettings
+        print("Parameter: \(parameter)\nURL: \(strURL)")
+        
+        let jsonString = MyModel().getJSONString(object: parameter)
+        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
+        let strbase64 = encriptString.toBase64()
+        
+        
+        SwiftAPI().getMethodSecure(stringURL: strURL,
+                                    parameters: ["data":strbase64!],
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
+        { [self] (result, error) in
+            if error != nil {
+                Loading().hideLoading(viewController: self)
+                print("Error: \(error!)")
+                //                Alert().showAlert(title: "Error",
+                //                                  message: Define.ERROR_SERVER,
+                //                                  viewController: self)
+               // self.getReferalCriteriaChart()
+            } else {
+                Loading().hideLoading(viewController: self)
+                print("Result: \(result!)")
+                let status = result!["statusCode"] as? Int ?? 0
+                if status == 200 {
+                    let content = result!["content"] as! [String: Any]
+                    self.statelist = content["RestrictedLocation"] as! [[String: Any]]
+                    locationManager = CLLocationManager()
+                        locationManager.delegate = self
+                        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                        locationManager.requestAlwaysAuthorization()
+
+                        if CLLocationManager.locationServicesEnabled(){
+                            locationManager.startUpdatingLocation()
+                        }
+                } else if status == 401 {
+                    Define.APPDELEGATE.handleLogout()
+                } else {
+                    Alert().showAlert(title: "Error",
+                                      message: result!["message"] as! String,
+                                      viewController: self)
+                }
+            }
+        }
+    }
     func getNewResultStatus() {
         Loading().showLoading(viewController: self)
         let parameter: [String: Any] = [:]
@@ -796,10 +924,13 @@ extension DashboardVC {
             }
         }
     }
-    func getUserInfo() {
+    func getUserInfo(lat:String,long:String) {
         let strURL = Define.APP_URL + Define.getUserInfo
         print("URL: \(strURL)")
-        let parameter: [String: Any] = ["plateform": "ios","version": Define.APP_VERSION,"device":UIDevice.modelName,"device_version":UIDevice.current.systemVersion]
+        let parameter: [String: Any] = ["plateform": "ios","version": Define.APP_VERSION,"device":UIDevice.modelName,"device_version":UIDevice.current.systemVersion,
+                                        "lat":lat,
+                                        "lng":long
+        ]
         SwiftAPI().postMethodSecure(stringURL: strURL,
                                     parameters: parameter,
                                     header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,

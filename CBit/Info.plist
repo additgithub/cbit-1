@@ -94,6 +94,8 @@
 	<string>location is required for get near by player at your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location is required for get near by player at your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>location is required for get near by player at your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>CBit</string>
 	<key>NSRemindersUsageDescription</key>

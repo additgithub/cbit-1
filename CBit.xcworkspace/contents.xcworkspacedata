@@ -2,6 +2,21 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:customlatlong.gpx">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Desktop/customlatlong.gpx">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Desktop/customlatlong.gpx">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Desktop/customlatlong.gpx">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Desktop/customlatlong.gpx">
+   </FileRef>
+   <FileRef
       location = "group:CBit.xcodeproj">
    </FileRef>
    <FileRef
