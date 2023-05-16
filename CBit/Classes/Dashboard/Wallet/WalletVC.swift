@@ -170,9 +170,40 @@ class WalletVC: UIViewController {
         sideMenuController?.revealMenu()
     }
     @IBAction func buttonAddMoney(_ sender: UIButton) {
-        let addMoneyVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
-        addMoneyVC.isFromTicket = false
-        self.navigationController?.pushViewController(addMoneyVC, animated: true)
+        
+            let strIsPanVerify = "\(Define.USERDEFAULT.value(forKey: "IsPanVerify")!)"
+            
+            if strIsPanVerify == "0" {
+                
+                goToAddPanCard()
+                
+            } else if strIsPanVerify == "2" {
+                
+                Alert().showAlert(title: "Alert",
+                                  message: "KYC Verification Rejected, Add New Details.",
+                                  viewController: self)
+                
+            } else if strIsPanVerify == "3" {
+                
+                Alert().showAlert(title: "Alert",
+                                  message: "KYC Verification Pending.",
+                                  viewController: self)
+            } else {
+                if !MyModel().isConnectedToInternet() {
+                    
+                    Alert().showTost(message: Define.ERROR_INTERNET,
+                                     viewController: self)
+                    
+                } else {
+                    
+                    let addMoneyVC = self.storyboard?.instantiateViewController(withIdentifier: "AddPaymentVC") as! AddPaymentVC
+                    addMoneyVC.isFromTicket = false
+                    self.navigationController?.pushViewController(addMoneyVC, animated: true)
+                    
+                }
+            }
+        
+        
     }
     
     @IBAction func butonTransferToWallet(_ sender: UIButton) {

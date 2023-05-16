@@ -476,10 +476,10 @@ extension AppDelegate {
 extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     
     
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase Registration token: \(fcmToken)")
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase Registration token: \(String(describing: fcmToken))")
         
-        let dataDict:[String: String] = ["token": fcmToken]
+        let dataDict:[String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
@@ -589,16 +589,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         completionHandler()
     }
     
-    func getFCMToken() {
-        InstanceID.instanceID().instanceID { (result, error) in
-            if let error = error {
-                print("Error fetching remote instance ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
-                Define.USERDEFAULT.set(result.token, forKey: "FCMToken")
-            }
-        }
-    }
+//    func getFCMToken() {
+//        InstanceID.instanceID().instanceID { (result, error) in
+//            if let error = error {
+//                print("Error fetching remote instance ID: \(error)")
+//            } else if let result = result {
+//                print("Remote instance ID token: \(result.token)")
+//                Define.USERDEFAULT.set(result.token, forKey: "FCMToken")
+//            }
+//        }
+//    }
 }
 
 //MARK: - Loading View

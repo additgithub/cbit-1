@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "584CF47B-4EC1-4C35-B57C-E2AE1FF9FF9E"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F533AA89-A397-472F-B8FE-2098DEB587A0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/Wallet/AddPaymentVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "onError(_:order_id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "75CF922B-C8AA-4536-AE4F-9704CC32A259"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/Wallet/AddPaymentVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "GetPaymentIDfromcashfreeAPI(orderId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E97B9D8-7007-4845-8163-520A3DE7554C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/Wallet/AddPaymentVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "GetPaymentIDfromcashfreeAPI(orderId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AEAB0932-9A74-4102-8770-A2BF8B407B46"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/Wallet/AddPaymentVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "verifyPayment(order_id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6DF5C7D2-6D16-42F7-82CD-F24C977028C6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1457"
+            endingLineNumber = "1457"
+            landmarkName = "setData(isfromtime:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "886"
+            endingLineNumber = "886"
+            landmarkName = "setnewData()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "16168">
+               </Location>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "16280">
+               </Location>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "17691">
+               </Location>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "16155">
+               </Location>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "16260">
+               </Location>
+               <Location
+                  uuid = "4D9893B8-3BFE-44BC-A3B8-110C11699285 - 92ce3997d15c6aad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cbit_Original.GamePlayVC.setnewData() -&gt; ()"
+                  moduleName = "Cbit Original"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bodarnirmal/Documents/Mobcbit/cbit/CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "886"
+                  endingLineNumber = "886"
+                  offsetFromSymbolStart = "17631">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "73BCF5D2-2CBF-4C1D-BCF4-394A81824047"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ClassicGrid/GamePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2018"
+            endingLineNumber = "2018"
+            landmarkName = "handleEndTimer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "34F1C3C6-D942-46E1-BB64-CC3102EA15D4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/Wallet/AddPaymentVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "buttonAddMoney(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "565E8C16-D442-4517-8389-96DCCF2E1F30"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Authentication/LogInWithMobileNumberViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "loginAPI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F7F777D1-7CBE-469F-A095-42496F4888B5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Authentication/OTPVerifyVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "registerAPI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "563063F9-0AB9-4754-888B-CF1C08444ACA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/AnyTimeCG/NewCGGamePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1597"
+            endingLineNumber = "1597"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "49A55B31-FECD-438F-B80D-B8A8D191B012"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/AnyTimeCG/NewCGGamePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1595"
+            endingLineNumber = "1595"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0EAD87DA-E041-4EA2-9D15-0738198AB6C7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/SpinningMachine/SpinningMachinePlayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "681"
+            endingLineNumber = "681"
+            landmarkName = "locakall()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35D57C9F-E81F-47B6-8B1B-EB2AB80B1971"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/AnyTimeCG/NewCGTicketVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "465"
+            endingLineNumber = "465"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6B8A4DD9-43AD-465B-91D6-67CB0FD30E35"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ViewWinnersVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "208149E0-F813-49B8-9BF8-9FA0ED76D6CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/AnyTimeCG/NewCGTicketVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F80CE733-27A4-4CEF-9624-B1FD125BBD8B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ClassicGrid/TicketVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D512E1B7-81A4-4705-95D0-B6655569A5A1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/ClassicGrid/TicketVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "545"
+            endingLineNumber = "545"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "14B19001-7203-42CF-971E-E44A8D4E4C70"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CBit/Classes/Dashboard/SpinningMachine/SpinningMachineTicketVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

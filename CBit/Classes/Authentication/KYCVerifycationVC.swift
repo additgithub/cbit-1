@@ -96,11 +96,12 @@ class KYCVerifycationVC: UIViewController {
         
     }
     @IBAction func buttonSubmit(_ sender: Any) {
-        if imagePanCard.image == nil {
-            Alert().showAlert(title: "Alert",
-                              message: "upload PAN Card",
-                              viewController: self)
-        } else if textName.text!.isEmpty {
+//        if imagePanCard.image == nil {
+//            Alert().showAlert(title: "Alert",
+//                              message: "upload PAN Card",
+//                              viewController: self)
+//        } else
+        if textName.text!.isEmpty {
             Alert().showAlert(title: "Alert",
                               message: "Enter Name As Per PAN Card.",
                               viewController: self)
@@ -213,18 +214,23 @@ extension KYCVerifycationVC {
         let strURL = Define.APP_URL + Define.API_UPDATE_KYC
         print("Parameter: \(parameter)\nURL: \(strURL)")
         
-        let imageData = imagePanCard.image!.jpegData(compressionQuality: 0.8)
+      //  let imageData = imagePanCard.image!.jpegData(compressionQuality: 0.8)
         
 //        let jsonString = MyModel().getJSONString(object: parameter)
 //        let encriptString = MyModel().encrypting(strData: jsonString!, strKey: Define.KEY)
 //        let strbase64 = encriptString.toBase64()
         
-        SwiftAPI().postImageUplodSecure(stringURL: strURL,
-                                        parameters: parameter, //["data": strbase64!],
-                                        header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
-                                        auther: Define.USERDEFAULT.value(forKey: "UserID") as? String,
-                                        imageName: "pan_image",
-                                        imageData: imageData)
+//        SwiftAPI().postImageUplodSecure(stringURL: strURL,
+//                                        parameters: parameter, //["data": strbase64!],
+//                                        header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+//                                        auther: Define.USERDEFAULT.value(forKey: "UserID") as? String,
+//                                        imageName: "pan_image",
+//                                        imageData: nil)
+        
+        SwiftAPI().postMethodSecure(stringURL: strURL,
+                                    parameters: parameter,
+                                    header: Define.USERDEFAULT.value(forKey: "AccessToken") as? String,
+                                    auther: Define.USERDEFAULT.value(forKey: "UserID") as? String)
         { (result, error) in
             if error != nil {
                 Loading().hideLoading(viewController: self)

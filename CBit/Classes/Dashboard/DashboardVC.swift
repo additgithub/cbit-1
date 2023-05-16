@@ -142,17 +142,20 @@ class DashboardVC: UIViewController, CLLocationManagerDelegate {
             let addressarr = dict?["FormattedAddressLines"] as? [String] ?? []
            // self.labelAdd.text = "\(placemark.locality!), \(placemark.administrativeArea!), \(placemark.country!)"
             print("Current location:\(placemark)")
-            if self.statelist.contains(where: { $0["state"] as! String == addressarr[2].uppercased() }) {
-                let Alert = UIAlertController(title: "", message: "Our gaming app is not available in your state. Sorry for the inconvenience caused", preferredStyle: UIAlertController.Style.alert)
 
-                let Okbutton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { _ in
-                       print("We can run a block of code." )
-                    self.logOutAPI()
-                   }
-
-                   Alert.addAction(Okbutton)
-                self.present(Alert, animated: true, completion: nil)
-            }
+            for addrs in addressarr
+                {
+                if self.statelist.contains(where: { $0["state"] as! String == addrs.uppercased() }) {
+                            let Alert = UIAlertController(title: "", message: "Our gaming app is not available inyour state. Sorry for the inconvenience caused", preferredStyle:UIAlertController.Style.alert)
+                            let Okbutton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { _ in
+                                    print("We can run a block of code." )
+                                self.logOutAPI()
+                                }
+                                Alert.addAction(Okbutton)
+                            self.present(Alert, animated: true, completion: nil)
+                            break
+                            }
+                }
         }
     }
 

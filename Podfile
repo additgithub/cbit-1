@@ -36,6 +36,12 @@ pod 'Socket.IO-Client-Swift', '~> 15.2.0'
   pod 'Firebase/DynamicLinks'
  # pod 'Firebase/Auth'
  pod 'CashfreePG', '~> 2.0.1'
+ 
+ post_install do |installer|
+   installer.pods_project.build_configurations.each do |config|
+     config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+   end
+ end
 
 end
 
